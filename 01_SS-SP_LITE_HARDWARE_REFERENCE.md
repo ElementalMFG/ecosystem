@@ -224,6 +224,8 @@ The SS‑SP Lite blueprint assumes **all features present** (design supposition)
 
 **Compass note:** with `SS_CAP_MAGNETOMETER` + `SS_CAP_IMU` both present, `ss_compass` runs tilt‑compensated heading (mag + accel pitch/roll). Magnetometer alone = flat‑hold heading with a UI "hold level" hint. Neither = phone‑fed heading over BLE (base Lite behaviour).
 
+**Dev-fleet configuration (D-0013):** the project holds **2× CrowPanel Advance 3.5″ dev units, both fitted with the HaLow wireless‑header module**; ESP32‑C6 mesh‑coprocessor modules and GNSS + 3‑axis compass modules are staged for attachment per the table above (exact GNSS/compass part numbers confirmed at attachment — any deviation updates this table and the pin map first). Once the C6 link and GNSS/compass paths validate on these units, the fully‑loaded configuration is declared the **locked base Lite v1 hardware spec** (`governance/decisions.md` D-0013). These two units are the primary dev/test/prototype devices for the whole portfolio; Lite is the first shipping product, with Alpha/Omega in engineering.
+
 ---
 
 ## 4. Software Stack — Fitting the SS‑SP Universal Architecture
@@ -388,7 +390,7 @@ Ship Lite v1.0 firmware. Everything above the HAL is now proven and portable to 
 
 1. **No battery voltage sense** → SoC unknown; UI shows "External telemetry required" hint.
 2. **Radio/mic mux on GPIO 45** → half‑duplex voice only; enforced by `hal_muxctl`.
-3. **Wi‑Fi 4 only** → no Wi‑Fi 6/6E on the S3. HaLow requires Alpha.
+3. **Wi‑Fi 4 only natively** → no Wi‑Fi 6/6E on the S3 itself; Wi‑Fi 6 arrives via the C6 coprocessor module and HaLow via the wireless‑header module (§3.15, D-0013 dev fleet is HaLow‑fitted). *Native/integrated* HaLow requires Alpha.
 4. **Single capacitive touch** → no multi‑touch gestures; UI must be single‑touch friendly.
 5. **No physical UI buttons** → touch + BLE HID pendant + voice; must ship a "big‑touch" mode for gloved use.
 6. **No IP rating** → Lite is dev/prosumer only; field deployment requires Alpha or a user‑built enclosure.
@@ -419,7 +421,7 @@ The Master Plan (`00_MASTER_SOFTWARE_PLAN.md`) is updated as follows for Lite sp
 - Base OS: **ESP‑IDF v5.3+ (FreeRTOS)** — confirmed.
 - Display driver: **ILI9488** (not the earlier assumed CST-family driver).
 - Touch: **GT911** at 0x5D — confirmed.
-- Long‑range radio on Lite: **LoRa SX1262 only** (HaLow only on Alpha). Reticulum treats both as bearers via `hal_radio_*`.
+- Long‑range radio on Lite: **LoRa SX1262 or the HaLow wireless‑header module** — exactly one at a time on the shared header (§3.15); the D-0013 dev fleet runs HaLow‑fitted. Native/integrated HaLow only on Alpha. Reticulum treats either as a bearer via `hal_radio_*`.
 - Battery telemetry: **not available on Lite** — plan surfaces this correctly.
 - Mic + LoRa mutex on GPIO 45 → adds `hal_muxctl` requirement to all L2/L3 code.
 - Bezel: virtualized (drawn on screen) until an accessory NeoPixel ring is added.

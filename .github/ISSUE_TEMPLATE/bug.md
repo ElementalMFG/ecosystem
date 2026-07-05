@@ -7,7 +7,8 @@ labels: ["bug", "triage"]
 ---
 
 <!-- Search existing issues first — duplicates get closed (CONTRIBUTING.md §2).
-     Security issues: do NOT file here; email security@ss-sp.org (SECURITY.md). -->
+     Security issues: do NOT file here; email security@elementalmfg.com
+     (interim per D-0012 — see SECURITY.md). -->
 
 ## Environment
 

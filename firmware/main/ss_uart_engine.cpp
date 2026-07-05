@@ -32,17 +32,16 @@ static const char* TAG = "ss.uart";
 // ---------------------------------------------------------------------------
 // Shared state
 // ---------------------------------------------------------------------------
-static ss_gnss_fix_t          s_fix;
-static bool                   s_fix_ever = false;
-static SemaphoreHandle_t      s_fix_lock;
-static ss_nmea_sentence_cb_t  s_nmea_tap = nullptr;
-static ss_coproc_frame_cb_t   s_coproc_cb = nullptr;
-static ss_uart_chan_stats_t   s_gnss_stats, s_coproc_stats;
+static ss_gnss_fix_t s_fix;
+static bool s_fix_ever = false;
+static SemaphoreHandle_t s_fix_lock;
+static ss_nmea_sentence_cb_t s_nmea_tap = nullptr;
+static ss_coproc_frame_cb_t s_coproc_cb = nullptr;
+static ss_uart_chan_stats_t s_gnss_stats, s_coproc_stats;
 
 // SLIP special bytes (RFC 1055)
-static constexpr uint8_t SLIP_END = 0xC0, SLIP_ESC = 0xDB,
-                         SLIP_ESC_END = 0xDC, SLIP_ESC_ESC = 0xDD;
-static constexpr size_t  COPROC_MAX_FRAME = 1024;
+static constexpr uint8_t SLIP_END = 0xC0, SLIP_ESC = 0xDB, SLIP_ESC_END = 0xDC, SLIP_ESC_ESC = 0xDD;
+static constexpr size_t COPROC_MAX_FRAME = 1024;
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -84,7 +83,7 @@ static double nmea_coord(const char* f, char dir)
 static size_t split_fields(char* s, const char* fields[], size_t max)
 {
     size_t n = 0;
-    for (char* p = s; p && n < max; ) {
+    for (char* p = s; p && n < max;) {
         fields[n++] = p;
         p = strchr(p, ',');
         if (p) *p++ = '\0';
@@ -99,7 +98,10 @@ static void gnss_handle_sentence(char* line, size_t len)
 {
     s_gnss_stats.rx_frames++;
     if (s_nmea_tap) s_nmea_tap(line, len);
-    if (!nmea_checksum_ok(line, len)) { s_gnss_stats.rx_crc_errors++; return; }
+    if (!nmea_checksum_ok(line, len)) {
+        s_gnss_stats.rx_crc_errors++;
+        return;
+    }
 
     // Strip "*hh" so field splitting is clean.
     char* star = strchr(line, '*');
@@ -108,22 +110,22 @@ static void gnss_handle_sentence(char* line, size_t len)
     const char* f[24];
     const size_t n = split_fields(line, f, 24);
     if (n < 2) return;
-    const char* type = f[0] + 3;                       // skip "$GP"/"$GN"/…
+    const char* type = f[0] + 3; // skip "$GP"/"$GN"/…
 
     xSemaphoreTake(s_fix_lock, portMAX_DELAY);
     if (strncmp(type, "RMC", 3) == 0 && n >= 10) {
         // $..RMC,time,status,lat,NS,lon,EW,sog_kn,cog,date,...
-        s_fix.has_fix    = (f[2][0] == 'A');
-        s_fix.lat_deg    = nmea_coord(f[3], f[4][0]);
-        s_fix.lon_deg    = nmea_coord(f[5], f[6][0]);
-        s_fix.speed_mps  = float(atof(f[7]) * 0.514444);
+        s_fix.has_fix = (f[2][0] == 'A');
+        s_fix.lat_deg = nmea_coord(f[3], f[4][0]);
+        s_fix.lon_deg = nmea_coord(f[5], f[6][0]);
+        s_fix.speed_mps = float(atof(f[7]) * 0.514444);
         s_fix.course_deg = float(atof(f[8]));
         s_fix_ever = true;
     } else if (strncmp(type, "GGA", 3) == 0 && n >= 10) {
         // $..GGA,time,lat,NS,lon,EW,quality,sats,hdop,alt,...
         s_fix.sats_used = uint8_t(atoi(f[7]));
-        s_fix.hdop      = float(atof(f[8]));
-        s_fix.alt_m     = float(atof(f[9]));
+        s_fix.hdop = float(atof(f[8]));
+        s_fix.alt_m = float(atof(f[9]));
         s_fix_ever = true;
     }
     xSemaphoreGive(s_fix_lock);
@@ -133,24 +135,22 @@ static void gnss_pump_task(void*)
 {
     QueueHandle_t q;
     uart_config_t cfg = {};
-    cfg.baud_rate  = SS_UART_GNSS_BAUD;
-    cfg.data_bits  = UART_DATA_8_BITS;
-    cfg.parity     = UART_PARITY_DISABLE;
-    cfg.stop_bits  = UART_STOP_BITS_1;
-    cfg.flow_ctrl  = UART_HW_FLOWCTRL_DISABLE;
+    cfg.baud_rate = SS_UART_GNSS_BAUD;
+    cfg.data_bits = UART_DATA_8_BITS;
+    cfg.parity = UART_PARITY_DISABLE;
+    cfg.stop_bits = UART_STOP_BITS_1;
+    cfg.flow_ctrl = UART_HW_FLOWCTRL_DISABLE;
     cfg.source_clk = UART_SCLK_DEFAULT;
 
-    ESP_ERROR_CHECK(uart_driver_install(SS_UART_GNSS_PORT, SS_UART_GNSS_RX_BUF,
-                                        0, 16, &q, 0));
+    ESP_ERROR_CHECK(uart_driver_install(SS_UART_GNSS_PORT, SS_UART_GNSS_RX_BUF, 0, 16, &q, 0));
     ESP_ERROR_CHECK(uart_param_config(SS_UART_GNSS_PORT, &cfg));
-    ESP_ERROR_CHECK(uart_set_pin(SS_UART_GNSS_PORT, SS_UART_GNSS_PIN_TX,
-                                 SS_UART_GNSS_PIN_RX,
+    ESP_ERROR_CHECK(uart_set_pin(SS_UART_GNSS_PORT, SS_UART_GNSS_PIN_TX, SS_UART_GNSS_PIN_RX,
                                  UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
     // Fire an event on '\n' so we wake exactly once per sentence.
     uart_enable_pattern_det_baud_intr(SS_UART_GNSS_PORT, '\n', 1, 9, 0, 0);
     uart_pattern_queue_reset(SS_UART_GNSS_PORT, 16);
-    ESP_LOGI(TAG, "GNSS channel up: UART%d RX=%d @%d", int(SS_UART_GNSS_PORT),
-             SS_UART_GNSS_PIN_RX, SS_UART_GNSS_BAUD);
+    ESP_LOGI(TAG, "GNSS channel up: UART%d RX=%d @%d", int(SS_UART_GNSS_PORT), SS_UART_GNSS_PIN_RX,
+             SS_UART_GNSS_BAUD);
 
     static char line[128];
     uart_event_t ev;
@@ -159,18 +159,19 @@ static void gnss_pump_task(void*)
         switch (ev.type) {
         case UART_PATTERN_DET: {
             const int pos = uart_pattern_pop_pos(SS_UART_GNSS_PORT);
-            if (pos < 0) { uart_flush_input(SS_UART_GNSS_PORT); break; }
-            const int n = uart_read_bytes(SS_UART_GNSS_PORT, line,
-                                          size_t(pos) + 1 > sizeof(line) - 1
-                                              ? sizeof(line) - 1 : size_t(pos) + 1,
-                                          0);
+            if (pos < 0) {
+                uart_flush_input(SS_UART_GNSS_PORT);
+                break;
+            }
+            const int n = uart_read_bytes(
+                SS_UART_GNSS_PORT, line,
+                size_t(pos) + 1 > sizeof(line) - 1 ? sizeof(line) - 1 : size_t(pos) + 1, 0);
             if (n <= 0) break;
             s_gnss_stats.rx_bytes += uint32_t(n);
             line[n] = '\0';
             // Trim trailing CR/LF.
             size_t len = size_t(n);
-            while (len && (line[len - 1] == '\r' || line[len - 1] == '\n'))
-                line[--len] = '\0';
+            while (len && (line[len - 1] == '\r' || line[len - 1] == '\n')) line[--len] = '\0';
             if (len) gnss_handle_sentence(line, len);
             break;
         }
@@ -193,9 +194,9 @@ static void coproc_feed(const uint8_t* buf, size_t n)
 {
     // Bytes outside END…END are the S3 boot-ROM log / line noise: discarded
     // by construction because the accumulator only opens on SLIP_END.
-    static uint8_t  frame[COPROC_MAX_FRAME];
-    static size_t   flen = 0;
-    static bool     in_frame = false, esc = false;
+    static uint8_t frame[COPROC_MAX_FRAME];
+    static size_t flen = 0;
+    static bool in_frame = false, esc = false;
 
     for (size_t i = 0; i < n; ++i) {
         const uint8_t b = buf[i];
@@ -209,21 +210,26 @@ static void coproc_feed(const uint8_t* buf, size_t n)
                     s_coproc_stats.rx_crc_errors++;
                 }
             }
-            in_frame = true; flen = 0; esc = false;
+            in_frame = true;
+            flen = 0;
+            esc = false;
             continue;
         }
         if (!in_frame) continue;
         uint8_t out = b;
         if (esc) {
-            out = (b == SLIP_ESC_END) ? SLIP_END
-                : (b == SLIP_ESC_ESC) ? SLIP_ESC : b;
+            out = (b == SLIP_ESC_END) ? SLIP_END : (b == SLIP_ESC_ESC) ? SLIP_ESC : b;
             esc = false;
         } else if (b == SLIP_ESC) {
             esc = true;
             continue;
         }
-        if (flen < COPROC_MAX_FRAME) frame[flen++] = out;
-        else { in_frame = false; flen = 0; }          // oversize → resync
+        if (flen < COPROC_MAX_FRAME)
+            frame[flen++] = out;
+        else {
+            in_frame = false;
+            flen = 0;
+        } // oversize → resync
     }
 }
 
@@ -231,22 +237,20 @@ static void coproc_pump_task(void*)
 {
     QueueHandle_t q;
     uart_config_t cfg = {};
-    cfg.baud_rate  = SS_UART_COPROC_BAUD;
-    cfg.data_bits  = UART_DATA_8_BITS;
-    cfg.parity     = UART_PARITY_DISABLE;
-    cfg.stop_bits  = UART_STOP_BITS_1;
-    cfg.flow_ctrl  = UART_HW_FLOWCTRL_DISABLE;
+    cfg.baud_rate = SS_UART_COPROC_BAUD;
+    cfg.data_bits = UART_DATA_8_BITS;
+    cfg.parity = UART_PARITY_DISABLE;
+    cfg.stop_bits = UART_STOP_BITS_1;
+    cfg.flow_ctrl = UART_HW_FLOWCTRL_DISABLE;
     cfg.source_clk = UART_SCLK_DEFAULT;
 
     ESP_ERROR_CHECK(uart_driver_install(SS_UART_COPROC_PORT, SS_UART_COPROC_RX_BUF,
                                         SS_UART_COPROC_RX_BUF, 16, &q, 0));
     ESP_ERROR_CHECK(uart_param_config(SS_UART_COPROC_PORT, &cfg));
-    ESP_ERROR_CHECK(uart_set_pin(SS_UART_COPROC_PORT, SS_UART_COPROC_PIN_TX,
-                                 SS_UART_COPROC_PIN_RX,
+    ESP_ERROR_CHECK(uart_set_pin(SS_UART_COPROC_PORT, SS_UART_COPROC_PIN_TX, SS_UART_COPROC_PIN_RX,
                                  UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
-    ESP_LOGI(TAG, "coproc channel up: UART%d RX=%d TX=%d @%d",
-             int(SS_UART_COPROC_PORT), SS_UART_COPROC_PIN_RX,
-             SS_UART_COPROC_PIN_TX, SS_UART_COPROC_BAUD);
+    ESP_LOGI(TAG, "coproc channel up: UART%d RX=%d TX=%d @%d", int(SS_UART_COPROC_PORT),
+             SS_UART_COPROC_PIN_RX, SS_UART_COPROC_PIN_TX, SS_UART_COPROC_BAUD);
 
     static uint8_t buf[256];
     uart_event_t ev;
@@ -287,15 +291,15 @@ esp_err_t ss_uart_engine_start(void)
     memset(&s_fix, 0, sizeof(s_fix));
 
 #if CONFIG_SS_LITE_MOD_GNSS_BN880
-    if (xTaskCreate(gnss_pump_task, "ss_gnss_uart", 4096, nullptr, 12, nullptr)
-        != pdPASS) return ESP_ERR_NO_MEM;
+    if (xTaskCreate(gnss_pump_task, "ss_gnss_uart", 4096, nullptr, 12, nullptr) != pdPASS)
+        return ESP_ERR_NO_MEM;
 #else
     ESP_LOGI(TAG, "GNSS module disabled (CONFIG_SS_LITE_MOD_GNSS_BN880=n)");
 #endif
 
 #if CONFIG_SS_LITE_MOD_COPROC_C6 || CONFIG_SS_LITE_MOD_COPROC_H2
-    if (xTaskCreate(coproc_pump_task, "ss_coproc_uart", 4096, nullptr, 14, nullptr)
-        != pdPASS) return ESP_ERR_NO_MEM;
+    if (xTaskCreate(coproc_pump_task, "ss_coproc_uart", 4096, nullptr, 14, nullptr) != pdPASS)
+        return ESP_ERR_NO_MEM;
 #else
     ESP_LOGI(TAG, "mesh coprocessor disabled (CONFIG_SS_LITE_MOD_COPROC_*=n)");
 #endif
@@ -312,8 +316,14 @@ bool ss_uart_gnss_last_fix(ss_gnss_fix_t* out)
     return ever;
 }
 
-void ss_uart_gnss_set_tap(ss_nmea_sentence_cb_t cb)      { s_nmea_tap = cb; }
-void ss_uart_coproc_set_on_frame(ss_coproc_frame_cb_t cb) { s_coproc_cb = cb; }
+void ss_uart_gnss_set_tap(ss_nmea_sentence_cb_t cb)
+{
+    s_nmea_tap = cb;
+}
+void ss_uart_coproc_set_on_frame(ss_coproc_frame_cb_t cb)
+{
+    s_coproc_cb = cb;
+}
 
 esp_err_t ss_uart_coproc_send(const uint8_t* payload, size_t len)
 {
@@ -327,9 +337,15 @@ esp_err_t ss_uart_coproc_send(const uint8_t* payload, size_t len)
     size_t w = 0;
     wire[w++] = SLIP_END;
     auto put = [&](uint8_t b) {
-        if (b == SLIP_END)      { wire[w++] = SLIP_ESC; wire[w++] = SLIP_ESC_END; }
-        else if (b == SLIP_ESC) { wire[w++] = SLIP_ESC; wire[w++] = SLIP_ESC_ESC; }
-        else                    { wire[w++] = b; }
+        if (b == SLIP_END) {
+            wire[w++] = SLIP_ESC;
+            wire[w++] = SLIP_ESC_END;
+        } else if (b == SLIP_ESC) {
+            wire[w++] = SLIP_ESC;
+            wire[w++] = SLIP_ESC_ESC;
+        } else {
+            wire[w++] = b;
+        }
     };
     for (size_t i = 0; i < len; ++i) put(payload[i]);
     const uint16_t crc = crc16_ccitt(payload, len);
@@ -344,13 +360,14 @@ esp_err_t ss_uart_coproc_send(const uint8_t* payload, size_t len)
     s_coproc_stats.tx_frames++;
     return ESP_OK;
 #else
-    (void)payload; (void)len;
+    (void)payload;
+    (void)len;
     return ESP_ERR_NOT_SUPPORTED;
 #endif
 }
 
 void ss_uart_engine_stats(ss_uart_chan_stats_t* gnss, ss_uart_chan_stats_t* coproc)
 {
-    if (gnss)   *gnss   = s_gnss_stats;
+    if (gnss) *gnss = s_gnss_stats;
     if (coproc) *coproc = s_coproc_stats;
 }

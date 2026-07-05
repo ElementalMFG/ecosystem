@@ -41,8 +41,8 @@ static void banner(void)
     esp_chip_info(&chip);
     ESP_LOGI(TAG, "==============================================");
     ESP_LOGI(TAG, " SS-SP firmware — board %s (%s)", SS_BOARD_ID_STR, SS_BOARD_MCU);
-    ESP_LOGI(TAG, " cores=%d rev=%d flash=%dMB psram=%dMB",
-             chip.cores, chip.revision, SS_BOARD_FLASH_MB, SS_BOARD_PSRAM_MB);
+    ESP_LOGI(TAG, " cores=%d rev=%d flash=%dMB psram=%dMB", chip.cores, chip.revision,
+             SS_BOARD_FLASH_MB, SS_BOARD_PSRAM_MB);
     ESP_LOGI(TAG, " caps mask = 0x%08" PRIx32, uint32_t(SS_BOARD_CAPS));
 #if CONFIG_SS_LITE_MOD_HALOW
     ESP_LOGI(TAG, " wireless header: Wi-Fi HaLow module");
@@ -50,15 +50,15 @@ static void banner(void)
     ESP_LOGI(TAG, " wireless header: SX1262 LoRa (stock)");
 #endif
 #if CONFIG_SS_LITE_MOD_GNSS_BN880
-    ESP_LOGI(TAG, " GNSS: BN-880 on UART1 (%d/%d) + HMC5883L @0x1E",
-             SS_UART_GNSS_PIN_RX, SS_UART_GNSS_PIN_TX);
+    ESP_LOGI(TAG, " GNSS: BN-880 on UART1 (%d/%d) + HMC5883L @0x1E", SS_UART_GNSS_PIN_RX,
+             SS_UART_GNSS_PIN_TX);
 #endif
 #if CONFIG_SS_LITE_MOD_COPROC_C6
-    ESP_LOGI(TAG, " coproc: ESP32-C6 on UART2 (%d/%d)",
-             SS_UART_COPROC_PIN_RX, SS_UART_COPROC_PIN_TX);
+    ESP_LOGI(TAG, " coproc: ESP32-C6 on UART2 (%d/%d)", SS_UART_COPROC_PIN_RX,
+             SS_UART_COPROC_PIN_TX);
 #elif CONFIG_SS_LITE_MOD_COPROC_H2
-    ESP_LOGI(TAG, " coproc: ESP32-H2 on UART2 (%d/%d)",
-             SS_UART_COPROC_PIN_RX, SS_UART_COPROC_PIN_TX);
+    ESP_LOGI(TAG, " coproc: ESP32-H2 on UART2 (%d/%d)", SS_UART_COPROC_PIN_RX,
+             SS_UART_COPROC_PIN_TX);
 #endif
 #if CONFIG_SS_LITE_MOD_IMU
     ESP_LOGI(TAG, " IMU: 6-axis @0x68 (tilt-compensated compass)");
@@ -80,10 +80,9 @@ extern "C" void app_main(void)
     // --- 2. Display FIRST (directive goal A: user feedback ASAP) -----------
     err = ss_display_boot_init();
     if (err == ESP_OK) {
-        ss_display_boot_test_pattern();          // R/G/B + backlight ramp
+        ss_display_boot_test_pattern(); // R/G/B + backlight ramp
     } else {
-        ESP_LOGE(TAG, "display init failed: %s — continuing headless",
-                 esp_err_to_name(err));
+        ESP_LOGE(TAG, "display init failed: %s — continuing headless", esp_err_to_name(err));
     }
 
     // --- 3. Dual-UART engine SECOND (directive goal B) ----------------------
@@ -112,23 +111,20 @@ extern "C" void app_main(void)
         const bool have_hdg = ss_compass_get(&hdg);
 
         ESP_LOGI(TAG,
-            "hb: gnss[rx=%" PRIu32 "B f=%" PRIu32 " crcE=%" PRIu32 " ovf=%" PRIu32 "]"
-            " coproc[rx=%" PRIu32 "B f=%" PRIu32 " crcE=%" PRIu32
-            " tx=%" PRIu32 "B]",
-            gnss.rx_bytes, gnss.rx_frames, gnss.rx_crc_errors, gnss.rx_overflows,
-            coproc.rx_bytes, coproc.rx_frames, coproc.rx_crc_errors,
-            coproc.tx_bytes);
+                 "hb: gnss[rx=%" PRIu32 "B f=%" PRIu32 " crcE=%" PRIu32 " ovf=%" PRIu32 "]"
+                 " coproc[rx=%" PRIu32 "B f=%" PRIu32 " crcE=%" PRIu32 " tx=%" PRIu32 "B]",
+                 gnss.rx_bytes, gnss.rx_frames, gnss.rx_crc_errors, gnss.rx_overflows,
+                 coproc.rx_bytes, coproc.rx_frames, coproc.rx_crc_errors, coproc.tx_bytes);
 
         if (have_fix_struct && fix.has_fix)
-            ESP_LOGI(TAG, "hb: fix %.6f,%.6f alt=%.1fm sats=%u hdop=%.1f",
-                     fix.lat_deg, fix.lon_deg, double(fix.alt_m),
-                     unsigned(fix.sats_used), double(fix.hdop));
+            ESP_LOGI(TAG, "hb: fix %.6f,%.6f alt=%.1fm sats=%u hdop=%.1f", fix.lat_deg, fix.lon_deg,
+                     double(fix.alt_m), unsigned(fix.sats_used), double(fix.hdop));
         else
             ESP_LOGI(TAG, "hb: no GNSS fix yet");
 
         if (have_hdg && hdg.valid)
             ESP_LOGI(TAG, "hb: heading %.1f deg (src=%d pitch=%.1f roll=%.1f)",
-                     double(hdg.heading_deg), int(hdg.src),
-                     double(hdg.pitch_deg), double(hdg.roll_deg));
+                     double(hdg.heading_deg), int(hdg.src), double(hdg.pitch_deg),
+                     double(hdg.roll_deg));
     }
 }

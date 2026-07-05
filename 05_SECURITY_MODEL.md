@@ -486,7 +486,7 @@ Every bearer (LoRa, HaLow, BLE, Wi-Fi 4, ESP-NOW, USB-CDC) delivers **already-en
 ## 13. Vulnerability Disclosure & Incident Response
 
 ### 13.1 Disclosure
-- **security@ss-sp.org** (PGP key published).
+- **security@ss-sp.org** (interim until the brand domain exists: `security@elementalmfg.com` — D-0012; PGP key published per VA-04).
 - 90-day disclosure window (industry standard, aligned with Project Zero).
 - CVEs filed via a CNA (either apply for our own or coordinate with a partner).
 - Public advisories at `security.ss-sp.org` with signed detail.

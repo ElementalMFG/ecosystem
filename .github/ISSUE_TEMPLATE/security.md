@@ -7,9 +7,10 @@ labels: ["security", "triage"]
 ---
 
 <!-- STOP — if this is an exploitable vulnerability, do NOT post details
-     publicly. Email security@ss-sp.org (PGP/age keys and 72 h SLA in
-     SECURITY.md). This template is only for non-sensitive hardening
-     suggestions, e.g. "enable a compiler flag", "add a lint". -->
+     publicly. Email security@elementalmfg.com (interim per D-0012; PGP/age
+     keys and 72 h SLA in SECURITY.md). This template is only for
+     non-sensitive hardening suggestions, e.g. "enable a compiler flag",
+     "add a lint". -->
 
 ## Hardening suggestion
 

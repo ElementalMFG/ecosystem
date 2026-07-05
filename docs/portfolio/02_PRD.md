@@ -267,7 +267,7 @@ Eli buys a Lite from a mail-order retailer using cash-equivalent. First-boot cer
 
 ### In scope
 - Lite hardware SKU.
-- Firmware for Lite: bootloader, HAL, `ss_link` (LoRa + Wi-Fi + BLE), Reticulum, LXMF, 1:1 + group messaging, voice messages (Opus), SOS, presence, location, Meshtastic-compat on LoRa, `ss_ui` on the 480×320 display, duress PIN, dual-sig OTA, factory provisioning.
+- Firmware for Lite: bootloader, HAL, `ss_link` (HaLow/LoRa + Wi-Fi + BLE — the D-0013 dev fleet is HaLow-fitted), Reticulum, LXMF, 1:1 + group messaging, voice messages (Opus), SOS, presence, location, Meshtastic-compat on LoRa, `ss_ui` on the 480×320 display, duress PIN, dual-sig OTA, factory provisioning.
 - Companion apps: iOS + Android (beta), Web (basic).
 - Community OTA channel.
 - SDKs: C + Rust + Python + Dart (TypeScript at v1.1).
@@ -276,7 +276,7 @@ Eli buys a Lite from a mail-order retailer using cash-equivalent. First-boot cer
 - Portfolio and constitution (already delivered).
 
 ### Out of scope for v1.0
-- HaLow (Alpha only).
+- Native (soldered-down) HaLow radio — Alpha onward; Lite v1 carries HaLow via the wireless-header module (D-0013), which **is** in scope above.
 - Cellular (Omega only).
 - Fleet Console (comes v1.1).
 - LEO satellite (v3.x).

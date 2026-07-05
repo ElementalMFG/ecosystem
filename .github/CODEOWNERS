@@ -7,14 +7,14 @@
 # Single-maintainer bootstrap: all paths map to the founding maintainer.
 # Replace entries with working-group teams as WGs are staffed (S-01-009).
 
-* dylanpeterson@gmail.com
+* dylan@elementalmfg.com
 
 # Security-sensitive paths (CONTRIBUTING.md §9 list — kept explicit so the
 # later team hand-off is a mechanical edit):
-/firmware/components/ss_crypto/ dylanpeterson@gmail.com
-/firmware/components/ss_hal/ dylanpeterson@gmail.com
-/firmware/security/ dylanpeterson@gmail.com
-/bootloader/ dylanpeterson@gmail.com
-/protocol/ dylanpeterson@gmail.com
-/ota/ dylanpeterson@gmail.com
-/provisioning/ dylanpeterson@gmail.com
+/firmware/components/ss_crypto/ dylan@elementalmfg.com
+/firmware/components/ss_hal/ dylan@elementalmfg.com
+/firmware/security/ dylan@elementalmfg.com
+/bootloader/ dylan@elementalmfg.com
+/protocol/ dylan@elementalmfg.com
+/ota/ dylan@elementalmfg.com
+/provisioning/ dylan@elementalmfg.com

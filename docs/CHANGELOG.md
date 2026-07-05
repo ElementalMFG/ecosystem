@@ -9,6 +9,16 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Owner decisions recorded as D-0011..D-0013 (`governance/decisions.md`):
+  hosting at `github.com/ElementalMFG/ecosystem` (public), Elemental MFG
+  (Idaho) as parent entity with interim `elementalmfg.com` contact addresses,
+  and the HaLow-fitted 2-unit CrowPanel dev fleet as the Lite v1 spec-lock
+  path (`docs/OWNER_DECISIONS.md` answered in place).
+- PostToolUse clang-format hook (`tools/claude/format-c-hook.sh` +
+  `.claude/settings.json`): auto-formats agent-edited C/C++ except the
+  hand-aligned T1 trees `firmware/boards/**` and
+  `firmware/components/ss_hal/**`.
+
 - Constitution set docs 00–08, methodology + portfolio (24 epics / 533
   stories), model-allocation strategy (doc 10), venture execution map (doc 09).
 - Governance baseline: CODE_OF_CONDUCT, SECURITY.md, CONTRIBUTING with DCO
@@ -20,6 +30,20 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+
+### Changed
+
+- Interim contact pass (D-0012): `security@elementalmfg.com` and friends wired
+  into SECURITY.md, README, docs 05/06, CODE_OF_CONDUCT, TRADEMARK, issue
+  templates (+ `config.yml` contact link); CONTRIBUTING §12 channels now
+  Matrix + GitHub Discussions; CODEOWNERS + DCO identity moved to
+  `dylan@elementalmfg.com`.
+- HaLow-on-Lite alignment (D-0013): docs 00/01/README/PRD now state the dev
+  fleet is HaLow-fitted via the wireless header; "HaLow (Alpha only)" scope
+  lines corrected to native-radio-only.
+- One-time `clang-format` conformance pass over `firmware/main/` so the new
+  format hook produces no spurious diffs (build-verified in the pinned
+  container).
 
 ### Fixed
 

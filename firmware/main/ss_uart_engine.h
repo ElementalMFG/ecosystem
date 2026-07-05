@@ -21,7 +21,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "ss_hal_gnss.h"   // ss_gnss_fix_t (plain struct; no HAL impl required)
+#include "ss_hal_gnss.h" // ss_gnss_fix_t (plain struct; no HAL impl required)
 
 #ifdef __cplusplus
 extern "C" {

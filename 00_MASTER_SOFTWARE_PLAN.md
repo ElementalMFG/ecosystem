@@ -61,7 +61,7 @@ A pocket‑sized, waterproof, 1W long‑range mesh communicator that reads/speak
 
 | Tier | MCU | Radio | Display | Purpose |
 |---|---|---|---|---|
-| **Lite (v1 — you build now)** | ESP32‑S3 (CrowPanel Advance 3.5") | Wi‑Fi 4 (2.4 GHz) + BLE 5 + optional LoRa expansion header | 3.5" IPS 320×480 cap‑touch | Dev kit / entry unit / bench validation |
+| **Lite (v1 — you build now)** | ESP32‑S3 (CrowPanel Advance 3.5") | Wi‑Fi 4 (2.4 GHz) + BLE 5 + wireless header: **HaLow module (dev fleet is HaLow‑fitted — D‑0013)** or LoRa SX1262 | 3.5" IPS 320×480 cap‑touch | Dev kit / entry unit / first product / bench validation |
 | **Alpha 1.0** | ESP32‑P4 + ESP32‑C6 bridge | MM8108 HaLow (900 MHz) + 1W SKY66423 FEM | 2.4" IPS 320×240 + 12‑LED bezel | Flagship production tactical pager |
 | **Omega (next)** | TBD (RISC‑V + Linux SoM possible) | HaLow + LoRa + Cellular fallback + LEO SatCom | Larger IPS / OLED, dual‑radio | Enterprise / heavy‑duty |
 
@@ -572,7 +572,7 @@ SS-SP-SOFTWARE/
 1. Board support: display, touch, mic, speaker, SD, LEDs, battery, buttons.
 2. HAL implementation for Lite.
 3. LVGL running with `ss_ui` layout engine on 320×480.
-4. Reticulum over BLE + Wi‑Fi (no HaLow yet — Lite doesn't have it).
+4. Reticulum over BLE + Wi‑Fi + HaLow (the D‑0013 dev fleet carries the HaLow wireless‑header module; LoRa on stock SX1262 units).
 5. Chat app + Roster app end‑to‑end between two Lites.
 6. Meshtastic‑compat serial interface → Meshtastic Android app connects.
 7. Basic OTA over Wi‑Fi.

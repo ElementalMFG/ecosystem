@@ -26,18 +26,18 @@ extern "C" {
 #endif
 
 typedef enum {
-    SS_COMPASS_SRC_NONE = 0,        // no usable sensor fitted
-    SS_COMPASS_SRC_MAG_ONLY,        // HMC5883L, no tilt compensation
-    SS_COMPASS_SRC_MAG_TILTCOMP,    // HMC5883L + IMU accel
+    SS_COMPASS_SRC_NONE = 0,     // no usable sensor fitted
+    SS_COMPASS_SRC_MAG_ONLY,     // HMC5883L, no tilt compensation
+    SS_COMPASS_SRC_MAG_TILTCOMP, // HMC5883L + IMU accel
 } ss_compass_src_t;
 
 typedef struct {
-    float    heading_deg;    // 0..360, magnetic north, tilt-compensated if src allows
-    float    pitch_deg;      // from IMU accel (0 if mag-only)
-    float    roll_deg;
+    float heading_deg; // 0..360, magnetic north, tilt-compensated if src allows
+    float pitch_deg;   // from IMU accel (0 if mag-only)
+    float roll_deg;
     ss_compass_src_t src;
-    bool     valid;          // false until first good sample
-    uint32_t sample_ms;      // tick time of last sample
+    bool valid;         // false until first good sample
+    uint32_t sample_ms; // tick time of last sample
 } ss_compass_reading_t;
 
 // Probe sensors on I2C0 and spawn the 15 Hz compass task. Safe to call when

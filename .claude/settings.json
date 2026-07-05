@@ -4,6 +4,19 @@
     "type": "command",
     "command": "bash tools/claude/statusline.sh"
   },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash tools/claude/format-c-hook.sh"
+          }
+        ]
+      }
+    ]
+  },
   "permissions": {
     "allow": [
       "Bash(make lite:*)",

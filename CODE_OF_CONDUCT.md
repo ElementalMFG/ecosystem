@@ -33,7 +33,7 @@ Unacceptable behaviors:
 
 ## Enforcement
 
-- Report to `conduct@ss-sp.org`.
+- Report to `conduct@ss-sp.org` (interim until the brand domain exists: `dylan@elementalmfg.com` — D-0012 in `governance/decisions.md`).
 - The Community Council (3 members, distinct from the Steering Committee where possible) will:
   1. Acknowledge within 3 business days.
   2. Investigate confidentially.
@@ -43,7 +43,7 @@ Unacceptable behaviors:
 
 ## Enforcement roster
 
-Governance Phase 0 (pre-community, per `06_GOVERNANCE.md` §2): the project maintainer acts as the interim Community Council of one, handling reports to `conduct@ss-sp.org` under the ladder above; incidents involving the maintainer personally are recused to an external, mutually-agreed mediator.
+Governance Phase 0 (pre-community, per `06_GOVERNANCE.md` §2): the project maintainer acts as the interim Community Council of one, handling reports to `conduct@ss-sp.org` (interim: `dylan@elementalmfg.com` — D-0012) under the ladder above; incidents involving the maintainer personally are recused to an external, mutually-agreed mediator.
 
 Phase 1 trigger: when the project has three or more regular maintainers, a three-member Community Council is seated (named in `governance/decisions.md`, distinct from the Steering Committee where possible) and this section is updated with the roster. Roster changes are recorded as governance decisions.
 

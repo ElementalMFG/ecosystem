@@ -22,11 +22,11 @@ extern "C" {
 #endif
 
 typedef enum {
-    SS_DIAG_TONE_BOOT = 0,   // rising two-note "hello"
-    SS_DIAG_TONE_ACK,        // single short mid beep
-    SS_DIAG_TONE_ERROR,      // low double buzz
-    SS_DIAG_TONE_INCOMING,   // triple chirp (message received)
-    SS_DIAG_TONE_SOS,        // ... --- ... pattern (blocking, emergency only)
+    SS_DIAG_TONE_BOOT = 0, // rising two-note "hello"
+    SS_DIAG_TONE_ACK,      // single short mid beep
+    SS_DIAG_TONE_ERROR,    // low double buzz
+    SS_DIAG_TONE_INCOMING, // triple chirp (message received)
+    SS_DIAG_TONE_SOS,      // ... --- ... pattern (blocking, emergency only)
 } ss_diag_tone_t;
 
 // Init buzzer LEDC + spawn the power-watchdog task. Non-blocking.

@@ -13,7 +13,7 @@
 
 | Tier | MCU | Radio | Display | Purpose |
 |---|---|---|---|---|
-| **Lite (v1 — first build)** | ESP32-S3 (CrowPanel Advance 3.5" HMI) | LoRa SX1262, Wi-Fi 4, BLE 5 | 3.5" IPS 480×320 | Dev kit / entry unit |
+| **Lite (v1 — first build)** | ESP32-S3 (CrowPanel Advance 3.5" HMI) | HaLow or LoRa SX1262 on the wireless header (dev fleet HaLow-fitted — D-0013), Wi-Fi 4, BLE 5 | 3.5" IPS 480×320 | Dev kit / entry unit / first product |
 | **Alpha 1.0** | ESP32-P4 + ESP32-C6 | HaLow (MM8108 + SKY66423 1 W FEM), LoRa optional | 2.4" IPS 320×240 + 12-LED bezel | Flagship production pager |
 | **Omega (next)** | TBD (RISC-V + Linux SoM candidate) | HaLow + LoRa + Cellular + SatCom | Larger IPS / OLED | Enterprise / heavy-duty |
 
@@ -95,7 +95,7 @@ cd firmware && idf.py -B build/lite -p /dev/ttyUSB0 flash monitor
 ## Security
 
 - See [`SECURITY.md`](./SECURITY.md) for coordinated disclosure.
-- **security@ss-sp.org** (PGP key in `SECURITY.md`).
+- **security@elementalmfg.com** (interim per D-0012; PGP key pending — see `SECURITY.md`).
 
 ## Licensing summary
 

@@ -6,7 +6,7 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 ## Schema, counter, and quorum
 
 - **Schema.** Every entry is `## D-NNNN — <title>` followed by `- Date:` (ISO date, or `2025-Q? (bootstrap)` for pre-log decisions reconstructed at bootstrap), `- Decision:` (normative text), optional `- Rationale:`, optional `- Status:` (`RECORDED` default; `SUPERSEDED by D-NNNN` when overturned), and `- Reference:` (constitution docs, RFCs, or stories).
-- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0011**.
+- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0014**.
 - **Quorum.** Steady state: a decision closes with a simple majority of the steering committee, minimum two-thirds attendance, recorded by the Chair. Bootstrap (before S-01-009 staffs the working groups): the program lead records decisions unilaterally, each such entry is implicitly `(bootstrap)`, and all bootstrap decisions are re-ratified at the first quarterly constitutional review (S-01-016). RFC acceptances always get a corresponding entry (RFC-0001 §Detailed design).
 - **Immutability.** Entries are append-only; corrections are made by a superseding entry, never by editing history.
 
@@ -83,3 +83,27 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 - Rationale: Keeps repo status honest — a story is DONE only when its artifacts exist and verify; external-world prerequisites are named, owned, and visible instead of implied.
 - Status: RECORDED
 - Reference: `docs/portfolio/09_VENTURE_EXECUTION_MAP.md`, `docs/portfolio/07_FINAL_READINESS_TRIAGE.md`
+
+## D-0011 — Development hosting: GitHub org ElementalMFG, repo `ecosystem`, public
+
+- Date: 2026-07-05 (bootstrap)
+- Decision: The development repository of record is `https://github.com/ElementalMFG/ecosystem` — GitHub (all `.github/` artifacts stay valid), organization account, public visibility. It is treated as the real/production repository for the duration of development; a brand-named org/repo MAY replace it post-development by explicit superseding decision, with full history migrated.
+- Rationale: GitHub was chosen because CI workflows, Dependabot, CODEOWNERS, issue/PR templates, and the planned CLA bot are already written for it; an org (not a personal account) matches the later foundation-transition plan. Recorded from the owner's answers in `docs/OWNER_DECISIONS.md` (A1–A4).
+- Status: RECORDED
+- Reference: VA-02 in `docs/portfolio/09_VENTURE_EXECUTION_MAP.md`, S-01-008, S-01-012, `docs/OWNER_DECISIONS.md`
+
+## D-0012 — Parent entity Elemental MFG; interim domain/channels on elementalmfg.com
+
+- Date: 2026-07-05 (bootstrap)
+- Decision: Elemental MFG (registered and active in Idaho, USA) is the parent/inception company for the SS-SP program and the intended owner of the relevant IP. Until product naming settles (Seekie-Speakie and/or Smart-Pager) and a brand domain (`.org`/`.io` or subdomain) is registered, all program contact runs on the existing `elementalmfg.com` domain: security intake `security@elementalmfg.com`, developer contact `dev@elementalmfg.com`, general/support `support@elementalmfg.com`, conduct and trademark matters to the maintainer (`dylan@elementalmfg.com` / `support@elementalmfg.com`). Brand-domain registration (`ss-sp.org` etc., VA-05) is DEFERRED, and every `*.ss-sp.org` address/site in the docs is read as "brand domain — pending D-0012 supersession". Community channels: GitHub Discussions on the D-0011 repo replaces the mailing list and forum for now; a Matrix room `#ss-sp:matrix.org` is created now, IRC later. DCO sign-off identity for the founding maintainer moves to `dylan peterson <dylan@elementalmfg.com>`.
+- Rationale: Uses live, real infrastructure instead of publishing dead addresses; keeps the brand decision open without blocking security intake, community channels, or DCO identity. Recorded from the owner's answers in `docs/OWNER_DECISIONS.md` (B1–B5, C2, E1, info items 3–4).
+- Status: RECORDED
+- Reference: `SECURITY.md`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md` §12, `docs/TRADEMARK.md`, VA-05, `docs/OWNER_DECISIONS.md`
+
+## D-0013 — Dev-fleet hardware in hand; fully-loaded Lite is the spec-lock target
+
+- Date: 2026-07-05 (bootstrap)
+- Decision: The program holds **2× Elecrow CrowPanel Advance 3.5″ ESP32-S3 boards in the HaLow edition ("ESP32-S3-3.5-HaLow"), ordered and in hand, HaLow fitted on both as the baseline**, plus ESP32-C6 modules staged for the mesh-coprocessor link and GNSS + 3-axis digital-compass modules staged for the remaining connectors — all per the attach points in `01_SS-SP_LITE_HARDWARE_REFERENCE.md` §3.15 (coprocessor on the UART2 peripheral mapped to pins 44/43, the chip's default UART0 pins; GNSS on UART1 18/17; compass on I²C0 15/16). Once the C6 link and GNSS/compass paths are validated on these units, this fully-loaded configuration is declared the **locked base Lite v1 hardware spec** by a superseding entry. These two units are the primary dev/test/prototype devices for the entire portfolio execution, and Lite is the first product made available; Alpha and Omega are in engineering/manufacturing and follow later. Exact GNSS/compass module part numbers are confirmed at attachment — any deviation from the §3.15 table updates that table (and the pin-map, T1) first.
+- Rationale: VA-03 hardware exists now, so hardware-verified story ACs are unblocked as soon as flashing is set up; declaring the spec-lock criteria up front prevents silent scope drift on the first commercial SKU.
+- Status: RECORDED
+- Reference: `01_SS-SP_LITE_HARDWARE_REFERENCE.md` §3.15/§7/§9, VA-03, EPIC-03, `docs/OWNER_DECISIONS.md` (D1–D3)

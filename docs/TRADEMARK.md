@@ -43,4 +43,4 @@ Enforcement will be proportionate and community-friendly. First response is a po
 
 ## Contact
 
-`trademarks@ss-sp.org` — questions, permission requests, and reports of misuse.
+`trademarks@ss-sp.org` (interim until the brand domain exists: `support@elementalmfg.com` — D-0012 in `governance/decisions.md`) — questions, permission requests, and reports of misuse.

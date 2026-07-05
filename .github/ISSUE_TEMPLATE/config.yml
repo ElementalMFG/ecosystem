@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # Vulnerabilities must never be filed as public issues: email
-# security@ss-sp.org (PGP/age keys + 72 h SLA in SECURITY.md). A contact_link
-# is added once a public https URL for SECURITY.md exists (contact_links
-# require absolute http(s) URLs).
+# security@elementalmfg.com (interim per D-0012; PGP/age keys + 72 h SLA in
+# SECURITY.md).
 blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability (private)
+    url: https://github.com/ElementalMFG/ecosystem/blob/main/SECURITY.md
+    about: Never file vulnerabilities as public issues. See SECURITY.md for the private reporting channel and SLA.

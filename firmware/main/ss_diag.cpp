@@ -30,7 +30,7 @@ static esp_err_t buzzer_init(void)
     tcfg.speed_mode = LEDC_LOW_SPEED_MODE;
     tcfg.timer_num = ledc_timer_t(SS_BUZZER_LEDC_TIMER);
     tcfg.duty_resolution = LEDC_TIMER_10_BIT;
-    tcfg.freq_hz = 2000;                              // placeholder, set per note
+    tcfg.freq_hz = 2000; // placeholder, set per note
     tcfg.clk_cfg = LEDC_AUTO_CLK;
     ESP_RETURN_ON_ERROR(ledc_timer_config(&tcfg), TAG, "bz timer");
 
@@ -59,19 +59,31 @@ static void note(uint16_t freq_hz, uint16_t on_ms, uint16_t gap_ms)
 esp_err_t ss_diag_beep(ss_diag_tone_t tone)
 {
     switch (tone) {
-    case SS_DIAG_TONE_BOOT:     note(1319, 90, 30); note(1760, 140, 0);   break;
-    case SS_DIAG_TONE_ACK:      note(1568, 60, 0);                        break;
-    case SS_DIAG_TONE_ERROR:    note(220, 120, 60); note(220, 120, 0);    break;
-    case SS_DIAG_TONE_INCOMING: note(2093, 50, 40); note(2093, 50, 40);
-                                note(2637, 80, 0);                        break;
-    case SS_DIAG_TONE_SOS:      // ... --- ...  (dit 80 ms, dah 240 ms)
+    case SS_DIAG_TONE_BOOT:
+        note(1319, 90, 30);
+        note(1760, 140, 0);
+        break;
+    case SS_DIAG_TONE_ACK:
+        note(1568, 60, 0);
+        break;
+    case SS_DIAG_TONE_ERROR:
+        note(220, 120, 60);
+        note(220, 120, 0);
+        break;
+    case SS_DIAG_TONE_INCOMING:
+        note(2093, 50, 40);
+        note(2093, 50, 40);
+        note(2637, 80, 0);
+        break;
+    case SS_DIAG_TONE_SOS: // ... --- ...  (dit 80 ms, dah 240 ms)
         for (int i = 0; i < 3; ++i) note(1000, 80, 80);
         vTaskDelay(pdMS_TO_TICKS(160));
         for (int i = 0; i < 3; ++i) note(1000, 240, 80);
         vTaskDelay(pdMS_TO_TICKS(160));
         for (int i = 0; i < 3; ++i) note(1000, 80, 80);
         break;
-    default: return ESP_ERR_INVALID_ARG;
+    default:
+        return ESP_ERR_INVALID_ARG;
     }
     return ESP_OK;
 }
@@ -84,35 +96,41 @@ esp_err_t ss_diag_beep(ss_diag_tone_t tone)
 esp_err_t ss_diag_speaker_test(uint32_t ms)
 {
     i2s_chan_handle_t tx = nullptr;
-    i2s_chan_config_t chan = I2S_CHANNEL_DEFAULT_CONFIG(
-        i2s_port_t(SS_SPK_I2S_PORT), I2S_ROLE_MASTER);
+    i2s_chan_config_t chan =
+        I2S_CHANNEL_DEFAULT_CONFIG(i2s_port_t(SS_SPK_I2S_PORT), I2S_ROLE_MASTER);
     ESP_RETURN_ON_ERROR(i2s_new_channel(&chan, &tx, nullptr), TAG, "i2s chan");
 
     i2s_std_config_t std = {};
     std.clk_cfg = I2S_STD_CLK_DEFAULT_CONFIG(SS_SPK_SAMPLE_RATE_HZ);
-    std.slot_cfg = I2S_STD_PHILIPS_SLOT_DEFAULT_CONFIG(
-        I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
+    std.slot_cfg =
+        I2S_STD_PHILIPS_SLOT_DEFAULT_CONFIG(I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
     std.gpio_cfg.mclk = I2S_GPIO_UNUSED;
     std.gpio_cfg.bclk = gpio_num_t(SS_SPK_PIN_BCLK);
-    std.gpio_cfg.ws   = gpio_num_t(SS_SPK_PIN_WS);
+    std.gpio_cfg.ws = gpio_num_t(SS_SPK_PIN_WS);
     std.gpio_cfg.dout = gpio_num_t(SS_SPK_PIN_DOUT);
-    std.gpio_cfg.din  = I2S_GPIO_UNUSED;
+    std.gpio_cfg.din = I2S_GPIO_UNUSED;
     esp_err_t err = i2s_channel_init_std_mode(tx, &std);
-    if (err != ESP_OK) { i2s_del_channel(tx); return err; }
+    if (err != ESP_OK) {
+        i2s_del_channel(tx);
+        return err;
+    }
 
 #if SS_SPK_HAS_MUTE_GPIO
     gpio_set_direction(gpio_num_t(SS_SPK_PIN_MUTE), GPIO_MODE_OUTPUT);
-    gpio_set_level(gpio_num_t(SS_SPK_PIN_MUTE), 0);          // unmute
+    gpio_set_level(gpio_num_t(SS_SPK_PIN_MUTE), 0); // unmute
 #endif
 
     // One 16 ms cycle-aligned buffer of 1 kHz sine (16 full periods @16 kHz).
     constexpr size_t kSamples = 256;
-    int16_t* buf = static_cast<int16_t*>(heap_caps_malloc(
-        kSamples * sizeof(int16_t), MALLOC_CAP_DMA | MALLOC_CAP_INTERNAL));
-    if (!buf) { i2s_del_channel(tx); return ESP_ERR_NO_MEM; }
+    int16_t* buf = static_cast<int16_t*>(
+        heap_caps_malloc(kSamples * sizeof(int16_t), MALLOC_CAP_DMA | MALLOC_CAP_INTERNAL));
+    if (!buf) {
+        i2s_del_channel(tx);
+        return ESP_ERR_NO_MEM;
+    }
     for (size_t i = 0; i < kSamples; ++i)
-        buf[i] = int16_t(8000.0f * sinf(2.0f * float(M_PI) * 1000.0f *
-                                        float(i) / float(SS_SPK_SAMPLE_RATE_HZ)));
+        buf[i] = int16_t(
+            8000.0f * sinf(2.0f * float(M_PI) * 1000.0f * float(i) / float(SS_SPK_SAMPLE_RATE_HZ)));
 
     err = i2s_channel_enable(tx);
     const TickType_t until = xTaskGetTickCount() + pdMS_TO_TICKS(ms);
@@ -122,7 +140,7 @@ esp_err_t ss_diag_speaker_test(uint32_t ms)
 
     i2s_channel_disable(tx);
 #if SS_SPK_HAS_MUTE_GPIO
-    gpio_set_level(gpio_num_t(SS_SPK_PIN_MUTE), 1);          // mute again
+    gpio_set_level(gpio_num_t(SS_SPK_PIN_MUTE), 1); // mute again
 #endif
     heap_caps_free(buf);
     i2s_del_channel(tx);
@@ -147,8 +165,7 @@ static void power_watchdog_task(void*)
 #endif
     for (;;) {
         vTaskDelay(pdMS_TO_TICKS(30000));
-        ESP_LOGD(TAG, "health: heap=%u min=%u",
-                 unsigned(esp_get_free_heap_size()),
+        ESP_LOGD(TAG, "health: heap=%u min=%u", unsigned(esp_get_free_heap_size()),
                  unsigned(esp_get_minimum_free_heap_size()));
     }
 }
@@ -159,9 +176,9 @@ static void power_watchdog_task(void*)
 esp_err_t ss_diag_start(void)
 {
     ESP_RETURN_ON_ERROR(buzzer_init(), TAG, "buzzer");
-    const BaseType_t ok = xTaskCreatePinnedToCore(
-        power_watchdog_task, "ss_pwr_wd", 2560, nullptr, 5, nullptr, tskNO_AFFINITY);
-    ESP_LOGI(TAG, "diagnostics ready (buzzer GPIO%d, speaker I2S%d)",
-             SS_BUZZER_PIN, int(SS_SPK_I2S_PORT));
+    const BaseType_t ok = xTaskCreatePinnedToCore(power_watchdog_task, "ss_pwr_wd", 2560, nullptr,
+                                                  5, nullptr, tskNO_AFFINITY);
+    ESP_LOGI(TAG, "diagnostics ready (buzzer GPIO%d, speaker I2S%d)", SS_BUZZER_PIN,
+             int(SS_SPK_I2S_PORT));
     return ok == pdPASS ? ESP_OK : ESP_ERR_NO_MEM;
 }

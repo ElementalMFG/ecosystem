@@ -286,7 +286,7 @@ The CLA is **not** a copyright assignment (contributor retains their copyright).
 - All members sign an NDA with each other for embargoed handling.
 
 ### 7.2 Process (see also `05_SECURITY_MODEL.md` §13)
-1. Report received at `security@ss-sp.org` (PGP encrypted).
+1. Report received at `security@ss-sp.org` (interim: `security@elementalmfg.com` — D-0012; PGP encrypted).
 2. Ack within 24 h.
 3. Triage within 72 h → severity via CVSS.
 4. Fix developed on private embargo repo/branch.

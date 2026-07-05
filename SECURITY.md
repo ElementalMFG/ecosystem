@@ -7,7 +7,7 @@ The SS-SP project takes security seriously. Devices are used in emergencies; reg
 
 **Do not** file public GitHub issues or forum posts for security matters.
 
-Contact: **security@ss-sp.org** (PGP key fingerprint and full key will be published at `security.ss-sp.org`).
+Contact: **security@elementalmfg.com** (interim address on the parent-company domain — D-0012 in `governance/decisions.md`). Once the repository is public, GitHub Private Vulnerability Reporting on `github.com/ElementalMFG/ecosystem` is also accepted. Brand-domain services (`*.ss-sp.org`, including the key/advisory site `security.ss-sp.org`) are deferred until product naming settles; every reference to them below reads as "pending D-0012".
 
 Please include:
 
@@ -70,7 +70,7 @@ Two intake keys are published (both accepted; age preferred):
 | age  | `age1…` | *pending — generated on human-custodied hardware and published with the first tagged release (tracked as VA-04 in `docs/portfolio/09_VENTURE_EXECUTION_MAP.md`)* |
 | PGP  | `XXXX XXXX XXXX XXXX XXXX  XXXX XXXX XXXX XXXX XXXX` | *pending — same event* |
 
-Keys will also be served at `security.ss-sp.org/keys.txt` and via WKD. Revocation certificates are held offline. Until publication, unencrypted reports to `security@ss-sp.org` are accepted — omit exploit details and we will establish an encrypted channel within the acknowledgement window.
+Keys will also be served at `security.ss-sp.org/keys.txt` and via WKD (pending D-0012). Revocation certificates are held offline. Until publication, unencrypted reports to `security@elementalmfg.com` are accepted — omit exploit details and we will establish an encrypted channel within the acknowledgement window.
 
 ## Hall of fame
 

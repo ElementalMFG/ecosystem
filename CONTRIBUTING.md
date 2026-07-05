@@ -143,8 +143,8 @@ If you use AI code assistants:
 
 ## 12. Getting help
 
-- Chat: (to be published) Matrix room `#ss-sp:matrix.org`, IRC `#ss-sp` on Libera.
-- Forum: (to be published) `discuss.ss-sp.org`.
-- Mailing list: `dev@lists.ss-sp.org`.
+- Chat: Matrix room `#ss-sp:matrix.org` (being registered — D-0012); IRC `#ss-sp` on Libera later.
+- Forum + mailing list: **GitHub Discussions** on `github.com/ElementalMFG/ecosystem` replaces both for now (D-0012). `discuss.ss-sp.org` / `dev@lists.ss-sp.org` are deferred until the brand domain exists.
+- Email (interim): `dev@elementalmfg.com`.
 
 We are a friendly and neurodivergent-welcoming project. Ask questions; there are no stupid ones.
