@@ -3,5 +3,26 @@
   "statusLine": {
     "type": "command",
     "command": "bash tools/claude/statusline.sh"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(make lite:*)",
+      "Bash(make lint-docs:*)",
+      "Bash(python3 tools/lint-docs.py:*)",
+      "Bash(python3 tools/gen-stories-index.py:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git check-ignore:*)"
+    ],
+    "deny": [
+      "Edit(docs/portfolio/STORIES_INDEX.md)",
+      "Write(docs/portfolio/STORIES_INDEX.md)",
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/*.pem)",
+      "Read(**/id_rsa*)"
+    ]
   }
 }

@@ -10,6 +10,10 @@ docs/portfolio/00_METHODOLOGY.md §2.7. Field order is mandatory:
 Everything above the HAND-MAINTAINED marker in STORIES_INDEX.md is
 regenerated; everything below it is preserved verbatim.
 
+§2.7 elaboration rule (enforced here): any story whose Status is not
+DRAFT or DROPPED must carry `- Tasks:` and `- Deps:` lines; every
+`S-NN-MMM` reference in a Deps line must resolve to an existing story.
+
 Usage:  python3 tools/gen-stories-index.py [--check]
   --check   validate only; exit 1 on any problem, write nothing.
 """
@@ -34,6 +38,10 @@ TYPES = {"Feature", "Task", "Spike", "Bug", "RFC", "Compliance", "Ops", "Docs"}
 CLAUSE_RE = re.compile(r"^(C-0[0-8]|C-OA|C-TM|C-CoC|C-SEC)$")
 HEADING_RE = re.compile(r"^### (S-(\d{2})-(\d{3})) — (.+)$")
 META_RE = re.compile(r"^- Meta:\s*(.+)$")
+TASKS_RE = re.compile(r"^- Tasks:\s*(.+)$")
+DEPS_RE = re.compile(r"^- Deps:\s*(.+)$")
+STORY_REF_RE = re.compile(r"S-\d{2}-\d{3}")
+ELABORATION_EXEMPT = {"DRAFT", "DROPPED"}
 
 
 def parse_meta(line, errors, ctx):
@@ -68,6 +76,7 @@ def parse_stories(path, epic_num, errors):
     stories = []
     lines = path.read_text(encoding="utf-8").splitlines()
     current = None  # (id, num, title, heading_lineno)
+    last_story = None  # most recent story dict (Meta already parsed)
     for lineno, line in enumerate(lines, 1):
         h = HEADING_RE.match(line)
         if h:
@@ -77,13 +86,26 @@ def parse_stories(path, epic_num, errors):
             if s_epic != epic_num:
                 errors.append(f"{path}:{lineno}: story {sid} epic prefix != {epic_num}")
             current = (sid, int(s_num), title, lineno)
+            last_story = None
             continue
         m = META_RE.match(line)
         if m and current is not None:
             meta = parse_meta(m.group(1), errors, f"{path}:{lineno} ({current[0]})")
             if meta is not None:
-                stories.append({"id": current[0], "num": current[1], "title": current[2], **meta})
+                story = {"id": current[0], "num": current[1], "title": current[2],
+                         "path": str(path), "line": current[3], "Tasks": None, "Deps": None,
+                         **meta}
+                stories.append(story)
+                last_story = story
             current = None
+            continue
+        t = TASKS_RE.match(line)
+        if t and last_story is not None:
+            last_story["Tasks"] = t.group(1).strip()
+            continue
+        dp = DEPS_RE.match(line)
+        if dp and last_story is not None:
+            last_story["Deps"] = dp.group(1).strip()
     if current is not None:
         errors.append(f"{path}:{current[3]}: story {current[0]} has no Meta line")
     # contiguity
@@ -223,6 +245,24 @@ def main():
         if not stories:
             errors.append(f"{stories_md}: no parseable stories found")
         epics.append((epic_num, epic_title(d), stories))
+
+    # §2.7 elaboration enforcement: non-DRAFT/DROPPED stories need Tasks + Deps;
+    # Deps story references must resolve and may not be self-referential.
+    all_ids = {s["id"] for _, _, ss in epics for s in ss}
+    for _, _, ss in epics:
+        for s in ss:
+            ctx = f"{s['path']}:{s['line']} ({s['id']})"
+            if s["Status"] not in ELABORATION_EXEMPT:
+                if not s["Tasks"]:
+                    errors.append(f"{ctx}: Status={s['Status']} requires a '- Tasks:' elaboration line (§2.7)")
+                if not s["Deps"]:
+                    errors.append(f"{ctx}: Status={s['Status']} requires a '- Deps:' elaboration line (§2.7)")
+            if s["Deps"]:
+                for ref in STORY_REF_RE.findall(s["Deps"]):
+                    if ref == s["id"]:
+                        errors.append(f"{ctx}: story depends on itself")
+                    elif ref not in all_ids:
+                        errors.append(f"{ctx}: Deps references unknown story {ref}")
 
     generated, total, clause_cover, clause_p0 = build(epics)
 

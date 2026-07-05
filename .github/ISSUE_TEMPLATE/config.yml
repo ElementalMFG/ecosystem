@@ -1,0 +1,6 @@
+# SPDX-License-Identifier: Apache-2.0
+# Vulnerabilities must never be filed as public issues: email
+# security@ss-sp.org (PGP/age keys + 72 h SLA in SECURITY.md). A contact_link
+# is added once a public https URL for SECURITY.md exists (contact_links
+# require absolute http(s) URLs).
+blank_issues_enabled: false

@@ -10,7 +10,7 @@ set -euo pipefail
 input=$(cat)
 
 model=$(printf '%s' "$input" | jq -r '.model.display_name // .model.id // "?"')
-effort=$(printf '%s' "$input" | jq -r '.effort.level // "default"')
+effort=$(printf '%s' "$input" | jq -r '.effort.level? // .effort // "default"')
 pct=$(printf '%s' "$input" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)
 
 printf '[%s @ %s] ctx %s%%\n' "$model" "$effort" "$pct"

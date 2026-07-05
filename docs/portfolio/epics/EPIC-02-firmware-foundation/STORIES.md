@@ -9,16 +9,22 @@ Format per `../../00_METHODOLOGY.md` §2.7. Meta lines are machine-parsed.
 As a firmware engineer I want ESP-IDF v5.x pinned inside a reproducible build container so that every developer and CI job builds identical bits.
 - AC: `.devcontainer/` and `Dockerfile` present; container image digest-pinned; `idf.py build` succeeds from a clean container
 - Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DONE | SKU=★ | PRD=NF-SUS-03 | Const=C-00
+- Tasks: spec (pinning policy, RFC-0002) · design (digest-pinned base image) · impl (`ci/containers/firmware/Dockerfile` + `.devcontainer/` + `firmware-build.yml`) · test (clean `idf.py build` green inside the container) · docs (`BUILDING.md`).
+- Deps: RFC-0002
 
 ### S-02-002 — Monorepo CMake wrapper
 As a firmware engineer I want a monorepo CMake wrapper so that any board target builds with one command.
 - AC: `firmware/CMakeLists.txt` selects board from `BOARD` env; `make lite|alpha|omega` targets work; unknown board value fails with a clear error
 - Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DONE | SKU=★ | PRD=— | Const=C-00
+- Tasks: spec (board-selection contract) · design (`SS_BOARD` cache var + make targets) · impl (`firmware/CMakeLists.txt` + root `Makefile`) · test (`make lite` green; unknown board fails with FATAL_ERROR listing ports) · docs (`BUILDING.md`).
+- Deps: S-02-001
 
 ### S-02-003 — `boards/lite/board_config.h` complete
 As a firmware engineer I want a complete `boards/lite/board_config.h` so that all Lite HAL code binds to documented pins and settings.
 - AC: all pins, radios, clocks, partition table, and security fuses documented in the header; header passes the board-config parity CI check; compiles under `make lite`
 - Meta: Shard=B | Type=Feature | Size=S | Prio=P0 | Status=DONE | SKU=L | PRD=— | Const=C-00,C-01
+- Tasks: spec (pin map from doc 01) · design (header layout + `ss_hal` export) · impl (`firmware/boards/lite/board_config.h`) · test (compiles under `make lite`) · docs (doc 01 lockstep).
+- Deps: S-02-002
 
 ### S-02-004 — `boards/alpha/board_config.h` skeleton
 As a firmware engineer I want a `boards/alpha/board_config.h` skeleton so that Alpha bring-up can start against the shared HAL contracts.

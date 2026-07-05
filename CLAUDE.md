@@ -23,6 +23,7 @@ Work is tiered T1–T4; the tier of any story/epic is in doc 10 §5/§7/§11. Be
 Standing rules:
 
 - **Delegate searches/reads to the `retrieval` agent** (Haiku) — keep bulk file contents out of this context.
+- Portfolio work runs through the `story-run` skill (select → elaborate → tier-route → implement → verify AC → status/index → `Story:` trailer commit); one story per run.
 - T1 work: run the `t1-pipeline` skill (encodes the §10 double-review workflow). Pre-commit: the `verify` skill runs all gates.
 - **Tune effort before switching model** (doc 10 §1.3). Re-check `/effort` after every `/model` — switching resets it.
 - Never demote T1 work; a Fable refusal is handled per doc 10 §1.4.1 (reframe as defensive/own-product security engineering, re-run), never silently completed on a weaker model.

@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: Apache-2.0
+# Code ownership (CONTRIBUTING.md §9). Every PR needs >= 1 CODEOWNER approval.
+# Security-sensitive paths additionally require 2 approvals + wg-security
+# sign-off — enforced by review policy; branch protection is configured when
+# the repo is hosted (S-01-012).
+#
+# Single-maintainer bootstrap: all paths map to the founding maintainer.
+# Replace entries with working-group teams as WGs are staffed (S-01-009).
+
+* dylanpeterson@gmail.com
+
+# Security-sensitive paths (CONTRIBUTING.md §9 list — kept explicit so the
+# later team hand-off is a mechanical edit):
+/firmware/components/ss_crypto/ dylanpeterson@gmail.com
+/firmware/components/ss_hal/ dylanpeterson@gmail.com
+/firmware/security/ dylanpeterson@gmail.com
+/bootloader/ dylanpeterson@gmail.com
+/protocol/ dylanpeterson@gmail.com
+/ota/ dylanpeterson@gmail.com
+/provisioning/ dylanpeterson@gmail.com

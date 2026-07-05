@@ -80,3 +80,8 @@ ios/build/
 crashes/
 corpus/
 fuzz-*/
+
+# Claude Code — personal/local state (never commit)
+.claude/settings.local.json
+.claude/worktrees/
+CLAUDE.local.md

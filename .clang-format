@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: Apache-2.0
+# SS-SP firmware C/C++ style (CONTRIBUTING.md §7). Derived from the existing
+# firmware/main/ code; change only via a docs+code lockstep PR.
+BasedOnStyle: LLVM
+IndentWidth: 4
+ColumnLimit: 100
+BreakBeforeBraces: Linux
+PointerAlignment: Left
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLoopsOnASingleLine: true
+AllowShortBlocksOnASingleLine: Always
+AllowShortFunctionsOnASingleLine: Inline
+SortIncludes: Never

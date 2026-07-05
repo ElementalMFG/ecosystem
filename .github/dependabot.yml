@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: Apache-2.0
+# Automated dependency PRs. Scope is deliberately narrow:
+# - github-actions: yes (low-risk, review-gated).
+# - docker: NO — the firmware container digest is policy-pinned (RFC-0002)
+#   and must be bumped via the documented lockstep procedure, not a bot PR.
+# - firmware deps: managed by ESP-IDF component manager inside the pinned
+#   container; no manifest for dependabot to watch.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    labels: ["dependencies", "ci"]

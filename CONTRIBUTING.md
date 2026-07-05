@@ -113,6 +113,15 @@ breaking(protocol): drop unused sos.rate_hint field (see rfc-0012)
 
 Keep commits small and focused. Squash-merge is default; multi-commit merges are allowed for RFC-driven changes with meaningful history.
 
+**Story trailer:** when a commit implements a portfolio story, add a `Story: S-NN-MMM` trailer (next to the `Signed-off-by:` line) so the commit is traceable to `docs/portfolio/STORIES_INDEX.md`:
+
+```
+feat(ss_ui): add round-shape template
+
+Story: S-16-004
+Signed-off-by: Your Name <your@email>
+```
+
 ## 9. Reviews
 
 - Every PR needs at least 1 CODEOWNER approval.
