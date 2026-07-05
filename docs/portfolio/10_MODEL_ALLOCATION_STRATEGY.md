@@ -83,6 +83,24 @@ Each tier now specifies a **(model @ effort)** recipe, plus the contingency used
 
 A tier is a *floor* for scrutiny, not a ceiling: anything may be escalated (§8), nothing on T1 may be demoted without a decisions-log entry. Within a tier, **tune effort before switching model** (§1.3).
 
+### 2.1 Switching mechanics — no forks or restarts required
+
+Every recipe above is executable inside a single continuous session; switching is dynamic on all layers:
+
+| Layer | Mechanism | Context | Notes |
+|---|---|---|---|
+| Claude Code, in-session | `/model` (aliases `fable`/`opus` or exact IDs) and `/effort` (low→max, plus `ultracode`) | **Fully preserved**, effective on next response, works mid-task | The normal way to walk one story through a T2 recipe: design @ high → build @ medium → review — one session, zero restarts |
+| Claude Code, subagents | `model:` frontmatter in `.claude/agents/*.md`; Task-tool per-invocation model | Isolated per subagent; main session untouched | A Fable orchestrator delegates T3/T4 chunks to Opus/Haiku workers; agent files hot-reload from disk |
+| Claude Code, dynamic workflows | `ultracode` → classifier subagent routes each work item to a per-item (model, effort) | Parallel background agents | The bulk-T4 / wide-T3 batching engine (§9.2) |
+| Messages API | Stateless: `model` + `output_config.effort` are **per-request**; resend history to continue | Preserved if history is resent | Strip Fable 5 thinking blocks before replaying its turns to another model |
+| Messages API, refusals | `fallbacks` parameter (beta): auto-retry on Opus 4.8 when Fable 5 returns `stop_reason: "refusal"` | Same request, one response | Billed only for the serving model; fallback credit refunds cache cost; sticky-routes ~1 h — watch for T1 work silently landing on Opus (§1.4.1) |
+| Messages API, mid-task steering | System entries inside the `messages` array | Preserved; cache reused up to the insertion point | Update instructions/effort guidance without rebuilding the prompt |
+
+Two cost rules govern *when* to flip the switches:
+
+1. **Prompt cache is per-model.** Every model (or effort) switch breaks the cache; the incoming model re-reads history at full input price once. Batch same-model work into runs; don't ping-pong per message — this is why §9 batches T4 and reviews diffs, not trees.
+2. **Effort caps silently.** A model that lacks the requested effort level caps it without error, and switching models resets effort to *that model's default*. Re-check `/effort` after every `/model`.
+
 ## 3. Allocation principles — what actually drives tier choice
 
 Tier is determined by scoring five properties. High score on **any one** of the first three forces T1/T2.
