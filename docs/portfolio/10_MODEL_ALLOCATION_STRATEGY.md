@@ -23,21 +23,65 @@
 
 The program has two AI execution resources with different capability and cost profiles:
 
-- **MAX** — the most capable frontier model available (currently *Opus 4.8*): strongest reasoning, best at novel design, subtle correctness, adversarial thinking, long-horizon coherence. Highest cost per token; a scarce resource to be spent deliberately.
-- **STD** — the standard workhorse model (currently *Fable 5*): fully competent for well-specified engineering, pattern-following implementation, refactoring, documentation, and test writing. Much cheaper; the default.
+- **MAX** — **Claude Fable 5** (`claude-fable-5`): Anthropic's most capable widely released model (Mythos-class, *above* the Opus class). Strongest reasoning, best at novel design, subtle correctness, adversarial thinking, long-horizon coherence. Highest per-token cost; a scarce resource to be spent deliberately.
+- **STD** — **Claude Opus 4.8** (`claude-opus-4-8`): the previous frontier tier, still an excellent engineer. Fully competent for well-specified engineering, pattern-following implementation, refactoring, documentation, and test writing. Half the per-token price; the volume workhorse.
 
-Spending MAX everywhere wastes budget; spending STD on the wrong things creates silent, expensive-to-find defects (T-22 proved that untested claims hide real bugs; a weak-model crypto bug would be far worse). This document fixes, in advance, **which work gets which tier**, so allocation is a governed decision rather than a per-session mood.
+Spending MAX everywhere wastes budget; spending STD on the wrong things creates silent, expensive-to-find defects (T-22 proved that untested claims hide real bugs; a weak-model crypto bug would be far worse). This document fixes, in advance, **which work gets which tier and which effort setting**, so allocation is a governed decision rather than a per-session mood.
+
+### 1.1 The two models — researched facts (as of 2026-07)
+
+| Property | Claude Fable 5 (MAX) | Claude Opus 4.8 (STD) |
+|---|---|---|
+| Class / release | Mythos-class, released 2026-06-09 | Opus-class, released 2026-05-28 |
+| API price (per Mtok in/out) | **$10 / $50** (2× Opus; 90% prompt-cache discount; no long-context surcharge) | **$5 / $25** (prompt-cache 90%, batch 50%; long-context surcharge >200k) |
+| Context / output | 1M ctx default, 128k output | 1M ctx, comparable output |
+| SWE-bench Pro | **80.3%** (11 pts ahead of next best) | 69.2% |
+| SWE-bench Verified | (state-of-the-art on nearly all tested benchmarks) | 88.6% |
+| Effort levels | low / medium / high (default) / xhigh / max — the **primary** cost control | Same five levels; guidance says start coding at xhigh |
+| Thinking | Adaptive thinking always on; cannot be disabled; raw CoT never returned | Adaptive thinking; effort controls depth |
+| Distinctive strengths | Long-horizon autonomous work (50M-line-codebase migration in a day); deeper knowledge; FrontierCode: highest among frontier models **even at medium effort** | ~4× less likely than its predecessor to let flaws in its own code pass unremarked — an unusually good *reviewer* |
+| Safeguards | Safety classifiers may refuse (<5% of sessions; cybersecurity, bio/chem, distillation topics) with `stop_reason: "refusal"`; server/client fallback to Opus 4.8 supported; refused-before-output requests are not billed | No comparable classifier layer |
+| Data retention | Mandatory 30-day retention; **no ZDR** | Standard retention options |
+| Availability history | Suspended worldwide 2026-06-12 → restored 2026-07-01 (US export-control directive) | Continuously available |
+| Subscription accounting | Counts **2× usage** on Claude.ai plans | 1× |
+
+### 1.2 The effort dial — why this is a 2-D problem, not a model choice
+
+Both models expose an `effort` parameter (`low`/`medium`/`high`/`xhigh`/`max`) that scales **all** token spend — thinking depth, tool-call count, and verbosity. Effort is a behavioral signal, not a hard budget: at low effort the model still thinks on genuinely hard problems, just less. Allocation is therefore a **(model, effort)** pair, and the two dials interact:
+
+- Anthropic's own guidance: on Fable 5, "lower effort settings still perform well and **often exceed xhigh performance on prior models**." Cognition's FrontierCode confirms Fable 5 leads the frontier field *at medium effort*.
+- Opus 4.8's guidance is the mirror image: **start at xhigh** for coding/agentic work (meaningfully more tokens than high) to get its best results.
+
+### 1.3 Cost economics — the parity point
+
+Per-token, Fable 5 is exactly 2× Opus 4.8. But total job cost = price × tokens, and effort moves tokens a lot (a single benchmarked task ranged ~7× in cost from low to max effort on Fable 5). Two consequences:
+
+1. **Fable-5-at-reduced-effort ≈ Opus-4.8-at-raised-effort in total cost.** Fable 5 at `medium` spends materially fewer tokens than Opus 4.8 at its recommended `xhigh`; at roughly half the tokens the 2× price cancels and the jobs cost about the same — while Fable 5 retains a capability edge. So for T2/T3 engineering, **Fable 5 @ medium is usually the better buy than Opus 4.8 @ xhigh at similar spend**, capacity permitting.
+2. **Opus 4.8 still wins on absolute floor cost.** For T4 mechanical work and high-volume T3 breadth, Opus 4.8 @ low/medium is unbeatable on price, and batch processing (another 50%) applies.
+
+Rule of thumb: **tune effort before switching model.** Only drop from Fable 5 to Opus 4.8 when (a) the work is T4/verification-saturated, (b) Fable capacity/credits are constrained, or (c) you want Opus as an independent cross-reviewer (§10).
+
+### 1.4 Operational constraints that shape allocation
+
+1. **Refusal exposure is concentrated in *our* T1 domains.** Fable 5's classifiers trigger mainly on cybersecurity content — which is exactly EPIC-06/07/08/18, the fuzzer grammars, and threat-model work. Mitigations: frame prompts explicitly as defensive/own-product security engineering; handle `stop_reason: "refusal"` (HTTP 200, not an error); use server-side `fallbacks` or client retry to Opus 4.8 (fallback credit avoids double prompt-cache cost). A refused T1 task **must not** silently complete on the fallback model — it re-runs on Fable 5 with reframed context, or is consciously re-tiered.
+2. **Single-model dependency is a real risk.** Fable 5 was export-control-suspended for ~3 weeks in June 2026. The plan must degrade gracefully: every T1 recipe has an Opus-4.8-only contingency (max effort, +1 extra independent review pass, slower cadence) so the program never hard-blocks on Fable availability.
+3. **Data retention.** Fable 5 sessions carry mandatory 30-day retention with no ZDR. For this open-source program that is acceptable for nearly everything; for pre-publication vulnerability details or key-ceremony secrets, prefer processes that never place raw secrets in any model context (which `05_SECURITY_MODEL.md` requires anyway).
+4. **Capacity/credits.** Fable 5 demand is high and it costs 2× on subscription plans; treat Fable-hours as the scarce budgeted resource this document allocates.
+
+Sources: Anthropic launch posts and platform docs for [Fable 5 / Mythos 5](https://www.anthropic.com/news/claude-fable-5-mythos-5), [Opus 4.8](https://www.anthropic.com/news/claude-opus-4-8), the [model introduction](https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5) and [effort parameter](https://platform.claude.com/docs/en/build-with-claude/effort) docs, and third-party analyses (Simon Willison's [initial impressions](https://simonwillison.net/2026/Jun/9/claude-fable-5/), Vellum/TrueFoundry benchmark write-ups).
 
 ## 2. Capability tiers
 
-| Tier | Resource recipe | When |
-|------|-----------------|------|
-| **T1 — MAX-critical** | MAX model, maximum reasoning effort, multi-pass (design → implement → independent MAX re-review), plus every applicable automated gate | Flaws are catastrophic, hard to detect, or irreversible |
-| **T2 — MAX-designs / STD-builds** | MAX writes the contract (spec, header, state machine, test vectors, RFC); STD implements against it; MAX reviews the diff once | Hard design, routine construction |
-| **T3 — STD-standard** | STD end-to-end; automated gates + spot human review | Well-specified work with strong verification |
-| **T4 — STD-mechanical** | STD, minimal effort mode; gates only | Mechanical, fully checkable by tooling |
+Each tier now specifies a **(model @ effort)** recipe, plus the contingency used if Fable 5 is unavailable (§1.4.2).
 
-A tier is a *floor* for scrutiny, not a ceiling: anything may be escalated (§8), nothing on T1 may be demoted without a decisions-log entry.
+| Tier | Primary recipe | Contingency (Fable unavailable) | When |
+|------|----------------|--------------------------------|------|
+| **T1 — MAX-critical** | **Fable 5 @ xhigh** (max for the single hardest artifacts), multi-pass: design → implement → **independent fresh-session Fable 5 @ high re-review** → **Opus 4.8 @ xhigh cross-review** (its flaw-spotting strength), plus every applicable automated gate | Opus 4.8 @ max, **two** independent review passes, slower cadence; no T1 merge skips the extra pass | Flaws are catastrophic, hard to detect, or irreversible |
+| **T2 — MAX-designs / STD-builds** | **Fable 5 @ high** writes the contract (spec, header, state machine, test vectors, RFC); implementation on **Fable 5 @ medium** *or* **Opus 4.8 @ xhigh** (≈ cost parity, §1.3 — pick by capacity); **Fable 5 @ medium** reviews the diff once | Opus 4.8 @ xhigh designs; Opus 4.8 @ high builds; extra review pass | Hard design, routine construction |
+| **T3 — STD-standard** | **Fable 5 @ low–medium** *or* **Opus 4.8 @ high** end-to-end; automated gates + spot human review | Opus 4.8 @ high (no change) | Well-specified work with strong verification |
+| **T4 — STD-mechanical** | **Opus 4.8 @ low–medium**, batched (cheapest floor, §1.3.2); gates only | No change | Mechanical, fully checkable by tooling |
+
+A tier is a *floor* for scrutiny, not a ceiling: anything may be escalated (§8), nothing on T1 may be demoted without a decisions-log entry. Within a tier, **tune effort before switching model** (§1.3).
 
 ## 3. Allocation principles — what actually drives tier choice
 
@@ -123,8 +167,9 @@ Re-tier a story **upward immediately** when any of these fire mid-flight:
 4. **Novel deviation from upstream** — any point where we diverge from documented Reticulum/LXMF/Meshtastic/ESP-IDF behaviour.
 5. **Reviewer unease** — a MAX review flags "correct but fragile" → the *next* story in that area starts at T2.
 6. **Incident/regression in the field or HIL soak** — root-cause analysis is always T1.
+7. **Classifier refusal on a T1/T2 task** — not a demotion event: reframe and re-run on Fable 5 per §1.4.1. Only a *repeated* refusal after defensive-context reframing triggers a conscious, logged decision on how the work proceeds.
 
-Demotion is allowed only story-by-story, only one tier, and never out of T1 domains (§5 column 2 lists the floor).
+Demotion is allowed only story-by-story, only one tier, and never out of T1 domains (§5 column 2 lists the floor). **Effort demotion inside a tier** (e.g. Fable 5 high → medium on a T2 build) is allowed freely when evals/gates hold — that is the intended §1.3 savings lever.
 
 ## 9. Cost-efficiency playbook
 
@@ -135,16 +180,19 @@ Demotion is allowed only story-by-story, only one tier, and never out of T1 doma
 5. **Never use STD to check what only reasoning can catch** — STD self-review of crypto/races is a false economy; that is what T1 review passes are for.
 6. **Spike-then-build** — for novel areas (HaLow, bearer scheduling) run a small MAX spike producing a design note; STD builds from the note. Cheaper than MAX building or STD flailing.
 7. **Verification investment compounds** — every T1 hour spent on vectors/fuzzers/simulators permanently lowers the tier needed for all future work in that area. When in doubt, spend MAX on the *oracle*, not the code.
+8. **Effort before model** — the cheapest capability downgrade is Fable 5 at a lower effort, not a model switch (§1.3): it keeps Fable's knowledge depth and long-horizon coherence while cutting tokens. Reserve the model switch for the T4 floor and volume batches.
+9. **Exploit prompt caching and batch pricing** — 90% cached-input discount on both models rewards stable, contract-shaped prompts (another reason contracts-first wins); Opus 4.8 batch mode halves T4 bulk work again.
+10. **Cross-model review is nearly free insurance** — an Opus 4.8 @ xhigh diff review costs a fraction of the Fable generation it checks, and Opus 4.8 is measurably strong at flagging flaws in code; use it as the second pair of eyes on every T1 merge (§2).
 
 ## 10. Review matrix
 
 | Work produced by | Reviewed by | Gate |
 |------------------|-------------|------|
-| STD, T4 | Tooling only | lint-docs, index `--check`, CI build |
-| STD, T3 | Tooling + STD self-review; MAX spot-samples ~1 in 5 in security-adjacent areas | CI + HIL where applicable |
-| STD, T2 | **MAX diff review, once, against the contract** | CI + conformance vectors |
-| MAX, T1 | **Independent MAX re-review in a fresh session** (no shared context anchoring) + all gates + human sign-off for wg-security paths per CONTRIBUTING §9 | KATs, vectors, fuzz soak |
-| Anything touching `components/ss_crypto/**`, `bootloader/**`, `provisioning/**`, `ota/**`, `protocol/**` | MAX review regardless of author tier | 2 CODEOWNER + wg-security rule |
+| T4 (Opus 4.8 @ low–med) | Tooling only | lint-docs, index `--check`, CI build |
+| T3 (Fable 5 @ low–med or Opus 4.8 @ high) | Tooling + self-review; Fable 5 @ medium spot-samples ~1 in 5 in security-adjacent areas | CI + HIL where applicable |
+| T2 build (Fable 5 @ med or Opus 4.8 @ xhigh) | **Fable 5 @ medium diff review, once, against the contract** | CI + conformance vectors |
+| T1 (Fable 5 @ xhigh/max) | **Independent Fable 5 re-review in a fresh session** (no shared context anchoring) + **Opus 4.8 @ xhigh cross-review** (model diversity; Opus is a demonstrably strong flaw-spotter) + human sign-off for wg-security paths per CONTRIBUTING §9 | KATs, vectors, fuzz soak |
+| Anything touching `components/ss_crypto/**`, `bootloader/**`, `provisioning/**`, `ota/**`, `protocol/**` | Fable 5 review regardless of author tier | 2 CODEOWNER + wg-security rule |
 
 ## 11. Near-term concrete assignments (M0–M1 queue)
 
@@ -175,4 +223,4 @@ The immediate story queue, tiered:
 
 ## 12. Maintenance rule
 
-This document is re-validated at every milestone exit and whenever an escalation trigger (§8) fires twice in the same epic — the second firing means the epic's default tier is wrong; correct it here and record the change in `governance/decisions.md` if it moves work out of T1. Model names are examples of the current MAX/STD pairing; when the available models change, re-map the tiers to the new pair — the tier logic (§3) is model-agnostic and does not change.
+This document is re-validated at every milestone exit and whenever an escalation trigger (§8) fires twice in the same epic — the second firing means the epic's default tier is wrong; correct it here and record the change in `governance/decisions.md` if it moves work out of T1. The concrete facts in §1.1–§1.4 (pricing, benchmarks, effort behavior, availability, refusal rates) are a snapshot dated 2026-07 and must be re-researched whenever either model is superseded or repriced; the tier logic (§3) is model-agnostic and does not change — only the (model @ effort) recipes in §2 get re-mapped.
