@@ -8,15 +8,19 @@
 #   make lite | alpha | omega     build firmware for that board
 #   make flash-<board>            build + flash (e.g. make flash-lite)
 #   make clean-<board>            remove that board's build dir
+#   make lint-docs                lint markdown docs (links, anchors, SPDX, TOCs)
 #   make help                     this text
 
 FIRMWARE_DIR := firmware
 BOARDS       := lite alpha omega
 
-.PHONY: help $(BOARDS) $(addprefix flash-,$(BOARDS)) $(addprefix clean-,$(BOARDS))
+.PHONY: help lint-docs $(BOARDS) $(addprefix flash-,$(BOARDS)) $(addprefix clean-,$(BOARDS))
 
 help:
 	@sed -n 's/^#   //p' Makefile
+
+lint-docs:
+	python3 tools/lint-docs.py
 
 $(BOARDS):
 	cd $(FIRMWARE_DIR) && idf.py -B build/$@ -DSS_BOARD=$@ build

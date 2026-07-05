@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # Contributing to SS-SP
 
 Thank you for your interest in contributing. SS-SP is a governance-driven, standards-track project; the rules below exist to keep the codebase legally safe, secure, and welcoming.
@@ -27,8 +28,16 @@ Quick start (Lite firmware):
 ```bash
 # ESP-IDF v5.3+
 . $IDF_PATH/export.sh
-idf.py -B build/lite -DBOARD=lite build
+make lite          # wraps: idf.py -B build/lite -DSS_BOARD=lite build
 ```
+
+No local ESP-IDF? Use the digest-pinned container instead — one `docker run`
+command, documented in [`docs/dev/BUILDING.md`](./docs/dev/BUILDING.md).
+
+**WSL2 users:** the Docker daemon must be started after every WSL restart
+(`sudo service docker start`), and USB flashing requires attaching the serial
+adapter from Windows with `usbipd-win` — both covered in
+[`docs/dev/BUILDING.md`](./docs/dev/BUILDING.md#wsl2-environment-notes).
 
 Companion apps: see `companion/README.md`.
 Cloud: see `cloud/README.md`.
@@ -51,6 +60,8 @@ Cloud: see `cloud/README.md`.
 ## 4. DCO — required on every commit
 
 Add `Signed-off-by: Your Name <your@email>` to every commit message. `git commit -s` does this automatically. By signing, you certify the [Developer Certificate of Origin 1.1](https://developercertificate.org).
+
+**Identity rule:** the sign-off must use your real name and a reachable email — the DCO is a personal legal certification, so role accounts, pseudonymous handles, and project aliases (e.g. `SS-SP Project <dev@ss-sp.org>`) are not acceptable sign-off identities. Configure once with `git config user.name` / `git config user.email` and never override them per-commit.
 
 The `dco` CI check (`.github/workflows/dco.yml`) fails any PR containing an unsigned commit, and it is a required status check on `main` — unsigned commits cannot merge.
 

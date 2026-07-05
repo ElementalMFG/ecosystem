@@ -1,9 +1,28 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # SS‑SP Protocol Stack — Wire Format, Bridging, Transports
 **Status:** Draft‑1 (normative for reference implementation)
 **Owner:** SS‑SP TSC
 **Companion docs:** `00_MASTER_SOFTWARE_PLAN.md`, `01_SS-SP_LITE_HARDWARE_REFERENCE.md`
 
 ---
+
+## Table of contents
+
+- [0. Design goals](#0-design-goals)
+- [1. Layered view (recap)](#1-layered-view-recap)
+- [2. Identity](#2-identity)
+- [3. Reticulum as the routing spine (L4)](#3-reticulum-as-the-routing-spine-l4)
+- [4. Application protocol layer (L5)](#4-application-protocol-layer-l5)
+- [5. Data plane (L3)](#5-data-plane-l3)
+- [6. Transport / bearer specifics (L2)](#6-transport--bearer-specifics-l2)
+- [7. Cryptography](#7-cryptography)
+- [8. Time](#8-time)
+- [9. Quality of Service (QoS)](#9-quality-of-service-qos)
+- [10. Fuzz + conformance](#10-fuzz--conformance)
+- [11. Extending the protocol — RFC process](#11-extending-the-protocol--rfc-process)
+- [12. Sequence examples](#12-sequence-examples)
+- [13. Open items / to be RFC'd](#13-open-items--to-be-rfcd)
+- [14. Summary](#14-summary)
 
 ## 0. Design goals
 

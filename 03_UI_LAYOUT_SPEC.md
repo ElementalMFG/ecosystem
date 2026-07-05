@@ -1,9 +1,27 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # SS‑SP Universal UI — Layout Engine Specification
 **Status:** Draft‑1 (normative)
 **Scope:** `ss_ui` layout engine on LVGL 9.x
 **Purpose:** Single UI codebase renders faithfully on every SS‑SP form factor — 3.5" rect (Lite), 2.4" landscape + 12‑LED bezel (Alpha), round watch‑style 240×240 / 320×320, tall bar 128×320, 4.3–7.0" HMI panels, e‑ink 128×296, and future HMD monochrome.
 
 ---
+
+## Table of contents
+
+- [1. Design principles](#1-design-principles)
+- [2. Layout descriptor (the runtime contract)](#2-layout-descriptor-the-runtime-contract)
+- [3. Design tokens](#3-design-tokens)
+- [4. Layout primitives](#4-layout-primitives)
+- [5. Multi‑surface output](#5-multisurface-output)
+- [6. Input abstraction](#6-input-abstraction)
+- [7. Widget rules](#7-widget-rules)
+- [8. Screen inventory (v1)](#8-screen-inventory-v1)
+- [9. Motion, sound, haptics](#9-motion-sound-haptics)
+- [10. Accessibility](#10-accessibility)
+- [11. Internationalization](#11-internationalization)
+- [12. Testing](#12-testing)
+- [13. Files and modules](#13-files-and-modules)
+- [14. Summary](#14-summary)
 
 ## 1. Design principles
 

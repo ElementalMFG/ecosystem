@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # SS-SP (Seekie‑Speakie Smart Pager) — Master Software Plan
 **Scope:** Universal software system for the SS‑SP device family
 **First target:** SS‑SP **Lite** (Elecrow CrowPanel Advance 3.5" HMI Meshtastic edition — ESP32‑S3‑WROOM‑1‑N16R8, ILI9488 480×320 IPS + GT911, SX1262 LoRa, I²S mic/spk, microSD)
@@ -17,6 +18,24 @@
 - `docs/TRADEMARK.md` — trademark policy.
 
 ---
+
+## Table of contents
+
+- [0. Executive Summary](#0-executive-summary)
+- [1. Product Assessment — What SS‑SP Actually Is](#1-product-assessment--what-sssp-actually-is)
+- [2. Full Feature & Capability Inventory (What This HW Can Actually Do)](#2-full-feature--capability-inventory-what-this-hw-can-actually-do)
+- [3. Software Architecture — Layered, Universal, Future‑Hardened](#3-software-architecture--layered-universal-futurehardened)
+- [4. HaLow + Reticulum Integration — the Hard Part](#4-halow--reticulum-integration--the-hard-part)
+- [5. UI Framework — Universal Multi‑Aspect Design](#5-ui-framework--universal-multiaspect-design)
+- [6. Security, OTA, Hardening](#6-security-ota-hardening)
+- [7. Cross‑Cutting Concerns](#7-crosscutting-concerns)
+- [8. Recommended Repo & Codebase Layout](#8-recommended-repo--codebase-layout)
+- [9. Meshtastic Fork Strategy — Decision Matrix](#9-meshtastic-fork-strategy--decision-matrix)
+- [10. Business / Logistics / Governance](#10-business--logistics--governance)
+- [11. Roadmap — Ordered, No Time Estimates](#11-roadmap--ordered-no-time-estimates)
+- [12. Immediate Next Actions (What to Do This Week)](#12-immediate-next-actions-what-to-do-this-week)
+- [13. Open Questions to Confirm Before Coding](#13-open-questions-to-confirm-before-coding)
+- [14. Guiding Principles (nail these to the door)](#14-guiding-principles-nail-these-to-the-door)
 
 ## 0. Executive Summary
 

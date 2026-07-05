@@ -5,6 +5,21 @@
 
 ---
 
+## Table of contents
+
+- [0. TL;DR](#0-tldr)
+- [1. Why "open from day one" instead of "open later"](#1-why-open-from-day-one-instead-of-open-later)
+- [2. What is community edition vs. commercial edition](#2-what-is-community-edition-vs-commercial-edition)
+- [3. Revenue streams — concrete list](#3-revenue-streams--concrete-list)
+- [4. Anti-rug-pull binding rules](#4-anti-rug-pull-binding-rules)
+- [5. Fair-source practical notes](#5-fair-source-practical-notes)
+- [6. Certification program (`SS-SP-Certified`)](#6-certification-program-ss-sp-certified)
+- [7. Data protection & user trust as a business asset](#7-data-protection--user-trust-as-a-business-asset)
+- [8. Transparency deliverables (published on every release)](#8-transparency-deliverables-published-on-every-release)
+- [9. Governance-money interaction rules](#9-governance-money-interaction-rules)
+- [10. If we run out of money](#10-if-we-run-out-of-money)
+- [11. What "success" means](#11-what-success-means)
+
 ## 0. TL;DR
 
 - **We are an open-source hardware company, not a closed-source software company.**

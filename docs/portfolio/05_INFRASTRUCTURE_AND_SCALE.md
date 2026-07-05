@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # 05 — Infrastructure, Scale & Revenue Architecture
 
 Status: DRAFT for wg-arch + wg-biz review

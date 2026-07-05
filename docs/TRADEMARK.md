@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # SS-SP Trademark Policy
 
 *Draft — to be ratified at v1.0 and re-affirmed at Phase 2 foundation transition.*

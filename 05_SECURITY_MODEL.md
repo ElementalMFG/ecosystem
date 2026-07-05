@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # 05 — SS-SP SECURITY MODEL
 
 > **Scope.** Threat model, cryptographic primitives, key hierarchy, identity, secure boot & OTA chain, factory provisioning, plugin sandbox, privacy posture, incident response, and compliance for the entire SS-SP program (Lite, Alpha, Omega, OEM).
@@ -7,6 +8,26 @@
 > **Non-goals.** This document does not attempt to defend against nation-state-grade side-channel attacks with unlimited physical access. It defends against realistic mission threats: theft, tampering, MITM, replay, jamming, imposter beacons, malware sideloading, supply-chain implants, and mass-scale traffic analysis.
 
 ---
+
+## Table of contents
+
+- [0. TL;DR](#0-tldr)
+- [1. Threat Model](#1-threat-model)
+- [2. Cryptographic Primitives (Approved Profile)](#2-cryptographic-primitives-approved-profile)
+- [3. Identity & Key Hierarchy](#3-identity--key-hierarchy)
+- [4. Messaging Encryption](#4-messaging-encryption)
+- [5. Secure Boot & Flash Encryption](#5-secure-boot--flash-encryption)
+- [6. OTA Update Chain](#6-ota-update-chain)
+- [7. Factory Provisioning](#7-factory-provisioning)
+- [8. User Authentication & Duress](#8-user-authentication--duress)
+- [9. Runtime Sandboxing & Plugins](#9-runtime-sandboxing--plugins)
+- [10. Network / Transport Security](#10-network--transport-security)
+- [11. Storage Security & Data Retention](#11-storage-security--data-retention)
+- [12. Privacy Posture](#12-privacy-posture)
+- [13. Vulnerability Disclosure & Incident Response](#13-vulnerability-disclosure--incident-response)
+- [14. Regulatory & Compliance Alignment](#14-regulatory--compliance-alignment)
+- [15. Testing & Assurance](#15-testing--assurance)
+- [16. Summary — Non-Negotiable Security Bindings](#16-summary--non-negotiable-security-bindings)
 
 ## 0. TL;DR
 

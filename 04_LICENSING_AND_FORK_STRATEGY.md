@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # 04 — SS-SP LICENSING & FORK STRATEGY (Commercial-Sale Grade)
 
 > **Purpose.** This is the binding decision document that determines *what open-source components the SS-SP program will and will not adopt, fork, or link against*, given that **we are commercially selling hardware devices** containing this software. It supersedes any earlier informal statements in `00_MASTER_SOFTWARE_PLAN.md` §9.
@@ -11,6 +12,20 @@
 > 5. Does not entangle us in patent traps, field-of-use restrictions, or "ethical use" clauses that a large fleet customer's legal team will refuse to accept.
 
 ---
+
+## Table of contents
+
+- [0. TL;DR — Executive Decision](#0-tldr--executive-decision)
+- [1. Why This Matters (Legal Primer for the Program)](#1-why-this-matters-legal-primer-for-the-program)
+- [2. Verified License Inventory of Candidate Components](#2-verified-license-inventory-of-candidate-components)
+- [3. The Meshtastic Question — Full Decision Matrix](#3-the-meshtastic-question--full-decision-matrix)
+- [4. The Reticulum Question](#4-the-reticulum-question)
+- [5. SS-SP's Own Licensing Structure](#5-ss-sps-own-licensing-structure)
+- [6. The "Do we build from scratch or reuse?" — Practical Answer](#6-the-do-we-build-from-scratch-or-reuse--practical-answer)
+- [7. Contribution & IP Hygiene (mandatory for the repo)](#7-contribution--ip-hygiene-mandatory-for-the-repo)
+- [8. Failure Modes We Are Explicitly Avoiding](#8-failure-modes-we-are-explicitly-avoiding)
+- [9. Renewal & Review](#9-renewal--review)
+- [10. Summary of Bindings for the Rest of the Program](#10-summary-of-bindings-for-the-rest-of-the-program)
 
 ## 0. TL;DR — Executive Decision
 

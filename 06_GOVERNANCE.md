@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # 06 — SS-SP GOVERNANCE, RFC PROCESS, & FOUNDATION MODEL
 
 > **Scope.** How SS-SP is governed as an open, commercially-sold, standards-track project: decision-making, contribution flow, RFC/versioning process, trademark stewardship, security-response governance, foundation transition path, and commercial-alignment rules.
@@ -10,6 +11,23 @@
 > - Commercially healthy: a vendor entity can invest in it and sell hardware without hidden legal traps.
 
 ---
+
+## Table of contents
+
+- [0. TL;DR](#0-tldr)
+- [1. Governance Phases (roadmap of the project itself)](#1-governance-phases-roadmap-of-the-project-itself)
+- [2. Steering Committee (SC)](#2-steering-committee-sc)
+- [3. Working Groups (WGs)](#3-working-groups-wgs)
+- [4. RFC Process](#4-rfc-process)
+- [5. Contribution Model](#5-contribution-model)
+- [6. Release Management](#6-release-management)
+- [7. Security Response Team (SRT)](#7-security-response-team-srt)
+- [8. Code of Conduct](#8-code-of-conduct)
+- [9. Trademarks & Branding](#9-trademarks--branding)
+- [10. Commercial Alignment Rules](#10-commercial-alignment-rules)
+- [11. Financial Model (sketch, not final)](#11-financial-model-sketch-not-final)
+- [12. Reference Architecture Docs Cross-References](#12-reference-architecture-docs-cross-references)
+- [13. Adoption](#13-adoption)
 
 ## 0. TL;DR
 

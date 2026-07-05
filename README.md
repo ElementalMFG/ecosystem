@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # SS-SP — Seekie-Speakie Smart Pager
 
 > Sovereign, mesh-native, off-grid smart pager platform.
@@ -74,12 +75,14 @@ assets/              Fonts, icons, sounds, logos
 
 ## Building — Lite (first target)
 
-Requires ESP-IDF v5.3+ and Python 3.10+. See [`docs/dev/BUILDING.md`](./docs/dev/BUILDING.md) once produced.
+Requires ESP-IDF v5.3+ and Python 3.10+ (or just Docker — see
+[`docs/dev/BUILDING.md`](./docs/dev/BUILDING.md) for the reproducible
+container path).
 
 ```bash
 # From repo root
-idf.py -B build/lite -DBOARD=lite build
-idf.py -B build/lite -p /dev/ttyUSB0 flash monitor
+make lite                                   # wraps: idf.py -B build/lite -DSS_BOARD=lite build
+cd firmware && idf.py -B build/lite -p /dev/ttyUSB0 flash monitor
 ```
 
 ## Contributing

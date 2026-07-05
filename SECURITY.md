@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # Security Policy
 
 The SS-SP project takes security seriously. Devices are used in emergencies; regressions cost lives. Please help us keep the ecosystem safe.

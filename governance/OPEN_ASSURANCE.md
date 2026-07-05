@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # Open Assurance Statement
 
 *Signed public commitments by the SS-SP founding vendor entity to the community and to future contributors and customers. Anchored in the transparency log at first release.*

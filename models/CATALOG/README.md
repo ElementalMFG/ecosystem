@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # On-Device Model Catalog
 
 This directory hosts the manifests for every on-device model shipped by SS-SP. Each model has a `PROVENANCE.md` describing:

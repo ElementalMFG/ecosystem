@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # 06 — Competitive Landscape & Anti-Fragmentation Strategy
 
 Status: DRAFT for wg-arch + wg-biz review

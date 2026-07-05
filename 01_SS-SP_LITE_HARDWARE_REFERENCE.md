@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # SS‑SP Lite — Authoritative Hardware & Software Reference
 **Physical device:** Elecrow CrowPanel Advance 3.5" HMI ESP32 AI Display (Meshtastic edition)
 **Board revs supported:** V1.2, V1.3, V1.4 (current)
@@ -15,6 +16,22 @@
 - [ESPHome feature request — SC7277/GT911 CrowPanel Advance driver notes](https://github.com/esphome/feature-requests/issues/3034)
 
 ---
+
+## Table of contents
+
+- [1. Device Identity](#1-device-identity)
+- [2. Core Silicon (Bill of Materials — verified)](#2-core-silicon-bill-of-materials--verified)
+- [3. Definitive GPIO Map (source‑verified)](#3-definitive-gpio-map-sourceverified)
+- [4. Software Stack — Fitting the SS‑SP Universal Architecture](#4-software-stack--fitting-the-sssp-universal-architecture)
+- [5. Bring‑up Sequence (Lite v1)](#5-bringup-sequence-lite-v1)
+- [6. Legal / Licensing Notes Specific to Lite](#6-legal--licensing-notes-specific-to-lite)
+- [7. Known Hardware Limitations (design around them)](#7-known-hardware-limitations-design-around-them)
+- [8. Documents to Retrieve and Vendor Locally](#8-documents-to-retrieve-and-vendor-locally)
+- [9. Delta from the Master Plan](#9-delta-from-the-master-plan)
+- [10. What "Universal Yet Lite‑First" Means in Practice](#10-what-universal-yet-litefirst-means-in-practice)
+- [11. Sign‑off Checklist Before Coding](#11-signoff-checklist-before-coding)
+- [12. Appendix — Delta Record: External "Master Project Directive" vs Verified Hardware](#12-appendix--delta-record-external-master-project-directive-vs-verified-hardware)
+- [13. One‑Line Summary](#13-oneline-summary)
 
 ## 1. Device Identity
 

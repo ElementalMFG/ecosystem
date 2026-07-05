@@ -5,6 +5,25 @@
 
 ---
 
+## Table of contents
+
+- [0. TL;DR](#0-tldr)
+- [1. Bearer inventory and role](#1-bearer-inventory-and-role)
+- [2. The SS-Link abstraction](#2-the-ss-link-abstraction)
+- [3. Bearer selection algorithm](#3-bearer-selection-algorithm)
+- [4. Reticulum as the universal routing substrate](#4-reticulum-as-the-universal-routing-substrate)
+- [5. LXMF as the universal message layer](#5-lxmf-as-the-universal-message-layer)
+- [6. Meshtastic wire compatibility](#6-meshtastic-wire-compatibility)
+- [7. Home Gateway Mode — the marquee feature](#7-home-gateway-mode--the-marquee-feature)
+- [8. Multi-radio simultaneous operation](#8-multi-radio-simultaneous-operation)
+- [9. Decentralisation guarantees](#9-decentralisation-guarantees)
+- [10. UX rules — how it feels to a user](#10-ux-rules--how-it-feels-to-a-user)
+- [11. Testability and telemetry](#11-testability-and-telemetry)
+- [12. Failure modes and mitigations](#12-failure-modes-and-mitigations)
+- [13. Roadmap alignment](#13-roadmap-alignment)
+- [14. What we explicitly do not do](#14-what-we-explicitly-do-not-do)
+- [15. Cross-references](#15-cross-references)
+
 ## 0. TL;DR
 
 - One unified network layer, **SS-Link**, sits above every radio.
