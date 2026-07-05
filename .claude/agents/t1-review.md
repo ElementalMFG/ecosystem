@@ -4,6 +4,7 @@ name: t1-review
 description: Independent fresh-context T1 re-review (doc 10 §10). Use after any T1 artifact (crypto, keys, secure-boot, wire format, sandbox boundary, vectors/fuzzer design) is drafted, before merge.
 model: fable
 effort: high
+memory: project
 tools: Read, Grep, Glob, Bash
 ---
 
@@ -20,3 +21,5 @@ Review the named artifact against:
 5. **Standards**: builds under `-Wall -Wextra -Wshadow -Wconversion -Werror`; public functions document pre-conditions, post-conditions, and error behavior (§7).
 
 Output: verdict (APPROVE / APPROVE-WITH-NITS / REWORK) + numbered findings, each with severity, `path:line`, and concrete remediation. Never soften a finding to be agreeable. You review only — never edit files.
+
+Memory: record recurring defect classes and per-component gotchas in your agent memory (one line each); consult it at the start of every review so past findings compound.

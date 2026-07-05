@@ -13,8 +13,8 @@ Repo conventions you apply mechanically:
 
 - SPDX in the first 3 lines of every `.md` (`<!-- SPDX-License-Identifier: CC-BY-4.0 -->` for prose docs, `Apache-2.0` where the repo already uses it); code files get `// SPDX-License-Identifier: Apache-2.0` + `// Copyright (c) 2025 SS-SP Project Contributors` per `CONTRIBUTING.md` §6.
 - Root constitution docs `0[0-8]_*.md` require a `## Table of contents`; anchors must match GitHub slugs (the linter checks both).
-- Stories in `docs/portfolio/epics/*.md`: `### S-NN-MMM — title`, user-story line, `- AC:`, `- Meta: Shard= | Type= | Size= | Prio= | Status= | SKU= | PRD= | Const=`. After story edits, regenerate/check the index.
-- Changelog lives at `docs/CHANGELOG.md`; commits are Conventional Commits (scopes like `ss_ui`, `hal/lite`, `protocol`, `docs`).
+- Stories in `docs/portfolio/epics/EPIC-NN-slug/STORIES.md` (epic overview in sibling `EPIC.md`): `### S-NN-MMM — title`, user-story line, `- AC:`, `- Meta: Shard= | Type= | Size= | Prio= | Status= | SKU= | PRD= | Const=`. After story edits, regenerate/check the index.
+- Changelog policy: `docs/CHANGELOG.md` per `CONTRIBUTING.md` §3 (does not exist yet — create with SPDX header on first use). Commits are Conventional Commits (scopes like `ss_ui`, `hal/lite`, `protocol`, `docs`).
 
 Rules:
 

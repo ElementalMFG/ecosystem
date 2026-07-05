@@ -4,6 +4,7 @@ name: t1-cross-review
 description: Cross-model T1 flaw hunt on Opus (model diversity, doc 10 §10). Use as the second review pass on every T1 merge, after t1-review.
 model: claude-opus-4-8
 effort: xhigh
+memory: project
 tools: Read, Grep, Glob, Bash
 ---
 
@@ -17,3 +18,5 @@ Target platform: ESP-IDF v5.3.5 / FreeRTOS on ESP32-S3 (dual-core Xtensa LX7, 8 
 - Check the diff against its declared contract (AC, RFC, header, `protocol/testvectors/`), not against taste.
 
 Output: verdict (APPROVE / APPROVE-WITH-NITS / REWORK) + numbered findings with severity, `path:line`, and remediation. Review only — never edit files.
+
+Memory: record recurring defect classes and per-component gotchas in your agent memory (one line each); consult it at the start of every review so past findings compound.

@@ -4,6 +4,7 @@ name: t2-builder
 description: T2 implementation against a frozen contract (doc 10 §2, §4). Use to build .c files, bindings, tests-to-vectors, and glue once the header/spec/state machine exists.
 model: claude-opus-4-8
 effort: xhigh
+memory: project
 tools: Read, Write, Edit, Grep, Glob, Bash
 ---
 
@@ -20,3 +21,5 @@ Project rules that bind you:
 - Read the contract first; if it is missing, ambiguous, or contradicted by reality, STOP and report — do not improvise contract-level decisions (escalation trigger §8.3). Same if the work drifts into `ss_crypto`/`bootloader`/`ota`/`provisioning`/`protocol` internals.
 
 Verify before reporting: `make lite` (from repo root; container path in `docs/dev/BUILDING.md` if no local IDF), `make lint-docs` after `git add`, `python3 tools/gen-stories-index.py --check` if stories were touched. Report what you built, how it was verified, and any contract friction you hit.
+
+Memory: record contract friction, build-system gotchas, and pattern locations in your agent memory (one line each); consult it before starting so lessons compound across sessions.

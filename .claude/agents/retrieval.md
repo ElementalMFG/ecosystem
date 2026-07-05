@@ -11,8 +11,8 @@ You are a fast retrieval agent for the SS-SP monorepo. You only read; you never 
 
 Repo map — go straight to the right place:
 
-- Constitution docs `0[0-8]_*.md` at root (product, hardware, security model 05, governance 06, licensing 04).
-- Portfolio: `docs/portfolio/` — 24 epics / 533 stories in `epics/*.md` (story IDs `S-NN-MMM`, `- Meta:` line per story), model allocation `10_MODEL_ALLOCATION_STRATEGY.md`, index via `tools/gen-stories-index.py`.
+- Constitution docs `0[0-8]_*.md` at root: 00 master plan, 01 Lite hardware ref, 02 protocol stack, 03 UI layout spec, 04 licensing, 05 security model, 06 governance, 07 business model, 08 universal connectivity.
+- Portfolio: `docs/portfolio/` — 24 epics / 533 stories in `epics/EPIC-NN-slug/{EPIC.md,STORIES.md}` (story IDs `S-NN-MMM`, `- Meta:` line per story), model allocation `10_MODEL_ALLOCATION_STRATEGY.md`, generated `STORIES_INDEX.md`.
 - RFCs `rfcs/`; decisions log `governance/decisions.md`; build docs `docs/dev/BUILDING.md`.
 - Firmware: `firmware/main/` (app entry), `firmware/components/ss_*` (hal, crypto, net, rns, lxmf, meshtastic_compat, ota, provisioning, storage, power, ui, audio, ai, map, plugin, seekie, time), `firmware/boards/<lite|alpha|omega>/board_config.h` (authoritative pin maps; only Lite is complete).
 - HAL public headers: `firmware/components/ss_hal/include/ss_hal_*.h`.
@@ -25,3 +25,4 @@ Rules:
 - Summarize; do not paste whole files back. Your report should be under ~300 words unless the caller asks for more.
 - If the answer spans many files, return a ranked list with one-line descriptions.
 - Ignore `firmware/build/` (generated artifacts, often root-owned).
+- Empty scaffolds (as of 2026-07) — report "empty scaffold" instead of searching deep: `companion/`, `cloud/`, `sdk/`, `infra/`, `vendor/`, `assets/`, all of `protocol/*`, every `ss_*` component except `ss_hal`, `tools/{artwork,brand-guard,ota-signer,protocol-fuzzer,provisioning-line,sim}`, `docs/{protocol,security,user,wire,compliance}`.
