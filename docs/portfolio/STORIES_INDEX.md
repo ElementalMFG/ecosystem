@@ -43,8 +43,8 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
-| S-02-001 | A | Feature | M | P0 | READY | ★ | NF-SUS-03 | C-00 |
-| S-02-002 | A | Feature | M | P0 | READY | ★ | — | C-00 |
+| S-02-001 | A | Feature | M | P0 | DONE | ★ | NF-SUS-03 | C-00 |
+| S-02-002 | A | Feature | M | P0 | DONE | ★ | — | C-00 |
 | S-02-003 | B | Feature | S | P0 | DONE | L | — | C-00,C-01 |
 | S-02-004 | B | Feature | S | P0 | DRAFT | A | — | C-00 |
 | S-02-005 | B | Feature | S | P0 | DRAFT | O | — | C-00 |
@@ -721,8 +721,8 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | Status | Count |
 |---|---|
 | DRAFT | 522 |
-| READY | 3 |
-| DONE | 8 |
+| READY | 1 |
+| DONE | 10 |
 
 ---
 

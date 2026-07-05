@@ -56,7 +56,7 @@ Status vocabulary: `TODO` → `IN-PROGRESS` → `DONE`. Cost bands: `$` <500, `$
 
 | VA | Action | Unblocks | Cost | Status |
 |---|---|---|---|---|
-| VA-01 | Provide the pinned firmware toolchain: pull the digest-pinned `espressif/idf` v5.3.5 container (see `ci/containers/firmware/Dockerfile`) **or** install ESP-IDF v5.3.5 natively. Verification = `idf.py build` green from a clean container. | S-02-001 final gate; every firmware story | $ (free) | IN-PROGRESS — container digest pinned; first containerized build being verified |
+| VA-01 | Provide the pinned firmware toolchain: pull the digest-pinned `espressif/idf` v5.3.5 container (see `ci/containers/firmware/Dockerfile`) **or** install ESP-IDF v5.3.5 natively. Verification = `idf.py build` green from a clean container. | S-02-001 final gate; every firmware story | $ (free) | DONE — digest-pinned container pulled; clean containerized `idf.py build` green for Lite (`ss_sp_firmware.bin`, 292 KB); unknown-board and `BOARD` env paths verified |
 | VA-02 | Create the GitHub organization; push this repo; enable branch protection on `main` (required checks: `firmware-build`, `dco`), CODEOWNERS mapping paths→WGs, two-approver rule; install/enable DCO enforcement (workflow present at `.github/workflows/dco.yml` — mark it a required check). | S-01-007 enforcement, S-01-012, S-02-001 CI, all merges | $ (free) | TODO |
 | VA-03 | Purchase M1 demo hardware: 2× Elecrow CrowPanel Advance 3.5″ (ESP32-S3) + 2× LoRa modules per `01_SS-SP_LITE_HARDWARE_REFERENCE.md`, plus cables/antennas. | M1 exit demo; EPIC-03 HIL; S-22 on-target tests | $ | TODO |
 | VA-04 | Generate the security-intake keypair(s) — age **and** PGP — on human-custodied hardware (ideally a hardware token; never inside a dev container or CI). Publish fingerprints in `SECURITY.md` §PGP key and at `security.ss-sp.org`. Store revocation certificates offline. | S-01-005 final gate; vulnerability intake | $ | TODO |
@@ -129,7 +129,7 @@ No dimension exists outside these two registers. If one is discovered, it gets a
 
 1. ~~`git init` + initial commit of the certified portfolio + scaffold~~ — done alongside this document.
 2. **S-01-004 / S-01-005 / S-01-007** — executed to the limit of Class 1 (S-01-005 remains gated on VA-04 keys).
-3. **S-02-001 / S-02-002** — devcontainer + digest-pinned Dockerfile + CI workflow + board-selecting build wrapper created; final gate = green containerized build (VA-01).
+3. **S-02-001 / S-02-002** — DONE: devcontainer + digest-pinned Dockerfile + CI workflow + board-selecting build wrapper; containerized build verified green (VA-01 DONE).
 4. **VA-02** (GitHub org + branch protection) and **VA-03** (order two Lite boards) — the two highest-leverage human actions; both are prerequisites for nothing-blocked M1 execution.
 5. Then: promote EPIC-02 P0 DRAFT stories (RTOS baseline, logging, storage, power) to READY and execute in DAG order toward the M1 demo.
 

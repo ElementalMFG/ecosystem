@@ -9,5 +9,5 @@ idf_component_register(
         "ss_compass.cpp"
         "ss_diag.cpp"
     INCLUDE_DIRS "."
-    REQUIRES hal driver esp_lcd esp_timer nvs_flash
+    REQUIRES ss_hal driver esp_lcd esp_timer nvs_flash
 )

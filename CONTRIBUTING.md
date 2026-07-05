@@ -105,7 +105,7 @@ Keep commits small and focused. Squash-merge is default; multi-commit merges are
 ## 9. Reviews
 
 - Every PR needs at least 1 CODEOWNER approval.
-- Security-sensitive paths (`components/hal/**`, `firmware/security/**`, `bootloader/**`, `protocol/**`, `ota/**`, `provisioning/**`, `components/ss_crypto/**`) require **2 CODEOWNER approvals + wg-security sign-off**.
+- Security-sensitive paths (`components/ss_hal/**`, `firmware/security/**`, `bootloader/**`, `protocol/**`, `ota/**`, `provisioning/**`, `components/ss_crypto/**`) require **2 CODEOWNER approvals + wg-security sign-off**.
 - Reviewers: focus on correctness, safety, license, tests, docs — in that order.
 - Maintainers: never merge your own PR unless it is a trivial doc/typo fix.
 

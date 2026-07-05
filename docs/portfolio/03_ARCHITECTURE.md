@@ -91,7 +91,7 @@ Task priorities set to guarantee SOS beacon path preempts non-emergency work. Fu
 ## 3. HAL
 
 ### 3.1 Header contracts (already in tree)
-See `firmware/components/hal/include/`.
+See `firmware/components/ss_hal/include/`.
 
 Every subsystem exposes:
 - `esp_err_t init(void)` / `esp_err_t deinit(void)`

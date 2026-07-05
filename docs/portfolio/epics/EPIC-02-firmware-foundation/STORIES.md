@@ -8,12 +8,12 @@ Format per `../../00_METHODOLOGY.md` §2.7. Meta lines are machine-parsed.
 ### S-02-001 — Pin ESP-IDF v5.x + provide reproducible build container
 As a firmware engineer I want ESP-IDF v5.x pinned inside a reproducible build container so that every developer and CI job builds identical bits.
 - AC: `.devcontainer/` and `Dockerfile` present; container image digest-pinned; `idf.py build` succeeds from a clean container
-- Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=READY | SKU=★ | PRD=NF-SUS-03 | Const=C-00
+- Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DONE | SKU=★ | PRD=NF-SUS-03 | Const=C-00
 
 ### S-02-002 — Monorepo CMake wrapper
 As a firmware engineer I want a monorepo CMake wrapper so that any board target builds with one command.
 - AC: `firmware/CMakeLists.txt` selects board from `BOARD` env; `make lite|alpha|omega` targets work; unknown board value fails with a clear error
-- Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=READY | SKU=★ | PRD=— | Const=C-00
+- Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DONE | SKU=★ | PRD=— | Const=C-00
 
 ### S-02-003 — `boards/lite/board_config.h` complete
 As a firmware engineer I want a complete `boards/lite/board_config.h` so that all Lite HAL code binds to documented pins and settings.

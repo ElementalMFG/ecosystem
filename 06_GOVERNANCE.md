@@ -208,7 +208,7 @@ The CLA is **not** a copyright assignment (contributor retains their copyright).
 
 ### 5.3 CODEOWNERS
 - Every path has a maintainer (`.github/CODEOWNERS`).
-- Security-sensitive paths (`components/hal/**`, `firmware/security/**`, `bootloader/**`, `protocol/**`, `ota/**`, `provisioning/**`) require **2 maintainer approvals + wg-security sign-off**.
+- Security-sensitive paths (`components/ss_hal/**`, `firmware/security/**`, `bootloader/**`, `protocol/**`, `ota/**`, `provisioning/**`) require **2 maintainer approvals + wg-security sign-off**.
 - Trademark, license, and governance docs require SC review.
 
 ### 5.4 Maintainer promotion

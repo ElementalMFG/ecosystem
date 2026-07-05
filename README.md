@@ -35,7 +35,7 @@ firmware/            ESP-IDF firmware (Lite / Alpha / Omega)
   boards/lite/       Elecrow CrowPanel Advance 3.5" HMI board port
   boards/alpha/      ESP32-P4 + MM8108 board port
   boards/omega/      (reserved)
-  components/hal/    HAL headers + per-board implementations
+  components/ss_hal/ HAL headers + per-board implementations
   components/ss_ui/  Universal UI framework on top of LVGL 9.x
   components/ss_net/ Bearer manager, path selection
   components/ss_rns/ Reticulum transport (see licensing notes)

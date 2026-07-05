@@ -5,7 +5,7 @@
 **Priority:** P0 · **SKU:** L · **Milestone:** M1
 
 ## Outcome
-Every HAL contract declared in `firmware/components/hal/include/*.h` is implemented for the Lite board (ESP32-S3-WROOM-1U-N16R8 + SX1262 LoRa + on-die Wi-Fi 2.4 GHz + BLE 5.0), tested on real hardware, and passes conformance vectors.
+Every HAL contract declared in `firmware/components/ss_hal/include/*.h` is implemented for the Lite board (ESP32-S3-WROOM-1U-N16R8 + SX1262 LoRa + on-die Wi-Fi 2.4 GHz + BLE 5.0), tested on real hardware, and passes conformance vectors.
 
 ## Constitution
 C-00 `00_MASTER_SOFTWARE_PLAN.md` §HAL contracts; C-01 `01_SS-SP_LITE_HARDWARE_REFERENCE.md` §Lite board (ESP32-S3, SX1262, display, audio, power); C-08 `08_UNIVERSAL_CONNECTIVITY.md` §bearers (LoRa, Wi-Fi 2.4 GHz, BLE).
