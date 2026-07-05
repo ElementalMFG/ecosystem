@@ -90,7 +90,7 @@ Every recipe above is executable inside a single continuous session; switching i
 | Layer | Mechanism | Context | Notes |
 |---|---|---|---|
 | Claude Code, in-session | `/model` (aliases `fable`/`opus` or exact IDs) and `/effort` (low→max, plus `ultracode`) | **Fully preserved**, effective on next response, works mid-task | The normal way to walk one story through a T2 recipe: design @ high → build @ medium → review — one session, zero restarts |
-| Claude Code, subagents | `model:` frontmatter in `.claude/agents/*.md`; Task-tool per-invocation model | Isolated per subagent; main session untouched | A Fable orchestrator delegates T3/T4 chunks to Opus/Haiku workers; agent files hot-reload from disk |
+| Claude Code, subagents | `model:` **and `effort:`** frontmatter in `.claude/agents/*.md`; Task-tool per-invocation model | Isolated per subagent; main session untouched | A Fable orchestrator delegates T3/T4 chunks to Opus/Haiku workers; agent files hot-reload from disk |
 | Claude Code, dynamic workflows | `ultracode` → classifier subagent routes each work item to a per-item (model, effort) | Parallel background agents | The bulk-T4 / wide-T3 batching engine (§9.2) |
 | Messages API | Stateless: `model` + `output_config.effort` are **per-request**; resend history to continue | Preserved if history is resent | Strip Fable 5 thinking blocks before replaying its turns to another model |
 | Messages API, refusals | `fallbacks` parameter (beta): auto-retry on Opus 4.8 when Fable 5 returns `stop_reason: "refusal"` | Same request, one response | Billed only for the serving model; fallback credit refunds cache cost; sticky-routes ~1 h — watch for T1 work silently landing on Opus (§1.4.1) |
@@ -100,6 +100,21 @@ Two cost rules govern *when* to flip the switches:
 
 1. **Prompt cache is per-model.** Every model (or effort) switch breaks the cache; the incoming model re-reads history at full input price once. Batch same-model work into runs; don't ping-pong per message — this is why §9 batches T4 and reviews diffs, not trees.
 2. **Effort caps silently.** A model that lacks the requested effort level caps it without error, and switching models resets effort to *that model's default*. Re-check `/effort` after every `/model`.
+
+### 2.2 Enforcement — making the allocation self-executing
+
+Policy that depends on a human remembering `/model` + `/effort` every session will drift. The repo therefore carries the allocation as **checked-in configuration**, so the correct (model @ effort) is applied automatically wherever the platform allows, and *visible* everywhere it does not:
+
+| Artifact (in repo) | What it enforces | Mechanism |
+|---|---|---|
+| `CLAUDE.md` (root) | Standing delegation policy — tier table, "effort before model", refusal handling, escalation triggers — loaded into **every** session automatically | Project memory file |
+| `.claude/agents/t1-review.md`, `t1-cross-review.md` | The two mandatory T1 review passes (§10) run on **pinned** (model @ effort): Fable 5 @ high fresh-context re-review; Opus 4.8 @ xhigh cross-review | `model:` + `effort:` agent frontmatter; fresh isolated context defeats author-anchoring by construction |
+| `.claude/agents/t2-builder.md`, `t3-standard.md`, `t4-mechanical.md` | Tier recipes as invocable workers, each pinned to its §2 (model @ effort) and carrying its own stop-and-escalate rules (§8.1/8.3/8.4 encoded in the prompt) | Same |
+| `.claude/agents/retrieval.md` | All bulk search/read runs on Haiku @ low in an isolated context — conserves the expensive main context (§9.1) | Same |
+| `.claude/settings.json` + `tools/claude/statusline.sh` | Live `[model @ effort]` display in every session — allocation drift is visible at a glance instead of discovered in the invoice | `statusLine` receives `model.id`/`display_name` and `effort.level` |
+| Session transcripts (`~/.claude/projects/…/*.jsonl`) + `/usage` | Post-hoc audit: every API turn records the serving `model` (and subagent type), so "was this T1 artifact actually produced/reviewed by the right model?" is answerable with `jq` | Read-only evidence for the §10 review matrix |
+
+Known limits (verified against Claude Code docs, 2026-07): hooks receive **no model/effort field** and cannot switch either — so hooks can gate on environment but not auto-correct tier; slash commands cannot execute `/model`/`/effort` programmatically; `effort: max` cannot be pinned in settings or frontmatter (session-only); a pinned agent model excluded/unavailable **falls back silently to the inherited model** — after any Fable outage (§1.4.2), confirm via transcript that T1 review agents actually ran on the intended models. Main-session tier changes therefore remain a human act — but a *visible, single-command* act (`/model` + `/effort` with the statusline confirming), with everything delegable already pinned. Precedence to remember: `CLAUDE_CODE_SUBAGENT_MODEL` env > per-invocation model > agent frontmatter > session model.
 
 ## 3. Allocation principles — what actually drives tier choice
 
@@ -201,6 +216,29 @@ Demotion is allowed only story-by-story, only one tier, and never out of T1 doma
 8. **Effort before model** — the cheapest capability downgrade is Fable 5 at a lower effort, not a model switch (§1.3): it keeps Fable's knowledge depth and long-horizon coherence while cutting tokens. Reserve the model switch for the T4 floor and volume batches.
 9. **Exploit prompt caching and batch pricing** — 90% cached-input discount on both models rewards stable, contract-shaped prompts (another reason contracts-first wins); Opus 4.8 batch mode halves T4 bulk work again.
 10. **Cross-model review is nearly free insurance** — an Opus 4.8 @ xhigh diff review costs a fraction of the Fable generation it checks, and Opus 4.8 is measurably strong at flagging flaws in code; use it as the second pair of eyes on every T1 merge (§2).
+
+### 9.1 Token conservation & efficiency — capability-neutral techniques (researched 2026-07)
+
+The tier recipes control *which* capability is bought; this section controls how few tokens buy it. Three lenses: **reduce** (spend fewer tokens per unit of work), **conserve** (never pay twice for the same tokens), **extract** (more delivered work per token spent). Everything in class A costs zero capability — the model sees the same task and produces the same quality.
+
+**Class A — pure wins, adopt everywhere:**
+
+| Technique | Lens | Effect | How / gotcha |
+|---|---|---|---|
+| Prompt caching | Conserve | Cached input reads at **10%** of price on both models | Stable prefix ordering (tools → system → history); breakpoints ≥1,024 tokens or caching silently no-ops — verify via `cache_read_input_tokens`; 5-min TTL resets on every hit (steady work keeps it alive indefinitely); 1-h TTL for gapped/batch flows |
+| Batch API | Reduce | **50%** off all tokens on Opus 4.8 | Non-interactive bulk only (T4 sweeps, eval runs, doc chores); ≤24 h turnaround; stacks with caching (use 1-h TTL inside batches) |
+| Subagent context isolation | Conserve + extract | Verbose search/reads never enter the expensive main context; only the summary returns | `retrieval` agent (Haiku @ low, §2.2) — Haiku 4.5 is $1/$5/Mtok, ~10% of Fable input price; caveat: isolation hides intermediate noise, it does not compress the returned report |
+| Context editing + memory files | Conserve | Anthropic's 100-turn eval: **−84% tokens** with *higher* completion (clearing stale tool results + file-offloaded findings) | API: `context_management` clear-tool-uses; Claude Code: write findings/state to files and re-read on demand instead of carrying them in-context |
+| Structured output, `max_tokens`, stop sequences | Reduce | 40–70% fewer output tokens on extraction/mechanical tasks | JSON/table answers instead of prose for T4/T3 mechanical outputs; never cap T1 reasoning output |
+| Lean standing context | Reduce | Every session pays `CLAUDE.md` + MCP tool schemas on every turn | Keep `CLAUDE.md` small (ours ≈ a page); disconnect unused MCP servers (multi-server setups measured at 50k+ tokens of schema before any work); `/clear` between unrelated tasks |
+| Diff-scoped review | Extract | MAX reviews the contract + diff, never the tree (§9.3) | Already the §10 rule; this is why it exists |
+| Compaction with instructions | Conserve | Long sessions continue instead of restarting (restart = re-reading everything at full price) | `CLAUDE.md` carries compact instructions (what to preserve/drop); offload critical details to files *before* compacting — summarized turns are unrecoverable |
+
+**Class B — small trade-offs, use with the stated mitigation:** effort reduction on genuinely hard tasks (mitigate: the §8 escalation triggers and gates are the safety net — and §1.2 says Fable @ low–medium still beats prior-generation xhigh); aggressive compaction (mitigate: file-offload first); image downsampling (non-critical vision only).
+
+**Class C — false economies, banned:** dropping below the §2 tier floor to save tokens; capping or skipping thinking on T1/T2 reasoning; truncating context without summarization (incoherence → rework costs more than the tokens saved); STD/Haiku self-review of security code (§9.5). Rework is the most expensive token sink in the program — T-22's lesson priced in tokens.
+
+Measurement rule: claimed savings are hypotheses until `/usage`/transcript data confirms them on our workload; re-check after any §12 fact refresh.
 
 ## 10. Review matrix
 
