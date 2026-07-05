@@ -1,0 +1,23 @@
+{
+  "name": "SS-SP firmware (ESP-IDF v5.3.5, digest-pinned)",
+  "build": {
+    "dockerfile": "../ci/containers/firmware/Dockerfile",
+    "context": ".."
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "workspaceFolder": "/workspace",
+  "runArgs": ["--device=/dev/ttyUSB0", "--device=/dev/ttyACM0"],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "espressif.esp-idf-extension",
+        "ms-vscode.cpptools",
+        "llvm-vs-code-extensions.vscode-clangd"
+      ]
+    }
+  },
+  "remoteEnv": {
+    "SS_BOARD": "lite"
+  },
+  "postCreateCommand": "idf.py --version"
+}

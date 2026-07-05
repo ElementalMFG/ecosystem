@@ -1,0 +1,131 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+# EPIC-03 — Stories
+
+Format per `../../00_METHODOLOGY.md` §2.7. Meta lines are machine-parsed.
+
+---
+
+### S-03-001 — `hal_power_init` battery gauge (MAX17048) I²C
+As a firmware engineer I want `hal_power_init` with the MAX17048 battery gauge over I²C so that battery state is accurately reported to the system.
+- AC: SoC, voltage, current reported; low-battery IRQ wired to the power manager; readings validated against a bench meter within documented tolerance
+- Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+
+### S-03-002 — USB-C PD source detection + charge state machine
+As a device owner I want USB-C source detection and a charge state machine so that charging is safe and its status is always accurate.
+- AC: source capability detected on plug-in; charge states (pre-charge/CC/CV/full/fault) transition correctly; fault states surfaced to log and UI
+- Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01
+
+### S-03-003 — Sleep entry/exit with wake sources (button, RTC, LoRa IRQ)
+As a firmware engineer I want sleep entry/exit with button, RTC, and LoRa IRQ wake sources so that the Lite meets its standby battery target.
+- AC: all three wake sources verified on hardware; sleep current ≤ 0.5 mA measured; wake-to-responsive latency documented
+- Meta: Shard=A | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+
+### S-03-004 — Button matrix + debounce + long-press events
+As a device owner I want debounced button-matrix input with long-press events so that PTT and navigation feel instant and reliable.
+- AC: PTT press < 25 ms latency to audio pipeline; debounce rejects contact bounce without missing fast presses; long-press and release events emitted for all four buttons
+- Meta: Shard=B | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-MSG-04,F-UI-06 | Const=C-00,C-01
+
+### S-03-005 — Haptic driver (DRV2605L or PWM)
+As a device owner I want haptic feedback so that interactions are confirmed without looking at the screen.
+- AC: DRV2605L (or PWM fallback) plays a basic effect set; per-event haptic hooks exposed to `ss_ui`; degrades gracefully when hardware is absent
+- Meta: Shard=B | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=L | PRD=F-UI-03 | Const=C-00,C-01
+
+### S-03-006 — TFT display driver (ILI9341/ST7789) SPI DMA
+As a firmware engineer I want an SPI-DMA TFT driver so that the UI renders smoothly within the Lite performance budget.
+- AC: 60 FPS partial redraw of 32×32 tile; ILI9341 and ST7789 variants selectable by config; DMA transfers tear-free with sync
+- Meta: Shard=C | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-PERF-01 | Const=C-00,C-01
+
+### S-03-007 — Backlight PWM + auto-dim on inactivity
+As a device owner I want backlight PWM with auto-dim on inactivity so that battery is conserved without hurting readability.
+- AC: PWM dimming flicker-free across the full range; auto-dim after configurable inactivity timeout; any input restores brightness immediately
+- Meta: Shard=C | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+
+### S-03-008 — Framebuffer allocation policy (single/double)
+As a firmware engineer I want a documented single/double framebuffer allocation policy so that RAM use and tearing are controlled deliberately.
+- AC: policy selectable at build time; RAM budget per mode documented; no visible tearing in double-buffer mode
+- Meta: Shard=C | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=L | PRD=NF-PERF-01 | Const=C-00,C-01
+
+### S-03-009 — I²S microphone capture (16 kHz mono)
+As a firmware engineer I want I²S microphone capture at 16 kHz mono so that voice messages and on-device STT get clean input.
+- AC: 16 kHz mono PCM stream delivered with bounded jitter; capture starts within the PTT latency budget; SNR measured and documented on reference hardware
+- Meta: Shard=D | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-MSG-03,F-VOX-01 | Const=C-00,C-01
+
+### S-03-010 — I²S speaker output + class-D amp enable
+As a device owner I want I²S speaker output with class-D amp control so that received voice is audible and power is not wasted when idle.
+- AC: playback verified at target sample rates; amp enable/disable sequenced pop-free; sidetone path available during PTT capture
+- Meta: Shard=D | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-MSG-03,F-VOX-02 | Const=C-00,C-01
+
+### S-03-011 — SX1262 SPI driver — init, config, TX/RX
+As a firmware engineer I want the SX1262 SPI driver with init, config, and TX/RX so that LoRa is a working bearer on Lite.
+- AC: passes vendor eval-board round-trip test at SF7..SF12; IRQ-driven TX/RX FIFO handling with no busy-wait; driver conforms to the HAL radio contract
+- Meta: Shard=E | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-BR-01 | Const=C-00,C-01,C-08
+
+### S-03-012 — LoRa region PA table (US915, EU868, AU915, AS923)
+As a compliance engineer I want the LoRa region PA table so that TX power and channels are legal in every shipped region.
+- AC: US915, EU868, AU915, AS923 tables present; region selected at provisioning locks the table; TX power never exceeds regional limit in a test sweep
+- Meta: Shard=E | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-REG-01,NF-REG-02,NF-REG-05 | Const=C-00,C-08
+
+### S-03-013 — LBT (Listen-Before-Talk) + duty-cycle guard
+As a compliance engineer I want listen-before-talk and a duty-cycle guard so that EU 868 duty limits and channel etiquette are enforced in software.
+- AC: LBT backs off on a busy channel; EU868 duty-cycle accounting blocks over-limit TX; SOS override path documented and bounded
+- Meta: Shard=E | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-REG-05,F-BR-01 | Const=C-00,C-08
+
+### S-03-014 — Wi-Fi STA scan + connect + WPA2/3
+As a device owner I want Wi-Fi STA scan/connect with WPA2/3 so that my pager uses home Wi-Fi whenever it is available.
+- AC: scan returns RSSI-sorted results; connect succeeds to WPA2 and WPA3 APs; disconnect/reconnect handled with bounded retry
+- Meta: Shard=F | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-BR-02 | Const=C-00,C-08
+
+### S-03-015 — Wi-Fi soft-AP for captive provisioning
+As a device owner I want a Wi-Fi soft-AP captive provisioning mode so that first-boot setup works without any companion infrastructure.
+- AC: soft-AP with captive portal reachable from a phone; provisioning completes credential handoff; soft-AP shuts down after provisioning completes
+- Meta: Shard=F | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-BR-02,F-APP-07 | Const=C-00,C-08
+
+### S-03-016 — BLE 5 GATT server + advertising profile
+As a companion-app developer I want a BLE 5 GATT server and advertising profile so that phones can pair with and talk to the device.
+- AC: GATT services for pairing, provisioning, and companion link exposed; advertising intervals meet the power budget; MTU negotiation ≥ 247 bytes verified
+- Meta: Shard=G | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-BR-03,F-APP-07 | Const=C-00,C-08
+
+### S-03-017 — BLE bonding + LTK storage in secure NVS
+As a security engineer I want BLE bonding with LTK storage in secure NVS so that paired-phone keys never rest in plaintext.
+- AC: bonding survives reboot; LTKs stored only in encrypted NVS; re-pair flow wipes stale bonds
+- Meta: Shard=G | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-BR-03,NF-SEC-02 | Const=C-05,C-08
+
+### S-03-018 — Flash partition layout (bootloader/app0/app1/nvs/keys/logs/fs)
+As a firmware engineer I want the Lite flash partition layout so that OTA, keys, logs, and user data have safe, fixed homes.
+- AC: bootloader/app0/app1/nvs/keys/logs/fs partitions defined; layout matches `board_config.h` and OTA A/B expectations; keys partition sized for secure storage
+- Meta: Shard=H | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-05
+
+### S-03-019 — LittleFS on user partition
+As a firmware engineer I want LittleFS on the user partition so that file storage is power-fail safe.
+- AC: mount/format/self-heal verified; power-cut torture test passes without corruption; wear-levelling stats exposed via diagnostics
+- Meta: Shard=H | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00
+
+### S-03-020 — RGB LED driver + status patterns
+As a device owner I want RGB status LED patterns so that link, activity, and SOS states are visible at a glance.
+- AC: link, activity, and SOS-breathe patterns implemented; higher-priority patterns preempt lower ones; brightness respects the active power profile
+- Meta: Shard=I | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=L | PRD=F-MSG-08 | Const=C-00,C-01
+
+### S-03-021 — Internal temperature sensor + thermal throttle policy
+As a firmware engineer I want the internal temperature sensor with a thermal-throttle policy so that the device protects itself under heat.
+- AC: temperature readable via the HAL sensor API; throttle thresholds reduce TX power and backlight; hysteresis prevents oscillation
+- Meta: Shard=J | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01
+
+### S-03-022 — HAL conformance test vectors (host-run)
+As a firmware engineer I want host-run HAL conformance test vectors so that any board implementation can be verified against the contracts.
+- AC: vectors cover power, audio, LoRa, Wi-Fi, and BLE HAL contracts; runnable on host against mocks and on target; failures produce actionable diffs
+- Meta: Shard=— | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00
+
+### S-03-023 — HIL rack test-plan for Lite
+As a test engineer I want a HIL rack test-plan for Lite so that every merge is validated on real hardware.
+- AC: rack topology and fixtures documented; test matrix maps to EPIC-03 exit criteria; CI trigger and result reporting defined
+- Meta: Shard=— | Type=Ops | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00
+
+### S-03-024 — Power-consumption measurement + budget report
+As a firmware engineer I want a power-consumption measurement and budget report so that the Lite battery targets are provable.
+- AC: sleep ≤ 0.5 mA; RX-idle ≤ 25 mA; TX peak documented per bearer
+- Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+
+### S-03-025 — Wi-Fi/BLE coexistence stress test
+As a firmware engineer I want a Wi-Fi/BLE coexistence stress test so that shared-antenna scheduling never starves either radio.
+- AC: concurrent BLE link + Wi-Fi throughput soak passes; BLE connection maintained under sustained Wi-Fi load; packet-loss thresholds defined and met
+- Meta: Shard=F,G | Type=Ops | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-BR-02,F-BR-03 | Const=C-00,C-08

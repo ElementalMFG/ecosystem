@@ -1,0 +1,42 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 SS-SP Project Contributors
+#
+# DCO gate (S-01-007): every commit in a PR must carry a
+# "Signed-off-by:" trailer. Make this a required status check on `main`
+# (VA-02 in docs/portfolio/09_VENTURE_EXECUTION_MAP.md).
+
+name: dco
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  dco:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check Signed-off-by on every PR commit
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -u
+          missing=0
+          for sha in $(git rev-list "$BASE_SHA".."$HEAD_SHA" --no-merges); do
+            if ! git log -1 --format=%B "$sha" | grep -qiE '^Signed-off-by: .+ <.+@.+>'; then
+              echo "::error::Commit $sha is missing a Signed-off-by trailer (DCO)."
+              missing=1
+            fi
+          done
+          if [ "$missing" -ne 0 ]; then
+            echo "See CONTRIBUTING.md §4 for the rebase/sign-off fix-up flow."
+            exit 1
+          fi
+          echo "All commits carry DCO sign-off."

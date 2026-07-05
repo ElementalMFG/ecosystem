@@ -1,0 +1,43 @@
+menu "SS-SP Lite optional modules (fully-loaded configuration)"
+
+    comment "Hardware ref: 01_SS-SP_LITE_HARDWARE_REFERENCE.md §3.15"
+
+    choice SS_LITE_WIRELESS_HEADER
+        prompt "Wireless-header module (exactly one)"
+        default SS_LITE_MOD_SX1262
+        help
+            The CrowPanel Advance wireless header carries one long-range
+            radio module: the stock SX1262 LoRa (Meshtastic edition) or the
+            Elecrow HaLow module. Both use the same header SPI + control
+            pins and the GPIO 45 mic/radio mux.
+
+        config SS_LITE_MOD_SX1262
+            bool "SX1262 LoRa (stock Meshtastic edition)"
+
+        config SS_LITE_MOD_HALOW
+            bool "Wi-Fi HaLow module (sub-GHz antenna)"
+    endchoice
+
+    config SS_LITE_MOD_GNSS_BN880
+        bool "BN-880 GNSS + HMC5883L compass (UART1 18/17 + I2C0 @0x1E)"
+        default y
+
+    choice SS_LITE_COPROC
+        prompt "Mesh coprocessor on UART2 (44/43)"
+        default SS_LITE_MOD_COPROC_C6
+
+        config SS_LITE_MOD_COPROC_NONE
+            bool "None"
+
+        config SS_LITE_MOD_COPROC_C6
+            bool "ESP32-C6 (Wi-Fi 6 + BLE 5.3 + 802.15.4)"
+
+        config SS_LITE_MOD_COPROC_H2
+            bool "ESP32-H2 (Thread/Zigbee/802.15.4 + BLE)"
+    endchoice
+
+    config SS_LITE_MOD_IMU
+        bool "6-axis IMU on I2C Grove header (@0x68, tilt-compensated compass)"
+        default y
+
+endmenu

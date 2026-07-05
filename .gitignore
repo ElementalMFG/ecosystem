@@ -1,0 +1,82 @@
+# Build outputs
+build/
+build_*/
+dist/
+out/
+target/
+node_modules/
+.dart_tool/
+.pub-cache/
+__pycache__/
+*.pyc
+*.pyo
+
+# ESP-IDF
+sdkconfig
+sdkconfig.old
+managed_components/
+dependencies.lock
+.pio/
+.pioenvs/
+
+# Rust
+Cargo.lock
+!/**/Cargo.lock.example
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Secrets / keys — NEVER commit
+*.key
+*.pem
+*.der
+*.p12
+*.pfx
+secrets/
+keys/
+!keys/README.md
+.env
+.env.*
+!.env.example
+
+# Firmware artifacts
+*.bin
+*.elf
+!bootloader/*.bin
+!bootloader/*.elf
+
+# Logs
+*.log
+logs/
+
+# Coverage
+coverage/
+*.gcda
+*.gcno
+*.gcov
+lcov.info
+
+# Docs build
+_site/
+site/
+book/
+docs/_build/
+
+# Companion apps
+android/app/build/
+ios/Pods/
+ios/build/
+*.apk
+*.aab
+*.ipa
+*.dSYM
+
+# Fuzz output
+crashes/
+corpus/
+fuzz-*/

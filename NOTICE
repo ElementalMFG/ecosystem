@@ -1,0 +1,30 @@
+SS-SP (Seekie-Speakie Smart Pager)
+Copyright (c) 2025 SS-SP Project Contributors
+
+This product includes software developed by the SS-SP Project Contributors.
+
+This product includes and depends on third-party software distributed under
+its own licenses. The complete third-party notice list is available in the
+software-bill-of-materials (SBOM) shipped with each release and in
+docs/dev/THIRD_PARTY_LICENSES.md.
+
+Notable dependencies (see 04_LICENSING_AND_FORK_STRATEGY.md for the full
+audit):
+
+- Espressif ESP-IDF                     Apache-2.0
+- FreeRTOS                              MIT
+- LVGL                                  MIT
+- mbedTLS                               Apache-2.0
+- libsodium                             ISC
+- RadioLib                              MIT
+- Opus                                  BSD-3-Clause
+- whisper.cpp, llama.cpp, Piper TTS     MIT
+- Reticulum Network Stack (RNS), LXMF   Reticulum License (see LICENSES/Reticulum-License.txt)
+
+Trademarks:
+"SS-SP", "Seekie-Speakie", and the shield/dot logo are trademarks of the
+SS-SP project vendor entity, to be transferred to the SS-SP Foundation on
+governance Phase 2 (see 06_GOVERNANCE.md).
+
+"Meshtastic" is a registered trademark of Meshtastic LLC. SS-SP is not
+affiliated with or endorsed by Meshtastic LLC.

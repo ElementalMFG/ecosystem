@@ -1,0 +1,48 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 SS-SP Project Contributors
+#
+# Firmware build check (S-02-001): builds every board port inside the
+# digest-pinned reproducible container. Required status check on `main`
+# (VA-02 in docs/portfolio/09_VENTURE_EXECUTION_MAP.md).
+
+name: firmware-build
+
+on:
+  pull_request:
+    paths:
+      - "firmware/**"
+      - "ci/containers/firmware/**"
+      - ".github/workflows/firmware-build.yml"
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        board: [lite]          # alpha, omega join the matrix when their HAL epics start
+    container:
+      # Same digest as ci/containers/firmware/Dockerfile (espressif/idf:v5.3.5).
+      image: espressif/idf@sha256:114a9f8cde8bdc5a7e95809745b492663f7c5afe9c2821a4127ff133754fafd2
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deterministic build metadata
+        run: echo "SOURCE_DATE_EPOCH=$(git log -1 --format=%ct || date +%s)" >> "$GITHUB_ENV"
+
+      - name: Build (${{ matrix.board }})
+        working-directory: firmware
+        run: |
+          . "$IDF_PATH/export.sh"
+          idf.py -B "build/${{ matrix.board }}" -DSS_BOARD="${{ matrix.board }}" build
+
+      - name: Size report
+        working-directory: firmware
+        run: |
+          . "$IDF_PATH/export.sh"
+          idf.py -B "build/${{ matrix.board }}" size
