@@ -9,6 +9,13 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Working-group charters ratified (S-01-009 / D-0017): 12 charter files in
+  `governance/wg/` (bootstrap staffing — founding maintainer chairs all);
+  `wg-community` + `wg-legal` added to the doc 06 §3 table; S-01-012 recorded
+  BLOCKED pending a second maintainer (D-0014) and org teams (D-0015).
+- CLA gate live-verified on PR #2: bot blocked the unsigned PR, signature
+  recorded on `cla-signatures` (`signatures/cla.json`), and the `cla` check
+  promoted to a required status check on `main` per D-0016.
 - Security-intake keys live (VA-04 / S-01-005): ed25519 PGP
   `10D6 DB6D 3C45 15F6 2437 C788 C314 E666 80DD 9FDD` + age recipient
   published in `SECURITY.md`; armored public key at

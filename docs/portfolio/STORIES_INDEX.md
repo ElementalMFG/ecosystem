@@ -27,10 +27,10 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-01-006 | B | Task | S | P0 | DONE | ★ | — | C-06 |
 | S-01-007 | C | Task | M | P0 | DONE | ★ | — | C-06 |
 | S-01-008 | C | Task | M | P0 | IN_PROGRESS | ★ | — | C-04,C-06 |
-| S-01-009 | D | Task | M | P0 | DRAFT | ★ | — | C-06 |
+| S-01-009 | D | Task | M | P0 | DONE | ★ | — | C-06 |
 | S-01-010 | E | Task | S | P0 | DONE | ★ | — | C-06 |
 | S-01-011 | C | Task | S | P1 | DRAFT | ★ | — | C-06 |
-| S-01-012 | C | Ops | S | P0 | DRAFT | ★ | — | C-06 |
+| S-01-012 | C | Ops | S | P0 | BLOCKED | ★ | — | C-06 |
 | S-01-013 | B,D,E | Feature | M | P2 | DRAFT | ★ | — | C-06 |
 | S-01-014 | I | RFC | L | P1 | DONE | ★ | — | C-06,C-OA |
 | S-01-015 | A | Ops | M | P1 | DRAFT | ★ | — | C-OA,C-04 |
@@ -720,9 +720,10 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 | Status | Count |
 |---|---|
-| DRAFT | 520 |
+| DRAFT | 518 |
 | IN_PROGRESS | 1 |
-| DONE | 12 |
+| DONE | 13 |
+| BLOCKED | 1 |
 
 ---
 

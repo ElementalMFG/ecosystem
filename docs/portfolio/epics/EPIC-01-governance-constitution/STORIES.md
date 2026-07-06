@@ -58,13 +58,15 @@ As a maintainer I want CONTRIBUTING.md with an enforced DCO gate so that every c
 As the legal WG I want a CLA gate for larger contributions so that relicensing rights under the fork strategy are secured.
 - AC: individual and corporate CLA PDFs published; GitHub CLA-assistant bot wired to block merges without signature; CLA-vs-DCO threshold documented
 - Meta: Shard=C | Type=Task | Size=M | Prio=P0 | Status=IN_PROGRESS | SKU=★ | PRD=— | Const=C-04,C-06
-- Tasks: spec (CLA-vs-DCO roles + no-threshold rule, D-0016) · design (grantee Elemental MFG + successor-assignment clause) · impl (`docs/CLA.md` + `.github/workflows/cla.yml`, signatures on `cla-signatures` branch) · test (first live PR run; then promote check to required on `main`) · docs (CONTRIBUTING §5 link).
-- Deps: S-01-007, D-0012 (grantee), D-0016; remaining: standalone corporate CLA doc (Phase 1) + required-check promotion after first run
+- Tasks: spec (CLA-vs-DCO roles + no-threshold rule, D-0016) · design (grantee Elemental MFG + successor-assignment clause) · impl (`docs/CLA.md` + `.github/workflows/cla.yml`, signatures on `cla-signatures` branch) · test (live run on PR #2: bot blocked unsigned, signature recorded, `cla` promoted to required check per D-0016) · docs (CONTRIBUTING §5 link).
+- Deps: S-01-007, D-0012 (grantee), D-0016; remaining: standalone corporate CLA doc (Phase 1)
 
 ### S-01-009 — Working-group charter files (12)
 As a working-group chair I want all 12 WG charter files ratified so that ownership and escalation paths are unambiguous.
 - AC: 12 charters merged; chairs named; meeting cadence declared; escalation path stated in each charter
-- Meta: Shard=D | Type=Task | Size=M | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-06
+- Meta: Shard=D | Type=Task | Size=M | Prio=P0 | Status=DONE | SKU=★ | PRD=— | Const=C-06
+- Tasks: spec (12-WG set incl. wg-community/wg-legal, D-0017) · design (charter template: domain/chair/maintainers/channel/cadence/escalation/disband) · impl (`governance/wg/wg-*.md` ×12 + doc 06 §3 table rows + D-0017) · test (`make lint-docs`) · docs (doc 06 §3 links `governance/wg/`).
+- Deps: S-01-001, D-0012 (channels), D-0015 (org teams deferred), D-0017
 
 ### S-01-010 — Decisions log bootstrap D-0001..D-0010
 As an architect I want the decisions log bootstrapped with D-0001..D-0010 so that founding technical choices are immutable and citable.
@@ -81,7 +83,9 @@ As a contributor I want PR templates for feature, RFC, security, and docs change
 ### S-01-012 — Two-approver merge policy enforced
 As a release manager I want the two-approver merge policy enforced on `main` so that every change gets one code and one domain review.
 - AC: branch protection on `main` active; code-owner rule maps paths to WGs; merges require one code + one domain reviewer
-- Meta: Shard=C | Type=Ops | Size=S | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-06
+- Meta: Shard=C | Type=Ops | Size=S | Prio=P0 | Status=BLOCKED | SKU=★ | PRD=— | Const=C-06
+- Tasks: spec (two-approver rule, CONTRIBUTING §9) · design (branch-protection config, D-0014) · impl (protection + required checks live; CODEOWNERS maps paths — to the maintainer, not WG teams yet) · test (protection API state verified) · docs (D-0014, D-0015).
+- Deps: S-01-009; blocked on a second maintainer (required reviews deferred per D-0014) and org conversion for WG teams (D-0015)
 
 ### S-01-013 — Governance dashboard
 As a community member I want a governance dashboard so that open RFCs, decisions, and WG rosters are visible without digging through the repo.

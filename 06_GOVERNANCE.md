@@ -143,8 +143,10 @@ Initial WGs:
 | `wg-ai` | On-device STT/TTS/LLM, model catalog & provenance |
 | `wg-docs` | User docs, developer docs, translations |
 | `wg-compliance` | Regulatory (RED, FCC, CRA, GDPR, export) |
+| `wg-community` | Community health, events, moderation support, contributor onboarding |
+| `wg-legal` | Licensing, CLA/DCO policy, trademark, IP review |
 
-WGs may spin down or split by SC vote.
+Charters live in [`governance/wg/`](./governance/wg/) (ratified D-0017; bootstrap staffing — the founding maintainer chairs all WGs until each is staffed by SC appointment). WGs may spin down or split by SC vote.
 
 ---
 

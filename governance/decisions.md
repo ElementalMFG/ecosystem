@@ -6,7 +6,7 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 ## Schema, counter, and quorum
 
 - **Schema.** Every entry is `## D-NNNN — <title>` followed by `- Date:` (ISO date, or `2025-Q? (bootstrap)` for pre-log decisions reconstructed at bootstrap), `- Decision:` (normative text), optional `- Rationale:`, optional `- Status:` (`RECORDED` default; `SUPERSEDED by D-NNNN` when overturned), and `- Reference:` (constitution docs, RFCs, or stories).
-- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0017**.
+- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0018**.
 - **Quorum.** Steady state: a decision closes with a simple majority of the steering committee, minimum two-thirds attendance, recorded by the Chair. Bootstrap (before S-01-009 staffs the working groups): the program lead records decisions unilaterally, each such entry is implicitly `(bootstrap)`, and all bootstrap decisions are re-ratified at the first quarterly constitutional review (S-01-016). RFC acceptances always get a corresponding entry (RFC-0001 §Detailed design).
 - **Immutability.** Entries are append-only; corrections are made by a superseding entry, never by editing history.
 
@@ -131,3 +131,11 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 - Rationale: Preserves the relicense-and-foundation-transition option in `04_LICENSING_AND_FORK_STRATEGY.md` without contributor re-consent later; the grantee had to wait for E1 (parent entity), which D-0012 answered.
 - Status: RECORDED
 - Reference: `docs/OWNER_DECISIONS.md` (A5, E1), `CONTRIBUTING.md` §5, S-01-008, `docs/CLA.md`
+
+## D-0017 — Twelve working-group charters ratified with bootstrap staffing
+
+- Date: 2026-07-06 (bootstrap)
+- Decision: The twelve working-group charters in `governance/wg/` are ratified: wg-firmware, wg-protocol, wg-ui, wg-radio, wg-security, wg-companion, wg-cloud, wg-ai, wg-docs, wg-compliance, **wg-community**, and **wg-legal**. The last two are hereby added to the "Initial WGs" table in `06_GOVERNANCE.md` §3 — they were already load-bearing in RFC-0001, the foundation-transfer draft, and the portfolio, but missing from the table. During solo bootstrap the founding maintainer chairs all twelve; each charter states that the chair is replaced by Steering Committee appointment when the WG is staffed, at which point the corresponding CODEOWNERS entries move to that WG's team (org teams require the D-0015 org conversion first). Cadence is async-first (monthly written status while a WG has active epics), escalation paths are as stated in each charter, and disband/split is by SC vote per `06_GOVERNANCE.md` §3.
+- Rationale: S-01-009's AC requires all twelve charters merged with chairs, cadence, and escalation stated; honest bootstrap staffing (one person, twelve hats) is recorded rather than inventing rosters. Fixing the doc-06 table closes the community/legal governance gap.
+- Status: RECORDED
+- Reference: S-01-009, `06_GOVERNANCE.md` §3, `governance/wg/`, RFC-0001, `rfcs/DRAFT-foundation-transfer.md`, D-0015
