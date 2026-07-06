@@ -79,7 +79,7 @@ git rebase --signoff origin/main && git push --force-with-lease
 
 ## 5. CLA — required on your first PR
 
-We use an Apache-style Individual/Corporate CLA. A bot will prompt you on your first PR. This CLA:
+We use an Apache-style Individual/Corporate CLA — the normative text is [`docs/CLA.md`](./docs/CLA.md) (grantee: Elemental MFG, D-0016). A bot will prompt you on your first PR. This CLA:
 
 - Does **not** transfer copyright to us; you retain it.
 - Grants a broad license and a patent grant.

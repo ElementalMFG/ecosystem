@@ -6,7 +6,7 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 ## Schema, counter, and quorum
 
 - **Schema.** Every entry is `## D-NNNN — <title>` followed by `- Date:` (ISO date, or `2025-Q? (bootstrap)` for pre-log decisions reconstructed at bootstrap), `- Decision:` (normative text), optional `- Rationale:`, optional `- Status:` (`RECORDED` default; `SUPERSEDED by D-NNNN` when overturned), and `- Reference:` (constitution docs, RFCs, or stories).
-- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0016**.
+- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0017**.
 - **Quorum.** Steady state: a decision closes with a simple majority of the steering committee, minimum two-thirds attendance, recorded by the Chair. Bootstrap (before S-01-009 staffs the working groups): the program lead records decisions unilaterally, each such entry is implicitly `(bootstrap)`, and all bootstrap decisions are re-ratified at the first quarterly constitutional review (S-01-016). RFC acceptances always get a corresponding entry (RFC-0001 §Detailed design).
 - **Immutability.** Entries are append-only; corrections are made by a superseding entry, never by editing history.
 
@@ -123,3 +123,11 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 - Rationale: Nothing technical in the current toolchain (branch protection, required checks, Dependabot, private vulnerability reporting, Discussions) requires an org; converting mid-bootstrap adds risk with no present benefit. Recorded from the owner's answer during the pre-development readiness audit.
 - Status: RECORDED
 - Reference: D-0011, VA-02, `docs/OWNER_DECISIONS.md` (A2)
+
+## D-0016 — CLA kept alongside DCO; grantee Elemental MFG; bot enforced
+
+- Date: 2026-07-06 (bootstrap)
+- Decision: The project keeps the dual DCO + CLA model documented in CONTRIBUTING §5 (owner decision A5, recommended option). The CLA grantee is **Elemental MFG** (the D-0012 parent entity), with an explicit assignment-to-successor-foundation clause. The normative CLA text is `docs/CLA.md` (Apache-style ICLA; corporate contributions authorized via a recorded issue until a standalone CCLA ships at Phase 1). Enforcement is `contributor-assistant/github-action` (`.github/workflows/cla.yml`): every PR author signs once; signatures are recorded on the `cla-signatures` branch; `dependabot[bot]`/`github-actions[bot]` are allowlisted. There is no size threshold — CLA per author, DCO per commit. The CLA check is promoted to a required status check on `main` by amending the D-0014 protection once its first live run establishes the check context.
+- Rationale: Preserves the relicense-and-foundation-transition option in `04_LICENSING_AND_FORK_STRATEGY.md` without contributor re-consent later; the grantee had to wait for E1 (parent entity), which D-0012 answered.
+- Status: RECORDED
+- Reference: `docs/OWNER_DECISIONS.md` (A5, E1), `CONTRIBUTING.md` §5, S-01-008, `docs/CLA.md`

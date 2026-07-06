@@ -9,6 +9,15 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Security-intake keys live (VA-04 / S-01-005): ed25519 PGP
+  `10D6 DB6D 3C45 15F6 2437 C788 C314 E666 80DD 9FDD` + age recipient
+  published in `SECURITY.md`; armored public key at
+  `governance/ss-sp-security-intake.pub.asc`; private keys/passphrase/
+  revocation cert in maintainer custody outside the repo.
+- CLA per owner decision A5 / D-0016: normative text `docs/CLA.md`
+  (grantee Elemental MFG), `contributor-assistant` bot workflow
+  `.github/workflows/cla.yml` recording signatures on `cla-signatures`;
+  CONTRIBUTING §5 links it (S-01-008 IN_PROGRESS).
 - D-0015 (`governance/decisions.md`): `ElementalMFG` is a personal GitHub
   account, not an org — accepted for solo bootstrap; org conversion required
   before second maintainer / foundation transition (amends D-0011).

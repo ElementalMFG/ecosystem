@@ -67,10 +67,10 @@ Two intake keys are published (both accepted; age preferred):
 
 | Type | Fingerprint / recipient | Status |
 |------|------------------------|--------|
-| age  | `age1…` | *pending — generated on human-custodied hardware and published with the first tagged release (tracked as VA-04 in `docs/portfolio/09_VENTURE_EXECUTION_MAP.md`)* |
-| PGP  | `XXXX XXXX XXXX XXXX XXXX  XXXX XXXX XXXX XXXX XXXX` | *pending — same event* |
+| age  | `age1h0nslcp8gwh2kppzqvgj0mhv2dmwq5kp4pp80al9t7aka826massqe638v` | **active** (VA-04, generated 2026-07-06 on maintainer-custodied hardware) |
+| PGP  | `10D6 DB6D 3C45 15F6 2437  C788 C314 E666 80DD 9FDD` (ed25519, expires 2028-07-05) | **active** — armored public key: [`governance/ss-sp-security-intake.pub.asc`](./governance/ss-sp-security-intake.pub.asc) |
 
-Keys will also be served at `security.ss-sp.org/keys.txt` and via WKD (pending D-0012). Revocation certificates are held offline. Until publication, unencrypted reports to `security@elementalmfg.com` are accepted — omit exploit details and we will establish an encrypted channel within the acknowledgement window.
+Keys will also be served at `security.ss-sp.org/keys.txt` and via WKD (pending D-0012). Revocation certificates are held offline. Unencrypted reports to `security@elementalmfg.com` remain accepted — omit exploit details and we will establish an encrypted channel within the acknowledgement window.
 
 ## Hall of fame
 

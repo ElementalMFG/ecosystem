@@ -36,7 +36,7 @@ As a community member I want a ratified code of conduct with an enforcement plan
 ### S-01-005 — Publish SECURITY.md + PGP/age keys
 As a security researcher I want SECURITY.md with encrypted intake keys published so that I can report vulnerabilities safely.
 - AC: intake email and PGP/age key fingerprints published; triage SLA (72 h ack) stated; hall-of-fame section present
-- Meta: Shard=G | Type=Task | Size=S | Prio=P0 | Status=READY | SKU=★ | PRD=NF-REG-03 | Const=C-SEC
+- Meta: Shard=G | Type=Task | Size=S | Prio=P0 | Status=DONE | SKU=★ | PRD=NF-REG-03 | Const=C-SEC
 - Tasks: spec (intake channels + 72 h SLA) · design (PGP/age key generation + fingerprint publication plan) · impl (`SECURITY.md` + publish keys) · test (`make lint-docs`; fingerprint round-trip check) · docs (self).
 - Deps: S-01-001
 
@@ -57,7 +57,9 @@ As a maintainer I want CONTRIBUTING.md with an enforced DCO gate so that every c
 ### S-01-008 — CLA gate for larger contributions
 As the legal WG I want a CLA gate for larger contributions so that relicensing rights under the fork strategy are secured.
 - AC: individual and corporate CLA PDFs published; GitHub CLA-assistant bot wired to block merges without signature; CLA-vs-DCO threshold documented
-- Meta: Shard=C | Type=Task | Size=M | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-04,C-06
+- Meta: Shard=C | Type=Task | Size=M | Prio=P0 | Status=IN_PROGRESS | SKU=★ | PRD=— | Const=C-04,C-06
+- Tasks: spec (CLA-vs-DCO roles + no-threshold rule, D-0016) · design (grantee Elemental MFG + successor-assignment clause) · impl (`docs/CLA.md` + `.github/workflows/cla.yml`, signatures on `cla-signatures` branch) · test (first live PR run; then promote check to required on `main`) · docs (CONTRIBUTING §5 link).
+- Deps: S-01-007, D-0012 (grantee), D-0016; remaining: standalone corporate CLA doc (Phase 1) + required-check promotion after first run
 
 ### S-01-009 — Working-group charter files (12)
 As a working-group chair I want all 12 WG charter files ratified so that ownership and escalation paths are unambiguous.

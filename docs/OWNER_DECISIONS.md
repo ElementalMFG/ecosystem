@@ -65,7 +65,7 @@ If (a): tell me the org name you register (I must not guess URLs).
   already gate-clean, and private repos don't get free CI minutes at the same
   tier.
 
-### A5. CLA: keep it, or go DCO-only?
+### A5. CLA: keep it, or go DCO-only? - a) Keep DCO + CLA, grantee Elemental MFG (applied — D-0016)
 
 CONTRIBUTING §5 currently promises an Apache-style CLA on first PR.
 
