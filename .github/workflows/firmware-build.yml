@@ -7,12 +7,15 @@
 
 name: firmware-build
 
+# `build (lite)` is a REQUIRED status check on `main` (D-0014). Required
+# checks must always report, so the workflow triggers on every PR and a
+# `changes` job decides whether the heavy container build runs. A job
+# skipped by its `if:` reports "skipped", which branch protection treats
+# as passing — unlike a path-filtered workflow that never reports and
+# blocks docs-only PRs forever.
+
 on:
   pull_request:
-    paths:
-      - "firmware/**"
-      - "ci/containers/firmware/**"
-      - ".github/workflows/firmware-build.yml"
   push:
     branches: [main]
 
@@ -20,7 +23,32 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      firmware: ${{ steps.diff.outputs.firmware }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Detect firmware-relevant changes
+        id: diff
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "firmware=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if git diff --name-only "${{ github.event.pull_request.base.sha }}"...HEAD \
+              | grep -E '^(firmware/|ci/containers/firmware/|\.github/workflows/firmware-build\.yml)'; then
+            echo "firmware=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No firmware-relevant paths changed; build will be skipped."
+            echo "firmware=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
+    needs: changes
+    if: needs.changes.outputs.firmware == 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
