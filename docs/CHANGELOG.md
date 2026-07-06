@@ -9,6 +9,9 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- D-0015 (`governance/decisions.md`): `ElementalMFG` is a personal GitHub
+  account, not an org — accepted for solo bootstrap; org conversion required
+  before second maintainer / foundation transition (amends D-0011).
 - D-0014 (`governance/decisions.md`): branch protection on `main` with
   required checks `dco`/`lint-docs`/`build (lite)` and founder bypass during
   solo bootstrap; private vulnerability reporting + Discussions enabled, wiki

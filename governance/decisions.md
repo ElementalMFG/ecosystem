@@ -6,7 +6,7 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 ## Schema, counter, and quorum
 
 - **Schema.** Every entry is `## D-NNNN — <title>` followed by `- Date:` (ISO date, or `2025-Q? (bootstrap)` for pre-log decisions reconstructed at bootstrap), `- Decision:` (normative text), optional `- Rationale:`, optional `- Status:` (`RECORDED` default; `SUPERSEDED by D-NNNN` when overturned), and `- Reference:` (constitution docs, RFCs, or stories).
-- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0015**.
+- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0016**.
 - **Quorum.** Steady state: a decision closes with a simple majority of the steering committee, minimum two-thirds attendance, recorded by the Chair. Bootstrap (before S-01-009 staffs the working groups): the program lead records decisions unilaterally, each such entry is implicitly `(bootstrap)`, and all bootstrap decisions are re-ratified at the first quarterly constitutional review (S-01-016). RFC acceptances always get a corresponding entry (RFC-0001 §Detailed design).
 - **Immutability.** Entries are append-only; corrections are made by a superseding entry, never by editing history.
 
@@ -115,3 +115,11 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 - Rationale: A solo maintainer cannot approve their own PRs; admin bypass keeps velocity honest while required checks + linear history + no force-push still protect history integrity against accidents and automation. Recorded from the owner's answer to A6 in `docs/OWNER_DECISIONS.md`.
 - Status: RECORDED
 - Reference: VA-02 in `docs/portfolio/09_VENTURE_EXECUTION_MAP.md`, `docs/OWNER_DECISIONS.md` (A6), `CONTRIBUTING.md` §9, `.github/workflows/`
+
+## D-0015 — ElementalMFG personal account accepted for bootstrap (amends D-0011)
+
+- Date: 2026-07-05 (bootstrap)
+- Decision: The hosting audit found that `github.com/ElementalMFG` is a personal **user** account, not a GitHub organization as D-0011 stated. The owner accepts the user account for the solo-bootstrap phase; all D-0011 provisions (repo of record `ElementalMFG/ecosystem`, public, production status) stand unchanged. Conversion to an organization (GitHub's account-conversion flow preserves the repo, history, and URL) MUST happen before the second maintainer is onboarded or the foundation transition begins, whichever comes first, and is recorded by a superseding entry when done. Org-only features (working-group teams behind CODEOWNERS, org-wide 2FA policy) are acknowledged as deferred until then.
+- Rationale: Nothing technical in the current toolchain (branch protection, required checks, Dependabot, private vulnerability reporting, Discussions) requires an org; converting mid-bootstrap adds risk with no present benefit. Recorded from the owner's answer during the pre-development readiness audit.
+- Status: RECORDED
+- Reference: D-0011, VA-02, `docs/OWNER_DECISIONS.md` (A2)
