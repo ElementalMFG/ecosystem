@@ -77,7 +77,7 @@ CONTRIBUTING §5 currently promises an Apache-style CLA on first PR.
   future-foundation story; requires editing CONTRIBUTING §5 and dropping
   story S-01-008.
 
-### A6. Branch protection while you are the only maintainer
+### A6. Branch protection while you are the only maintainer - a) Protection on, admin-bypass allowed (applied — D-0014)
 
 CONTRIBUTING §9 requires 1 CODEOWNER approval (2 + wg-security for security
 paths). With a single human, you cannot approve your own PRs.

@@ -9,6 +9,10 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- D-0014 (`governance/decisions.md`): branch protection on `main` with
+  required checks `dco`/`lint-docs`/`build (lite)` and founder bypass during
+  solo bootstrap; private vulnerability reporting + Discussions enabled, wiki
+  disabled. Closes VA-02 (owner decision A6).
 - Owner decisions recorded as D-0011..D-0013 (`governance/decisions.md`):
   hosting at `github.com/ElementalMFG/ecosystem` (public), Elemental MFG
   (Idaho) as parent entity with interim `elementalmfg.com` contact addresses,

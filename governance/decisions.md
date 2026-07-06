@@ -6,7 +6,7 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 ## Schema, counter, and quorum
 
 - **Schema.** Every entry is `## D-NNNN — <title>` followed by `- Date:` (ISO date, or `2025-Q? (bootstrap)` for pre-log decisions reconstructed at bootstrap), `- Decision:` (normative text), optional `- Rationale:`, optional `- Status:` (`RECORDED` default; `SUPERSEDED by D-NNNN` when overturned), and `- Reference:` (constitution docs, RFCs, or stories).
-- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0014**.
+- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0015**.
 - **Quorum.** Steady state: a decision closes with a simple majority of the steering committee, minimum two-thirds attendance, recorded by the Chair. Bootstrap (before S-01-009 staffs the working groups): the program lead records decisions unilaterally, each such entry is implicitly `(bootstrap)`, and all bootstrap decisions are re-ratified at the first quarterly constitutional review (S-01-016). RFC acceptances always get a corresponding entry (RFC-0001 §Detailed design).
 - **Immutability.** Entries are append-only; corrections are made by a superseding entry, never by editing history.
 
@@ -107,3 +107,11 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 - Rationale: VA-03 hardware exists now, so hardware-verified story ACs are unblocked as soon as flashing is set up; declaring the spec-lock criteria up front prevents silent scope drift on the first commercial SKU.
 - Status: RECORDED
 - Reference: `01_SS-SP_LITE_HARDWARE_REFERENCE.md` §3.15/§7/§9, VA-03, EPIC-03, `docs/OWNER_DECISIONS.md` (D1–D3)
+
+## D-0014 — Branch protection with founder bypass; repo intake surfaces enabled
+
+- Date: 2026-07-05 (bootstrap)
+- Decision: `main` on the D-0011 repo is protected with required status checks `dco`, `lint-docs`, and `build (lite)` (strict/up-to-date mode), required linear history, and force-push/deletion forbidden. `enforce_admins` stays **off** during solo bootstrap: the founding maintainer may push directly to `main` (checks still run post-push); bots and all future contributors go through green PRs. The review-count requirement in CONTRIBUTING §9 is enforced socially, not mechanically, until a second maintainer joins, at which point a superseding entry turns on required reviews and admin enforcement. Alongside protection, the repository intake surfaces were switched on per prior decisions: GitHub private vulnerability reporting enabled (C3), GitHub Discussions enabled (D-0012), and the unused wiki disabled (docs of record live in-repo). This completes VA-02.
+- Rationale: A solo maintainer cannot approve their own PRs; admin bypass keeps velocity honest while required checks + linear history + no force-push still protect history integrity against accidents and automation. Recorded from the owner's answer to A6 in `docs/OWNER_DECISIONS.md`.
+- Status: RECORDED
+- Reference: VA-02 in `docs/portfolio/09_VENTURE_EXECUTION_MAP.md`, `docs/OWNER_DECISIONS.md` (A6), `CONTRIBUTING.md` §9, `.github/workflows/`
