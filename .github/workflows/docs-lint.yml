@@ -17,7 +17,7 @@ jobs:
   lint-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Lint documentation
         run: python3 tools/lint-docs.py
       - name: Verify stories index (D-0008)
