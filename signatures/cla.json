@@ -1,3 +1,12 @@
 {
-   "signedContributors": []
+  "signedContributors": [
+    {
+      "name": "ElementalMFG",
+      "id": 220551843,
+      "comment_id": 4898205487,
+      "created_at": "2026-07-06T22:32:00Z",
+      "repoId": 1290306815,
+      "pullRequestNo": 2
+    }
+  ]
 }
