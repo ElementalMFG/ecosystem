@@ -30,7 +30,7 @@ jobs:
       # Same digest as ci/containers/firmware/Dockerfile (espressif/idf:v5.3.5).
       image: espressif/idf@sha256:114a9f8cde8bdc5a7e95809745b492663f7c5afe9c2821a4127ff133754fafd2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Deterministic build metadata
         run: echo "SOURCE_DATE_EPOCH=$(git log -1 --format=%ct || date +%s)" >> "$GITHUB_ENV"
