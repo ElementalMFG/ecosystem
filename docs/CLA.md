@@ -105,3 +105,5 @@ Signatures are stored as JSON on the
 branch of the repository of record (D-0011), maintained by the CLA bot
 (`.github/workflows/cla.yml`). Questions: `dev@elementalmfg.com` (interim per
 D-0012).
+
+<\!-- CLA live-run probe (S-01-008 test task) — content-free touch. -->
