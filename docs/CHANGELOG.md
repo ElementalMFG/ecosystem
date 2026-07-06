@@ -74,3 +74,5 @@ in every user-visible PR (CONTRIBUTING.md §3).
   the first containerized build.
 - Statusline effort parsing when the statusline JSON carries a plain-string
   `effort`.
+
+<\!-- CI gating probe: docs-only PR must be mergeable without admin (S-01-012 fix verification). -->
