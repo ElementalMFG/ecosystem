@@ -9,10 +9,13 @@ name: firmware-build
 
 # `build (lite)` is a REQUIRED status check on `main` (D-0014). Required
 # checks must always report, so the workflow triggers on every PR and a
-# `changes` job decides whether the heavy container build runs. A job
-# skipped by its `if:` reports "skipped", which branch protection treats
-# as passing — unlike a path-filtered workflow that never reports and
-# blocks docs-only PRs forever.
+# `changes` job decides whether the heavy container build (`firmware`)
+# runs. GitHub does NOT expand the matrix of a job skipped by its
+# job-level `if:` (it reports a single check under the bare job name),
+# so the heavy job cannot carry the required context itself. Instead the
+# always-running `build` gate job reports `build (lite)` on every PR:
+# it passes when the firmware build succeeded, or when it was skipped
+# because no firmware-relevant paths changed, and fails otherwise.
 
 on:
   pull_request:
@@ -46,7 +49,7 @@ jobs:
             echo "firmware=false" >> "$GITHUB_OUTPUT"
           fi
 
-  build:
+  firmware:
     needs: changes
     if: needs.changes.outputs.firmware == 'true'
     runs-on: ubuntu-latest
@@ -74,3 +77,30 @@ jobs:
         run: |
           . "$IDF_PATH/export.sh"
           idf.py -B "build/${{ matrix.board }}" size
+
+  # Required-context reporter. Always runs, so `build (lite)` reports on
+  # every PR. NOTE: `needs.firmware.result` is the aggregate over the
+  # firmware matrix — with multiple boards, any board failure fails every
+  # `build (<board>)` gate, which is the desired required-check behavior.
+  build:
+    needs: [changes, firmware]
+    if: always()
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        board: [lite]          # keep in sync with the firmware matrix
+    steps:
+      - name: Gate on firmware build result
+        run: |
+          result="${{ needs.firmware.result }}"
+          changed="${{ needs.changes.outputs.firmware }}"
+          echo "firmware job result: $result (firmware paths changed: $changed)"
+          if [ "$result" = "success" ]; then
+            exit 0
+          fi
+          if [ "$result" = "skipped" ] && [ "$changed" = "false" ]; then
+            echo "No firmware-relevant changes; build not required."
+            exit 0
+          fi
+          echo "Firmware build failed, was cancelled, or was skipped unexpectedly."
+          exit 1
