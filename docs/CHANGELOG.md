@@ -53,6 +53,12 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Alpha board port skeleton (S-02-004): `firmware/boards/alpha/
+  board_config.h` with the full 104-define parity set from the Lite
+  reference — locked facts only (ESP32-P4NRW32X, 32 MB PSRAM, 320×240
+  display, 12× bezel LEDs), 89 `TODO(models/CATALOG)` markers for open
+  hardware; new `tools/board-parity.py` gate + `board-parity` CI
+  workflow; `alpha` added to the firmware-build CI matrix.
 - RFC-0003 — protocol compatibility & deprecation policy (S-01-017,
   D-0018): per-surface supported-version windows and lead times
   (≥2 minor releases and ≥12 months), sunset via new

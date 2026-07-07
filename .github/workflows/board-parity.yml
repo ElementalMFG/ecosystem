@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 SS-SP Project Contributors
+#
+# Board macro-parity gate (S-02-004): every firmware/boards/<name>/board_config.h
+# must declare exactly the same set of SS_* macro names as the lite reference
+# port (tools/board-parity.py). Keeps the HAL compile-time contract identical
+# across board ports.
+
+name: board-parity
+
+on:
+  pull_request:
+    paths:
+      - firmware/boards/**
+      - tools/board-parity.py
+      - .github/workflows/board-parity.yml
+  push:
+    branches: [main]
+    paths:
+      - firmware/boards/**
+      - tools/board-parity.py
+      - .github/workflows/board-parity.yml
+
+permissions:
+  contents: read
+
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Board macro parity
+        run: python3 tools/board-parity.py

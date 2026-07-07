@@ -56,7 +56,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        board: [lite]          # alpha, omega join the matrix when their HAL epics start
+        board: [lite, alpha]   # omega joins the matrix when its HAL epic starts
     container:
       # Same digest as ci/containers/firmware/Dockerfile (espressif/idf:v5.3.5).
       image: espressif/idf@sha256:114a9f8cde8bdc5a7e95809745b492663f7c5afe9c2821a4127ff133754fafd2
@@ -88,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        board: [lite]          # keep in sync with the firmware matrix
+        board: [lite, alpha]   # keep in sync with the firmware matrix
     steps:
       - name: Gate on firmware build result
         run: |
