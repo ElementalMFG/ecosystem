@@ -50,7 +50,7 @@ As a firmware engineer I want the FreeRTOS baseline configured so that schedulin
 ### S-02-007 — `ss_log` component with levels, redaction, colorized console
 As a firmware engineer I want the `ss_log` component with levels and redaction so that diagnostics never leak key material.
 - AC: `SS_LOGI/W/E/D` macros available; `%k` (key) tokens redacted at every level; CI test proves redaction; colorized console output
-- Meta: Shard=E | Type=Feature | Size=M | Prio=P0 | Status=IN_REVIEW | SKU=★ | PRD=NF-SEC-03 | Const=C-00,C-05
+- Meta: Shard=E | Type=Feature | Size=M | Prio=P0 | Status=DONE | SKU=★ | PRD=NF-SEC-03 | Const=C-00,C-05
 - Tasks: spec redaction invariants (data-independent placeholder, pointer never dereferenced, all levels/builds) · design IDF-free formatter core + spec-parsing arg consumption + macro/sink layer (T2 contract) · impl `firmware/components/ss_log/` + host test harness + `host-tests` CI workflow · test host tests green locally + CI (ASan/UBSan), 3-board container build green · docs header policy block + changelog
 - Deps: S-02-002
 
