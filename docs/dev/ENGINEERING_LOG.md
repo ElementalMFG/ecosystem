@@ -70,3 +70,6 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   step (never held for permission); scratch/probe files go in /tmp only
   (sandbox rm may be denied); cmake/ctest now allowlisted so headless
   workers can run host tests locally instead of deferring to CI.
+- infra (2026-07-07): NEVER `git add -A` — stage explicit paths. A root-level
+  personal note file was swept into a public commit; root `*.txt` is now
+  gitignored and tip-removed (history retains it; no secrets were present).

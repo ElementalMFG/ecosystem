@@ -90,3 +90,6 @@ fuzz-*/
 .claude/settings.local.json
 .claude/worktrees/
 CLAUDE.local.md
+
+# Root-level note/scratch text files are never repo content (accidental-publication guard)
+/*.txt
