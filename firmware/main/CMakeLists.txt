@@ -8,6 +8,7 @@ idf_component_register(
         "ss_uart_engine.cpp"
         "ss_compass.cpp"
         "ss_diag.cpp"
+        "ss_bootmark.cpp"
         "ss_tasks.cpp"
         "ss_panic_guard.cpp"
         "ss_panic_guard_core.c"

@@ -28,6 +28,7 @@
 #include "esp_chip_info.h"
 
 #include "board_config.h"
+#include "ss_bootmark.h"
 #include "ss_log.h"
 #include "ss_panic_guard.h"
 #include "ss_display_boot.h"
@@ -77,6 +78,7 @@ extern "C" void app_main(void)
     if (ss_panic_guard_in_safe_mode()) {
         ss_panic_guard_safe_mode_loop(); // never returns
     }
+    ss_bootmark("gate");
 
     // --- 1. NVS (required by Wi-Fi/BLE later; cheap to do first) -----------
     esp_err_t err = nvs_flash_init();
@@ -85,6 +87,7 @@ extern "C" void app_main(void)
         err = nvs_flash_init();
     }
     ESP_ERROR_CHECK(err);
+    ss_bootmark("nvs");
     banner();
     SS_LOGI("boot", "ss_log online (redaction active)");
 
@@ -95,18 +98,24 @@ extern "C" void app_main(void)
     } else {
         ESP_LOGE(TAG, "display init failed: %s — continuing headless", esp_err_to_name(err));
     }
+    ss_bootmark("display");
 
     // --- 3. Dual-UART engine SECOND (directive goal B) ----------------------
     ESP_ERROR_CHECK(ss_uart_engine_start());
+    ss_bootmark("uart");
 
     // --- 4. Compass thread (directive goal C) -------------------------------
     ESP_ERROR_CHECK(ss_compass_start());
+    ss_bootmark("compass");
 
     // --- 5. Diagnostics + power watchdog (directive goal D) -----------------
     ESP_ERROR_CHECK(ss_diag_start());
     ss_diag_beep(SS_DIAG_TONE_BOOT);
+    ss_bootmark("diag");
 
+    ss_bootmark("app_ready");
     ESP_LOGI(TAG, "boot complete — entering heartbeat");
+    ss_bootmark_report();
 
     // Boot survived bring-up: arm the 60 s stability window that clears the
     // consecutive-panic count (S-02-008).

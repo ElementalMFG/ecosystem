@@ -71,7 +71,9 @@ As a firmware engineer I want task and interrupt watchdog policy so that hung ta
 ### S-02-010 — Boot-time budget instrumentation
 As a release manager I want boot-time budget instrumentation so that boot regressions are caught in CI, not in the field.
 - AC: milestone timestamps emitted in the log; CI asserts `app_main` < 400 ms on Lite; boot-time report archived per build
-- Meta: Shard=D | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=★ | PRD=NF-PERF-05 | Const=C-00
+- Meta: Shard=D | Type=Feature | Size=S | Prio=P1 | Status=IN_REVIEW | SKU=★ | PRD=NF-PERF-05 | Const=C-00
+- Tasks: spec milestone set from the main.cpp boot order · design `ss_bootmark` marks + machine-parseable boot-report line + log-parsing budget checker · impl `firmware/main/ss_bootmark.{h,cpp}`, main.cpp marks, `tools/boot-budget-check.py` + fixtures, checker self-test in CI · test checker self-test green (pass/fail fixtures), 3-board build green; live <400 ms assertion needs a boot log (hardware/QEMU) · docs changelog
+- Deps: S-02-006; live measurement needs S-02-015 + board — story parks at IN_REVIEW until then
 
 ### S-02-011 — Heap tracker + stack watermark task
 As a firmware engineer I want a heap tracker and stack-watermark task so that memory pressure is visible before it causes faults.

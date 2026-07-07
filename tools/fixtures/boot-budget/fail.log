@@ -1,0 +1,23 @@
+I (12) boot: ESP-IDF v5.3.5 2nd stage bootloader
+I (31) boot: compile time 00:00:00
+I (98) cpu_start: Pro cpu start user code
+I (120) ss.panic_guard: boot gate: normal boot (consecutive panics=0)
+I (121) ss.boot: bootmark gate t=1500us (+1500us)
+I (145) ss.boot: bootmark nvs t=55000us (+53500us)
+I (146) ss.main: ==============================================
+I (147) ss.main:  SS-SP firmware — board lite (ESP32-S3)
+I (148) ss.main: ==============================================
+I (160) ss.boot: ss_log online (redaction active)
+W (205) ss.display_boot: panel retry 1/3 (slow init)
+I (210) ss.display_boot: ILI9488 up @40MHz, test pattern shown
+I (211) ss.boot: bootmark display t=280000us (+225000us)
+I (230) ss.uart_engine: GNSS + coproc pumps started
+I (231) ss.boot: bootmark uart t=410000us (+130000us)
+I (240) ss.compass: tilt-compensated compass thread started
+I (241) ss.boot: bootmark compass t=520000us (+110000us)
+I (250) ss.diag: buzzer/speaker diag + power WD started
+I (251) ss.boot: bootmark diag t=645000us (+125000us)
+I (252) ss.boot: bootmark app_ready t=650000us (+5000us)
+I (253) ss.main: boot complete — entering heartbeat
+I (254) ss.boot: boot-report: gate=1500 nvs=55000 display=280000 uart=410000 compass=520000 diag=645000 app_ready=650000 total=650000
+I (10254) ss.main: hb: gnss[rx=0B f=0 crcE=0 ovf=0] coproc[rx=0B f=0 crcE=0 tx=0B]

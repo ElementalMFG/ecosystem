@@ -1,0 +1,3 @@
+# Boot-budget checker fixtures are tracked test data despite the top-level
+# *.log ignore rule (S-02-010).
+!*.log
