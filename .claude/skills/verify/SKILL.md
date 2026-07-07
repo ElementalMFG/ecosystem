@@ -3,6 +3,8 @@
 name: verify
 description: Run all applicable SS-SP repo gates (docs lint, stories index, firmware build, DCO check) and report a pass/fail table. Use before any commit or PR.
 allowed-tools: Bash, Read, Grep, Glob
+# Gate-running is mechanical (doc 11 §3): auto-drop to low while active.
+effort: low
 ---
 
 # Repo verification gates

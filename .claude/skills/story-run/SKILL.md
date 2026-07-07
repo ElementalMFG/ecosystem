@@ -2,6 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 name: story-run
 description: Execute one portfolio story end-to-end — select, elaborate (Tasks/Deps per §2.7), tier-route per doc 10, implement, verify AC + gates, update Status, regenerate the index, commit with a Story trailer. The standard unit of work for docs/portfolio stories.
+# Orchestration is not intelligence-sensitive (doc 11 §3): run it at medium
+# automatically, overriding the session effort while this skill is active.
+# Deliberately NO model override here — per-turn model reversion would be a
+# silent-demotion trap; the session model comes from tools/claude/work.sh.
+effort: medium
 ---
 
 # Story run (the standard execution loop)

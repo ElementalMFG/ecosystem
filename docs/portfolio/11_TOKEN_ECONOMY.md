@@ -156,6 +156,33 @@ Manual dial-setting is now the fallback, not the mechanism:
   stops rather than a fictional in-flight self-switch. Delegated work needs
   no such mechanism: agent pins are platform-enforced per invocation.
 
+## 6b. Automatic effort adjustment (researched + applied, same day)
+
+Official frontmatter reference (skills doc, verified 2026-07-07):
+
+- **`effort:` in SKILL.md** *"overrides the session effort level"* while the
+  skill is active → applied: `story-run` carries `effort: medium` and
+  `verify` carries `effort: low` — orchestration and gate-running now
+  auto-drop below the session level with zero user action.
+- **`model:` in SKILL.md** applies *"for the rest of the current turn"* and
+  *"the session model resumes on your next prompt"* → **deliberately NOT
+  used on `t1-pipeline`**: a per-turn Fable override would satisfy the
+  first turn and then silently revert to a weaker model on the next user
+  message mid-authorship — the exact silent demotion doc 10 §1.4 forbids.
+  T1 provisioning stays session-level (launcher or explicit command), with
+  the skill's hard stop as the guard.
+- **Context-preserving escalation:** the installed CLI accepts `--model`
+  and `--effort` together with `--continue`/`--resume`, so an
+  under-provisioned session can be reopened AS THE SAME CONVERSATION,
+  correctly provisioned: `claude --continue --model claude-fable-5
+  --effort xhigh`. The `t1-pipeline` stop message now cites this exact
+  command.
+- **Validated end-to-end (2026-07-07):** launcher dry-runs correct for all
+  five resolution paths (T1/T2/T3/T4/T1?+warning) and error inputs exit
+  non-zero; the map `--check` gate catches tampering (exit 1) and passes
+  clean regeneration; the stop-and-instruct behaviour has a live
+  precedent (S-02-008: pipeline halted until `/effort xhigh` was set).
+
 ## 7. Adoption checklist (owner)
 
 - [ ] Start the next session with `/model opus` + `/effort medium` for the

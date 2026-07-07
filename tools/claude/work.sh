@@ -10,9 +10,14 @@
 #   T1?  -> claude-opus-4-8 @ medium, /story-run (prints a confirm warning first)
 set -euo pipefail
 
+DRY_RUN=0
+if [[ "${1:-}" == "--dry-run" ]]; then
+  DRY_RUN=1
+  shift
+fi
 STORY="${1:-}"
 if [[ -z "$STORY" ]]; then
-  echo "usage: work.sh S-NN-MMM" >&2
+  echo "usage: work.sh [--dry-run] S-NN-MMM" >&2
   exit 64
 fi
 
@@ -50,6 +55,11 @@ case "$TIER" in
     exit 1
     ;;
 esac
+
+if [[ "$DRY_RUN" == "1" ]]; then
+  echo "DRY-RUN: claude --model $MODEL --effort $EFFORT \"$PROMPT\""
+  exit 0
+fi
 
 if claude --help 2>/dev/null | grep -q -- --effort; then
   exec claude --model "$MODEL" --effort "$EFFORT" "$PROMPT"

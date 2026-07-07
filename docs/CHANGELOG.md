@@ -53,6 +53,15 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Automatic effort adjustment (doc 11 §6b): `story-run` and `verify`
+  skills now carry frontmatter `effort: medium`/`low` that overrides the
+  session level while active (official skills frontmatter semantics,
+  verified); `t1-pipeline` deliberately carries no override (per-turn
+  model reversion would silently demote T1 mid-authorship) and its stop
+  message now gives the context-preserving fix
+  (`claude --continue --model claude-fable-5 --effort xhigh`);
+  `work.sh --dry-run` added and the whole chain validated end-to-end
+  (five resolution paths, error exits, map tamper-detection).
 - Allocation automation (doc 11 §6a): `tools/allocation.py` resolves
   every story's tier/model/effort recipe mechanically and generates the
   CI-checked `docs/portfolio/ALLOCATION_MAP.md` (audit: 63 T1, 111
