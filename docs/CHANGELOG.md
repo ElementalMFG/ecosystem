@@ -59,6 +59,12 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Lossless fresh sessions (doc 11 §6d): append-only
+  `docs/dev/ENGINEERING_LOG.md` (seeded with accumulated gotchas), a
+  mandatory knowledge-sweep step in `story-run` (report carries
+  `Learnings:`), and a SessionStart hook (`session-brief.sh`) injecting
+  a ~20-line program brief (recent commits, in-flight stories, latest
+  log entries) into every new session.
 - Story queue runner (doc 11 §6c): `tools/claude/run-queue.sh` /
   `make queue Q="…"` executes an approved story list headlessly at each
   story's resolved model/effort with per-story post-checks (clean tree,

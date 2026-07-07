@@ -65,6 +65,16 @@ output, file path, test result). An AC that cannot be verified now (e.g.
 needs hardware or a hosted repo) blocks `DONE` — use `IN_REVIEW` or `BLOCKED`
 and tell the user why.
 
+## 5a. Knowledge sweep (before gates — makes fresh sessions lossless)
+
+Ask: did this story learn anything a FUTURE story needs that is not already
+in a contract doc-block, a `.claude/rules/` file, or a `TODO(S-NN-MMM)` code
+marker? If yes, append 1–3 lines to `docs/dev/ENGINEERING_LOG.md`
+(append-only, `- S-NN-MMM (date): fact.`); promote durable domain facts to
+the matching rules file. If no, that's fine — but the step is mandatory and
+the report must state `Learnings: <where recorded | none>`. Also grep the
+log at story START for the component you're touching.
+
 ## 6. Gates + status + commit
 
 1. Update `Status=` (`DONE` only when every AC has evidence).

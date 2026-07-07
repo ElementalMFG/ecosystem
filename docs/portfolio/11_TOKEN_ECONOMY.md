@@ -200,6 +200,30 @@ guidance: batch boundaries use fresh sessions (`make story`/`make queue` —
 the repo is the memory); mid-story tier walls use
 `claude --continue --model … --effort …` (same conversation, re-provisioned).
 
+## 6d. Lossless fresh sessions (closing the context tradeoff)
+
+Fresh-per-story sessions cost quality only if knowledge stays
+session-resident. Three structural pieces make externalization automatic
+rather than disciplinary:
+
+1. **Engineering log** (`docs/dev/ENGINEERING_LOG.md`): append-only,
+   committed, greppable raw-capture layer for cross-story learnings; seeded
+   with the program's accumulated gotchas. Durable domain facts graduate to
+   `.claude/rules/`.
+2. **Mandatory knowledge sweep** (`story-run` step 5a): every story closes
+   by recording its learnings (or explicitly `none`) — the report carries a
+   `Learnings:` line, so omission is visible.
+3. **SessionStart auto-brief** (`tools/claude/session-brief.sh`, registered
+   as a SessionStart hook): every fresh session begins with ~20 injected
+   lines — last commits, in-flight stories, recent log entries, policy
+   pointers — so cold starts see the program state without any retrieval
+   round-trip.
+
+Together: nothing durable can silently stay behind in a dead session, and
+every new session starts pre-briefed — fresh context stops being a
+tradeoff and becomes strictly better (sharp attention + guaranteed
+carryover of what matters).
+
 ## 7. Adoption checklist (owner)
 
 - [ ] Start the next session with `/model opus` + `/effort medium` for the
