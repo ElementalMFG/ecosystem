@@ -116,7 +116,9 @@ As a device owner I want a safe-mode recovery boot path so that a bad update or 
 ### S-02-017 — NVS namespace scheme + versioning
 As a firmware engineer I want a versioned NVS namespace scheme so that persisted settings survive firmware upgrades.
 - AC: `ss_nvs_get/set(namespace, key, ver)` API implemented; migration hook invoked on version mismatch; migrations covered by unit tests
-- Meta: Shard=B | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
+- Meta: Shard=B | Type=Feature | Size=S | Prio=P0 | Status=IN_REVIEW | SKU=★ | PRD=— | Const=C-00
+- Tasks: spec (versioned-namespace scheme + migration-hook contract in `ss_nvs.h`) · design (pure version/migration decision core, IDF-free) · impl (`ss_nvs_core.c` decision logic + `ss_nvs.cpp` nvs_flash glue) · test (host gtest: version-mismatch → migration plan, monotonic upgrade, no-op same-version, downgrade refusal) · docs (contract doc-block + ENGINEERING_LOG entry)
+- Deps: S-02-014
 
 ### S-02-018 — RTC & wall clock source (GNSS/NTP fallback)
 As a firmware engineer I want an RTC and wall-clock source with GNSS/NTP fallback so that timestamps stay trustworthy on and off grid.
