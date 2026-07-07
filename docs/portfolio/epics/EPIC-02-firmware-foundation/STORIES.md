@@ -62,7 +62,9 @@ As a firmware engineer I want a panic handler that dumps to flash and reboots sa
 ### S-02-009 — Task-watchdog + interrupt-watchdog policy
 As a firmware engineer I want task and interrupt watchdog policy so that hung tasks recover automatically.
 - AC: TWDT default 5 s; per-task registration API available; synthetic hang tests trigger both TWDT and IWDT
-- Meta: Shard=F | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
+- Meta: Shard=F | Type=Feature | Size=S | Prio=P0 | Status=IN_REVIEW | SKU=★ | PRD=— | Const=C-00
+- Tasks: spec per-task feed periods vs 5 s deadline from existing loops · design explicit TWDT/IWDT config incl. panic-on-hang + `ss_task_wdt_*` API in the ss_tasks policy layer · impl config, API, register qualifying tasks, staged synthetic hang tests · test policy gates green, 3-board CI build green (hang-test execution needs S-02-014/S-02-015 runner) · docs policy block + changelog
+- Deps: S-02-006; test execution needs S-02-014/S-02-015 — story parks at IN_REVIEW until then
 
 ### S-02-010 — Boot-time budget instrumentation
 As a release manager I want boot-time budget instrumentation so that boot regressions are caught in CI, not in the field.

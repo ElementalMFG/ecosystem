@@ -292,6 +292,10 @@ esp_err_t ss_uart_engine_start(void)
     memset(&s_fix, 0, sizeof(s_fix));
 
 #if CONFIG_SS_LITE_MOD_GNSS_BN880
+    // TWDT-EXEMPT (S-02-009): gnss_pump_task blocks on xQueueReceive(portMAX_
+    // DELAY) waiting for UART events; when the GNSS is idle / absent it sleeps
+    // indefinitely (>> the 5 s TWDT deadline), so it deliberately does NOT
+    // subscribe to the task watchdog.
     if (ss_task_create(gnss_pump_task, "ss_gnss_uart", 4096, nullptr, SS_PRIO_COMMS, nullptr) !=
         pdPASS)
         return ESP_ERR_NO_MEM;
@@ -300,6 +304,10 @@ esp_err_t ss_uart_engine_start(void)
 #endif
 
 #if CONFIG_SS_LITE_MOD_COPROC_C6 || CONFIG_SS_LITE_MOD_COPROC_H2
+    // TWDT-EXEMPT (S-02-009): coproc_pump_task blocks on xQueueReceive(portMAX_
+    // DELAY) waiting for UART events; when the coprocessor is quiet it sleeps
+    // indefinitely (>> the 5 s TWDT deadline), so it deliberately does NOT
+    // subscribe to the task watchdog.
     if (ss_task_create(coproc_pump_task, "ss_coproc_uart", 4096, nullptr, SS_PRIO_COMMS_CRITICAL,
                        nullptr) != pdPASS)
         return ESP_ERR_NO_MEM;

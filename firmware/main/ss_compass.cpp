@@ -147,8 +147,16 @@ static void compass_task(void*)
     const TickType_t period = pdMS_TO_TICKS(1000 / SS_MAG_ODR_HZ);
     TickType_t wake = xTaskGetTickCount();
 
+    // TWDT policy (S-02-009): the loop period is 1000/SS_MAG_ODR_HZ ms plus a
+    // few 50 ms-timeout I2C transactions — worst case ~1 s (SS_MAG_ODR_HZ is 15
+    // on lite and 1 on alpha/omega), provably far under the 5 s TWDT deadline on
+    // every board. So this task subscribes and feeds once per iteration.
+    if (ss_task_wdt_register() != ESP_OK)
+        ESP_LOGW(TAG, "compass: TWDT subscribe failed (task runs unmonitored)");
+
     for (;;) {
         vTaskDelayUntil(&wake, period);
+        ss_task_wdt_feed();
 
         ss_compass_reading_t r = {};
         r.src = SS_COMPASS_SRC_NONE;

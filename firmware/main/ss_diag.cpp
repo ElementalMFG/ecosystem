@@ -177,6 +177,9 @@ static void power_watchdog_task(void*)
 esp_err_t ss_diag_start(void)
 {
     ESP_RETURN_ON_ERROR(buzzer_init(), TAG, "buzzer");
+    // TWDT-EXEMPT (S-02-009): power_watchdog_task sleeps 30 s per iteration,
+    // which is >> the 5 s TWDT deadline, so it deliberately does NOT subscribe
+    // to the task watchdog — doing so would false-trip it every cycle.
     const BaseType_t ok = ss_task_create_pinned(power_watchdog_task, "ss_pwr_wd", 2560, nullptr,
                                                 SS_PRIO_HOUSEKEEPING, nullptr, tskNO_AFFINITY);
     ESP_LOGI(TAG, "diagnostics ready (buzzer GPIO%d, speaker I2S%d)", SS_BUZZER_PIN,

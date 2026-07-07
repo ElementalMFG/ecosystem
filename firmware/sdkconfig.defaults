@@ -27,6 +27,26 @@ CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192
 # is the IDF default so the RTOS baseline is self-documenting.
 CONFIG_FREERTOS_CHECK_STACKOVERFLOW_CANARY=y
 
+# --- S-02-009: task / interrupt watchdog policy -----------------------------
+# Task WDT (TWDT): a task that hangs (fails to feed within the deadline) must
+# RECOVER via panic -> reboot, not merely emit a warning — a wedged pager is
+# useless in the field. Hence PANIC=y (structured flash-dump post-mortem of the
+# ensuing panic lands with S-02-008). The idle tasks on both cores are
+# subscribed so a runaway task that starves an idle task is also caught.
+# App tasks whose loop latency is bounded strictly under the 5 s deadline
+# register + feed through the ss_task_wdt_* API (see ss_tasks.h WATCHDOG POLICY).
+CONFIG_ESP_TASK_WDT_EN=y
+CONFIG_ESP_TASK_WDT_INIT=y
+CONFIG_ESP_TASK_WDT_TIMEOUT_S=5
+CONFIG_ESP_TASK_WDT_PANIC=y
+CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU0=y
+CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU1=y
+# Interrupt WDT (IWDT): guards against ISRs / critical sections that disable
+# interrupts for too long (protects ISR latency). Kept at the IDF-default
+# timeout (~300 ms); only the enable + CPU1 coverage are made explicit here.
+CONFIG_ESP_INT_WDT=y
+CONFIG_ESP_INT_WDT_CHECK_CPU1=y
+
 # --- Production hardening (enable on release builds; see EPIC-08) -----------
 # CONFIG_SECURE_BOOT=y
 # CONFIG_SECURE_FLASH_ENC_ENABLED=y

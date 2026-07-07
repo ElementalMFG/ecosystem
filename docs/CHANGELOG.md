@@ -53,6 +53,13 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Watchdog policy (S-02-009): explicit TWDT (5 s, panic-on-hang so
+  hung tasks recover by reboot) and IWDT config in
+  `sdkconfig.defaults`; `ss_task_wdt_register/feed/unregister` API in
+  the ss_tasks policy layer with a documented register-vs-exempt rule;
+  compass task registered (worst-case ~1 s loop), event-driven pumps
+  and 30 s housekeeping exempted with in-code rationale; synthetic
+  TWDT/IWDT hang tests staged for the S-02-014/015 runner.
 - `ss_log` component (S-02-007): `SS_LOGE/W/I/D` macros with ANSI
   colorized console and runtime level filter; `%k` redaction token —
   consumes the pointer without ever dereferencing it and always emits
