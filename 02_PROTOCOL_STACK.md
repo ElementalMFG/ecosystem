@@ -351,6 +351,10 @@ QoS is enforced by:
 - Templates provided (`RFC-TEMPLATE.md`).
 - RFCs must include: motivation, wire format, encoding examples, backwards‑compat plan, security review, reference implementation link.
 - Reference implementation (this repo) is the compliance oracle; RFCs land only after ref impl passes conformance tests.
+- Compatibility windows, deprecation lead times, and sunset procedure for
+  every versioned surface are governed by
+  [RFC-0003](./rfcs/0003-compat-deprecation-policy.md) (announcement
+  channel: [`docs/DEPRECATIONS.md`](./docs/DEPRECATIONS.md)).
 
 ---
 

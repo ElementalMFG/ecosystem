@@ -42,6 +42,7 @@ As a firmware engineer I want an LTE-M / NB-IoT cellular bearer plugin so that O
 As a protocol engineer I want an RFC-specified `ss_link` frame format with a small variant for LoRa and a large variant for Wi-Fi/HaLow so that every bearer carries the same semantics in a wire-verifiable shape.
 - AC: RFC specifies both variants including header layout, priority bits, fragmentation, and version field; reference encoder/decoder round-trips published test vectors byte-exactly; small-variant overhead fits LoRa payload budgets; RFC reaches ACCEPTED via the governance process
 - Meta: Shard=E | Type=RFC | Size=M | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-02, C-08, C-06
+- Deps: RFC-0003 (compat/deprecation policy — version-field window & sunset are governed there, not restated here)
 
 ### S-10-009 — Scheduler w/ cost/latency/energy scoring
 As a firmware engineer I want a bearer scheduler that scores available bearers on cost, latency, and energy per frame so that each frame goes out on the best bearer for its QoS hint.

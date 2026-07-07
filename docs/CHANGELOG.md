@@ -53,6 +53,13 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- RFC-0003 — protocol compatibility & deprecation policy (S-01-017,
+  D-0018): per-surface supported-version windows and lead times
+  (≥2 minor releases and ≥12 months), sunset via new
+  `docs/DEPRECATIONS.md`, security fast-track for broken crypto suites;
+  cited by the version-negotiation and SDK-policy stories, linked from
+  `02_PROTOCOL_STACK.md` §11, and enforced by a new `wire-format-policy`
+  CI check requiring `protocol/**` PRs to cite RFC-0003.
 - Anti-rug-pull covenant test suite (S-01-015): published artifacts
   hash-anchored in append-only `governance/covenant-anchors.json`;
   `tools/covenant-check.py` fails on any retroactive license change,

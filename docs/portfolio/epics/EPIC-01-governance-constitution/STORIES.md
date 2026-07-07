@@ -116,4 +116,6 @@ As the community WG chair I want a quarterly constitutional review process so th
 ### S-01-017 — Protocol compatibility & deprecation policy (cross-layer)
 As a protocol steward I want a single ratified compatibility-and-deprecation policy covering every versioned surface (SS-Link frames, RNS/LXMF profile, crypto suites, pairing schema, plugin ABI, node-profile schema, cloud APIs) so that "how long must old versions keep working" is a governed rule, not a per-team guess.
 - AC: an ACCEPTED RFC defines, per surface, the minimum supported-version window (e.g. current plus previous major), the deprecation announcement channel and lead time expressed in release counts, and the sunset procedure; every version-negotiation story (S-06-016, S-12-014, S-10-008) and the SDK policy (EPIC-20) cite this policy rather than restating their own; CI includes a check that a wire-format PR references the policy section it complies with; the policy is linked from `02_PROTOCOL_STACK.md` §11
-- Meta: Shard=— | Type=RFC | Size=S | Prio=P1 | Status=DRAFT | SKU=★ | PRD=— | Const=C-02
+- Meta: Shard=— | Type=RFC | Size=S | Prio=P1 | Status=DONE | SKU=★ | PRD=— | Const=C-02
+- Tasks: spec per-surface version windows from 06 §4.4/§6.3 constraints · design RFC-0003 + DEPRECATIONS.md channel + PR-body CI cite check · impl rfcs/0003, docs/DEPRECATIONS.md, wire-format-policy workflow, story/SDK citations, 02 §11 link · test lint + index + covenant green, CI check logic reviewed · docs README index + decisions D-0018 + changelog
+- Deps: S-01-014

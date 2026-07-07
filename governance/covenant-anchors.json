@@ -107,6 +107,13 @@
       "anchored": "2026-07-05"
     },
     {
+      "path": "rfcs/0003-compat-deprecation-policy.md",
+      "sha256": "1575ae0cdf173a7de0bbbff261d6542a0b369d3f141a3d03cf1262a298df109d",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-07"
+    },
+    {
       "path": "rfcs/DRAFT-foundation-transfer.md",
       "sha256": "286681747a069af99bc58c0fbda05f7cf1138abb6150c4e17d2e76824bc18dce",
       "spdx": "CC-BY-4.0",

@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 SS-SP Project Contributors
+#
+# Wire-format policy gate (S-01-017): protocol/** changes must cite the section
+# of rfcs/0003-compat-deprecation-policy.md they comply with. Fails the PR when
+# the description does not reference RFC-0003.
+
+name: wire-format-policy
+
+on:
+  pull_request:
+    paths:
+      - 'protocol/**'
+
+permissions:
+  contents: read
+
+jobs:
+  policy-cite:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require RFC-0003 citation in PR body
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if printf '%s' "$PR_BODY" | grep -q 'RFC-0003'; then
+            echo "OK: PR description cites RFC-0003."
+            exit 0
+          fi
+          echo "FAIL: wire-format changes under protocol/** must state which section of"
+          echo "rfcs/0003-compat-deprecation-policy.md the change complies with."
+          echo "Cite \"RFC-0003 §<section>\" in the PR description, then re-run."
+          exit 1

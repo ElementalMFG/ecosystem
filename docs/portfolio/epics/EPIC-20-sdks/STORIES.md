@@ -87,6 +87,7 @@ As an SDK consumer I want a docs site with a section per language so that I can 
 As a release manager I want a published semver and LTS-branch policy for all SDKs so that pinned users are not broken by ABI churn (risk R20-03).
 - AC: policy document defines breaking-change rules, LTS branch lifetime, and deprecation windows; a CI check blocks API-breaking changes that lack a major-version bump; the policy is linked from every SDK README
 - Meta: Shard=— | Type=Task | Size=S | Prio=P1 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00, C-06
+- Deps: RFC-0003 (compat/deprecation policy — SDK deprecation windows inherit from it, not restated here)
 
 ### S-20-018 — Publish first releases to npm/pypi/crates.io/pub.dev
 As a release manager I want first public releases on npm, PyPI, crates.io, and pub.dev so that developers can install the SDKs from standard registries.

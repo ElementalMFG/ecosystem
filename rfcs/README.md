@@ -9,6 +9,7 @@ Formal Request-for-Comments documents for changes that require broader review.
 |-----|-------|--------|
 | [0001](0001-rfc-process-adoption.md) | Adoption of the RFC process | ACCEPTED |
 | [0002](0002-toolchain-pinning-policy.md) | Toolchain pinning policy (digest-pinned build containers) | IMPLEMENTED |
+| [0003](0003-compat-deprecation-policy.md) | Protocol compatibility & deprecation policy (cross-layer) | ACCEPTED |
 | [DRAFT](DRAFT-foundation-transfer.md) | Foundation transfer plan (Phase-2 neutrality) | DRAFT |
 
 ## When to open an RFC

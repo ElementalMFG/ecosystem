@@ -72,6 +72,7 @@ As a device owner I want on-device message search so that I can find old message
 As a protocol engineer I want LXMF version negotiation between peers so that spec drift does not silently break messaging (risk R12-01).
 - AC: peers agree on the highest mutually supported LXMF version before message exchange; an unsupported-version peer produces a defined, user-visible incompatibility state instead of silent loss; negotiation behaviour is covered by tests against the reference implementation
 - Meta: Shard=A | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=★ | PRD=F-MSG-01 | Const=C-02
+- Deps: RFC-0003 (compat/deprecation policy — profile-version window & sunset are governed there, not restated here)
 
 ### S-12-015 — Interop test w/ Sideband client
 As a protocol engineer I want automated interop tests against the Sideband client so that SS-SP messaging is proven compatible with the most-used LXMF application.

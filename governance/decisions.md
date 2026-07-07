@@ -6,7 +6,7 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 ## Schema, counter, and quorum
 
 - **Schema.** Every entry is `## D-NNNN — <title>` followed by `- Date:` (ISO date, or `2025-Q? (bootstrap)` for pre-log decisions reconstructed at bootstrap), `- Decision:` (normative text), optional `- Rationale:`, optional `- Status:` (`RECORDED` default; `SUPERSEDED by D-NNNN` when overturned), and `- Reference:` (constitution docs, RFCs, or stories).
-- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0018**.
+- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0019**.
 - **Quorum.** Steady state: a decision closes with a simple majority of the steering committee, minimum two-thirds attendance, recorded by the Chair. Bootstrap (before S-01-009 staffs the working groups): the program lead records decisions unilaterally, each such entry is implicitly `(bootstrap)`, and all bootstrap decisions are re-ratified at the first quarterly constitutional review (S-01-016). RFC acceptances always get a corresponding entry (RFC-0001 §Detailed design).
 - **Immutability.** Entries are append-only; corrections are made by a superseding entry, never by editing history.
 
@@ -139,3 +139,11 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 - Rationale: S-01-009's AC requires all twelve charters merged with chairs, cadence, and escalation stated; honest bootstrap staffing (one person, twelve hats) is recorded rather than inventing rosters. Fixing the doc-06 table closes the community/legal governance gap.
 - Status: RECORDED
 - Reference: S-01-009, `06_GOVERNANCE.md` §3, `governance/wg/`, RFC-0001, `rfcs/DRAFT-foundation-transfer.md`, D-0015
+
+## D-0018 — RFC-0003 protocol compatibility & deprecation policy accepted
+
+- Date: 2026-07-07
+- Decision: RFC-0003 (protocol compatibility & deprecation policy, cross-layer) is accepted via the bootstrap governance provision — the program lead acts as Steering Committee per D-0015 / RFC-0001.
+- Rationale: Establishes one governed rule for supported-version windows, deprecation lead times (≥2 minor releases and ≥12 months), and sunset via `docs/DEPRECATIONS.md` across all seven versioned surfaces, operationalizing `06_GOVERNANCE.md` §4.4/§6.3. In consequence, the version-negotiation stories (S-06-016, S-12-014, S-10-008) and the SDK policy (S-20-017) cite RFC-0003 instead of restating windows, and wire-format PRs must cite it in CI (S-01-017).
+- Status: RECORDED
+- Reference: `rfcs/0003-compat-deprecation-policy.md`, `06_GOVERNANCE.md` §4.4/§6.3, `docs/DEPRECATIONS.md`, S-06-016, S-12-014, S-10-008, S-20-017, S-01-017, D-0015, RFC-0001

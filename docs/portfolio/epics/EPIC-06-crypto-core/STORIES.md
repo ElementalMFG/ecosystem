@@ -84,6 +84,7 @@ As a security engineer I want hybrid PQ signatures (Ed25519 + ML-DSA-65) so that
 As a protocol engineer I want a crypto suite ID with version negotiation so that suites can evolve without breaking deployed devices.
 - AC: suite ID carried in the handshake; downgrade attempts detected and rejected; negotiation matrix covered by tests
 - Meta: Shard=F | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=★ | PRD=F-SEC-03 | Const=C-02,C-05
+- Deps: RFC-0003 (compat/deprecation policy — suite windows & sunset are governed there, not restated here)
 
 ### S-06-017 — KAT suite runner + CI gate
 As a release manager I want a KAT suite runner as a CI gate so that no crypto change merges without passing known-answer tests.
