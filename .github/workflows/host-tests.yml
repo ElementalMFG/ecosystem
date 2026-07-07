@@ -73,8 +73,12 @@ jobs:
       - name: pass.log is under budget (exit 0)
         run: python3 tools/boot-budget-check.py tools/fixtures/boot-budget/pass.log
       - name: fail.log is over budget (exit 1)
-        run: "! python3 tools/boot-budget-check.py tools/fixtures/boot-budget/fail.log"
-      - name: empty input has no boot-report (exit 2)
         run: |
-          python3 tools/boot-budget-check.py /dev/null; rc=$?
+          rc=0; python3 tools/boot-budget-check.py tools/fixtures/boot-budget/fail.log || rc=$?
+          test "$rc" -eq 1
+      - name: empty input has no boot-report (exit 2)
+        # `|| rc=$?` keeps the failing command in a conditional context so the
+        # runner's `bash -e` doesn't abort the step before the assertion.
+        run: |
+          rc=0; python3 tools/boot-budget-check.py /dev/null || rc=$?
           test "$rc" -eq 2
