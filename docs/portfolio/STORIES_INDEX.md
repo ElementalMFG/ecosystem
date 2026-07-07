@@ -49,7 +49,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-02-004 | B | Feature | S | P0 | DONE | A | — | C-00 |
 | S-02-005 | B | Feature | S | P0 | DONE | O | — | C-00 |
 | S-02-006 | C | Feature | S | P0 | IN_REVIEW | ★ | — | C-00 |
-| S-02-007 | E | Feature | M | P0 | DRAFT | ★ | NF-SEC-03 | C-00,C-05 |
+| S-02-007 | E | Feature | M | P0 | IN_REVIEW | ★ | NF-SEC-03 | C-00,C-05 |
 | S-02-008 | E | Feature | M | P0 | DRAFT | ★ | — | C-00 |
 | S-02-009 | F | Feature | S | P0 | DRAFT | ★ | — | C-00 |
 | S-02-010 | D | Feature | S | P1 | DRAFT | ★ | NF-PERF-05 | C-00 |
@@ -720,9 +720,9 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 | Status | Count |
 |---|---|
-| DRAFT | 512 |
+| DRAFT | 511 |
 | IN_PROGRESS | 1 |
-| IN_REVIEW | 1 |
+| IN_REVIEW | 2 |
 | DONE | 18 |
 | BLOCKED | 1 |
 

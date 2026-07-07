@@ -28,6 +28,7 @@
 #include "esp_chip_info.h"
 
 #include "board_config.h"
+#include "ss_log.h"
 #include "ss_display_boot.h"
 #include "ss_uart_engine.h"
 #include "ss_compass.h"
@@ -76,6 +77,7 @@ extern "C" void app_main(void)
     }
     ESP_ERROR_CHECK(err);
     banner();
+    SS_LOGI("boot", "ss_log online (redaction active)");
 
     // --- 2. Display FIRST (directive goal A: user feedback ASAP) -----------
     err = ss_display_boot_init();

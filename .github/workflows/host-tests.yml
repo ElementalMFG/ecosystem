@@ -1,0 +1,36 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 SS-SP Project Contributors
+#
+# Host-side unit tests for the ss_log redaction core (S-02-007). The formatter
+# core is ESP-IDF-free, so it builds and runs on a plain gcc under ASan/UBSan —
+# no firmware container required. This gate proves that %k never leaks key
+# material and that the colorized-console codes exist in the sink layer.
+
+name: host-tests
+
+on:
+  pull_request:
+    paths:
+      - firmware/components/ss_log/**
+      - .github/workflows/host-tests.yml
+  push:
+    branches: [main]
+    paths:
+      - firmware/components/ss_log/**
+      - .github/workflows/host-tests.yml
+
+permissions:
+  contents: read
+
+jobs:
+  ss-log-redaction:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: ss_log formatter host tests (ASan/UBSan)
+        run: make -C firmware/components/ss_log/test/host test
+      - name: Colorized-console codes present
+        run: |
+          grep -q '\\033\[0;31m' firmware/components/ss_log/src/ss_log.c
+          grep -q '\\033\[0;33m' firmware/components/ss_log/src/ss_log.c
+          grep -q '\\033\[0;32m' firmware/components/ss_log/src/ss_log.c

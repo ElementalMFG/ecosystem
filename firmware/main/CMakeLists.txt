@@ -10,5 +10,5 @@ idf_component_register(
         "ss_diag.cpp"
         "ss_tasks.cpp"
     INCLUDE_DIRS "."
-    REQUIRES ss_hal driver esp_lcd esp_timer nvs_flash
+    REQUIRES ss_hal ss_log driver esp_lcd esp_timer nvs_flash
 )

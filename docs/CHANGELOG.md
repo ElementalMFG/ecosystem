@@ -53,6 +53,13 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- `ss_log` component (S-02-007): `SS_LOGE/W/I/D` macros with ANSI
+  colorized console and runtime level filter; `%k` redaction token —
+  consumes the pointer without ever dereferencing it and always emits
+  a data-independent `[REDACTED]` at every level in every build; the
+  formatter core is IDF-free and proven by a host test suite (39
+  checks incl. differential matrix vs `vsnprintf`, ASan/UBSan, and a
+  sabotage test) run by the new `host-tests` CI workflow.
 - FreeRTOS baseline (S-02-006): named priority bands with an enforced
   application ceiling (`firmware/main/ss_tasks.h`, wrappers asserting
   1..SS_PRIO_CEILING), all four existing tasks migrated off numeric
