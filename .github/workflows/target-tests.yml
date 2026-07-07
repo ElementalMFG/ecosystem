@@ -1,0 +1,79 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 SS-SP Project Contributors
+#
+# On-target Unity test app (S-02-015). Two tiers:
+#   * build-target-app — always available: compiles the Unity test app for Lite
+#     in the digest-pinned container. Proves the harness + every registered case
+#     compile for real silicon. This is the part CI can verify without hardware.
+#   * on-target — flashes a board and parses the Unity summary over serial via
+#     pytest-embedded. Needs an attached Lite board, so it runs on a self-hosted
+#     runner and is gated behind the SS_HW_RUNNER repo variable (inert until the
+#     hardware runner is wired). This is the "results reported over serial to CI"
+#     acceptance criterion.
+#
+# collect-harness lints the pytest harness (import + discovery) with no board,
+# so a broken runner file is caught on every PR.
+
+name: target-tests
+
+on:
+  pull_request:
+    paths:
+      - firmware/test/target/**
+      - firmware/components/ss_hal/**
+      - firmware/boards/**
+      - ci/containers/firmware/**
+      - .github/workflows/target-tests.yml
+  push:
+    branches: [main]
+    paths:
+      - firmware/test/target/**
+      - firmware/components/ss_hal/**
+      - firmware/boards/**
+      - ci/containers/firmware/**
+      - .github/workflows/target-tests.yml
+
+permissions:
+  contents: read
+
+jobs:
+  build-target-app:
+    runs-on: ubuntu-latest
+    container:
+      # Single source of truth for this digest is ci/containers/firmware/Dockerfile
+      # (RFC-0002); keep in lockstep with firmware-build.yml + devcontainer.json.
+      image: espressif/idf@sha256:114a9f8cde8bdc5a7e95809745b492663f7c5afe9c2821a4127ff133754fafd2
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build on-target Unity app (Lite / esp32s3)
+        working-directory: firmware/test/target
+        run: |
+          . "$IDF_PATH/export.sh"
+          idf.py -B build/lite -DSS_BOARD=lite build
+
+  collect-harness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate pytest harness discovers cleanly (no board)
+        working-directory: firmware/test/target
+        run: python -m pytest --collect-only -q
+
+  on-target:
+    # Hardware-gated: only runs where a self-hosted runner with an attached Lite
+    # board is available. Set repo variable SS_HW_RUNNER=true to enable.
+    if: ${{ vars.SS_HW_RUNNER == 'true' }}
+    runs-on: [self-hosted, esp32s3]
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install pytest-embedded
+        run: pip install pytest-embedded-idf pytest-embedded-serial-esp
+      - name: Build + flash + parse Unity summary over serial
+        working-directory: firmware/test/target
+        run: |
+          . "$IDF_PATH/export.sh"
+          idf.py -B build/lite -DSS_BOARD=lite build
+          pytest --embedded-services esp,idf --target esp32s3 --build-dir build/lite

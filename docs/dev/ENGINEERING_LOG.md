@@ -40,3 +40,14 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   lint-docs fails; `github.event.pull_request.base.sha` can be stale
   (PR-creation-time); a job-level-skipped matrix job reports its bare job
   name, which is why required contexts use always-run gate jobs.
+- S-02-015 (2026-07-07): on-target Unity tests live in a SEPARATE IDF project
+  (`firmware/test/target/`), NOT reached by `make lite` — add on-target suites
+  by listing the source in its `main/CMakeLists.txt` and REQUIRE-ing the
+  component. The `.gitignore` `target/` (Rust build) pattern swallows the dir;
+  a `!firmware/test/target/` negation keeps the source tracked. The pinned IDF
+  digest is now in FOUR files (Dockerfile + devcontainer + firmware-build.yml +
+  target-tests.yml) — bump all four together (RFC-0002).
+- S-02-015 (2026-07-07): `ss_hal_has_cap`/`ss_hal_board_id`/`ss_hal_caps_mask`
+  are still unimplemented (ss_hal is header-only until EPIC-03), so the on-target
+  HAL smoke test asserts compile-time `SS_BOARD_CAPS`/identity macros only; a
+  runtime-accessor smoke test waits on the impl (EPIC-03 HAL bring-up).

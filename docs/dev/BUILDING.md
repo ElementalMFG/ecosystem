@@ -90,6 +90,36 @@ the `ss-log-redaction` job runs the quick ASan/UBSan harness, and the
 `gtest-coverage` job runs the CMake/ctest suite and uploads `coverage.xml` as a
 build artifact.
 
+## On-target tests
+
+Hardware-dependent code (HAL entry points, watchdogs, panic paths) is exercised
+by the on-target [Unity](https://github.com/ThrowTheSwitch/Unity) test app under
+`firmware/test/target/` — a standalone ESP-IDF project so test sources are never
+linked into a shipping image. Board selection mirrors the firmware:
+
+```bash
+# In the pinned container or with ESP-IDF v5.3.5 exported:
+cd firmware/test/target
+idf.py -DSS_BOARD=lite build
+idf.py -DSS_BOARD=lite flash monitor   # auto-runs every case, prints Unity summary
+```
+
+Results reach CI over the console serial (USB-Serial-JTAG on Lite) via
+[pytest-embedded](https://docs.espressif.com/projects/pytest-embedded/):
+
+```bash
+pip install pytest-embedded-idf pytest-embedded-serial-esp
+pytest --embedded-services esp,idf --target esp32s3   # from firmware/test/target/
+```
+
+CI runs this in [`../../.github/workflows/target-tests.yml`](../../.github/workflows/target-tests.yml):
+`build-target-app` compiles the app for Lite in the pinned container on every PR,
+`collect-harness` validates the pytest runner discovers cleanly, and the
+board-attached `on-target` job (flash + serial + Unity parse) runs on a
+self-hosted runner gated by the `SS_HW_RUNNER` repo variable. See
+[`firmware/test/target/README.md`](../../firmware/test/target/README.md) for
+adding suites.
+
 ## Docs lint
 
 ```bash

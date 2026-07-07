@@ -9,6 +9,13 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- On-target Unity test framework (S-02-015): standalone ESP-IDF test app at
+  `firmware/test/target/` that auto-runs registered Unity cases on real silicon
+  and prints the summary over serial, with a first HAL capability smoke test and
+  a pytest-embedded harness. CI (`target-tests.yml`) builds the app for Lite in
+  the pinned container and validates the harness on every PR; the board-attached
+  flash-and-parse run is gated behind a self-hosted runner. Wires up the
+  hardware-panic tests already written by S-02-006 / S-02-009.
 - Runtime memory diagnostics (S-02-011): `ss_memwatch` low-priority periodic
   task logs heap free/min-free/largest-block + fragmentation per region
   (internal + PSRAM when present), per-task stack watermarks, and IDLE0/1

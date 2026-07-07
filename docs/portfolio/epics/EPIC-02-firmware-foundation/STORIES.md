@@ -102,7 +102,9 @@ As a firmware engineer I want a host-side gtest baseline so that pure-C logic is
 ### S-02-015 — On-target Unity test framework wired in
 As a firmware engineer I want the on-target Unity test framework wired in so that hardware-dependent code is testable on real boards.
 - AC: Unity test app flashes and runs on target; results reported over serial to CI; at least one HAL smoke test passes on Lite
-- Meta: Shard=I | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
+- Meta: Shard=I | Type=Feature | Size=M | Prio=P0 | Status=IN_REVIEW | SKU=★ | PRD=— | Const=C-00
+- Tasks: spec on-target test surface (auto-run Unity runner + serial-to-CI contract, HAL capability smoke as first case) · design standalone IDF test-app project (`firmware/test/target/`) mirroring SS_BOARD/esp32s3 + pytest-embedded `expect_unity_test_output` harness + container build-only CI job vs hardware-gated on-target job · impl `firmware/test/target/{CMakeLists.txt,sdkconfig.defaults,main/*}` + `test_ss_hal_smoke.c` + `pytest_ss_target.py` + `pytest.ini` + `target-tests.yml` · test 3-board container build green + `pytest --collect-only`; on-hardware flash + serial capture + smoke-pass pending a board · docs BUILDING.md on-target section + changelog
+- Deps: S-02-002, S-02-014; on-target flash + serial-to-CI + smoke-pass ACs need an attached Lite board — story parks at IN_REVIEW until then
 
 ### S-02-016 — Safe-mode / recovery boot path
 As a device owner I want a safe-mode recovery boot path so that a bad update or corrupt state never bricks my device.

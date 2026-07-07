@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: Apache-2.0
+# On-target Unity test app defaults (S-02-015).
+#
+# Kept intentionally small: this is a test harness, not the product image, so it
+# uses the default single-app partition table (no OTA/coredump layout). Only the
+# knobs the runner depends on are pinned here.
+
+# Target the Lite silicon (ESP32-S3); the AC exercises the Lite board.
+CONFIG_IDF_TARGET="esp32s3"
+
+# Console on the native USB-Serial-JTAG, matching the Lite firmware
+# (firmware/sdkconfig.defaults) so the Unity summary reaches the same port
+# pytest-embedded opens on the device.
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
+
+# 1 kHz tick to match the RTOS baseline (S-02-006); keeps timing-sensitive
+# on-target cases consistent with the shipping image.
+CONFIG_FREERTOS_HZ=1000

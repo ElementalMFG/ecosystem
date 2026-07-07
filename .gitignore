@@ -5,6 +5,9 @@ build-host/
 dist/
 out/
 target/
+# ...but the on-target Unity test app (S-02-015) is source, not a build dir; its
+# build/ and sdkconfig are still ignored by the rules above/below.
+!firmware/test/target/
 node_modules/
 .dart_tool/
 .pub-cache/
