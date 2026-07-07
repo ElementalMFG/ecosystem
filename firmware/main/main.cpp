@@ -32,6 +32,7 @@
 #include "ss_log.h"
 #include "ss_memwatch.h"
 #include "ss_panic_guard.h"
+#include "ss_recovery.h"
 #include "ss_display_boot.h"
 #include "ss_uart_engine.h"
 #include "ss_compass.h"
@@ -77,9 +78,19 @@ extern "C" void app_main(void)
     // never be re-entered on the boot that trips the loop breaker.
     ss_panic_guard_boot_gate();
     if (ss_panic_guard_in_safe_mode()) {
-        ss_panic_guard_safe_mode_loop(); // never returns
+        // A stranded (crash-loop) user gets the FULL recovery action set, not
+        // the minimal panic-guard loop (S-02-016). Never returns.
+        ss_recovery_console_loop();
     }
     ss_bootmark("gate");
+
+    // --- 0b. Recovery boot gate (S-02-016): consume any pending recovery ----
+    // request (BOOT-hold gesture from a prior boot, or programmatic request)
+    // and enter the console. Then arm the BOOT-button watcher for THIS boot's
+    // entry window — before NVS/radio bring-up claims GPIO0 (EPIC-05).
+    ss_recovery_boot_gate();
+    ss_bootmark("recovery");
+    ss_recovery_watch_start();
 
     // --- 1. NVS (required by Wi-Fi/BLE later; cheap to do first) -----------
     esp_err_t err = nvs_flash_init();

@@ -47,6 +47,7 @@ set(SS_MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../main)
 add_library(ss_units STATIC
     ${SS_COMPONENTS_DIR}/ss_log/src/ss_log_format.c
     ${SS_MAIN_DIR}/ss_panic_guard_core.c
+    ${SS_MAIN_DIR}/ss_recovery_core.c
     ${SS_MAIN_DIR}/ss_memwatch_core.c
 )
 target_include_directories(ss_units PUBLIC
@@ -68,6 +69,7 @@ add_executable(ss_host_tests
     tests/test_ss_log_format.cpp
     tests/test_hal_mock.cpp
     tests/test_ss_panic_guard.cpp
+    tests/test_ss_recovery.cpp
     tests/test_ss_memwatch.cpp
 )
 target_include_directories(ss_host_tests PRIVATE

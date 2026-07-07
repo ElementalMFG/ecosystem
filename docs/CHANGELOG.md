@@ -9,6 +9,19 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Safe-mode / recovery boot path (S-02-016): radio-less recovery console
+  reachable three ways — a BOOT-hold gesture ("press RESET, then hold BOOT")
+  watched only during the first `CONFIG_SS_RECOVERY_ENTRY_WINDOW_MS` of boot, a
+  crash-loop safe-mode boot (S-02-008), and a programmatic `ss_recovery_request`
+  — offering `status`, `rollback` (via re-verifying `esp_ota_set_boot_partition`,
+  refused with a reason if the slot is absent/empty/unverifiable),
+  `factory-reset` (erases only nvs/storage/coredump, never firmware slots),
+  `clear-panic`, `export-dump` (base64 + crc32 framed stream), and `reboot`.
+  The request flag lives in RTC-noinit RAM behind a magic + inverted-shadow
+  guard; the IDF-free decision core (flag, hold FSM, rollback verdict, erase
+  plan) is covered by host gtest cases. Watcher GPIO defaults to GPIO0
+  (`CONFIG_SS_RECOVERY_BTN_GPIO`), shared with SS_LORA_PIN_CS on Lite; window
+  set to 0 disables it.
 - On-target Unity test framework (S-02-015): standalone ESP-IDF test app at
   `firmware/test/target/` that auto-runs registered Unity cases on real silicon
   and prints the summary over serial, with a first HAL capability smoke test and

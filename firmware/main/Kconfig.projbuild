@@ -56,3 +56,36 @@ menu "SS-SP runtime diagnostics"
             matches the boot heartbeat cadence in main.cpp.
 
 endmenu
+
+menu "SS-SP recovery (S-02-016)"
+
+    config SS_RECOVERY_BTN_GPIO
+        int "Recovery BOOT-button GPIO"
+        default 0
+        help
+            GPIO sampled by the recovery entry-window watcher. GPIO0 is the
+            ESP32-S3 BOOT strapping pin and, on Lite, is shared with
+            SS_LORA_PIN_CS (board_config.h). The watcher claims it as
+            input+pull-up only inside the entry window; radio bring-up
+            (EPIC-05) must init LoRa SPI only after the window closes.
+
+    config SS_RECOVERY_HOLD_MS
+        int "Continuous BOOT-hold to enter recovery (ms)"
+        default 3000
+        range 500 10000
+        help
+            Unbroken press duration that triggers a recovery request. The hold
+            must START AFTER reset release (GPIO0 LOW at reset puts the ROM in
+            download mode): "press RESET, then hold BOOT for this long".
+
+    config SS_RECOVERY_ENTRY_WINDOW_MS
+        int "Recovery button entry window (ms, 0 disables)"
+        default 10000
+        range 0 60000
+        help
+            How long after boot the BOOT-button watcher samples for the hold
+            gesture. 0 disables the watcher entirely (compile-time no-op). The
+            window must close before radio bring-up (EPIC-05) claims GPIO0, or
+            the window must be shrunk/disabled here.
+
+endmenu

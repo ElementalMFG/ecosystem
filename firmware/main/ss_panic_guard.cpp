@@ -173,3 +173,9 @@ void ss_panic_guard_safe_mode_loop(void)
         vTaskDelay(pdMS_TO_TICKS(5000));
     }
 }
+
+void ss_panic_guard_recovery_clear(void)
+{
+    ss_panic_guard_record_clear(&s_panic_rec);
+    SS_LOGI(TAG, "panic count cleared by recovery action");
+}

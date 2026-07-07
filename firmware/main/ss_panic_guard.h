@@ -152,6 +152,12 @@ void ss_panic_guard_arm_stability_timer(void);
 // Full recovery UX (dump export, guided reflash, counter clear) is S-02-016.
 void ss_panic_guard_safe_mode_loop(void) __attribute__((noreturn));
 
+// Explicit recovery-UX counter clear (the S-02-016 path anticipated by the
+// CRASH-LOOP BREAKER contract above): zeroes the RTC-noinit record NOW.
+// Called only from recovery actions (clear-panic / rollback /
+// factory-reset). Valid any time after boot_gate. Never fails.
+void ss_panic_guard_recovery_clear(void);
+
 #ifdef __cplusplus
 }
 #endif

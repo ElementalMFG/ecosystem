@@ -12,8 +12,11 @@ idf_component_register(
         "ss_tasks.cpp"
         "ss_panic_guard.cpp"
         "ss_panic_guard_core.c"
+        "ss_recovery.cpp"
+        "ss_recovery_core.c"
         "ss_memwatch.cpp"
         "ss_memwatch_core.c"
     INCLUDE_DIRS "."
     REQUIRES ss_hal ss_log driver esp_lcd esp_timer nvs_flash espcoredump esp_partition
+             app_update esp_system
 )

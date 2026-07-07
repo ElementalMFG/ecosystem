@@ -109,7 +109,9 @@ As a firmware engineer I want the on-target Unity test framework wired in so tha
 ### S-02-016 — Safe-mode / recovery boot path
 As a device owner I want a safe-mode recovery boot path so that a bad update or corrupt state never bricks my device.
 - AC: holding BOOT for 3 s enters recovery; recovery offers OTA rollback and factory reset; rollback preserves anti-rollback security guarantees
-- Meta: Shard=D | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=★ | PRD=NF-REL-03 | Const=C-00,C-05
+- Meta: Shard=D | Type=Feature | Size=L | Prio=P0 | Status=IN_REVIEW | SKU=★ | PRD=NF-REL-03 | Const=C-00,C-05
+- Tasks: spec recovery-entry gesture (reset-then-hold BOOT/GPIO0 3 s; strapping/download-mode caveat + LoRa-CS pin-share ordering constraint) + action contract (rollback strictly via `esp_ota_*` so eFuse anti-rollback semantics are inherited when EPIC-08 lands, per 05_SECURITY_MODEL.md §6; factory-reset erase scope; S-02-008 panic-counter clear) · design ss_recovery pure decision core (hold detector + action FSM, IDF-free) + IDF console glue + safe-mode handoff from ss_panic_guard · impl `firmware/main/ss_recovery{.h,_core.c,.cpp}` + main.cpp wiring + Kconfig button GPIO · test host gtests for hold detector + action core, lite CI build; on-hardware 3 s-hold entry + rollback/factory-reset exercise pending an attached board · docs contract doc-block + changelog
+- Deps: S-02-008 (IN_REVIEW — contract merged, only on-hardware AC pending), S-02-014; full anti-rollback verification needs EPIC-08 eFuse enablement + EPIC-09 OTA images — recovery here must be forward-contract-correct; on-hardware ACs need an attached Lite board — story parks at IN_REVIEW until then
 
 ### S-02-017 — NVS namespace scheme + versioning
 As a firmware engineer I want a versioned NVS namespace scheme so that persisted settings survive firmware upgrades.
