@@ -56,9 +56,14 @@ OPUS = "claude-opus-4-8"
 RECIPE = {
     "T1": {"orch": (FABLE, "xhigh"), "agent": "t1-review + t1-cross-review",
            "agent_short": "t1-pipeline", "skill": "/t1-pipeline"},
-    "T2": {"orch": (FABLE, "high"), "agent": "t2-builder (opus@high)",
-           "agent_short": "t2-builder", "skill": "/story-run"},
-    "T3": {"orch": (OPUS, "medium"), "agent": "t3-standard (opus@high)",
+    # T2 re-architecture (doc 11 §6f, 2026-07-07): orchestration on Opus like
+    # T3; only the frozen-contract design runs on Fable, via the t2-designer
+    # agent (fable@medium per doc 10 §1.3 parity), then t2-builder implements.
+    "T2": {"orch": (OPUS, "medium"), "agent": "t2-designer (fable@medium) + t2-builder (opus@high)",
+           "agent_short": "t2-designer+builder", "skill": "/story-run"},
+    # T3 pin dropped high->medium (doc 11 §6f): verification-saturated tier;
+    # two failed attempts escalate to t2-builder (opus@high) per doc 10 §8.
+    "T3": {"orch": (OPUS, "medium"), "agent": "t3-standard (opus@medium)",
            "agent_short": "t3-standard", "skill": "/story-run"},
     "T4": {"orch": (OPUS, "medium"), "agent": "t4-mechanical (opus@low)",
            "agent_short": "t4-mechanical", "skill": "/story-run"},
@@ -68,7 +73,7 @@ RECIPE = {
 # T1? starts cheap on the floor launch (opus@medium) and escalates on confirm.
 LAUNCH = {
     "T1": (FABLE, "xhigh"),
-    "T2": (FABLE, "high"),
+    "T2": (OPUS, "medium"),
     "T3": (OPUS, "medium"),
     "T4": (OPUS, "medium"),
     "T1?": (OPUS, "medium"),

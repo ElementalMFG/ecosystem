@@ -70,9 +70,9 @@ EPIC-02/03/09–13/16–18/22/23). Everything else is T2 build, T3, or T4.
 |---|---|---|
 | **T1 authorship** (crypto, keys, secure-boot, wire formats, sandbox boundaries, vector/fuzzer design) | **Fable 5 @ xhigh** — never demoted | Errors freeze at ship; doc 10 §10 unchanged |
 | **T1 reviews** | `t1-review` Fable @ high + `t1-cross-review` Opus @ xhigh | Locked agent pins; model diversity |
-| **T2 design** (novel contracts, state machines) | Fable 5 @ high | Judgment-dense, short |
+| **T2 design** (novel contracts, state machines) | `t2-designer` **Fable 5 @ medium** (§6f; was main-session Fable @ high) | Judgment-dense but short; doc 10 §1.3 parity: Fable @ medium keeps the capability edge at ~half the tokens; two failures → Fable @ high session |
 | **T2 build** (against a frozen contract) | `t2-builder` Opus 4.8 @ **high** (was xhigh) | Contract is frozen; gates + tests catch drift; xhigh was paying for judgment the contract already made |
-| **T3 build** | `t3-standard` Opus 4.8 @ high | Unchanged |
+| **T3 build** | `t3-standard` Opus 4.8 @ **medium** (§6f; was high) | Verification-saturated tier; two failures → re-dispatch to `t2-builder` @ high |
 | **T4 mechanical** | `t4-mechanical` Opus 4.8 @ low, batched | Unchanged |
 | **Retrieval/reads** | Haiku @ low, **output-capped** | Unchanged + new output budget |
 | **Main-session orchestration of T3/T4 story runs** (elaborate, dispatch, verify AC, gates, commit) | **Opus 4.8 @ medium** | Not intelligence-sensitive; the tier agents own work quality; use `ultrathink` for isolated hard calls |
@@ -241,6 +241,39 @@ carryover of what matters).
   informational aging report of IN_REVIEW/IN_PROGRESS stories; `make audit`
   runs the same locally. Cadence guidance: manual dispatch before starting
   a new epic and after any hardware-verification day.
+
+## 6f. Second-pass reduction (post-limit-event audit, 2026-07-07)
+
+Triggered by real spend pressure after 17 stories; every change below keeps
+an escalation guard so a quality miss becomes a retry-up, never a failure.
+
+- **T2 re-architected** (~148 stories): orchestration moves to Opus @
+  medium (same bookkeeping role as T3); the design slice — the only part
+  needing Fable — moves to the new `t2-designer` agent at **Fable @
+  medium** (doc 10 §1.3: capability edge retained at ~half the tokens of
+  high). `t2-builder` (Opus @ high) implements, unchanged. Measured basis:
+  S-02-016 ran its whole story on Fable @ high when only its contract
+  design needed Fable.
+- **`t3-standard` pin high → medium** (206 stories): the tier is
+  verification-saturated (clang -Werror, host tests, parity/policy gates,
+  3-board CI). Guard: two failed attempts → re-dispatch the same spec to
+  `t2-builder` (Opus @ high) — mechanical, in the story-run skill.
+- **T1 review-rerun rule**: rework re-runs only the pass that issued the
+  findings unless core contract/semantics changed (S-02-008 ran both twice
+  by author's choice; ~70–90k tokens per rework cycle saved).
+- **Why not Fable @ low anywhere:** Fable is 2× Opus per token; at `low`
+  it gives up the deliberation that is its advantage while keeping the
+  price. Opus @ medium dominates it on cost for bookkeeping; Opus @ high
+  dominates it on capability-per-dollar for building. Fable's only
+  justified slots: T1 authorship (xhigh), T1 review (high), T2 contract
+  design (medium).
+- **Orchestrator LAUNCH table is role-based, not tier-prestige-based:**
+  every story-run orchestrator (T2/T3/T4/T1?) launches Opus @ medium
+  because select/elaborate/dispatch/verify/commit is the same job at every
+  tier; the tier's intelligence lives in the pinned agents. T1 launches
+  Fable @ xhigh only because there the session itself is the author.
+- **Not changed:** T1 authorship/review pins, double-review protocol, all
+  gates, queue post-checks, ORDER-GUARD.
 
 ## 7. Adoption checklist (owner)
 

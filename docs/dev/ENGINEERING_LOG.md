@@ -60,3 +60,8 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   `pip install pytest pytest-embedded[-idf,-serial-esp]` step — GitHub's
   setup-python ships no packages.
 - S-02-016 (2026-07-07): recovery BOOT-hold watcher owns GPIO0 (input+pull-up) for the first CONFIG_SS_RECOVERY_ENTRY_WINDOW_MS (default 10 s) of every boot — EPIC-05 radio bring-up must init LoRa SPI (GPIO0 = SS_LORA_PIN_CS) only after the window closes, or shrink/disable the window; holding BOOT THROUGH reset is ROM download mode, so the recovery gesture is press-RESET-then-hold-BOOT (contract: firmware/main/ss_recovery.h).
+- infra (2026-07-07): tier recipes v2 (doc 11 §6f) — T2 = t2-designer
+  (fable@medium) contract + t2-builder (opus@high) build, orchestrated on
+  opus@medium; t3-standard pinned opus@medium with two-failure escalation to
+  t2-builder; fable@low is dominated everywhere (2x price without the
+  deliberation edge) — never use it.

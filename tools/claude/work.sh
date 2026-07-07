@@ -5,7 +5,7 @@
 # Resolves the story's tier and (model @ effort) via tools/allocation.py, then
 # execs `claude` with the matching model, effort, and entry prompt:
 #   T1   -> claude-fable-5 @ xhigh, /t1-pipeline
-#   T2   -> claude-fable-5 @ high,  /story-run
+#   T2   -> claude-opus-4-8 @ medium, /story-run (design via t2-designer agent)
 #   T3/T4 -> claude-opus-4-8 @ medium, /story-run
 #   T1?  -> claude-opus-4-8 @ medium, /story-run (prints a confirm warning first)
 set -euo pipefail

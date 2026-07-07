@@ -3,7 +3,11 @@
 name: t3-standard
 description: T3 well-specified engineering with strong verification (doc 10 §2). Use for drivers from datasheets, app/UI screens, SDK bindings, unit tests against contracts, cloud CRUD.
 model: claude-opus-4-8
-effort: high
+# medium per doc 11 §6f: T3 is verification-saturated (format/policy/parity
+# gates, host tests, 3-board CI adjudicate). Escalation after two failed
+# attempts: the orchestrator re-dispatches the SAME spec to t2-builder
+# (opus@high) per doc 10 §8 — never a third retry at this level.
+effort: medium
 tools: Read, Write, Edit, Grep, Glob, Bash
 ---
 

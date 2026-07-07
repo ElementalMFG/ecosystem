@@ -16,8 +16,8 @@ Work is tiered T1–T4; the tier of any story/epic is in doc 10 §5/§7/§11. Be
 | Tier | Recipe | Delegate to |
 |---|---|---|
 | T1 (crypto, keys, secure-boot, wire formats, sandbox, fuzzer/vector design) | Fable 5 @ xhigh; then `t1-review` + `t1-cross-review` agents | `t1-review`, `t1-cross-review` |
-| T2 (novel design → routine build) | Fable 5 @ high designs; build via `t2-builder` or Fable @ medium | `t2-builder` |
-| T3 (well-specified, gate-verified) | Opus 4.8 @ high or Fable 5 @ low–medium | `t3-standard` |
+| T2 (novel design → routine build) | contract via `t2-designer` (Fable @ medium), build via `t2-builder` (Opus @ high); orchestrate on Opus @ medium | `t2-designer`, `t2-builder` |
+| T3 (well-specified, gate-verified) | `t3-standard` (Opus @ medium); two failures → re-dispatch to `t2-builder` (Opus @ high) | `t3-standard` |
 | T4 (mechanical, tool-checkable) | Opus 4.8 @ low, batched | `t4-mechanical` |
 
 Standing rules:

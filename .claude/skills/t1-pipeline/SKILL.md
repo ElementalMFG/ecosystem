@@ -14,6 +14,6 @@ Execute in order; do not skip steps.
 4. **Implement** (or design). Wire bytes, key hierarchy, eFuse plans, and vector sets get byte-level care — they freeze at first ship.
 5. **Review pass 1:** invoke the `t1-review` agent with only the artifact paths + contract references — never the authoring reasoning (fresh context is the point).
 6. **Review pass 2:** invoke the `t1-cross-review` agent the same way.
-7. **REWORK findings** → fix → re-run the affected review pass. Repeat until both verdicts are APPROVE or APPROVE-WITH-NITS (nits fixed or ticketed).
+7. **REWORK findings** → fix → re-run ONLY the review pass that issued the findings (both passes only if the fixes changed the core contract/semantics — doc 11 §6f cost rule). Repeat until both verdicts are APPROVE or APPROVE-WITH-NITS (nits fixed or ticketed).
 8. **Gates:** `make lite` (if firmware touched), `git add` then `python3 tools/lint-docs.py`, `python3 tools/gen-stories-index.py --check` (if stories touched) — from repo root.
 9. **Report:** what was built, both verdicts with finding counts, gate results — and remind that merge requires 2 CODEOWNER approvals + wg-security sign-off (`CONTRIBUTING.md` §9), plus an RFC if wire/crypto/API changed.

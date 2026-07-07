@@ -79,6 +79,14 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Tier recipes v2 (doc 11 §6f, post-limit-event audit): T2 re-architected
+  — new `t2-designer` agent (Fable @ medium) produces the frozen contract,
+  `t2-builder` (Opus @ high) implements, orchestration on Opus @ medium
+  like T3; `t3-standard` pin high→medium with mechanical two-failure
+  escalation to `t2-builder`; T1 review-rerun narrowed to the issuing
+  pass unless core semantics changed; Fable @ low ruled out everywhere
+  (2× price without the deliberation edge). T1 authorship/review pins,
+  double review, and all gates unchanged.
 - Ordering guard + weekly audit (doc 11 §6e): `allocation.py --next`
   prints the dependency-satisfied, priority-sorted story frontier with a
   queue suggestion; `--eligible` guards each queue launch (ORDER-GUARD

@@ -45,11 +45,17 @@ Run `python3 tools/allocation.py --story S-NN-MMM` and follow its recipe:
   `tools/allocation.py`'s override table (with citation) and switch to
   `t1-pipeline`; else proceed on the floor recipe and note the resolution.
 - **T2/T3/T4** → compare the recipe's orchestrator (model @ effort) to the
-  statusline. Under-provisioned for T2 design → ask the user to relaunch
-  (`tools/claude/work.sh S-NN-MMM` bakes the right flags). Over-provisioned
-  (e.g. Fable session running a T3/T4 story) → proceed, but flag the waste
-  in the report. Dispatch to the recipe's tier agent, with an explicit
-  output budget in the prompt (doc 11 §4.6).
+  statusline. Over-provisioned (e.g. Fable session running a T3/T4 story) →
+  proceed, but flag the waste in the report. Dispatch to the recipe's tier
+  agent(s), with an explicit output budget in the prompt (doc 11 §4.6).
+- **T2 flow** (doc 11 §6f): dispatch `t2-designer` (fable@medium) with the
+  story AC + contract references to produce the FROZEN contract; review its
+  contract report; then dispatch `t2-builder` (opus@high) against those
+  contract paths. The orchestrator never authors T2 designs itself.
+- **Escalation (doc 10 §8, mechanical):** a tier agent failing the same task
+  twice → re-dispatch the same spec one tier up (`t3-standard` →
+  `t2-builder`; `t2-designer` → report to the user for a Fable@high design
+  session). Never retry a third time at the same level.
 
 ## 4. Implement
 

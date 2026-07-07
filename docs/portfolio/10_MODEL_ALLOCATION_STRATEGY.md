@@ -67,7 +67,10 @@ binding session-lifecycle and orchestration-model rules now live in
 [`11_TOKEN_ECONOMY.md`](./11_TOKEN_ECONOMY.md) (sessions start Opus 4.8 @
 medium; Fable reserved for T1 authorship / T2 design; context kept under
 ~150k; CI-wait and subagent output-budget policies). This section's per-task
-economics are unchanged.
+economics are unchanged. **Second pass (same day, doc 11 §6f):** T2 design
+runs as the `t2-designer` agent at Fable @ medium (this section's own parity
+argument, applied); `t3-standard` drops to Opus @ medium with a mechanical
+two-failure escalation to `t2-builder` @ high; T1 recipes untouched.
 
 ### 1.4 Operational constraints that shape allocation
 
