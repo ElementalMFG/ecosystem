@@ -53,6 +53,12 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Omega board port skeleton (S-02-005): `firmware/boards/omega/
+  board_config.h` with full define-set parity (104), MCU honestly
+  recorded as TBD (RISC-V/Linux SoM candidate per doc 00 §1.2), no
+  radio capabilities claimed, 93 `TODO(models/CATALOG)` markers;
+  `omega` joins the firmware-build CI matrix — all three board ports
+  now compile-gated on every firmware PR.
 - Alpha board port skeleton (S-02-004): `firmware/boards/alpha/
   board_config.h` with the full 104-define parity set from the Lite
   reference — locked facts only (ESP32-P4NRW32X, 32 MB PSRAM, 320×240
