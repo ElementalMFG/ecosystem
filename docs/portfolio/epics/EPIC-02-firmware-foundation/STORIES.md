@@ -36,7 +36,7 @@ As a firmware engineer I want a `boards/alpha/board_config.h` skeleton so that A
 ### S-02-005 — `boards/omega/board_config.h` skeleton
 As a firmware engineer I want a `boards/omega/board_config.h` skeleton so that Omega bring-up can start against the shared HAL contracts.
 - AC: skeleton compiles under `make omega`; open fields carry TODO markers referencing `models/CATALOG`; parity CI check passes for defined fields
-- Meta: Shard=B | Type=Feature | Size=S | Prio=P0 | Status=IN_REVIEW | SKU=O | PRD=— | Const=C-00
+- Meta: Shard=B | Type=Feature | Size=S | Prio=P0 | Status=DONE | SKU=O | PRD=— | Const=C-00
 - Tasks: spec locked-vs-open Omega fields from doc 00 + models/CATALOG · design mirror the S-02-004 skeleton pattern (define-set parity, TODO markers, base caps only) · impl `firmware/boards/omega/board_config.h` + omega in the firmware-build matrix · test parity green locally, omega container build green in CI · docs changelog
 - Deps: S-02-002, S-02-003, S-02-004
 
