@@ -1,0 +1,124 @@
+{
+  "version": 1,
+  "anchors": [
+    {
+      "path": "00_MASTER_SOFTWARE_PLAN.md",
+      "sha256": "83e47e7f0056d7d18b9021ac842abe373dce95056a11a15b1901363c78543f23",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-05"
+    },
+    {
+      "path": "01_SS-SP_LITE_HARDWARE_REFERENCE.md",
+      "sha256": "e6c7e8098390c7b96638a35c266795be3bc24e5065416c65b6d377f37a7d3252",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-05"
+    },
+    {
+      "path": "02_PROTOCOL_STACK.md",
+      "sha256": "cd9dc2f30a6c8acbf307d57e98408e5f945ca34d2b365fa8d21c77ce5c28d844",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-05"
+    },
+    {
+      "path": "03_UI_LAYOUT_SPEC.md",
+      "sha256": "997e2428750c049f3ec6000b8b561e32032272542ec6f99f58c9769b6c330286",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-05"
+    },
+    {
+      "path": "04_LICENSING_AND_FORK_STRATEGY.md",
+      "sha256": "144f89a276311008332d592e905c20b5b2b855a2e990c806406ae245926e2e6c",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-05"
+    },
+    {
+      "path": "05_SECURITY_MODEL.md",
+      "sha256": "e8ca9b97f2abd9383d8d266a632f2f75a2539ea0b96b08c0957dd15897ad824e",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-05"
+    },
+    {
+      "path": "06_GOVERNANCE.md",
+      "sha256": "382c0508f60326d71381f72071e7e79a54c1e92db978a212a7b36ed0a26332e5",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-06"
+    },
+    {
+      "path": "07_BUSINESS_MODEL_AND_OPEN_SOURCE.md",
+      "sha256": "31620199b28b6e5e5f38ed10db2f1e3d037a27937834727c9ddfef2cba8a8c13",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-05"
+    },
+    {
+      "path": "08_UNIVERSAL_CONNECTIVITY.md",
+      "sha256": "0c126cf124f14b0ca4896c8491b127caafc38a5293dd14c8e428c7bd2609d473",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-05"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "spdx": null,
+      "immutable": true,
+      "anchored": "2026-07-04"
+    },
+    {
+      "path": "NOTICE",
+      "sha256": "b42f3862ebbd2924d782a6f4c88e34a8281d268627ddb32d60cc90300beb5390",
+      "spdx": null,
+      "immutable": true,
+      "anchored": "2026-07-04"
+    },
+    {
+      "path": "docs/CLA.md",
+      "sha256": "904d4599314a74c96feb0e15f4f55d987e4b828eb8a45aabad084382d6e9e2c6",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-06"
+    },
+    {
+      "path": "governance/OPEN_ASSURANCE.md",
+      "sha256": "63f70ce8035e58ed0c07ad7bfe11e30e5f452d06956c24d977310ddadf04907c",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-05"
+    },
+    {
+      "path": "rfcs/0001-rfc-process-adoption.md",
+      "sha256": "88b6fa9b6c09057ef39dbd8e5eede9eed87fcf43f79d5673319b56299b3da9a5",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-05"
+    },
+    {
+      "path": "rfcs/0002-toolchain-pinning-policy.md",
+      "sha256": "d834c9de50c2dc91db3cd270cbd1f08708b0bf1e415304c4536f5db2a5599356",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-05"
+    },
+    {
+      "path": "rfcs/DRAFT-foundation-transfer.md",
+      "sha256": "286681747a069af99bc58c0fbda05f7cf1138abb6150c4e17d2e76824bc18dce",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-05"
+    },
+    {
+      "path": "rfcs/README.md",
+      "sha256": "511f1fbc2fffb2a3fda42f9106f7332a3d2555c97d6a464dae506f33931f8715",
+      "spdx": "CC-BY-4.0",
+      "immutable": false,
+      "anchored": "2026-07-05"
+    }
+  ]
+}

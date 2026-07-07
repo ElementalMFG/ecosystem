@@ -104,7 +104,9 @@ As the program lead I want the foundation transfer plan captured as a draft RFC 
 ### S-01-015 — Anti-rug-pull covenant test suite
 As a downstream integrator I want an automated anti-rug-pull covenant test suite so that retroactive license changes are detected immediately.
 - AC: automated check verifies no published spec has a retroactive license change; published artifacts hash-anchored; check runs in CI on every merge to `main`
-- Meta: Shard=A | Type=Ops | Size=M | Prio=P1 | Status=DRAFT | SKU=★ | PRD=— | Const=C-OA,C-04
+- Meta: Shard=A | Type=Ops | Size=M | Prio=P1 | Status=DONE | SKU=★ | PRD=— | Const=C-OA,C-04
+- Tasks: spec covenant obligations from OPEN_ASSURANCE.md + 04 §7 · design append-only hash/SPDX anchor ledger + checker + CI trigger on main · impl `governance/covenant-anchors.json`, `tools/covenant-check.py`, `.github/workflows/covenant.yml` · test green run + tamper-detection (SPDX flip, anchor edit, immutable-content change) · docs OPEN_ASSURANCE.md enforcement note + changelog
+- Deps: —
 
 ### S-01-016 — Quarterly constitutional review process
 As the community WG chair I want a quarterly constitutional review process so that constitutional drift is caught early.

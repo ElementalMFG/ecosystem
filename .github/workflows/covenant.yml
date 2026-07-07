@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 SS-SP Project Contributors
+#
+# Anti-rug-pull covenant gate (S-01-015): verifies the working tree honours
+# governance/covenant-anchors.json (no retroactive license changes, immutable
+# LICENSE/NOTICE) and that the ledger stays append-only versus the base.
+# No path filter — this check must always run and report.
+
+name: covenant
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  covenant:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Covenant check (append-only vs base)
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base="origin/${{ github.base_ref }}"
+            git fetch --no-tags origin "${{ github.base_ref }}"
+          else
+            base="${{ github.event.before }}"
+          fi
+          echo "covenant base: $base"
+          python3 tools/covenant-check.py --base "$base"

@@ -53,6 +53,11 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Anti-rug-pull covenant test suite (S-01-015): published artifacts
+  hash-anchored in append-only `governance/covenant-anchors.json`;
+  `tools/covenant-check.py` fails on any retroactive license change,
+  immutable-text change (LICENSE/NOTICE), or ledger rewrite; `covenant`
+  CI workflow runs it on every PR and every merge to `main`.
 - Typed PR templates for `feature`, `rfc`, `security`, and `docs` changes
   under `.github/PULL_REQUEST_TEMPLATE/`, each listing its required
   sign-offs (DCO, CLA, CODEOWNER/wg-security approvals per CONTRIBUTING.md

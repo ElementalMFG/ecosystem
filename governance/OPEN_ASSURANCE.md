@@ -7,6 +7,13 @@
 
 The community-edition firmware and companion apps of SS-SP are and will remain licensed under Apache-2.0. The founding vendor entity irrevocably grants this license for all versions it publishes and commits **not** to retroactively relicense already-published code.
 
+*Machine-checked:* published artifacts are hash-anchored in
+[`covenant-anchors.json`](./covenant-anchors.json) (append-only), and the
+`covenant` CI workflow runs
+[`tools/covenant-check.py`](../tools/covenant-check.py) on every pull request
+and every merge to `main` — any retroactive license change fails the build
+(S-01-015).
+
 ## Foundation transition
 
 At the point where the SS-SP program reaches the Phase 2 governance criteria defined in `06_GOVERNANCE.md`, the founding vendor entity will transfer:
