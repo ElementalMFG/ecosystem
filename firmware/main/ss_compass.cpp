@@ -26,6 +26,7 @@
 #include "esp_check.h"
 
 #include "board_config.h"
+#include "ss_tasks.h"
 
 static const char* TAG = "ss.compass";
 
@@ -224,8 +225,8 @@ esp_err_t ss_compass_start(void)
     ESP_LOGI(TAG, "compass: HMC5883L @0x%02X%s", SS_MAG_I2C_ADDR,
              have_imu ? " + IMU tilt compensation @0x68" : " (mag-only, hold level)");
 
-    const BaseType_t ok = xTaskCreatePinnedToCore(compass_task, "ss_compass", 3072, nullptr, 8,
-                                                  nullptr, tskNO_AFFINITY);
+    const BaseType_t ok = ss_task_create_pinned(compass_task, "ss_compass", 3072, nullptr,
+                                                SS_PRIO_SENSOR, nullptr, tskNO_AFFINITY);
     return ok == pdPASS ? ESP_OK : ESP_ERR_NO_MEM;
 }
 

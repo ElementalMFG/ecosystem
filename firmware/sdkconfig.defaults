@@ -22,6 +22,10 @@ CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
 CONFIG_FREERTOS_HZ=1000
 CONFIG_COMPILER_OPTIMIZATION_PERF=y
 CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192
+# S-02-006: explicit task-stack canary check (overflow -> canary fail -> panic;
+# flash-dump post-mortem lands with S-02-008). Kept explicit even though this
+# is the IDF default so the RTOS baseline is self-documenting.
+CONFIG_FREERTOS_CHECK_STACKOVERFLOW_CANARY=y
 
 # --- Production hardening (enable on release builds; see EPIC-08) -----------
 # CONFIG_SECURE_BOOT=y

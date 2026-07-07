@@ -53,6 +53,13 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- FreeRTOS baseline (S-02-006): named priority bands with an enforced
+  application ceiling (`firmware/main/ss_tasks.h`, wrappers asserting
+  1..SS_PRIO_CEILING), all four existing tasks migrated off numeric
+  priorities, explicit stack-overflow canary in `sdkconfig.defaults`,
+  new `tools/task-policy-check.py` CI gate rejecting raw
+  `xTaskCreate*` calls and numeric-literal priorities, and a Unity
+  test case staged for the S-02-014/015 test runner.
 - Omega board port skeleton (S-02-005): `firmware/boards/omega/
   board_config.h` with full define-set parity (104), MCU honestly
   recorded as TBD (RISC-V/Linux SoM candidate per doc 00 §1.2), no

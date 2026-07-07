@@ -26,6 +26,7 @@
 #include "esp_check.h"
 
 #include "board_config.h"
+#include "ss_tasks.h"
 
 static const char* TAG = "ss.uart";
 
@@ -291,14 +292,16 @@ esp_err_t ss_uart_engine_start(void)
     memset(&s_fix, 0, sizeof(s_fix));
 
 #if CONFIG_SS_LITE_MOD_GNSS_BN880
-    if (xTaskCreate(gnss_pump_task, "ss_gnss_uart", 4096, nullptr, 12, nullptr) != pdPASS)
+    if (ss_task_create(gnss_pump_task, "ss_gnss_uart", 4096, nullptr, SS_PRIO_COMMS, nullptr) !=
+        pdPASS)
         return ESP_ERR_NO_MEM;
 #else
     ESP_LOGI(TAG, "GNSS module disabled (CONFIG_SS_LITE_MOD_GNSS_BN880=n)");
 #endif
 
 #if CONFIG_SS_LITE_MOD_COPROC_C6 || CONFIG_SS_LITE_MOD_COPROC_H2
-    if (xTaskCreate(coproc_pump_task, "ss_coproc_uart", 4096, nullptr, 14, nullptr) != pdPASS)
+    if (ss_task_create(coproc_pump_task, "ss_coproc_uart", 4096, nullptr, SS_PRIO_COMMS_CRITICAL,
+                       nullptr) != pdPASS)
         return ESP_ERR_NO_MEM;
 #else
     ESP_LOGI(TAG, "mesh coprocessor disabled (CONFIG_SS_LITE_MOD_COPROC_*=n)");

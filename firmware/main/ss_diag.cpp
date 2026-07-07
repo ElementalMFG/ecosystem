@@ -18,6 +18,7 @@
 #include "esp_system.h"
 
 #include "board_config.h"
+#include "ss_tasks.h"
 
 static const char* TAG = "ss.diag";
 
@@ -176,8 +177,8 @@ static void power_watchdog_task(void*)
 esp_err_t ss_diag_start(void)
 {
     ESP_RETURN_ON_ERROR(buzzer_init(), TAG, "buzzer");
-    const BaseType_t ok = xTaskCreatePinnedToCore(power_watchdog_task, "ss_pwr_wd", 2560, nullptr,
-                                                  5, nullptr, tskNO_AFFINITY);
+    const BaseType_t ok = ss_task_create_pinned(power_watchdog_task, "ss_pwr_wd", 2560, nullptr,
+                                                SS_PRIO_HOUSEKEEPING, nullptr, tskNO_AFFINITY);
     ESP_LOGI(TAG, "diagnostics ready (buzzer GPIO%d, speaker I2S%d)", SS_BUZZER_PIN,
              int(SS_SPK_I2S_PORT));
     return ok == pdPASS ? ESP_OK : ESP_ERR_NO_MEM;

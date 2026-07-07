@@ -43,7 +43,9 @@ As a firmware engineer I want a `boards/omega/board_config.h` skeleton so that O
 ### S-02-006 — FreeRTOS config with tick=1 kHz, priority ceiling, stack hooks
 As a firmware engineer I want the FreeRTOS baseline configured so that scheduling behaviour is deterministic across all boards.
 - AC: tick rate 1 kHz; priority-ceiling policy documented and enforced; stack-overflow hooks installed and exercised by a unit test
-- Meta: Shard=C | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
+- Meta: Shard=C | Type=Feature | Size=S | Prio=P0 | Status=IN_REVIEW | SKU=★ | PRD=— | Const=C-00
+- Tasks: spec priority bands from existing task set (diag 5 / compass 8 / gnss 12 / coproc 14) · design `ss_tasks.h` named-priority bands + ceiling + `ss_task_create()` wrapper + grep-enforcement tool · impl header/wrapper, migrate all four call sites, explicit canary config, Unity test case (execution pending test framework) · test policy-check green, all-board CI builds green · docs policy section in header + changelog
+- Deps: S-02-002, S-02-003; test execution needs S-02-014/S-02-015 (framework) — story parks at IN_REVIEW until then
 
 ### S-02-007 — `ss_log` component with levels, redaction, colorized console
 As a firmware engineer I want the `ss_log` component with levels and redaction so that diagnostics never leak key material.
