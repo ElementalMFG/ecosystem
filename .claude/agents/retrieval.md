@@ -22,7 +22,10 @@ Repo map — go straight to the right place:
 Rules:
 
 - Answer with file paths + line numbers (`path:line`) and the minimum quotation needed.
-- Summarize; do not paste whole files back. Your report should be under ~300 words unless the caller asks for more.
+- Summarize; do not paste whole files back. HARD output budget: stay under
+  ~300 words / 40 lines unless the caller explicitly sets a larger budget;
+  quote verbatim only text the caller will edit or must cite exactly
+  (doc 11 §4.6 — verbose evidence stays in YOUR context, not the caller's).
 - If the answer spans many files, return a ranked list with one-line descriptions.
 - Ignore `firmware/build/` (generated artifacts, often root-owned).
 - Empty scaffolds (as of 2026-07) — report "empty scaffold" instead of searching deep: `companion/`, `cloud/`, `sdk/`, `infra/`, `vendor/`, `assets/`, all of `protocol/*`, every `ss_*` component except `ss_hal`, `tools/{artwork,brand-guard,ota-signer,protocol-fuzzer,provisioning-line,sim}`, `docs/{protocol,security,user,wire,compliance}`.

@@ -61,6 +61,14 @@ Per-token, Fable 5 is exactly 2× Opus 4.8. But total job cost = price × tokens
 
 Rule of thumb: **tune effort before switching model.** Only drop from Fable 5 to Opus 4.8 when (a) the work is T4/verification-saturated, (b) Fable capacity/credits are constrained, or (c) you want Opus as an independent cross-reviewer (§10).
 
+**Operationalized 2026-07-07:** measured execution data showed the *main
+session's* model/effort — not the delegated tiers — dominates spend, so the
+binding session-lifecycle and orchestration-model rules now live in
+[`11_TOKEN_ECONOMY.md`](./11_TOKEN_ECONOMY.md) (sessions start Opus 4.8 @
+medium; Fable reserved for T1 authorship / T2 design; context kept under
+~150k; CI-wait and subagent output-budget policies). This section's per-task
+economics are unchanged.
+
 ### 1.4 Operational constraints that shape allocation
 
 1. **Refusal exposure is concentrated in *our* T1 domains.** Fable 5's classifiers trigger mainly on cybersecurity content — which is exactly EPIC-06/07/08/18, the fuzzer grammars, and threat-model work. Mitigations: frame prompts explicitly as defensive/own-product security engineering; handle `stop_reason: "refusal"` (HTTP 200, not an error); use server-side `fallbacks` or client retry to Opus 4.8 (fallback credit avoids double prompt-cache cost). A refused T1 task **must not** silently complete on the fallback model — it re-runs on Fable 5 with reframed context, or is consciously re-tiered.

@@ -53,6 +53,13 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Token-economy playbook (`docs/portfolio/11_TOKEN_ECONOMY.md`):
+  evidence-based audit of the first 12 executed stories + official-doc
+  research; binding session rules (orchestrate T3/T4 on Opus @ medium,
+  Fable only for T1/T2-design; <150k main context; single CI check
+  instead of live monitors; subagent output budgets); `t2-builder`
+  effort pin xhigh→high; ~21% of the portfolio (≈110 stories) confirmed
+  as genuinely T1 — quality gates unchanged.
 - Boot-time budget instrumentation (S-02-010): `ss_bootmark` milestone
   marks through the boot sequence emitting a machine-parseable
   `boot-report:` line; `tools/boot-budget-check.py` asserts the

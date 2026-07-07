@@ -3,7 +3,7 @@
 name: t2-builder
 description: T2 implementation against a frozen contract (doc 10 §2, §4). Use to build .c files, bindings, tests-to-vectors, and glue once the header/spec/state machine exists.
 model: claude-opus-4-8
-effort: xhigh
+effort: high
 memory: project
 tools: Read, Write, Edit, Grep, Glob, Bash
 ---

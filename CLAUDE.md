@@ -22,6 +22,9 @@ Work is tiered T1–T4; the tier of any story/epic is in doc 10 §5/§7/§11. Be
 
 Standing rules:
 
+- **Token economy is binding** (`docs/portfolio/11_TOKEN_ECONOMY.md`): sessions start on **Opus 4.8 @ medium** for T3/T4 orchestration; switch to Fable 5 only for T1 authorship (@ xhigh) / T2 design (@ high). One story batch per session; keep main context under ~150k (`/clear` + `/rename` between batches). Use `ultrathink` in-prompt for isolated hard calls instead of raising session effort.
+- **CI-wait policy** (doc 11 §4.5): routine pushes get a single `gh run list` check at the next natural step — no live monitors except for high-risk pushes (T1, workflow changes). Flip story status when the check lands.
+- **Every subagent dispatch states an output budget** (e.g. "report ≤ 40 lines"); verbose evidence stays in the subagent's context (doc 11 §4.6).
 - **Delegate searches/reads to the `retrieval` agent** (Haiku) — keep bulk file contents out of this context.
 - Portfolio work runs through the `story-run` skill (select → elaborate → tier-route → implement → verify AC → status/index → `Story:` trailer commit); one story per run.
 - T1 work: run the `t1-pipeline` skill (encodes the §10 double-review workflow). Pre-commit: the `verify` skill runs all gates.
