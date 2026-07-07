@@ -29,7 +29,7 @@ As a firmware engineer I want a complete `boards/lite/board_config.h` so that al
 ### S-02-004 — `boards/alpha/board_config.h` skeleton
 As a firmware engineer I want a `boards/alpha/board_config.h` skeleton so that Alpha bring-up can start against the shared HAL contracts.
 - AC: skeleton compiles under `make alpha`; open fields carry TODO markers referencing `models/CATALOG`; parity CI check passes for defined fields
-- Meta: Shard=B | Type=Feature | Size=S | Prio=P0 | Status=IN_REVIEW | SKU=A | PRD=— | Const=C-00
+- Meta: Shard=B | Type=Feature | Size=S | Prio=P0 | Status=DONE | SKU=A | PRD=— | Const=C-00
 - Tasks: spec locked-vs-open Alpha fields from models/CATALOG + doc 00 · design define-set parity with lite, TODO(models/CATALOG) markers, parity checker + CI wiring · impl `firmware/boards/alpha/board_config.h`, `tools/board-parity.py`, board-parity workflow, alpha in the firmware-build matrix · test parity green locally, alpha container build green in CI · docs changelog
 - Deps: S-02-002, S-02-003
 
