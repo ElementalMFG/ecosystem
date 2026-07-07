@@ -59,6 +59,11 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Story queue runner (doc 11 §6c): `tools/claude/run-queue.sh` /
+  `make queue Q="…"` executes an approved story list headlessly at each
+  story's resolved model/effort with per-story post-checks (clean tree,
+  `Story:` trailer commit, pushed, CI green) and hard stops on T1/T1?
+  stories or any failure; `build-host/` gitignored.
 - Automatic effort adjustment (doc 11 §6b): `story-run` and `verify`
   skills now carry frontmatter `effort: medium`/`low` that overrides the
   session level while active (official skills frontmatter semantics,

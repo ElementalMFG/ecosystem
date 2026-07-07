@@ -1,6 +1,7 @@
 # Build outputs
 build/
 build_*/
+build-host/
 dist/
 out/
 target/

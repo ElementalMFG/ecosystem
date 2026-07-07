@@ -183,6 +183,23 @@ Official frontmatter reference (skills doc, verified 2026-07-07):
   clean regeneration; the stop-and-instruct behaviour has a live
   precedent (S-02-008: pipeline halted until `/effort xhigh` was set).
 
+## 6c. Queue runner — multi-story automation (added after three clean runs)
+
+`tools/claude/run-queue.sh` (`make queue Q="S-AA-XXX S-BB-YYY"`) executes an
+**explicit, human-approved story list** headlessly: per story it resolves
+the recipe, runs `claude -p "/story-run <id>"` at the recipe's model/effort,
+logs to `logs/queue/`, then enforces post-checks (clean tree, new commit
+with the `Story:` trailer, pushed, CI green within 12 min) before the next
+story. Hard stops: any **T1/T1?** story halts the queue (exit 3) with the
+interactive launch command — T1 never runs headless; any failed check
+aborts (exit 1/2). Command cadence drops to roughly one per day for T3/T4
+grind while every safety layer (gates, CI, covenant, branch protection,
+tier stops) stays engaged. `--dangerous` (full permission bypass) exists
+but is opt-in; default is `--permission-mode acceptEdits`. Session-history
+guidance: batch boundaries use fresh sessions (`make story`/`make queue` —
+the repo is the memory); mid-story tier walls use
+`claude --continue --model … --effort …` (same conversation, re-provisioned).
+
 ## 7. Adoption checklist (owner)
 
 - [ ] Start the next session with `/model opus` + `/effort medium` for the

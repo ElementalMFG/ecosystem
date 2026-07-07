@@ -10,12 +10,13 @@
 #   make clean-<board>            remove that board's build dir
 #   make lint-docs                lint markdown docs (links, anchors, SPDX, TOCs)
 #   make story S=S-NN-MMM         launch a tier-correct Claude session for a story
+#   make queue Q="S-NN-MMM ..."   run a headless story queue (tools/claude/run-queue.sh)
 #   make help                     this text
 
 FIRMWARE_DIR := firmware
 BOARDS       := lite alpha omega
 
-.PHONY: help lint-docs story $(BOARDS) $(addprefix flash-,$(BOARDS)) $(addprefix clean-,$(BOARDS))
+.PHONY: help lint-docs story queue $(BOARDS) $(addprefix flash-,$(BOARDS)) $(addprefix clean-,$(BOARDS))
 
 help:
 	@sed -n 's/^#   //p' Makefile
@@ -25,6 +26,9 @@ lint-docs:
 
 story:
 	tools/claude/work.sh $(S)
+
+queue:
+	tools/claude/run-queue.sh $(Q)
 
 $(BOARDS):
 	cd $(FIRMWARE_DIR) && idf.py -B build/$@ -DSS_BOARD=$@ build
