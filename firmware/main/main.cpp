@@ -30,6 +30,7 @@
 #include "board_config.h"
 #include "ss_bootmark.h"
 #include "ss_log.h"
+#include "ss_memwatch.h"
 #include "ss_panic_guard.h"
 #include "ss_display_boot.h"
 #include "ss_uart_engine.h"
@@ -112,6 +113,12 @@ extern "C" void app_main(void)
     ESP_ERROR_CHECK(ss_diag_start());
     ss_diag_beep(SS_DIAG_TONE_BOOT);
     ss_bootmark("diag");
+
+    // --- 5b. Runtime resource telemetry (S-02-011): heap/stack/idle-load ----
+    // Low-priority static-stack sampler; started after logging + core threads
+    // so its first sample reflects the steady-state footprint.
+    ss_memwatch_start();
+    ss_bootmark("memwatch");
 
     ss_bootmark("app_ready");
     ESP_LOGI(TAG, "boot complete — entering heartbeat");

@@ -78,7 +78,9 @@ As a release manager I want boot-time budget instrumentation so that boot regres
 ### S-02-011 — Heap tracker + stack watermark task
 As a firmware engineer I want a heap tracker and stack-watermark task so that memory pressure is visible before it causes faults.
 - AC: heap high-water and fragmentation stats logged periodically; per-task stack watermark reported; IDLE0/1 CPU load sampled
-- Meta: Shard=G | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
+- Meta: Shard=G | Type=Feature | Size=S | Prio=P1 | Status=IN_REVIEW | SKU=★ | PRD=— | Const=C-00
+- Tasks: spec metric set (free/min-free/largest-block per heap caps region, per-task stack high-water, IDLE0/1 load from run-time-stats deltas) + machine-parseable memwatch log line · design `ss_memwatch` low-prio periodic task (static stack, no heap on its own path) over `heap_caps_get_info` + `uxTaskGetSystemState`; enable `FREERTOS_USE_TRACE_FACILITY` + `FREERTOS_GENERATE_RUN_TIME_STATS` in sdkconfig.defaults · impl `firmware/main/ss_memwatch.{h,cpp}` with an IDF-free formatting/threshold core, wired in main.cpp · test host gtest suite for the core in `firmware/test/host`; firmware build green · docs changelog
+- Deps: S-02-006 (IN_REVIEW — config in-tree, live evidence pending), S-02-007, S-02-014; live periodic-log capture needs a board — story parks at IN_REVIEW until then
 
 ### S-02-012 — Brown-out detector policy + save-state
 As a firmware engineer I want a brown-out detector policy with save-state so that low-battery events do not corrupt user data.

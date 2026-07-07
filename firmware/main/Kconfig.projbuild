@@ -41,3 +41,18 @@ menu "SS-SP Lite optional modules (fully-loaded configuration)"
         default y
 
 endmenu
+
+menu "SS-SP runtime diagnostics"
+
+    config SS_MEMWATCH_PERIOD_MS
+        int "Memory-watch sample period (ms)"
+        default 10000
+        range 1000 600000
+        help
+            Interval between ss_memwatch samples (S-02-011): heap high-water /
+            fragmentation stats, per-task stack watermarks, and IDLE0/1
+            CPU-load deltas are logged once per period. A shorter period
+            raises log volume and the sampling overhead; the default (10 s)
+            matches the boot heartbeat cadence in main.cpp.
+
+endmenu

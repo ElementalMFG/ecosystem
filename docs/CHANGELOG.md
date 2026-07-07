@@ -9,6 +9,12 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Runtime memory diagnostics (S-02-011): `ss_memwatch` low-priority periodic
+  task logs heap free/min-free/largest-block + fragmentation per region
+  (internal + PSRAM when present), per-task stack watermarks, and IDLE0/1
+  CPU load from run-time-stats deltas; sample period via
+  `CONFIG_SS_MEMWATCH_PERIOD_MS` (default 10 s); IDF-free core covered by
+  16 host gtest cases.
 - Working-group charters ratified (S-01-009 / D-0017): 12 charter files in
   `governance/wg/` (bootstrap staffing — founding maintainer chairs all);
   `wg-community` + `wg-legal` added to the doc 06 §3 table; S-01-012 recorded

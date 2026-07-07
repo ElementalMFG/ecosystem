@@ -66,6 +66,16 @@ CONFIG_ESP_COREDUMP_STACK_SIZE=2048
 # secret — never lands in the dump. Flipping this needs wg-security sign-off.
 CONFIG_ESP_COREDUMP_CAPTURE_DRAM=n
 
+# --- S-02-011: runtime resource telemetry (ss_memwatch) ---------------------
+# uxTaskGetSystemState (per-task stack watermarks + run-time counters) requires
+# the trace facility; per-task/idle CPU-load deltas require run-time stats. The
+# ESP-IDF v5.x default run-time-stats clock on esp32s3 is esp_timer (a 64-bit
+# monotonic source shared with ss_bootmark); pinned explicitly so the telemetry
+# baseline is self-documenting and cannot silently change clock source.
+CONFIG_FREERTOS_USE_TRACE_FACILITY=y
+CONFIG_FREERTOS_GENERATE_RUN_TIME_STATS=y
+CONFIG_FREERTOS_RUN_TIME_STATS_USING_ESP_TIMER=y
+
 # --- Production hardening (enable on release builds; see EPIC-08) -----------
 # CONFIG_SECURE_BOOT=y
 # CONFIG_SECURE_FLASH_ENC_ENABLED=y
