@@ -1,0 +1,87 @@
+ i need you to consider the follwoign and determin if our stories and overall ecostsem aligns with the follwoign sufficiently etc.
+  ❯ its nto realy a pager, consider all funtionality and features adn ensuer that we are noth losinganycapabilties or funtionality or features unless there is nto chance they will be used (rememebr the halow/wifi/ble smart phone/digital compassand gps/onboard ai-stt-tts-etc./and other features are the main features but consider the software ecosystemadnverall communication features like talk/text/video/streaming and enternet browsing/data transfer/etc als each device msut function as a router/hotspot/wap/bridge/gateway/extender/universal node that can thnel and be compatibel and operate on multiple badand mesh network node adn other funtionalities, you can check "\\wsl.localhost\Ubuntu\home\dylan\SS-SP-SOFTWARE" for docs that have some of htis info if needed. either way , lease determin the most effective and optimaland practical and necisarry solutions and actions that shoudl be taken to resolve any doce drift and other isuse liek that , you must also consider all other issues and anythin that should be acoutned for. also cnsider all simplification opportunities adn determin what is actually necisarry or would actuall help us succsesfully compelte the dev/design/engerign etc of this board entorely and succsessfully and ensure we hav ea flawless device/board that is ready and totaly adiquat eand perfected to the point that it is ready for mass producution etc. lease consider what is safe and necisarry an optimal and what would acxtually jsut improove the device in the end and not sacfrifica any capabilties or funcutonalities etc unless they would never be used in any situation or would have alomost none ot no effect or dminishing of capabilties adn ensure the device it optimised in its perfomrance and funtionalities ect..
+
+I'll investigate before recommending. Let me survey the portfolio to see what's actually covered vs. the capability set you listed, then identify drift/gaps/simplifications.
+
+● 2 retrieval agents finished
+Survey portfolio coverage · 10 tool uses · 46.6k tokens
+⎿  Done
+Extract device vision + feature scope · 13 tool uses · 49.8k tokens
+⎿  Done
+
+Alignment check — you're in better shape than the framing suggests
+
+The good news: 24 epics / ~534 stories already cover almost your entire list. What you called "the main features" and "software ecosystem" are largely present. The problem is doc drift and naming, not missing capability.
+
+Coverage vs. your capability list
+
+┌────────────────────────────────────────────────────────┬────────────────────────────────────────────────────────┬───────────────────────────────────┐
+│                       Capability                       │                         Status                         │               Where               │
+├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┼───────────────────────────────────┤
+│ HaLow + Wi-Fi + BLE + LoRa                             │ ✓ Covered                                              │ EPIC-03/04/05/10/11               │
+├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┼───────────────────────────────────┤
+│ GPS + digital compass (Seekie)                         │ ✓ Covered (Alpha/Omega)                                │ EPIC-04/05/16                     │
+├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┼───────────────────────────────────┤
+│ On-board STT + TTS                                     │ ✓ Covered v1.0 (Whisper-tiny + Piper)                  │ EPIC-14                           │
+├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┼───────────────────────────────────┤
+│ Talk (PTT + full-duplex over IP/HaLow)                 │ ✓ Covered                                              │ EPIC-14 (Opus/Codec2)             │
+├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┼───────────────────────────────────┤
+│ Text + data transfer (≤8 MB files)                     │ ✓ Covered                                              │ EPIC-12                           │
+├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┼───────────────────────────────────┤
+│ Router / hotspot / WAP / bridge / gateway / extender / │ ✓ All covered under Home Gateway Mode                  │ EPIC-17 (F-HGW-01…07 +            │
+│  universal node                                        │                                                        │ F-EUD-01/02/03)                   │
+├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┼───────────────────────────────────┤
+│ Multi-band mesh + tunneling                            │ ✓ IP-over-RNS seam + RNS universal underlay +          │ EPIC-10/11/13/17                  │
+│                                                        │ Meshtastic wire compat                                 │                                   │
+├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┼───────────────────────────────────┤
+│ Smartphone / desktop / web companion                   │ ✓ Covered                                              │ EPIC-19                           │
+├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┼───────────────────────────────────┤
+│ Video calling / streaming                              │ ✗ Out of core, "WASM plugin future"                    │ –                                 │
+├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┼───────────────────────────────────┤
+│ Web browsing on device                                 │ ✗ Not mentioned anywhere                               │ –                                 │
+├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┼───────────────────────────────────┤
+│ On-device LLM                                          │ ⚠ Contradictory: PRD §5 out-of-scope, but ss_ai        │ EPIC-14 vs. PRD                   │
+│                                                        │ architected                                            │                                   │
+├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┼───────────────────────────────────┤
+│ Wake-word                                              │ ✗ Not covered                                          │ –                                 │
+└────────────────────────────────────────────────────────┴────────────────────────────────────────────────────────┴───────────────────────────────────┘
+
+Real doc-drift sources (in priority order)
+
+1. "Smart pager" framing across README and PRD §1 understates the device and directly conflicts with your view. PRD §8 also flatly excludes "smartphone replacement" — that ban is broader than you actually want.
+2. PRD §5 says "no LLM on-device v1.0" but architecture keeps ss_ai as a first-class component. Pick one.
+3. "Live video micro-frames" in the master plan reads like video calling; F-INT-03/04 fine print says WASM plugin, post-v1.0. Language mismatch.
+4. Omega BOM is "TBD RISC-V + Linux SoM" — cellular/SatCom are promised on a board that isn't pinned. Either commit or mark v1.0 = Lite + Alpha only.
+5. Lite's half-duplex PTT + no battery-SoC aren't up-front in the vision docs — buyers will assume Alpha-level features.
+6. "Router/hotspot/WAP/extender/universal node" is all built (EPIC-17) but PRD §2.3 doesn't use those words, so it reads narrower than it is.
+
+Recommended actions — minimal set, no capability loss
+
+Necessary (do these):
+- RFC-SCOPE-LOCK (one T3 doc): reconcile pager naming, video, browsing, LLM, camera, Omega BOM. Freezes v1.0 truth so every downstream story stops drifting.
+- PRD §1 + README rewrite (T4 batch): retire "pager" as primary noun; primary = "sovereign multi-band mesh communicator + universal node." Keep "pager form-factor" as descriptor.
+- PRD §2.3 device-roles paragraph (T4): explicitly enumerate router / hotspot / WAP / bridge / gateway / extender / mesh-node, each linked to its F-HGW-/F-EUD- story. No new work — just naming.
+- Resolve LLM contradiction (T4): either delete ss_ai from architecture until v2.x, or add a v1.0 F-AI-* story with a pinned model + perf gate. My call: keep ss_ai as capability-only scaffold, no product-level LLM promise in v1.0.
+- Kill "live video micro-frames" ambiguity (T4): rename to "thumbnail attachments" OR promote to a real F-VID-* story with codec + bearer plan. Don't leave both.
+- Pin Omega scope (T3): either commit BOM (SoM part + modem PN) or add "v1.0 ships Lite + Alpha; Omega is v1.x" callout in README.
+- Add Lite constraints callout (T4): half-duplex PTT and no fuel-gauge visible in README variant matrix.
+
+Optional simplifications that don't lose capability:
+- Descope TypeScript + Dart SDKs to v1.1 (keep C + Rust + Python for v1.0). Saves 8 stories, no capability lost — apps use their native SDK.
+- EPIC-13 Meshtastic clean-room compat: check if you need full v2.x parity or just tx/rx interop on a stated channel-set. Could halve the epic.
+- ss_ai = STT/TTS only for v1.0, defer LLM to v2.x formally.
+
+Things you specifically named that I'd add (small, real gaps):
+- Wake-word (1 story under EPIC-14 — trivial with existing Whisper pipeline, high UX value for hands-free).
+- Web browsing: I'd say no — an on-device browser on ESP32-P4 is a lot of surface for something the paired phone does better. The companion + IP-tether already covers "browse the web through the device."
+- Video calling: I'd keep out of core and formalize as a signed WASM plugin post-v1.0. Real-time video over 1W mesh isn't the shape of this device; over HaLow/tether it's a plugin, not core.
+
+Tradeoff to be aware of
+
+If you widen v1.0 scope (add LLM, browser, video), the T1 crypto/secure-boot + certification epics (24 alone has ~35 stories) get harder to close on schedule. The RFC-SCOPE-LOCK is the lever — decide once, in writing, and every epic falls in line.
+
+Suggested next step: approve the RFC-SCOPE-LOCK doc as the first action; I'll draft it (T3, t3-standard agent, one story) and run it through the review pipeline before we touch any other epic.
+
+✻ Crunched for 3m 1s
+
+※ recap: Goal: align the SS-SP portfolio docs with the device's actual multi-radio universal-node scope and cut drift. Current task: I audited coverage and found capabilities are mostly present but framing/PRD/architecture contradict each other. Next action: draft an RFC-SCOPE-LOCK doc to freeze v1.0 truth. (disable recaps in /config)
