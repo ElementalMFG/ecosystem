@@ -70,6 +70,12 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Fixed
 
+- Required check `build (lite)` never reported on docs-only PRs (GitHub
+  collapses a matrix job skipped at job level to the bare job name `build`,
+  so the required context stayed EXPECTED forever): `firmware-build.yml` now
+  runs an always-on `build` gate matrix job that carries the required context
+  and passes on firmware success or a legitimate docs-only skip — verified
+  live on a probe PR (all six checks green, MERGEABLE, no admin bypass).
 - HAL component shadowing (`hal` → `ss_hal`) that broke the mbedtls port on
   the first containerized build.
 - Statusline effort parsing when the statusline JSON carries a plain-string
