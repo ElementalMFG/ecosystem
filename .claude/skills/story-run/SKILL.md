@@ -92,7 +92,14 @@ log at story START for the component you're touching.
    build if `firmware/**` touched → DCO).
 4. Update `docs/CHANGELOG.md` if user-visible (CONTRIBUTING.md §3).
 5. Commit (Conventional Commits, `git commit -s`) with a trailer:
-   `Story: S-NN-MMM` (CONTRIBUTING.md §8).
+   `Story: S-NN-MMM` (CONTRIBUTING.md §8), then **`git push origin main`** —
+   pushing IS part of this step (branch protection + gates make it safe;
+   the queue's post-checks and CI depend on it; do not hold the push for
+   permission).
+6a. **Leave the tree clean.** Scratch/probe files go in `/tmp`, never the
+   repo (headless sandboxes may deny `rm`, stranding them). Before commit:
+   `git status --porcelain` must show nothing unintended; agent-memory
+   files need SPDX headers before staging.
 
 ## 7. Report
 

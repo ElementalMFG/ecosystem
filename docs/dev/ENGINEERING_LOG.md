@@ -66,3 +66,7 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   t2-builder; fable@low is dominated everywhere (2x price without the
   deliberation edge) — never use it.
 - S-02-017 (2026-07-07): settings-class persistence goes through the ss_nvs wrapper (firmware/main/ss_nvs.h), never raw nvs_flash. Each namespace carries a uint32 schema version under reserved key "__ver"; the "__" prefix is reserved module-wide (validators reject it) so ns/key names are printable-non-space ASCII, 1..15 bytes, no "__". Every get/set declares the caller's code version: stored<code runs the registered migration hook (idempotent; register before first access; UPGRADE with no hook is REFUSED); stored>code is REFUSED (SS_NVS_ERR_DOWNGRADE), never auto-migrated. NOT for keys/ratchet/anti-rollback counter (EPIC-08/09 T1). Pure planner+validators host-tested; nvs_flash glue on target.
+- infra (2026-07-07): headless story-run rules — push is part of the commit
+  step (never held for permission); scratch/probe files go in /tmp only
+  (sandbox rm may be denied); cmake/ctest now allowlisted so headless
+  workers can run host tests locally instead of deferring to CI.
