@@ -30,13 +30,21 @@ place in its `STORIES.md` block:
 them. Every `S-NN-MMM` in Deps must exist; incomplete deps (not DONE) must be
 flagged to the user before proceeding.
 
-## 3. Tier-route
+## 3. Tier-route (mechanical — no judgment call)
 
-Look the story up in `docs/portfolio/10_MODEL_ALLOCATION_STRATEGY.md` §5/§7/§11:
+Run `python3 tools/allocation.py --story S-NN-MMM` and follow its recipe:
 
 - **T1** → stop; use the `t1-pipeline` skill instead (never demote T1).
-- **T2/T3/T4** → confirm (model @ effort) against doc 10 §2.2 via the
-  statusline; dispatch to the matching tier agent or proceed inline.
+- **T1?** (keyword-flagged) → resolve the flag NOW as part of elaboration:
+  read the story against doc 10 §5/§7; if genuinely T1, record it in
+  `tools/allocation.py`'s override table (with citation) and switch to
+  `t1-pipeline`; else proceed on the floor recipe and note the resolution.
+- **T2/T3/T4** → compare the recipe's orchestrator (model @ effort) to the
+  statusline. Under-provisioned for T2 design → ask the user to relaunch
+  (`tools/claude/work.sh S-NN-MMM` bakes the right flags). Over-provisioned
+  (e.g. Fable session running a T3/T4 story) → proceed, but flag the waste
+  in the report. Dispatch to the recipe's tier agent, with an explicit
+  output budget in the prompt (doc 11 §4.6).
 
 ## 4. Implement
 

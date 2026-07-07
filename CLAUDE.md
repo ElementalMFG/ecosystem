@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # SS-SP — session policy
 
-Monorepo for the SS-SP mesh-pager program: ESP-IDF firmware (Lite/Alpha/Omega), protocol specs, companion apps, cloud, governance. Portfolio of record: `docs/portfolio/` (24 epics, 533 stories).
+Monorepo for the SS-SP mesh-pager program: ESP-IDF firmware (Lite/Alpha/Omega), protocol specs, companion apps, cloud, governance. Portfolio of record: `docs/portfolio/` (24 epics; story count and per-story allocation in the generated `STORIES_INDEX.md` / `ALLOCATION_MAP.md`).
 
 ## Build & verify
 

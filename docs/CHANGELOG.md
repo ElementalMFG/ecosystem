@@ -53,6 +53,13 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Allocation automation (doc 11 §6a): `tools/allocation.py` resolves
+  every story's tier/model/effort recipe mechanically and generates the
+  CI-checked `docs/portfolio/ALLOCATION_MAP.md` (audit: 63 T1, 111
+  T1?-confirm, 148 T2, 206 T3, 6 T4); `tools/claude/work.sh` +
+  `make story S=…` launch sessions with the correct flags baked in;
+  `story-run`/`t1-pipeline` skills now consult the resolver and stop on
+  under-provisioned sessions.
 - Token-economy playbook (`docs/portfolio/11_TOKEN_ECONOMY.md`):
   evidence-based audit of the first 12 executed stories + official-doc
   research; binding session rules (orchestrate T3/T4 on Opus @ medium,

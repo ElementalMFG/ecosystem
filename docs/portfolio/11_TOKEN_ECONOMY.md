@@ -134,6 +134,28 @@ escalate to Fable for T1/T2-design blocks — not the reverse. Doc 10 §1.3's
 - CLAUDE.md: session-start model policy, CI-wait policy, output budgets.
 - This document; doc 10 §1.3 cross-reference.
 
+## 6a. Automation layer (added same day)
+
+Manual dial-setting is now the fallback, not the mechanism:
+
+- **`tools/allocation.py`** resolves every story's tier + full recipe
+  mechanically (explicit overrides → keyword `T1?` flags → epic floors) and
+  generates **`ALLOCATION_MAP.md`** (all stories, checked by CI in
+  `docs-lint`). Audit at adoption: 63 T1 confirmed, 111 `T1?` to confirm at
+  elaboration, 148 T2, 206 T3, 6 T4.
+- **`tools/claude/work.sh S-NN-MMM`** (or `make story S=S-NN-MMM`) launches
+  the session with the correct `--model`/`--effort` flags and the right
+  skill prompt baked in — the correct allocation is the default path.
+- **Skills enforce it in-flight:** `story-run` step 3 consults the resolver
+  (T1 → reroute to `t1-pipeline`; `T1?` → resolve the flag at elaboration
+  and record it in the override table; under-provisioned → stop and
+  relaunch; over-provisioned → proceed but flag waste). `t1-pipeline`
+  step 2 hard-stops on under-provisioned sessions.
+- **Platform limits honestly stated:** the main session's model/effort can
+  only change via user command or launch flags — hence launchers + in-skill
+  stops rather than a fictional in-flight self-switch. Delegated work needs
+  no such mechanism: agent pins are platform-enforced per invocation.
+
 ## 7. Adoption checklist (owner)
 
 - [ ] Start the next session with `/model opus` + `/effort medium` for the

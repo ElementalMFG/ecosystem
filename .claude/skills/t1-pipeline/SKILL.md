@@ -9,7 +9,7 @@ description: Run the full T1 workflow for security-critical work (crypto, keys, 
 Execute in order; do not skip steps.
 
 1. **Confirm the tier.** Look the story/epic up in `docs/portfolio/10_MODEL_ALLOCATION_STRATEGY.md` §5/§7/§11. If it is not T1, stop and use the normal tier recipe instead.
-2. **Confirm (model @ effort).** T1 authorship runs on Fable 5 @ xhigh. If the statusline shows anything else, ask the user to run `/model` + `/effort` (they must be re-checked together — switching model resets effort). Never demote T1; a refusal is handled per doc 10 §1.4.1 (reframe as defensive/own-product security engineering and re-run).
+2. **Confirm (model @ effort).** T1 authorship runs on Fable 5 @ xhigh — verify via `python3 tools/allocation.py --story S-NN-MMM` and the statusline. If the session is under-provisioned, STOP and ask the user to relaunch with `tools/claude/work.sh S-NN-MMM` (or run `/model` + `/effort xhigh` — they must be re-checked together, switching resets effort). Never demote T1; a refusal is handled per doc 10 §1.4.1 (reframe as defensive/own-product security engineering and re-run).
 3. **Contract first.** Read the AC, governing RFC, and the relevant sections of `05_SECURITY_MODEL.md` / `02_PROTOCOL_STACK.md` before writing anything. If the contract is missing or ambiguous, the contract itself is the first T1 deliverable.
 4. **Implement** (or design). Wire bytes, key hierarchy, eFuse plans, and vector sets get byte-level care — they freeze at first ship.
 5. **Review pass 1:** invoke the `t1-review` agent with only the artifact paths + contract references — never the authoring reasoning (fresh context is the point).

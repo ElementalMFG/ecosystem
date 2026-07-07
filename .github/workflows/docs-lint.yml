@@ -6,9 +6,9 @@ name: docs-lint
 on:
   push:
     branches: [main]
-    paths: ['**.md', 'tools/lint-docs.py', 'tools/gen-stories-index.py', '.github/workflows/docs-lint.yml']
+    paths: ['**.md', 'tools/lint-docs.py', 'tools/gen-stories-index.py', 'tools/allocation.py', '.github/workflows/docs-lint.yml']
   pull_request:
-    paths: ['**.md', 'tools/lint-docs.py', 'tools/gen-stories-index.py', '.github/workflows/docs-lint.yml']
+    paths: ['**.md', 'tools/lint-docs.py', 'tools/gen-stories-index.py', 'tools/allocation.py', '.github/workflows/docs-lint.yml']
 
 permissions:
   contents: read
@@ -22,3 +22,5 @@ jobs:
         run: python3 tools/lint-docs.py
       - name: Verify stories index (D-0008)
         run: python3 tools/gen-stories-index.py --check
+      - name: Verify allocation map
+        run: python3 tools/allocation.py --check
