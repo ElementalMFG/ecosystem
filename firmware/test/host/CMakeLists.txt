@@ -42,12 +42,15 @@ FetchContent_MakeAvailable(googletest)
 
 # --- tested firmware sources -> instrumented static lib ----------------------
 set(SS_COMPONENTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../components)
+set(SS_MAIN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../main)
 
 add_library(ss_units STATIC
     ${SS_COMPONENTS_DIR}/ss_log/src/ss_log_format.c
+    ${SS_MAIN_DIR}/ss_panic_guard_core.c
 )
 target_include_directories(ss_units PUBLIC
     ${SS_COMPONENTS_DIR}/ss_log/include
+    ${SS_MAIN_DIR}
 )
 if(SS_COVERAGE)
     # Compile-time instrumentation on the tested code only; PUBLIC link option so
@@ -63,6 +66,7 @@ include(GoogleTest)
 add_executable(ss_host_tests
     tests/test_ss_log_format.cpp
     tests/test_hal_mock.cpp
+    tests/test_ss_panic_guard.cpp
 )
 target_include_directories(ss_host_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/mocks   # host board_config.h mock (first on path)

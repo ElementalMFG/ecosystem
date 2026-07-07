@@ -47,6 +47,25 @@ CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU1=y
 CONFIG_ESP_INT_WDT=y
 CONFIG_ESP_INT_WDT_CHECK_CPU1=y
 
+# --- S-02-008: panic post-mortem (coredump to flash) ------------------------
+# Every panic path (fault, assert, stack canary, TWDT/IWDT expiry) writes an
+# ELF core dump to the dedicated `coredump` partition, then reboots. ELF format
+# so the record decodes with tools/xtensa-decode-crash.py (espcoredump under
+# the hood). CRC32 integrity (SHA256 costs more panic-path stack for no
+# security benefit here — the dump is integrity-, not authenticity-checked).
+# A dedicated coredump stack is mandatory: a primary panic source IS stack
+# overflow, so dumping on the faulting task's stack would corrupt the evidence
+# and can wedge the dump writer.
+# Dump-content hygiene contract: see firmware/main/ss_panic_guard.h.
+CONFIG_ESP_COREDUMP_ENABLE_TO_FLASH=y
+CONFIG_ESP_COREDUMP_DATA_FORMAT_ELF=y
+CONFIG_ESP_COREDUMP_CHECKSUM_CRC32=y
+CONFIG_ESP_COREDUMP_STACK_SIZE=2048
+# Security-relevant default pinned EXPLICITLY (ss_panic_guard.h hygiene
+# contract): DRAM capture stays OFF so .data/.bss/heap — i.e. every live
+# secret — never lands in the dump. Flipping this needs wg-security sign-off.
+CONFIG_ESP_COREDUMP_CAPTURE_DRAM=n
+
 # --- Production hardening (enable on release builds; see EPIC-08) -----------
 # CONFIG_SECURE_BOOT=y
 # CONFIG_SECURE_FLASH_ENC_ENABLED=y

@@ -29,6 +29,7 @@
 
 #include "board_config.h"
 #include "ss_log.h"
+#include "ss_panic_guard.h"
 #include "ss_display_boot.h"
 #include "ss_uart_engine.h"
 #include "ss_compass.h"
@@ -69,6 +70,14 @@ static void banner(void)
 
 extern "C" void app_main(void)
 {
+    // --- 0. Panic boot gate FIRST (S-02-008): decide normal vs safe mode ---
+    // Must run before any app task exists so a crash-looping subsystem can
+    // never be re-entered on the boot that trips the loop breaker.
+    ss_panic_guard_boot_gate();
+    if (ss_panic_guard_in_safe_mode()) {
+        ss_panic_guard_safe_mode_loop(); // never returns
+    }
+
     // --- 1. NVS (required by Wi-Fi/BLE later; cheap to do first) -----------
     esp_err_t err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
@@ -98,6 +107,10 @@ extern "C" void app_main(void)
     ss_diag_beep(SS_DIAG_TONE_BOOT);
 
     ESP_LOGI(TAG, "boot complete — entering heartbeat");
+
+    // Boot survived bring-up: arm the 60 s stability window that clears the
+    // consecutive-panic count (S-02-008).
+    ss_panic_guard_arm_stability_timer();
 
     // --- 6. Heartbeat: 10 s status until ss_ui takes over (EPIC-15) ---------
     for (;;) {

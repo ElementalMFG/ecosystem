@@ -1,9 +1,20 @@
 # SPDX-License-Identifier: Apache-2.0
 # SS-SP Lite 16 MB flash — A/B OTA layout (EPIC-09: signed update + rollback).
-# Name,     Type, SubType, Offset,   Size
-nvs,        data, nvs,     0x9000,   0x6000
-otadata,    data, ota,     0xf000,   0x2000
-phy_init,   data, phy,     0x11000,  0x1000
-ota_0,      app,  ota_0,   0x20000,  0x600000
-ota_1,      app,  ota_1,   0x620000, 0x600000
-storage,    data, spiffs,  0xc20000, 0x3e0000
+#
+# S-02-008: 64 KiB `coredump` partition carved from the tail of `storage`
+# (post-mortem panic dumps, single slot, newest wins). The `encrypted` flag is
+# inert until flash encryption lands (EPIC-08, S-08-004/005) and guarantees
+# dumps are ciphertext at rest from the first release build. Layout freezes at
+# first ship — changes after that require an RFC (RFC-0003 window rules).
+# SIZE MARGIN: 64 KiB covers task stacks + TCBs + ELF headers for today's
+# ~10-task set with headroom (DRAM capture is pinned OFF); worst-case dump
+# size MUST be measured on hardware (S-02-015) and the margin recorded here
+# BEFORE the layout freezes. The boot log prints each dump's partition-fill %.
+# Name,     Type, SubType,  Offset,   Size,     Flags
+nvs,        data, nvs,      0x9000,   0x6000,
+otadata,    data, ota,      0xf000,   0x2000,
+phy_init,   data, phy,      0x11000,  0x1000,
+ota_0,      app,  ota_0,    0x20000,  0x600000,
+ota_1,      app,  ota_1,    0x620000, 0x600000,
+storage,    data, spiffs,   0xc20000, 0x3d0000,
+coredump,   data, coredump, 0xff0000, 0x10000,  encrypted

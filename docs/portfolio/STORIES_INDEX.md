@@ -39,7 +39,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-02 — Firmware Foundation (21 stories)
+## Epic-02 — Firmware Foundation (22 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -50,7 +50,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-02-005 | B | Feature | S | P0 | DONE | O | — | C-00 |
 | S-02-006 | C | Feature | S | P0 | IN_REVIEW | ★ | — | C-00 |
 | S-02-007 | E | Feature | M | P0 | DONE | ★ | NF-SEC-03 | C-00,C-05 |
-| S-02-008 | E | Feature | M | P0 | DRAFT | ★ | — | C-00 |
+| S-02-008 | E | Feature | M | P0 | IN_REVIEW | ★ | — | C-00 |
 | S-02-009 | F | Feature | S | P0 | IN_REVIEW | ★ | — | C-00 |
 | S-02-010 | D | Feature | S | P1 | DRAFT | ★ | NF-PERF-05 | C-00 |
 | S-02-011 | G | Feature | S | P1 | DRAFT | ★ | — | C-00 |
@@ -64,6 +64,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-02-019 | A | Ops | M | P0 | DRAFT | ★ | NF-SEC-05,NF-REG-03 | C-00,C-OA |
 | S-02-020 | A | Feature | XS | P0 | DRAFT | ★ | — | C-00 |
 | S-02-021 | — | Feature | M | P1 | DRAFT | ★ | NF-PERF-03 | C-00 |
+| S-02-022 | E | Feature | M | P2 | DRAFT | ★ | — | C-00 |
 
 ---
 
@@ -716,13 +717,13 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Totals — 533 stories across 24 epics
+## Totals — 534 stories across 24 epics
 
 | Status | Count |
 |---|---|
 | DRAFT | 509 |
 | IN_PROGRESS | 1 |
-| IN_REVIEW | 2 |
+| IN_REVIEW | 3 |
 | DONE | 20 |
 | BLOCKED | 1 |
 
@@ -734,7 +735,7 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 
 | Clause key | Stories | P0 coverage |
 |---|---|---|
-| C-00 | 220 | yes |
+| C-00 | 221 | yes |
 | C-01 | 18 | yes |
 | C-02 | 81 | yes |
 | C-03 | 46 | yes |

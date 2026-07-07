@@ -57,7 +57,9 @@ As a firmware engineer I want the `ss_log` component with levels and redaction s
 ### S-02-008 — Panic handler dumps to flash + reboots
 As a firmware engineer I want a panic handler that dumps to flash and reboots safely so that field crashes are diagnosable without a debugger.
 - AC: crash record decodes with `xtensa-decode-crash.py`; no crash loop after 3 consecutive panics; safe-mode boot entered instead
-- Meta: Shard=E | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
+- Meta: Shard=E | Type=Feature | Size=M | Prio=P0 | Status=IN_REVIEW | SKU=★ | PRD=— | Const=C-00
+- Tasks: spec panic sources + dump-hygiene contract from doc 05 · design coredump partition + ELF dump config + RTC-noinit panic counter + safe-mode boundary vs S-02-016 · impl partitions.csv, sdkconfig, ss_panic_guard (pure core + IDF glue), main wiring, decode tool · test host gtests for the decision core, 3-board CI build; on-hardware decode + loop-breaker exercise pending flash access · docs contract block + changelog
+- Deps: S-02-006, S-02-009, S-02-014; on-hardware verification needs S-02-015 + attached board — story parks at IN_REVIEW until then
 
 ### S-02-009 — Task-watchdog + interrupt-watchdog policy
 As a firmware engineer I want task and interrupt watchdog policy so that hung tasks recover automatically.
@@ -127,3 +129,8 @@ As a support engineer I want a firmware version resource so that any device can 
 As a firmware engineer I want a fixed-size pool allocator with a frozen contract for RNS frames, LXMF payloads, and voice frames so that hot paths never touch the general heap and exhaustion behaviour is defined instead of accidental.
 - AC: a `ss_pool` API (create/alloc/free/stats) is specified in a header with documented pool sizes per subsystem derived from the RAM budget in `01_SS-SP_LITE_HARDWARE_REFERENCE.md`; exhaustion behaviour is explicit per pool (fail-fast with counter for bulk, pre-emption of lowest-priority buffers for VOICE/ALERT QoS classes) and unit-tested; zero general-heap allocations occur on the frame RX/TX path under load test, verified with the S-02-011 heap tracker; pool high-water marks are exposed via diagnostics
 - Meta: Shard=— | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=★ | PRD=NF-PERF-03 | Const=C-00
+
+### S-02-022 — Bootloader-stage early-boot crash counter
+As a firmware engineer I want a crash-loop breaker that also covers failures before `app_main` so that bootloader-stage, init-hook, or global-constructor crash loops cannot reboot-cycle forever below the S-02-008 gate.
+- AC: a counter mechanism owned by the 2nd-stage bootloader (or verified equivalent) detects N consecutive resets that never reach the S-02-008 boot gate and diverts to a recoverable state; interplay with secure-boot and OTA rollback (EPIC-08/09) is specified before implementation; the S-02-008 gate's scope note is updated to reference the delivered mechanism
+- Meta: Shard=E | Type=Feature | Size=M | Prio=P2 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00

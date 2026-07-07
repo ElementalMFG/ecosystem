@@ -53,6 +53,16 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Panic post-mortem + crash-loop breaker (S-02-008, T1 double-reviewed):
+  dedicated 64 KiB `coredump` partition (encrypted-flagged for EPIC-08),
+  ELF core dumps on every panic path with a dedicated dump stack and
+  DRAM capture pinned OFF (hygiene contract in `ss_panic_guard.h`);
+  integrity-guarded RTC-noinit consecutive-panic counter with three-way
+  reset classification (fail-safe on unknown reasons) gates boot into a
+  minimal safe mode after 3 consecutive panics; 60 s stability window;
+  `tools/xtensa-decode-crash.py` decode wrapper (format auto-detect,
+  RISC-V-ready); duress wipe now explicitly covers the coredump
+  partition (S-07-021 AC); early-boot loops tracked as S-02-022.
 - Host-side gtest baseline (S-02-014): `firmware/test/host/` CMake
   project with SHA-pinned googletest (v1.15.2), mocked `board_config.h`
   + real host-clean HAL headers, the full ss_log redaction suite ported
