@@ -1,0 +1,42 @@
+# SPDX-License-Identifier: Apache-2.0
+# Weekly governance audit: re-runs every docs/allocation/governance gate on a
+# schedule so drift is caught even without a triggering PR. Job fails iff any
+# gate step fails; the aging report and informational allocation audit never do.
+name: weekly-audit
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Mondays 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Lint documentation
+        run: python3 tools/lint-docs.py
+      - name: Verify stories index (D-0008)
+        run: python3 tools/gen-stories-index.py --check
+      - name: Verify allocation map
+        run: python3 tools/allocation.py --check
+      - name: Covenant check
+        run: python3 tools/covenant-check.py
+      - name: Task-policy check
+        run: python3 tools/task-policy-check.py
+      - name: Board parity
+        run: python3 tools/board-parity.py
+      - name: Allocation audit (informational)
+        run: python3 tools/allocation.py --audit
+      - name: Aging report (informational)
+        if: always()
+        run: |
+          echo "Stories parked at IN_REVIEW / IN_PROGRESS (need eventual closure):"
+          grep -rn -B1 -E 'Status=(IN_REVIEW|IN_PROGRESS)' \
+            docs/portfolio/epics/*/STORIES.md \
+            | grep -E '^[^-].*### S-' \
+            || echo "  none"
+          echo "(informational only — this step never fails the audit)"

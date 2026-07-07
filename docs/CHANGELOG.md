@@ -66,6 +66,12 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Ordering guard + weekly audit (doc 11 §6e): `allocation.py --next`
+  prints the dependency-satisfied, priority-sorted story frontier with a
+  queue suggestion; `--eligible` guards each queue launch (ORDER-GUARD
+  abort on unsatisfied deps); `weekly-audit.yml` runs all seven repo
+  gates on a Monday cron + manual dispatch with an IN_REVIEW aging
+  report; `make audit` mirrors it locally.
 - Lossless fresh sessions (doc 11 §6d): append-only
   `docs/dev/ENGINEERING_LOG.md` (seeded with accumulated gotchas), a
   mandatory knowledge-sweep step in `story-run` (report carries

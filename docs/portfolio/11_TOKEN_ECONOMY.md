@@ -224,6 +224,24 @@ every new session starts pre-briefed — fresh context stops being a
 tradeoff and becomes strictly better (sharp attention + guaranteed
 carryover of what matters).
 
+## 6e. Ordering guard + periodic audit (added after the first queue cycle)
+
+- **Story order is a dependency-graph property, not a numeric sequence.** An
+  order is valid iff no story starts before its `Deps:` are satisfied
+  (DONE, or IN_REVIEW = satisfied-with-note) and unblocked P0 work precedes
+  P1/P2. `tools/allocation.py --next` prints the mechanically-derived
+  eligible frontier (priority-sorted, T1 rows marked interactive-only) plus
+  a ready-to-paste queue suggestion; `--eligible S-NN-MMM` is the per-story
+  guard, wired into `run-queue.sh` as an ORDER-GUARD abort (exit 4) so an
+  ineligible story cannot launch headlessly. Verified against the live
+  portfolio (dep graph currently fully clean; blocked path proven with a
+  synthetic case).
+- **Periodic audit**: `weekly-audit.yml` (Mondays 06:00 UTC + manual
+  dispatch) runs all seven repo gates server-side and prints an
+  informational aging report of IN_REVIEW/IN_PROGRESS stories; `make audit`
+  runs the same locally. Cadence guidance: manual dispatch before starting
+  a new epic and after any hardware-verification day.
+
 ## 7. Adoption checklist (owner)
 
 - [ ] Start the next session with `/model opus` + `/effort medium` for the

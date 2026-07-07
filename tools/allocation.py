@@ -37,6 +37,16 @@ MAP = PORTFOLIO / "ALLOCATION_MAP.md"
 
 HEADING_RE = re.compile(r"^### (S-(\d{2})-(\d{3})) — (.+)$")
 META_RE = re.compile(r"^- Meta:\s*(.+)$")
+DEPS_RE = re.compile(r"^- Deps:\s*(.+)$")
+DEP_ID_RE = re.compile(r"S-\d{2}-\d{3}")
+
+# --- dependency-ordering vocabulary --------------------------------------
+# A dep is SATISFIED if its status is DONE, or IN_REVIEW (satisfied-with-note:
+# implementation exists, only live evidence is pending). Anything else
+# (DRAFT/IN_PROGRESS/BLOCKED/READY) or a nonexistent id is UNSATISFIED.
+SATISFIED = {"DONE", "IN_REVIEW"}
+FRONTIER_STATUS = {"DRAFT", "READY"}
+PRIO_ORDER = {"P0": 0, "P1": 1, "P2": 2, "P3": 3}
 
 # --- Model / effort recipe table (doc 11 §3) ------------------------------
 FABLE = "claude-fable-5"
@@ -138,33 +148,59 @@ def parse_meta(raw: str) -> dict:
     return meta
 
 
+def parse_deps(block: list[str], self_id: str) -> list[str]:
+    """Extract S-NN-MMM ids from a story block's `- Deps:` line (if any).
+
+    Free text (RFC/decision refs, prose, `—`) is ignored; ids are de-duped in
+    first-seen order and the story's own id is never treated as a self-dep.
+    """
+    deps: list[str] = []
+    for line in block:
+        dm = DEPS_RE.match(line)
+        if not dm:
+            continue
+        for did in DEP_ID_RE.findall(dm.group(1)):
+            if did != self_id and did not in deps:
+                deps.append(did)
+    return deps
+
+
 def parse_epic(path: Path, epic_num: str) -> list[dict]:
     """Parse one STORIES.md into a list of story dicts (deterministic order)."""
-    stories = []
+    stories: list[dict] = []
     lines = path.read_text(encoding="utf-8").splitlines()
-    cur = None  # (id, epic, title)
-    buf: list[str] = []
+    cur = None            # (id, epic, title)
+    block: list[str] = []  # lines after the heading (exclusive of heading)
+
+    def flush() -> None:
+        if cur is None:
+            return
+        meta_idx = next((i for i, ln in enumerate(block)
+                         if META_RE.match(ln)), None)
+        if meta_idx is None:  # no Meta line -> not a real story block
+            return
+        meta = parse_meta(META_RE.match(block[meta_idx]).group(1))
+        # `text` is byte-identical to the pre-Deps parser: title + the lines
+        # between the heading and the Meta line (keyword matching relies on it).
+        text = "\n".join([cur[2]] + block[:meta_idx])
+        stories.append({
+            "id": cur[0], "epic": cur[1], "num": int(cur[0][-3:]),
+            "title": cur[2], "text": text,
+            "Type": meta.get("Type", ""), "Size": meta.get("Size", ""),
+            "Status": meta.get("Status", ""), "Prio": meta.get("Prio", ""),
+            "deps": parse_deps(block, cur[0]),
+        })
+
     for line in lines:
         h = HEADING_RE.match(line)
         if h:
+            flush()
             cur = (h.group(1), h.group(2), h.group(4).strip())
-            buf = [h.group(4).strip()]
+            block = []
             continue
-        if cur is None:
-            continue
-        m = META_RE.match(line)
-        if m:
-            meta = parse_meta(m.group(1))
-            stories.append({
-                "id": cur[0], "epic": cur[1], "num": int(cur[0][-3:]),
-                "title": cur[2], "text": "\n".join(buf),
-                "Type": meta.get("Type", ""), "Size": meta.get("Size", ""),
-                "Status": meta.get("Status", ""),
-            })
-            cur = None
-            buf = []
-            continue
-        buf.append(line)
+        if cur is not None:
+            block.append(line)
+    flush()
     return stories
 
 
@@ -325,6 +361,99 @@ def cmd_audit(stories: list[dict]) -> int:
     return 0
 
 
+def dep_report(story: dict, by_id: dict, warn: bool = True) -> tuple:
+    """Classify a story's deps against the satisfaction rule.
+
+    Returns (blocking, in_review, statuses): `blocking` is the list of
+    `S-..=STATUS` strings preventing eligibility (unsatisfied or MISSING);
+    `in_review` is the list of dep ids satisfied-with-note (IN_REVIEW);
+    `statuses` is the display list of every dep's `S-..=STATUS`. Nonexistent
+    dep ids warn on stderr and count as blocking.
+    """
+    blocking: list[str] = []
+    in_review: list[str] = []
+    statuses: list[str] = []
+    for d in story["deps"]:
+        s = by_id.get(d)
+        if s is None:
+            if warn:
+                print(f"allocation: warning: {story['id']} depends on unknown "
+                      f"story {d}", file=sys.stderr)
+            blocking.append(f"{d}=MISSING")
+            statuses.append(f"{d}=MISSING")
+            continue
+        st = s["Status"] or "?"
+        statuses.append(f"{d}={st}")
+        if st in SATISFIED:
+            if st == "IN_REVIEW":
+                in_review.append(d)
+        else:
+            blocking.append(f"{d}={st}")
+    return blocking, in_review, statuses
+
+
+def cmd_next(stories: list[dict], n: int) -> int:
+    """Print the eligible frontier: DRAFT/READY stories with all deps satisfied."""
+    by_id = {s["id"]: s for s in stories}
+    rows = []
+    for s in stories:
+        if s["Status"] not in FRONTIER_STATUS:
+            continue
+        blocking, in_review, _ = dep_report(s, by_id)
+        if blocking:
+            continue
+        tier, basis, _ = resolve(s)
+        rows.append((s, tier, basis, in_review))
+    rows.sort(key=lambda r: (PRIO_ORDER.get(r[0]["Prio"], 9), r[0]["id"]))
+    rows = rows[:n]
+
+    print(f"eligible frontier — {len(rows)} shown "
+          f"(DRAFT/READY, all deps satisfied)")
+    print(f"{'ID':11} {'Prio':4} {'tier(basis)':20} {'orchestrator':13} title")
+    print("-" * 92)
+    for s, tier, basis, in_review in rows:
+        r = RECIPE[recipe_tier(tier, s)]
+        o_model, o_effort = r["orch"]
+        orch = f"{short(o_model)}@{o_effort}"
+        title = s["title"] if len(s["title"]) <= 50 else s["title"][:47] + "..."
+        note = ""
+        if in_review:
+            note += f"  (dep in review: {', '.join(in_review)})"
+        marker = ""
+        if tier in ("T1", "T1?"):
+            marker = ">> "
+            note += "  [T1 — interactive only, never headless]"
+        idcell = marker + s["id"]
+        print(f"{idcell:11} {s['Prio']:4} {tier + ' (' + basis + ')':20} "
+              f"{orch:13} {title}{note}")
+
+    q = [s["id"] for s, tier, _, _ in rows if tier not in ("T1", "T1?")][:4]
+    print()
+    print(f'queue suggestion: make queue Q="{" ".join(q)}"')
+    return 0
+
+
+def cmd_eligible(stories: list[dict], sid: str) -> int:
+    """Check whether one story's deps are satisfied (its own status is moot)."""
+    by_id = {s["id"]: s for s in stories}
+    s = by_id.get(sid)
+    if s is None:
+        print(f"allocation: story {sid} not found", file=sys.stderr)
+        return 2
+    blocking, in_review, statuses = dep_report(s, by_id)
+    depstr = ", ".join(statuses) if statuses else "none"
+    if not blocking:
+        note = (f" [satisfied-with-note: in review {', '.join(in_review)}]"
+                if in_review else "")
+        print(f"eligible: yes (deps: {depstr}){note}")
+        return 0
+    print(f"eligible: no — blocked by: {', '.join(blocking)} (deps: {depstr})",
+          file=sys.stderr)
+    print("run `python3 tools/allocation.py --next` for the eligible frontier",
+          file=sys.stderr)
+    return 4
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     g = ap.add_mutually_exclusive_group(required=True)
@@ -332,6 +461,10 @@ def main() -> int:
     g.add_argument("--generate", action="store_true", help="write ALLOCATION_MAP.md")
     g.add_argument("--check", action="store_true", help="verify the map is current")
     g.add_argument("--audit", action="store_true", help="print tier counts")
+    g.add_argument("--next", nargs="?", type=int, const=10, metavar="N",
+                   dest="next_n", help="print the eligible dependency frontier")
+    g.add_argument("--eligible", metavar="S-NN-MMM",
+                   help="check whether a story's deps are satisfied")
     args = ap.parse_args()
 
     stories = load_stories()
@@ -348,6 +481,10 @@ def main() -> int:
         return cmd_check(stories)
     if args.audit:
         return cmd_audit(stories)
+    if args.next_n is not None:
+        return cmd_next(stories, args.next_n)
+    if args.eligible:
+        return cmd_eligible(stories, args.eligible)
     return 0
 
 

@@ -63,6 +63,17 @@ for STORY in "${STORIES[@]}"; do
     exit 3
   fi
 
+  # ORDER-GUARD: refuse to launch a story whose dependencies are unsatisfied.
+  ELIG="$(python3 "$ROOT/tools/allocation.py" --eligible "$STORY" 2>&1)" && ERC=0 || ERC=$?
+  if [[ $ERC -eq 4 ]]; then
+    echo "############################################################" >&2
+    echo "ORDER-GUARD ABORT [$STORY]: dependencies not satisfied" >&2
+    printf '%s\n' "$ELIG" >&2
+    echo "Run 'python3 tools/allocation.py --next' to see the eligible frontier." >&2
+    echo "############################################################" >&2
+    exit 4
+  fi
+
   if [[ $DANGEROUS -eq 1 ]]; then
     PERM=(--dangerously-skip-permissions)
   else

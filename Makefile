@@ -9,6 +9,7 @@
 #   make flash-<board>            build + flash (e.g. make flash-lite)
 #   make clean-<board>            remove that board's build dir
 #   make lint-docs                lint markdown docs (links, anchors, SPDX, TOCs)
+#   make audit                    run all governance/allocation gates (fail-fast)
 #   make story S=S-NN-MMM         launch a tier-correct Claude session for a story
 #   make queue Q="S-NN-MMM ..."   run a headless story queue (tools/claude/run-queue.sh)
 #   make help                     this text
@@ -16,13 +17,23 @@
 FIRMWARE_DIR := firmware
 BOARDS       := lite alpha omega
 
-.PHONY: help lint-docs story queue $(BOARDS) $(addprefix flash-,$(BOARDS)) $(addprefix clean-,$(BOARDS))
+.PHONY: help lint-docs audit story queue $(BOARDS) $(addprefix flash-,$(BOARDS)) $(addprefix clean-,$(BOARDS))
 
 help:
 	@sed -n 's/^#   //p' Makefile
 
 lint-docs:
 	python3 tools/lint-docs.py
+
+# Same seven gates as .github/workflows/weekly-audit.yml, fail-fast.
+audit:
+	python3 tools/lint-docs.py
+	python3 tools/gen-stories-index.py --check
+	python3 tools/allocation.py --check
+	python3 tools/covenant-check.py
+	python3 tools/task-policy-check.py
+	python3 tools/board-parity.py
+	python3 tools/allocation.py --audit
 
 story:
 	tools/claude/work.sh $(S)
