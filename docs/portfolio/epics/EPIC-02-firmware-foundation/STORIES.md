@@ -89,7 +89,9 @@ As a firmware engineer I want a component template scaffold so that new componen
 ### S-02-014 — Host-side gtest baseline for pure-C code
 As a firmware engineer I want a host-side gtest baseline so that pure-C logic is tested without hardware.
 - AC: gtest target builds and runs on the host; mocked HAL headers available; coverage report wired into CI
-- Meta: Shard=I | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
+- Meta: Shard=I | Type=Feature | Size=M | Prio=P0 | Status=IN_REVIEW | SKU=★ | PRD=— | Const=C-00
+- Tasks: spec host-testable surface (IDF-free cores + HAL-header consumers) · design CMake host project with SHA-pinned googletest FetchContent, mocks/ HAL header set, gcovr coverage in host-tests workflow · impl `firmware/test/host/` + port ss_log_format suite to gtest + mocked-HAL smoke test · test local build+run+coverage, CI green · docs BUILDING.md host-test section + changelog
+- Deps: S-02-002, S-02-007
 
 ### S-02-015 — On-target Unity test framework wired in
 As a firmware engineer I want the on-target Unity test framework wired in so that hardware-dependent code is testable on real boards.

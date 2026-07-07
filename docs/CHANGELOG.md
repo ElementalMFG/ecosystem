@@ -53,6 +53,13 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Host-side gtest baseline (S-02-014): `firmware/test/host/` CMake
+  project with SHA-pinned googletest (v1.15.2), mocked `board_config.h`
+  + real host-clean HAL headers, the full ss_log redaction suite ported
+  to gtest (11 tests / 39 assertions, sabotage-verified), and a
+  `gtest-coverage` CI job producing a gcovr report (90.2% lines on the
+  redaction core) with a Cobertura artifact; host-test docs added to
+  BUILDING.md.
 - Watchdog policy (S-02-009): explicit TWDT (5 s, panic-on-hang so
   hung tasks recover by reboot) and IWDT config in
   `sdkconfig.defaults`; `ss_task_wdt_register/feed/unregister` API in

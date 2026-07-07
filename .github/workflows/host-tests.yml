@@ -12,11 +12,13 @@ on:
   pull_request:
     paths:
       - firmware/components/ss_log/**
+      - firmware/test/host/**
       - .github/workflows/host-tests.yml
   push:
     branches: [main]
     paths:
       - firmware/components/ss_log/**
+      - firmware/test/host/**
       - .github/workflows/host-tests.yml
 
 permissions:
@@ -34,3 +36,28 @@ jobs:
           grep -q '\\033\[0;31m' firmware/components/ss_log/src/ss_log.c
           grep -q '\\033\[0;33m' firmware/components/ss_log/src/ss_log.c
           grep -q '\\033\[0;32m' firmware/components/ss_log/src/ss_log.c
+
+  gtest-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install gcovr
+        run: pip install gcovr
+      - name: Configure (googletest FetchContent, coverage on)
+        run: cmake -S firmware/test/host -B build -DSS_COVERAGE=ON
+      - name: Build
+        run: cmake --build build -j
+      - name: Run tests
+        run: ctest --test-dir build --output-on-failure
+      - name: Coverage report (summary table + coverage.xml)
+        run: |
+          gcovr --root . build \
+            --filter 'firmware/components/.*' \
+            --txt \
+            --print-summary \
+            --xml coverage.xml
+      - name: Upload coverage.xml
+        uses: actions/upload-artifact@v4
+        with:
+          name: host-coverage
+          path: coverage.xml

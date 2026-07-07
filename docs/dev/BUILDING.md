@@ -54,6 +54,42 @@ Only **Lite** has a complete `board_config.h` today; `alpha` and `omega` are
 skeleton targets that fail at configure until their board headers land
 (EPIC-04/EPIC-05).
 
+## Host tests
+
+Pure, ESP-IDF-free logic (e.g. the `ss_log` `%k` redaction formatter) is tested
+on a plain host toolchain — no firmware container or target board required.
+
+**Quick loop (gcc + ASan/UBSan)** — the fastest edit/run cycle for one core:
+
+```bash
+make -C firmware/components/ss_log/test/host test
+```
+
+**Full loop (googletest + coverage)** — the CMake project under
+`firmware/test/host/` builds the tested C sources into an instrumented
+`ss_units` library and runs the ported gtest suites (googletest is fetched,
+pinned by commit SHA):
+
+```bash
+# From repo root; build out-of-tree
+cmake -S firmware/test/host -B build/host -DSS_COVERAGE=ON
+cmake --build build/host -j
+ctest --test-dir build/host --output-on-failure
+
+# Coverage summary + Cobertura XML (needs gcovr: pip install gcovr)
+gcovr --root . build/host --filter 'firmware/components/.*' --txt --xml coverage.xml
+```
+
+Set `-DSS_COVERAGE=OFF` for a faster uninstrumented run. HAL-header consumers
+are covered with a host mock of `board_config.h`
+(`firmware/test/host/mocks/`); the real, dependency-free `ss_hal_caps.h` /
+`ss_hal_types.h` are used unmodified.
+
+CI runs both loops in [`../../.github/workflows/host-tests.yml`](../../.github/workflows/host-tests.yml):
+the `ss-log-redaction` job runs the quick ASan/UBSan harness, and the
+`gtest-coverage` job runs the CMake/ctest suite and uploads `coverage.xml` as a
+build artifact.
+
 ## Docs lint
 
 ```bash
