@@ -1,15 +1,30 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Default PR template. Typed templates exist for feature, rfc, security,
-     and docs changes under .github/PULL_REQUEST_TEMPLATE/ — pre-fill one by
-     appending ?template=<name>.md to the compare URL (CONTRIBUTING.md §3). -->
+<!-- Security PR -->
+<!-- WARNING: Do NOT include exploit details or undisclosed vulnerability
+     information in a public PR. Coordinate disclosure via SECURITY.md first. -->
 ## Summary
 
-<!-- What and why, 1-3 sentences. -->
+<!-- What and why, 1-3 sentences. No exploit detail. -->
 
 ## Portfolio traceability
 
 - Story ID(s): <!-- S-NN-MMM; also add a `Story: S-NN-MMM` commit trailer (CONTRIBUTING.md §8) -->
 - RFC (if wire-format/public-API/crypto/governance): <!-- rfcs/… or n/a -->
+
+## Threat / issue addressed
+
+<!-- Reference the advisory / report ID. No exploit detail in a public PR. -->
+
+## Security-relevant testing
+
+<!-- Vectors, fuzzing, constant-time checks as applicable. -->
+
+## Required sign-offs
+
+- [ ] DCO sign-off on every commit (`git commit -s`, CONTRIBUTING.md §4)
+- [ ] CLA signed on first PR (CONTRIBUTING.md §5)
+- [ ] 2 CODEOWNER approvals + wg-security sign-off (CONTRIBUTING.md §9, mandatory for security-sensitive paths)
+- [ ] Disclosure timing follows SECURITY.md
 
 ## Checklist
 
@@ -22,14 +37,6 @@
 - [ ] `**/*.md` touched → `python3 tools/lint-docs.py` passes
 - [ ] `docs/portfolio/epics/**` touched → `python3 tools/gen-stories-index.py --check` passes
 - [ ] AI assistance disclosed below if used (CONTRIBUTING.md §11)
-
-## Security-sensitive paths
-
-<!-- Does this touch ss_crypto/ss_hal/bootloader/protocol/ota/provisioning/
-     firmware/security? If yes: 2 CODEOWNER approvals + wg-security sign-off
-     required (CONTRIBUTING.md §9). -->
-
-- [ ] No security-sensitive paths touched, **or** wg-security sign-off requested
 
 ## AI assistance disclosure
 

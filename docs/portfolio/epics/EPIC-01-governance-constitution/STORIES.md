@@ -78,7 +78,9 @@ As an architect I want the decisions log bootstrapped with D-0001..D-0010 so tha
 ### S-01-011 — PR templates (feature, RFC, security, docs)
 As a contributor I want PR templates for feature, RFC, security, and docs changes so that reviews start from complete information.
 - AC: 4 templates in `.github/`; referenced from CONTRIBUTING.md; each template lists its required sign-offs
-- Meta: Shard=C | Type=Task | Size=S | Prio=P1 | Status=DRAFT | SKU=★ | PRD=— | Const=C-06
+- Meta: Shard=C | Type=Task | Size=S | Prio=P1 | Status=DONE | SKU=★ | PRD=— | Const=C-06
+- Tasks: spec sign-off matrix from 06_GOVERNANCE.md §4–§5 + CONTRIBUTING.md §9 · design GitHub `PULL_REQUEST_TEMPLATE/` dir + `?template=` selection, default template links the four · impl feature/rfc/security/docs templates · test lint-docs + index --check green · docs CONTRIBUTING.md §3 reference + changelog
+- Deps: —
 
 ### S-01-012 — Two-approver merge policy enforced
 As a release manager I want the two-approver merge policy enforced on `main` so that every change gets one code and one domain review.

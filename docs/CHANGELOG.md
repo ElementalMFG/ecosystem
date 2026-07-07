@@ -53,6 +53,11 @@ in every user-visible PR (CONTRIBUTING.md §3).
   §2.7 story elaboration), Claude Code tier agents + rules + skills.
 - Project governance files: `.clang-format`, CODEOWNERS, issue + PR
   templates, dependabot (GitHub Actions), this changelog.
+- Typed PR templates for `feature`, `rfc`, `security`, and `docs` changes
+  under `.github/PULL_REQUEST_TEMPLATE/`, each listing its required
+  sign-offs (DCO, CLA, CODEOWNER/wg-security approvals per CONTRIBUTING.md
+  §9); referenced from CONTRIBUTING.md §3 and the default PR template
+  (S-01-011).
 
 ### Changed
 

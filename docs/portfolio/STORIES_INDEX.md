@@ -29,7 +29,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-01-008 | C | Task | M | P0 | IN_PROGRESS | ★ | — | C-04,C-06 |
 | S-01-009 | D | Task | M | P0 | DONE | ★ | — | C-06 |
 | S-01-010 | E | Task | S | P0 | DONE | ★ | — | C-06 |
-| S-01-011 | C | Task | S | P1 | DRAFT | ★ | — | C-06 |
+| S-01-011 | C | Task | S | P1 | DONE | ★ | — | C-06 |
 | S-01-012 | C | Ops | S | P0 | BLOCKED | ★ | — | C-06 |
 | S-01-013 | B,D,E | Feature | M | P2 | DRAFT | ★ | — | C-06 |
 | S-01-014 | I | RFC | L | P1 | DONE | ★ | — | C-06,C-OA |
@@ -720,9 +720,9 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 | Status | Count |
 |---|---|
-| DRAFT | 518 |
+| DRAFT | 517 |
 | IN_PROGRESS | 1 |
-| DONE | 13 |
+| DONE | 14 |
 | BLOCKED | 1 |
 
 ---

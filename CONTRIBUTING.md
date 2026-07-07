@@ -55,7 +55,13 @@ Cloud: see `cloud/README.md`.
 2. Add tests.
 3. Add docs (update `docs/` and inline).
 4. Update the changelog under `docs/CHANGELOG.md`.
-5. Push and open a PR against `main`.
+5. Push and open a PR against `main`, using the PR template that matches the
+   change: `feature`, `rfc`, `security`, or `docs` (in
+   [`.github/PULL_REQUEST_TEMPLATE/`](./.github/PULL_REQUEST_TEMPLATE/)).
+   Append `?template=<name>.md` to the compare/new-PR URL to pre-fill it, e.g.
+   `…/compare/main...my-branch?template=security.md`. Each template lists the
+   sign-offs that PR type requires (see §9). The default template applies if
+   you don't pick one.
 
 ## 4. DCO — required on every commit
 
