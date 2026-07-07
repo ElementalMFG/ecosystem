@@ -78,8 +78,10 @@ log at story START for the component you're touching.
 ## 6. Gates + status + commit
 
 1. Update `Status=` (`DONE` only when every AC has evidence).
-2. `python3 tools/gen-stories-index.py` (regenerate — never hand-edit
-   `STORIES_INDEX.md`).
+2. `python3 tools/gen-stories-index.py` AND `python3 tools/allocation.py
+   --generate` (both files are generated — never hand-edit; the allocation
+   map carries story status, so EVERY status change must regenerate it or
+   the docs-lint CI gate fails).
 3. Run the `verify` skill (stage → docs lint → index --check → firmware
    build if `firmware/**` touched → DCO).
 4. Update `docs/CHANGELOG.md` if user-visible (CONTRIBUTING.md §3).

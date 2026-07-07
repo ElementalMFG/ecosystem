@@ -42,7 +42,7 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-02-012 | T1 (override) | fable@xhigh | t1-pipeline | DRAFT |
 | S-02-013 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-02-014 | T2 (override) | fable@high | t2-builder | DONE |
-| S-02-015 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-02-015 | T3 (epic-floor) | opus@medium | t3-standard | IN_REVIEW |
 | S-02-016 | T2 (override) | fable@high | t2-builder | DRAFT |
 | S-02-017 | T2 (override) | fable@high | t2-builder | DRAFT |
 | S-02-018 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |

@@ -51,3 +51,11 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   are still unimplemented (ss_hal is header-only until EPIC-03), so the on-target
   HAL smoke test asserts compile-time `SS_BOARD_CAPS`/identity macros only; a
   runtime-accessor smoke test waits on the impl (EPIC-03 HAL bring-up).
+- infra (2026-07-07): a NEW CI gate must land in the same commit as its
+  addition to the `verify`/`story-run` skill gate lists — the first headless
+  queue run failed docs-lint because ALLOCATION_MAP.md (which carries story
+  Status) wasn't regenerated locally; local gates and CI gates must stay
+  identical sets.
+- S-02-015 (2026-07-07): CI jobs that run pytest need an explicit
+  `pip install pytest pytest-embedded[-idf,-serial-esp]` step — GitHub's
+  setup-python ships no packages.

@@ -58,6 +58,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install harness dependencies
+        # Unpinned until versions are proven against real hardware at the
+        # S-02-015 DONE flip; pin per RFC-0002 then.
+        run: pip install pytest pytest-embedded pytest-embedded-idf pytest-embedded-serial-esp
       - name: Validate pytest harness discovers cleanly (no board)
         working-directory: firmware/test/target
         run: python -m pytest --collect-only -q
