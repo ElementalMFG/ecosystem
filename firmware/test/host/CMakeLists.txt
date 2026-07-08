@@ -53,6 +53,7 @@ add_library(ss_units STATIC
     ${SS_COMPONENTS_DIR}/ss_power/src/ss_power_core.c
     ${SS_COMPONENTS_DIR}/ss_input/src/ss_input_core.c
     ${SS_COMPONENTS_DIR}/ss_display/src/ss_display_core.c
+    ${SS_COMPONENTS_DIR}/ss_muxctl/src/ss_muxctl_core.c
 )
 target_include_directories(ss_units PUBLIC
     ${SS_COMPONENTS_DIR}/ss_log/include
@@ -60,6 +61,7 @@ target_include_directories(ss_units PUBLIC
     ${SS_COMPONENTS_DIR}/ss_power/include
     ${SS_COMPONENTS_DIR}/ss_input/include
     ${SS_COMPONENTS_DIR}/ss_display/include
+    ${SS_COMPONENTS_DIR}/ss_muxctl/include
     ${SS_COMPONENTS_DIR}/ss_hal/include
     ${CMAKE_CURRENT_SOURCE_DIR}/mocks
 )
@@ -84,6 +86,7 @@ add_executable(ss_host_tests
     tests/test_ss_power_core.cpp
     tests/test_ss_input_core.cpp
     tests/test_ss_display_core.cpp
+    tests/test_ss_muxctl_core.cpp
 )
 target_include_directories(ss_host_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/mocks   # host board_config.h mock (first on path)

@@ -240,3 +240,13 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   (ss_muxctl component) and dep-wired S-03-009 + S-03-011 onto it (plus
   S-03-031 for LoRa's GPIO0). Pattern to watch: every ss_hal_*.h arbiter/
   contract needs an implementing story before its consumers queue.
+- S-03-033 (2026-07-08): ss_muxctl implements the GPIO45 mux — pure decision
+  core (ss_muxctl_core, host-tested) + FreeRTOS glue (binary-semaphore
+  ownership token for blocking/busy-reject + portMUX-guarded state; GPIO
+  writes kept OUTSIDE the spinlock). No-op on non-mux boards via runtime
+  ss_hal_has_cap(SS_CAP_MUX_MIC_RADIO). PORTABILITY GOTCHA: parity board
+  macros for absent pins are -1 (SS_MUX_MIC_RADIO_PIN=-1 on alpha/omega), and
+  the glue compiles on ALL boards — a constant `1ULL << -1` / negative pin is
+  fatal under -Werror, so any board-pin GPIO code must sit behind
+  `#if <PIN> >= 0` even when it is runtime-dead. Applies to every future
+  component that touches a parity-placeholder pin macro.
