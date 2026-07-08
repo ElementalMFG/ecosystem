@@ -73,7 +73,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-03 — HAL for Lite (ESP32-S3 + SX1262 + Wi-Fi/BLE) (42 stories)
+## Epic-03 — HAL for Lite (ESP32-S3 + SX1262 + Wi-Fi/BLE) (43 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -91,7 +91,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-03-012 | E | Feature | M | P0 | DRAFT | L | NF-REG-01,NF-REG-02,NF-REG-05 | C-00,C-08 |
 | S-03-013 | E | Feature | M | P0 | IN_REVIEW | L | NF-REG-05,F-BR-01 | C-00,C-08 |
 | S-03-014 | F | Feature | M | P0 | IN_REVIEW | L | F-BR-02 | C-00,C-08 |
-| S-03-015 | F | Feature | M | P0 | DRAFT | L | F-BR-02,F-APP-07 | C-00,C-08 |
+| S-03-015 | F | Feature | M | P0 | IN_REVIEW | L | F-BR-02,F-APP-07 | C-00,C-08 |
 | S-03-016 | G | Feature | L | P0 | DRAFT | L | F-BR-03,F-APP-07 | C-00,C-08 |
 | S-03-017 | G | Feature | M | P0 | DRAFT | L | F-BR-03,NF-SEC-02 | C-05,C-08 |
 | S-03-018 | H | Feature | S | P0 | DRAFT | L | — | C-00,C-05 |
@@ -119,6 +119,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-03-040 | — | Feature | XS | P1 | DRAFT | L | — | C-00,C-05 |
 | S-03-041 | E | Task | S | P2 | DRAFT | L | — | C-00,C-08 |
 | S-03-042 | F | Feature | XS | P2 | DRAFT | L | — | C-00 |
+| S-03-043 | F | Feature | S | P2 | DRAFT | L | F-APP-07 | C-00,C-05 |
 
 ---
 
@@ -746,13 +747,13 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Totals — 563 stories across 24 epics
+## Totals — 564 stories across 24 epics
 
 | Status | Count |
 |---|---|
 | DRAFT | 515 |
 | IN_PROGRESS | 1 |
-| IN_REVIEW | 15 |
+| IN_REVIEW | 16 |
 | DONE | 28 |
 | BLOCKED | 1 |
 | DROPPED | 3 |
@@ -765,12 +766,12 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 
 | Clause key | Stories | P0 coverage |
 |---|---|---|
-| C-00 | 250 | yes |
+| C-00 | 251 | yes |
 | C-01 | 32 | yes |
 | C-02 | 82 | yes |
 | C-03 | 46 | yes |
 | C-04 | 53 | yes |
-| C-05 | 156 | yes |
+| C-05 | 157 | yes |
 | C-06 | 53 | yes |
 | C-07 | 61 | yes |
 | C-08 | 110 | yes |

@@ -9,6 +9,28 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Wi-Fi soft-AP captive provisioning (S-03-015): the `ss_wifi` component gains
+  a standalone first-boot provisioning path — a soft-AP captive portal that
+  hands home-network credentials to the STA with no companion infrastructure.
+  The security contract (new in doc 05 §10.3, standalone path) is enforced by
+  a pure, host-tested session core (`ss_wifi_prov_core`): the AP is never
+  open (WPA2/WPA3-PSK with a per-session ≈59-bit TRNG passphrase shown only
+  on the device display, fail-closed on entropy failure), the session is
+  bounded (single client, clamped 1–30 min window, max 5 rejected
+  submissions), credentials are validated (SSID/PSK per 802.11), released
+  exactly once, and zeroized on every exit path — never logged, never
+  persisted (sealed at-rest storage deferred to S-03-043 / EPIC-08). A
+  device-matched verification code counters evil-twin portals. ESP-IDF glue
+  (`ss_wifi_prov.c`) owns the AP-mode bring-up (two-phase passphrase so the
+  final secret comes from the RF-warm true TRNG), a bounds-checked DNS
+  catch-all, the HTTP portal, and full teardown back to STA mode on any
+  terminal state (AC: the soft-AP shuts down after provisioning). As part of
+  the same contract, `ss_wifi_init()` now forces `WIFI_STORAGE_RAM` so
+  esp_wifi never writes Wi-Fi credentials (STA or soft-AP) to plaintext NVS —
+  the IDF default silently persisted them. Host suite: 136 checks under
+  ASan/UBSan. On-target phone-reachability ACs land with the Wi-Fi
+  hardware-in-loop rack (EPIC-03 exit criterion 2).
+
 - Wi-Fi STA scan + connect + WPA2/3 (S-03-014): a new `ss_wifi` component
   ships a pure, host-tested policy core (`ss_wifi_sta_core`) plus esp_wifi glue
   (`ss_wifi.c`) implementing the frozen `ss_hal_radio_wifi.h` STA lifecycle. The

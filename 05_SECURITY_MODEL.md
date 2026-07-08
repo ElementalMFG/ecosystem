@@ -431,6 +431,7 @@ Every bearer (LoRa, HaLow, BLE, Wi-Fi 4, ESP-NOW, USB-CDC) delivers **already-en
 
 ### 10.3 Wi-Fi provisioning
 - Companion-app-driven provisioning uses **BLE + Wi-Fi Easy Connect (DPP)** where supported, falling back to a **PSK exchange over encrypted BLE GATT** using X25519 KEX and Argon2id-derived shared secret.
+- Standalone (no-companion) first-boot provisioning uses a **soft-AP captive portal that is never open**: the AP runs WPA2/WPA3-PSK with a **per-session passphrase (≥ 56 bits from the TRNG, fail-closed on entropy failure)** shown only on the device display — physical presence is the authorization. Single AP client, bounded window, bounded failed submissions; the AP tears down on completion, expiry, cancel, or the power restriction (battery < 15 % ⇒ no AP, per `08_UNIVERSAL_CONNECTIVITY.md`). The portal shows a device-matched **verification code** to counter evil-twin portals. Received credentials are handed to the STA exactly once and zeroized; they are **not persisted at rest until the `FS_key` store exists** (EPIC-08). Contract of record: `ss_wifi_prov_core.h` (S-03-015).
 - **Never** stores Wi-Fi PSKs plaintext; PSKs sealed under `FS_key`.
 
 ### 10.4 Traffic-analysis defenses

@@ -331,3 +331,24 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   runs interactive t1-pipeline. Pattern: keyword flags resolve on the AC
   text, not the title. Follow-ups filed: S-03-041 (duty persistence
   compliance determination), S-03-042 (reconnect off the event loop).
+- S-03-015 (2026-07-08): landed as `ss_wifi_prov_core` (pure session core) +
+  `ss_wifi_prov.c` (AP/DNS/HTTP portal glue). The T1 deliverable was the
+  missing contract: doc 05 §10.3 only covered BLE/DPP provisioning, so the
+  standalone soft-AP path got its own normative bullet (never-open AP,
+  per-session TRNG passphrase on the display, bounded session, one-shot
+  zeroized handoff, no at-rest persistence until FS_key). Two-phase AP
+  bring-up because the S3 TRNG is only guaranteed with RF up: bootstrap
+  passphrase -> start AP -> regenerate real secrets -> reconfigure. Credential
+  persistence deliberately NOT implemented (doc 05 "never plaintext" vs no
+  FS_key yet) — filed S-03-043. On-target ACs park at IN_REVIEW for the
+  Wi-Fi HIL rack, same as S-03-014.
+- S-03-015 (2026-07-08): T1 double-review earned its cost — both passes
+  REWORK on round 1. Cross-review caught the killer: esp_wifi defaults to
+  WIFI_STORAGE_FLASH, so every esp_wifi_set_config silently persisted the
+  AP passphrase AND the handed-off home PSK to plaintext NVS
+  (nvs.net80211) — exactly the leak the story exists to close. Fix:
+  ss_wifi_init forces WIFI_STORAGE_RAM before any set_config (also
+  de-persists S-03-014 STA creds, aligning with doc 05 until S-03-043).
+  Pattern for the gotcha file: IDF "convenience" defaults can violate a
+  security contract without any code in the diff being wrong. Round 2:
+  both APPROVE-WITH-NITS; nits fixed (DNS task owns its fd; docs).

@@ -125,6 +125,14 @@ esp_err_t ss_wifi_init(void)
     err = esp_wifi_init(&init_cfg);
     if (err != ESP_OK) { return err; }
 
+    // Doc 05 §10.3: never store Wi-Fi PSKs plaintext. esp_wifi defaults to
+    // WIFI_STORAGE_FLASH, which writes every set_config (STA creds AND the
+    // provisioning AP passphrase) to plaintext NVS. Force RAM-only storage
+    // before ANY esp_wifi_set_config call; persistence at rest is owned by
+    // the sealed store (S-03-043, EPIC-08).
+    err = esp_wifi_set_storage(WIFI_STORAGE_RAM);
+    if (err != ESP_OK) { return err; }
+
     err = esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler,
                                               NULL, NULL);
     if (err != ESP_OK) { return err; }

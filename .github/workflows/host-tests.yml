@@ -110,6 +110,6 @@ jobs:
         run: make -C firmware/components/ss_audio/test/host test
       - name: ss_lora LBT + duty core
         run: make -C firmware/components/ss_lora/test/host test
-      - name: ss_wifi STA core
+      - name: ss_wifi STA + provisioning cores
         run: make -C firmware/components/ss_wifi/test/host test
 

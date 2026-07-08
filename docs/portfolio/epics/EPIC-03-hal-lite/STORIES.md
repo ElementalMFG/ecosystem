@@ -97,7 +97,9 @@ As a device owner I want Wi-Fi STA scan/connect with WPA2/3 so that my pager use
 ### S-03-015 — Wi-Fi soft-AP for captive provisioning
 As a device owner I want a Wi-Fi soft-AP captive provisioning mode so that first-boot setup works without any companion infrastructure.
 - AC: soft-AP with captive portal reachable from a phone; provisioning completes credential handoff; soft-AP shuts down after provisioning completes
-- Meta: Shard=F | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-BR-02,F-APP-07 | Const=C-00,C-08
+- Meta: Shard=F | Type=Feature | Size=M | Prio=P0 | Status=IN_REVIEW | SKU=L | PRD=F-BR-02,F-APP-07 | Const=C-00,C-08
+- Tasks: spec never-open soft-AP + per-session-passphrase credential-handoff security contract (doc 05 §10.3 standalone path, this story's T1 deliverable) · design pure host-testable session core `ss_wifi_prov_core.h` (no ESP-IDF) · impl passphrase/verify-code generation (fail-closed TRNG, rejection sampling) + credential validation + bounded session state machine in `ss_wifi_prov_core.c`, plus ESP-IDF portal glue `ss_wifi_prov.c` (AP-mode soft-AP, DNS catch-all, HTTP portal, teardown-on-terminal) · test host harness `test_ss_wifi_prov_core` (ASan/UBSan) · docs doc-05 §10.3 amendment + contract doc-block + ENGINEERING_LOG + CHANGELOG + host-tests CI wiring
+- Deps: S-03-014 (STA consumer of the handed-off `ss_wifi_cfg_t`); sealed at-rest credential persistence deferred to S-03-043 (FS_key, EPIC-08); on-target ACs (phone reachability, captive-portal detection, WPA2/WPA3-SAE soft-AP association) need the Wi-Fi HIL rack (EPIC-03 exit criterion 2) — story parks at IN_REVIEW; external: IEEE 802.11 WPA2/WPA3 transition soft-AP via esp_wifi + esp_http_server (ESP-IDF v5.3.5)
 
 ### S-03-016 — BLE 5 GATT server + advertising profile
 As a companion-app developer I want a BLE 5 GATT server and advertising profile so that phones can pair with and talk to the device.
@@ -247,3 +249,9 @@ As a firmware engineer I want the reconnect backoff moved off the default event 
 - AC: the S-03-014 disconnect handler arms an esp_timer (or dedicated task) instead of blocking the event loop with vTaskDelay; backoff/give-up semantics unchanged (host suite still green); verified before/with the Wi-Fi HIL rack (S-03-023)
 - Meta: Shard=F | Type=Feature | Size=XS | Prio=P2 | Status=DRAFT | SKU=L | PRD=— | Const=C-00
 - Deps: S-03-014
+
+### S-03-043 — Sealed at-rest Wi-Fi credential persistence
+As a security engineer I want handed-off Wi-Fi credentials persisted sealed under `FS_key` so that home-network PSKs survive reboot without ever resting in plaintext (doc 05 §10.3).
+- AC: a credential store seals the S-03-015 handoff output under `FS_key` (EPIC-08) and feeds STA auto-join on boot; plaintext never touches flash (doc 05 §10.3 "never stores Wi-Fi PSKs plaintext" holds end-to-end); store failure degrades to re-provisioning, never to plaintext fallback; wipe-on-command supported
+- Meta: Shard=F | Type=Feature | Size=S | Prio=P2 | Status=DRAFT | SKU=L | PRD=F-APP-07 | Const=C-00,C-05
+- Deps: S-03-015 (handoff producer); EPIC-08 FS_key store (blocking — no sealed storage exists before it)

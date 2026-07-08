@@ -1,26 +1,30 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright (c) 2025 SS-SP Project Contributors
 #
-# Host harness for the ss_wifi STA policy core (no firmware toolchain needed).
+# Host harness for the ss_wifi pure cores (no firmware toolchain needed).
 #
-# Only the pure core (ss_wifi_sta_core.c) is compiled here; the IDF glue
-# (ss_wifi.c) is exercised on target. The core header includes only
-# <stdint.h>/<stdbool.h>/<stddef.h>, so it builds with a plain gcc under
-# ASan/UBSan with no include hacks and no libc qsort.
+# Only the pure cores (ss_wifi_sta_core.c, ss_wifi_prov_core.c) are compiled
+# here; the IDF glue (ss_wifi.c, ss_wifi_prov.c) is exercised on target. The
+# core headers include only <stdint.h>/<stdbool.h>/<stddef.h>, so they build
+# with a plain gcc under ASan/UBSan with no include hacks.
 
 CC ?= gcc
-CFLAGS := -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined -I../../include
+CFLAGS := -std=c11 -Wall -Wextra -Wshadow -Wconversion -Werror -fsanitize=address,undefined -I../../include
 
-SRCS := test_ss_wifi_sta_core.c ../../src/ss_wifi_sta_core.c
-BIN := test_ss_wifi_sta_core
+STA_BIN := test_ss_wifi_sta_core
+PROV_BIN := test_ss_wifi_prov_core
 
 .PHONY: test clean
 
-test: $(BIN)
-	./$(BIN)
+test: $(STA_BIN) $(PROV_BIN)
+	./$(STA_BIN)
+	./$(PROV_BIN)
 
-$(BIN): $(SRCS)
-	$(CC) $(CFLAGS) -o $@ $(SRCS)
+$(STA_BIN): test_ss_wifi_sta_core.c ../../src/ss_wifi_sta_core.c
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(PROV_BIN): test_ss_wifi_prov_core.c ../../src/ss_wifi_prov_core.c
+	$(CC) $(CFLAGS) -o $@ $^
 
 clean:
-	rm -f $(BIN)
+	rm -f $(STA_BIN) $(PROV_BIN)
