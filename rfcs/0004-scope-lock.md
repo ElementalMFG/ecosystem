@@ -2,7 +2,7 @@
 - Title: v1.0 scope lock — device identity, feature truth, and compatibility guards
 - Author(s): SS-SP program lead
 - Shepherd: wg-community (bootstrap: program lead)
-- Status: DRAFT (awaiting owner ratification of the decision sheet below)
+- Status: ACCEPTED (owner ratified SL-1..SL-7 on 2026-07-08; D-0019)
 - Start Date: 2026-07-07
 - Feature area (WG): cross-cutting / product scope
 - Requires: 0001, 0003
@@ -28,17 +28,17 @@ multi-band mesh + tunneling (EPIC-10/11/13/17), and companion apps
 (EPIC-19) — while the *framing documents* contradict it and each other.
 Drift, not missing capability, is the risk.
 
-# Decision sheet (owner ratifies; recommendations pre-filled)
+# Decision sheet (RATIFIED by owner, 2026-07-08 — D-0019)
 
-| # | Question | Recommendation | Owner decision |
-|---|---|---|---|
-| SL-1 | Device framing: retire "smart pager" as the primary noun in README/PRD §1; primary identity = "sovereign multi-band mesh communicator + universal node"; "pager form-factor" stays as descriptor; PRD §8's blanket "not a smartphone replacement" narrowed to "no cellular-voice/app-store replacement claim" | ADOPT | [OWNER] |
-| SL-2 | On-device LLM: keep `ss_ai` as a capability-only scaffold (STT/TTS are the v1.0 products); no product-level LLM promise before v2.x; delete the PRD §5 vs architecture contradiction by stating exactly this | ADOPT | [OWNER] |
-| SL-3 | Video calling/streaming: not core in v1.0; formalize as a signed-WASM-plugin path (EPIC-18) post-v1.0; rename "live video micro-frames" language to "thumbnail attachments" everywhere | ADOPT | [OWNER] |
-| SL-4 | On-device web browsing: out — the paired companion + IP-tether/gateway modes (EPIC-17/19) are the browsing path; device-side browser adds enormous attack surface for negative value on this hardware | ADOPT (out) | [OWNER] |
-| SL-5 | Omega in v1.0: ship v1.0 as Lite + Alpha; Omega (RISC-V/Linux SoM, cellular/LEO) is v1.x with its own spec-lock story; README variant matrix says so | ADOPT | [OWNER] |
-| SL-6 | SDK descope: v1.0 SDKs = C, Rust, Python; TypeScript + Dart move to v1.1 (companion apps use their native SDKs; no capability lost) | ADOPT | [OWNER] |
-| SL-7 | Lite honesty callouts: half-duplex PTT and no battery fuel-gauge stated plainly in README variant matrix | ADOPT | [OWNER] |
+| # | Question | Decision |
+|---|---|---|
+| SL-1 | Device framing | **RATIFIED, owner wording:** primary identity = "sovereign multi-band mesh communicator + universal node"; descriptor = "a multi-band Wi-Fi (2.4/5 GHz) / HaLow / BLE smartphone-class device in a pager form factor". "Smart pager" retired as the primary noun in README/PRD §1; PRD §8's blanket "not a smartphone replacement" narrowed to "no cellular-voice or app-store replacement claim in v1.0" |
+| SL-2 | On-device LLM | **RATIFIED as recommended:** `ss_ai` stays capability-only scaffold; STT/TTS are the v1.0 AI products; no product LLM promise before v2.x |
+| SL-3 | Video calling/streaming | **RATIFIED as recommended:** signed-WASM-plugin path (EPIC-18) post-v1.0; "micro-frames" language becomes "thumbnail attachments" |
+| SL-4 | On-device web browsing | **RATIFIED, refined:** browsing is an APPLICATION-LAYER capability, never core firmware. Delivery: (a) v1.0 — browse *through* the device via EPIC-17 gateway/tether roles; (b) browser-type and other smartphone-class apps ride the signed-plugin platform where hardware permits; (c) full on-device browser targets Omega (Linux SoM, v1.x). See compatibility guard 6 |
+| SL-5 | Omega in v1.0 | **RATIFIED as recommended:** v1.0 ships Lite + Alpha; Omega is v1.x with its own spec-lock story |
+| SL-6 | SDK descope | **RATIFIED as recommended:** v1.0 SDKs = C, Rust, Python; TypeScript + Dart in v1.1 |
+| SL-7 | Lite honesty callouts | **RATIFIED as recommended:** half-duplex PTT + no fuel-gauge stated in the README variant matrix |
 
 Corrections to the source audit, from verification: wake-word is NOT a gap
 (S-14-013, Alpha DSP, opt-in); EPIC-13 Meshtastic descope is deferred to its
@@ -64,6 +64,14 @@ These ensure "nothing done now causes problems down the road":
 5. **Role features are software**: router/hotspot/WAP/gateway/extender are
    EPIC-17 runtime roles over existing radios — no board change may remove
    a radio path that EPIC-17 declares (doc 08 is the authority).
+6. **Application-layer capability (SL-4 owner mandate)**: the EPIC-18
+   signed-plugin ABI and the EPIC-15 UI shell MUST be designed to host the
+   smartphone-app class — networked (sockets over the device's IP paths),
+   UI-rendering (shell surface access), storage-scoped plugins — so
+   browser-type and comparable applications are deployable where hardware
+   permits without core-firmware changes. The plugin ABI is already an
+   RFC-0003 versioned surface; this guard binds its *capability floor*.
+   Additive only: no existing EPIC-15/18 story is narrowed by this guard.
 
 # Mandated doc-drift edits (become T4 stories on acceptance)
 
@@ -90,6 +98,9 @@ None once the decision sheet is ratified.
 
 # Implementation plan
 
-Owner ratifies SL-1..SL-7 → status ACCEPTED, renumber per
-`rfcs/README.md` convention, decision-ledger entry (next free D-number) →
-T4 doc-edit stories queued → S-01-018 DONE.
+Ratified 2026-07-08: status ACCEPTED, renumbered 0004, decision ledger
+D-0019. The mandated doc-drift edits are queued as S-01-019 (T4 sweep,
+DRAFT). Everything is additive: no story is dropped or narrowed; SL-6
+moves two SDK stories to the v1.1 train without deleting them; guard 6
+binds a capability floor onto EPIC-15/18 without changing their stories.
+S-01-018 → DONE.

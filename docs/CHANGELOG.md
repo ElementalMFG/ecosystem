@@ -9,6 +9,15 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- v1.0 scope lock ratified (RFC-0004 / D-0019 / S-01-018): device identity
+  fixed as "sovereign multi-band mesh communicator + universal node" (a
+  multi-band Wi-Fi 2.4/5 GHz / HaLow / BLE smartphone-class device in a
+  pager form factor); browsing and smartphone-class apps are application-
+  layer capabilities on the signed-plugin platform (compatibility guard 6
+  binds the EPIC-15/18 capability floor; full browser targets Omega v1.x);
+  video via signed plugins post-v1.0; `ss_ai` scaffold-only until v2.x;
+  v1.0 ships Lite + Alpha; SDKs C/Rust/Python (TS/Dart v1.1). All changes
+  additive; mandated doc edits queued as S-01-019 (T4).
 - Safe-mode / recovery boot path (S-02-016): radio-less recovery console
   reachable three ways — a BOOT-hold gesture ("press RESET, then hold BOOT")
   watched only during the first `CONFIG_SS_RECOVERY_ENTRY_WINDOW_MS` of boot, a

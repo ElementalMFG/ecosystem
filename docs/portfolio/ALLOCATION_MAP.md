@@ -28,7 +28,8 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-01-015 | T3 (epic-floor) | opus@medium | t3-standard | DONE |
 | S-01-016 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-01-017 | T2 (override) | opus@medium | t2-designer+builder | DONE |
-| S-01-018 | T3 (epic-floor) | opus@medium | t3-standard | IN_PROGRESS |
+| S-01-018 | T3 (epic-floor) | opus@medium | t3-standard | DONE |
+| S-01-019 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-02-001 | T3 (epic-floor) | opus@medium | t3-standard | DONE |
 | S-02-002 | T3 (epic-floor) | opus@medium | t3-standard | DONE |
 | S-02-003 | T3 (epic-floor) | opus@medium | t3-standard | DONE |

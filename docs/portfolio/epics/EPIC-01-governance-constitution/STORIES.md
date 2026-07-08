@@ -123,6 +123,12 @@ As a protocol steward I want a single ratified compatibility-and-deprecation pol
 ### S-01-018 — v1.0 scope-lock RFC (device identity, feature truth, compatibility guards)
 As the product owner I want a ratified scope-lock RFC that freezes what SS-SP v1.0 IS — universal multi-band mesh node, not merely a pager — and resolves every scope contradiction, so that no epic drifts and no current engineering forecloses a declared future capability.
 - AC: an RFC resolves, with owner sign-off: device framing (pager vs universal node) across README/PRD §1/§8, the on-device-LLM contradiction (PRD §5 vs `ss_ai`), video-calling/streaming language ("micro-frames" vs plugin), on-device browsing (in/out), Omega v1.0 shipping status, and SDK-language descope options; a compatibility-guards section binds current firmware work (partition headroom, versioned surfaces per RFC-0003, capability-flagged HAL roles) to the declared future set; the doc-drift edits it mandates are enumerated as T4 stories; RFC reaches ACCEPTED with a decision-ledger entry
-- Meta: Shard=A | Type=RFC | Size=M | Prio=P0 | Status=IN_PROGRESS | SKU=★ | PRD=— | Const=C-00,C-06
+- Meta: Shard=A | Type=RFC | Size=M | Prio=P0 | Status=DONE | SKU=★ | PRD=— | Const=C-00,C-06
 - Tasks: spec drift inventory (verified against portfolio; wake-word gap disproven — S-14-013 exists) · design decision sheet with recommendations + owner markers · impl `rfcs/DRAFT-scope-lock.md` · test owner ratification → renumber + ACCEPTED + D-entry per rfcs/README convention · docs mandated T4 edit list inside the RFC + changelog
 - Deps: RFC-0003, S-01-014
+
+### S-01-019 — Scope-lock doc alignment sweep (RFC-0004 mandated edits)
+As a reader of the public docs I want README/PRD language aligned with the ratified v1.0 scope lock so that the documents state the same device truth everywhere.
+- AC: README + PRD §1 carry the D-0019 identity wording; PRD §8 narrowed per SL-1; PRD §5 LLM paragraph per SL-2; "live video micro-frames" language replaced per SL-3; README variant matrix carries SL-5 (Omega v1.x) and SL-7 (Lite half-duplex PTT, no fuel-gauge) callouts; PRD §2.3 enumerates the seven device roles with F-HGW/F-EUD story links; all edits additive — no capability statement deleted, only reframed; lint green
+- Meta: Shard=A | Type=Task | Size=S | Prio=P1 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
+

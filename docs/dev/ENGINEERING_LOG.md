@@ -77,3 +77,10 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   capability audit verified drift-not-gaps; wake-word "gap" was false
   (S-14-013 exists); compatibility guards bind partition headroom, versioned
   surfaces, HAL caps, and the pin-sharing ledger.
+- S-01-018 (2026-07-08): RFC-0004 scope lock RATIFIED (D-0019) — identity is
+  "sovereign multi-band mesh communicator + universal node"; browsing is
+  application-layer only (guard 6 binds the EPIC-15/18 plugin platform to
+  the smartphone-app capability floor: networked + UI-rendering + storage-
+  scoped plugins); video = signed plugins post-v1.0; ss_ai scaffold-only
+  until v2.x; v1.0 ships Lite+Alpha; SDKs C/Rust/Python (TS/Dart v1.1).
+  All additive — no story deleted or narrowed.

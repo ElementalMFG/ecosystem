@@ -6,7 +6,7 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 ## Schema, counter, and quorum
 
 - **Schema.** Every entry is `## D-NNNN — <title>` followed by `- Date:` (ISO date, or `2025-Q? (bootstrap)` for pre-log decisions reconstructed at bootstrap), `- Decision:` (normative text), optional `- Rationale:`, optional `- Status:` (`RECORDED` default; `SUPERSEDED by D-NNNN` when overturned), and `- Reference:` (constitution docs, RFCs, or stories).
-- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0019**.
+- **Counter.** `NNNN` is a zero-padded monotonically increasing integer. Numbers are assigned at append time and never reused. Next free number: **D-0020**.
 - **Quorum.** Steady state: a decision closes with a simple majority of the steering committee, minimum two-thirds attendance, recorded by the Chair. Bootstrap (before S-01-009 staffs the working groups): the program lead records decisions unilaterally, each such entry is implicitly `(bootstrap)`, and all bootstrap decisions are re-ratified at the first quarterly constitutional review (S-01-016). RFC acceptances always get a corresponding entry (RFC-0001 §Detailed design).
 - **Immutability.** Entries are append-only; corrections are made by a superseding entry, never by editing history.
 
@@ -147,3 +147,12 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 - Rationale: Establishes one governed rule for supported-version windows, deprecation lead times (≥2 minor releases and ≥12 months), and sunset via `docs/DEPRECATIONS.md` across all seven versioned surfaces, operationalizing `06_GOVERNANCE.md` §4.4/§6.3. In consequence, the version-negotiation stories (S-06-016, S-12-014, S-10-008) and the SDK policy (S-20-017) cite RFC-0003 instead of restating windows, and wire-format PRs must cite it in CI (S-01-017).
 - Status: RECORDED
 - Reference: `rfcs/0003-compat-deprecation-policy.md`, `06_GOVERNANCE.md` §4.4/§6.3, `docs/DEPRECATIONS.md`, S-06-016, S-12-014, S-10-008, S-20-017, S-01-017, D-0015, RFC-0001
+
+## D-0019 — v1.0 scope lock ratified (RFC-0004)
+
+- Date: 2026-07-08
+- Decision: RFC-0004 (v1.0 scope lock) is accepted via the bootstrap governance provision (program lead as SC per D-0015 / RFC-0001). Ratified: SL-1 device identity — primary "sovereign multi-band mesh communicator + universal node", descriptor "a multi-band Wi-Fi (2.4/5 GHz) / HaLow / BLE smartphone-class device in a pager form factor"; SL-2 `ss_ai` capability-only scaffold, no LLM promise before v2.x; SL-3 video via signed WASM plugins post-v1.0; SL-4 browsing is application-layer only — through-device tether in v1.0, browser-type apps on the plugin platform where hardware permits, full browser targets Omega v1.x, and compatibility guard 6 binds the plugin platform's smartphone-app capability floor; SL-5 v1.0 ships Lite + Alpha; SL-6 v1.0 SDKs C/Rust/Python with TS/Dart in v1.1; SL-7 Lite constraint callouts in the README matrix.
+- Rationale: A verified portfolio audit showed capability coverage was already essentially complete and the risk was framing drift; locking identity and feature truth in one RFC stops per-epic re-litigation. All changes are additive — no story is deleted or narrowed; SL-6 re-trains two SDK stories to v1.1.
+- Status: RECORDED
+- Reference: `rfcs/0004-scope-lock.md`, S-01-018, S-01-019, RFC-0003, D-0015, RFC-0001
+
