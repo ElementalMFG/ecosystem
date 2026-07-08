@@ -50,6 +50,22 @@ bool ss_power_core_wake_add(ss_power_wake_table_t* t, int gpio, int level)
     return true;
 }
 
+bool ss_power_core_timer_set(ss_power_timer_wake_t* t, uint64_t us)
+{
+    if (t == NULL) { return false; }
+    if (us == 0 || us > SS_PWR_WAKE_TIMER_MAX_US) { return false; }
+    t->armed = true;
+    t->us = us;
+    return true;
+}
+
+void ss_power_core_timer_clear(ss_power_timer_wake_t* t)
+{
+    if (t == NULL) { return; }
+    t->armed = false;
+    t->us = 0;
+}
+
 void ss_power_core_fill_nogauge_status(ss_power_status_t* out)
 {
     if (out == NULL) { return; }

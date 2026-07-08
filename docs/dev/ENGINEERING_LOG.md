@@ -197,3 +197,18 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   deliberately NOT stubbed so missing drivers fail loudly. Lesson: an
   undefined symbol can hide until a caller makes the object load-bearing —
   the S-03-004 ss_input reference only surfaced when S-03-006 rewired main.
+- S-03-030 (2026-07-08): ss_hal_power.h timer-wake surface (T1, double-
+  reviewed). Frozen semantics: countdown from each sleep entry (IDF stores a
+  duration and arms at sleep start, so set-time arming is faithful), sticky
+  until clear, 30-day cap as a unit-arithmetic guard, SHUTDOWN disables all
+  wake sources. VERIFIED against IDF v5.3.5 sleep_modes.c: CHECK_SOURCE
+  requires the trigger bit already set, so esp_sleep_disable_wakeup_source
+  (TIMER) while not armed ESP_LOGEs "Incorrect wakeup source" and returns
+  ESP_ERR_INVALID_STATE — glue must gate the disable on its record or every
+  clean boot / idempotent clear logs an error; divergence is prevented at
+  set() (commit record only after platform accepts) and init() (disarm a
+  live arming BEFORE dropping the record). Glue has no host coverage by
+  design (core/glue split) — on-target checks wait on S-02-015 Unity.
+  HIBERNATE forward-note: today it maps to esp_deep_sleep_start so the
+  header's "whichever wake source fires first" holds; revisit if HIBERNATE
+  ever powers down RTC peripherals.

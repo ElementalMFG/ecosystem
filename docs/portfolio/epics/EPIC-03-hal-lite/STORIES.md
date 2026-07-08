@@ -164,7 +164,9 @@ As a firmware engineer I want the optional C6 mesh-coprocessor link brought up b
 ### S-03-030 — `ss_hal_power.h` timer/periodic-wake contract surface
 As a firmware engineer I want the frozen power contract extended with a timer-wake surface so that RTC-timer wakeups (NF-PWR-01 periodic LoRa duty) are a contract capability, not an ad-hoc syscall.
 - AC: `ss_hal_power.h` gains a timer-wake API (e.g. `ss_power_wake_timer_set(uint64_t us)` + clear semantics for light vs deep sleep) designed and double-reviewed per the T1 pipeline; `ss_power` implements it (`esp_sleep_enable_timer_wakeup` glue) with the pure decision core host-tested; C-01 §4.3's wake-source row is reconciled with `board_config.h` (touch INT / LoRa DIO1 / RTC timer) in the same change; 3-board CI green
-- Meta: Shard=A | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+- Meta: Shard=A | Type=Feature | Size=S | Prio=P0 | Status=IN_REVIEW | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+- Tasks: spec timer-wake semantics vs S3 sleep modes (light/deep/hibernate/shutdown) · design set/clear surface — sleep-entry countdown, sticky-until-clear, 30-day cap · impl ss_hal_power.h + ss_power core/glue · test 9 PowerTimer host cases, 3-board CI · docs C-01 §4.3 wake row + board_config comments + log
+- Deps: S-03-001
 
 
 ### S-03-031 — GPIO0 runtime arbitration (recovery watcher / BOOT input / LoRa CS)

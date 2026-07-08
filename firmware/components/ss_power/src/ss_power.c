@@ -20,6 +20,11 @@ static const char* TAG = "ss_power";
 
 static ss_power_state_t s_current = SS_PWR_STATE_ON;
 static ss_power_wake_table_t s_wake;
+// Timer wake (S-03-030): armed at set-time, not at sleep entry —
+// esp_sleep_enable_timer_wakeup() records a duration that IDF measures from
+// each sleep start, so set-time arming already gives the contract's
+// "countdown from sleep entry" + sticky-until-clear semantics.
+static ss_power_timer_wake_t s_timer;
 
 // Wake-source registration is sleep-mode-specific on ESP32-S3 (there is no
 // esp_deep_sleep_enable_gpio_wakeup on Xtensa targets — that API is
@@ -89,6 +94,14 @@ esp_err_t ss_power_init(void)
 {
     s_current = SS_PWR_STATE_ON;
     memset(&s_wake, 0, sizeof(s_wake));
+    // Re-init while an arming is live: disarm through the platform BEFORE
+    // dropping the record, so a platform timer can never outlive the record
+    // that armed it. Skipped when not armed — IDF v5.3.5
+    // esp_sleep_disable_wakeup_source() ESP_LOGEs and returns
+    // ESP_ERR_INVALID_STATE when the source is not currently enabled, which
+    // would put an error line in every clean boot.
+    if (s_timer.armed) { (void)esp_sleep_disable_wakeup_source(ESP_SLEEP_WAKEUP_TIMER); }
+    memset(&s_timer, 0, sizeof(s_timer));
     // C-01 §Meshtastic-#7993: Lite exposes no battery-sense line, so power
     // status is reported as "unknown" (no fuel gauge) by design.
     ESP_LOGI(TAG, "ss_power init: no battery-sense line (C-01 Meshtastic-#7993), "
@@ -145,6 +158,45 @@ esp_err_t ss_power_wake_source_add(int gpio, int level)
     if (ss_power_core_wake_add(&s_wake, gpio, level)) { return ESP_OK; }
     if (s_wake.count >= SS_PWR_MAX_WAKE_SOURCES) { return ESP_ERR_NO_MEM; }
     return ESP_ERR_INVALID_ARG;
+}
+
+esp_err_t ss_power_wake_timer_set(uint64_t us)
+{
+    // Deliberate copy: core_timer_set overwrites every field on success, but
+    // seeding from the live record keeps the reject-path "prior arming
+    // unchanged" semantics obvious and survives future partial-update fields.
+    ss_power_timer_wake_t staged = s_timer;
+    if (!ss_power_core_timer_set(&staged, us)) { return ESP_ERR_INVALID_ARG; }
+    const esp_err_t err = esp_sleep_enable_timer_wakeup(us);
+    if (err != ESP_OK) {
+        ESP_LOGW(TAG, "timer wake %llu us rejected by platform: 0x%x", (unsigned long long)us, err);
+        return err;
+    }
+    s_timer = staged;
+    return ESP_OK;
+}
+
+esp_err_t ss_power_wake_timer_clear(void)
+{
+    // Gated on the record: IDF v5.3.5 esp_sleep_disable_wakeup_source()
+    // ESP_LOGEs and returns ESP_ERR_INVALID_STATE for a source that is not
+    // currently enabled (verified in sleep_modes.c: CHECK_SOURCE requires the
+    // trigger bit), so an unconditional call would log an error on every
+    // idempotent not-armed clear. Record-vs-platform divergence is prevented
+    // at the sources instead: set() commits the record only after the platform
+    // accepts, and init() disarms a live arming before dropping the record.
+    if (s_timer.armed) {
+        const esp_err_t err = esp_sleep_disable_wakeup_source(ESP_SLEEP_WAKEUP_TIMER);
+        // Absorb INVALID_STATE as defense-in-depth: if the platform already
+        // has no timer armed, "disarmed" is exactly this call's
+        // post-condition, not a failure of an idempotent operation.
+        if (err != ESP_OK && err != ESP_ERR_INVALID_STATE) {
+            ESP_LOGW(TAG, "timer wake disable rejected: 0x%x", err);
+            return err;
+        }
+    }
+    ss_power_core_timer_clear(&s_timer);
+    return ESP_OK;
 }
 
 esp_err_t ss_power_reboot(void)

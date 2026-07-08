@@ -32,6 +32,14 @@ typedef struct {
     uint8_t count;
 } ss_power_wake_table_t;
 
+// Runtime record for the RTC-timer wake source (S-03-030). Pure state — the
+// IDF glue mirrors it into esp_sleep_enable_timer_wakeup()/
+// esp_sleep_disable_wakeup_source() calls.
+typedef struct {
+    bool armed;
+    uint64_t us; // countdown from sleep entry; meaningful only when armed
+} ss_power_timer_wake_t;
+
 // Decide the platform action for a transition from `current` to `target`.
 // Pre:  none (arguments are validated).
 // Post: returns SS_PWR_ACTION_INVALID iff either argument is outside the five
@@ -46,6 +54,18 @@ ss_power_action_t ss_power_core_decide(ss_power_state_t current, ss_power_state_
 //       existing entry; otherwise appends the entry, increments count, returns
 //       true.
 bool ss_power_core_wake_add(ss_power_wake_table_t* t, int gpio, int level);
+
+// Validate and record a timer-wake arming (pure state; no platform calls).
+// Pre:  none (arguments are validated).
+// Post: returns false and leaves `t` unchanged when `t` is NULL, `us` is 0, or
+//       `us` exceeds SS_PWR_WAKE_TIMER_MAX_US; otherwise records armed == true
+//       with the new duration (re-arming overwrites) and returns true.
+bool ss_power_core_timer_set(ss_power_timer_wake_t* t, uint64_t us);
+
+// Disarm a timer-wake record.
+// Pre:  none (NULL is tolerated as a no-op).
+// Post: when `t` != NULL: armed == false and us == 0. Idempotent.
+void ss_power_core_timer_clear(ss_power_timer_wake_t* t);
 
 // Fill `out` with the fixed "no fuel gauge" status for boards without a
 // battery-sense line.

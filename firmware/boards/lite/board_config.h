@@ -261,10 +261,12 @@
 #define SS_LED_BEZEL_COUNT      0                  // Lite has no bezel LED ring
 
 // ============================================================================
-// Deep-sleep wake sources
+// Wake sources (roles per C-01 §4.3): touch INT wakes LIGHT sleep only —
+// GPIO47 is not RTC-capable on ESP32-S3; LoRa DIO1 (GPIO1) wakes light + deep;
+// the RTC timer wake is armed via ss_power_wake_timer_set() (S-03-030).
 // ============================================================================
-#define SS_WAKE_GPIO_TOUCH_INT  SS_TOUCH_PIN_INT
-#define SS_WAKE_GPIO_LORA_DIO1  SS_LORA_PIN_DIO1
+#define SS_WAKE_GPIO_TOUCH_INT  SS_TOUCH_PIN_INT   // light-sleep wake only
+#define SS_WAKE_GPIO_LORA_DIO1  SS_LORA_PIN_DIO1   // light + deep wake
 
 // ============================================================================
 // Boot / provisioning

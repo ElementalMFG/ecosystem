@@ -255,7 +255,8 @@
 #define SS_LED_BEZEL_COUNT      0                  // TODO(models/CATALOG): confirm addressable bezel LED count
 
 // ============================================================================
-// Deep-sleep wake sources
+// Wake sources (Lite roles per C-01 §4.3 — S3-specific; this board's wake
+// roles TBD per models/CATALOG; RTC timer wake via ss_power_wake_timer_set)
 // ============================================================================
 #define SS_WAKE_GPIO_TOUCH_INT  SS_TOUCH_PIN_INT   // TODO(models/CATALOG): confirm wake source pin
 #define SS_WAKE_GPIO_LORA_DIO1  SS_LORA_PIN_DIO1   // TODO(models/CATALOG): confirm radio wake source pin

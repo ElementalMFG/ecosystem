@@ -277,7 +277,9 @@ hal_fuelgauge.c  → returns UNKNOWN + capability=false
 hal_muxctl.c     → GPIO 45 MODE_SEL arbiter; enforces radio-vs-mic exclusivity
 hal_backlight.c  → GPIO 38 PWM (LEDC)
 hal_secure.c     → eFuse + optional external ATECC608 on I²C header
-hal_power.c      → light-sleep + wake sources (touch INT, RTC, UART RX)
+hal_power.c      → light/deep sleep + wake sources: touch INT GPIO 47 (light-only,
+                   not RTC-capable), LoRa DIO1 GPIO 1 (light+deep), RTC timer
+                   (ss_power_wake_timer_set, S-03-030)
 hal_time.c       → RTC + monotonic; GNSS PPS on Alpha only
 ```
 

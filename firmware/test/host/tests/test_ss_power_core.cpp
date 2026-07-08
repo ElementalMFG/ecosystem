@@ -3,8 +3,9 @@
 //
 // Host tests for the S-03-001 ss_power decision core
 // (firmware/components/ss_power/src/ss_power_core.c): the state-transition
-// decision table, the wake-source table validation, and the "no fuel gauge"
-// status fill. The contract lives in ss_hal_power.h.
+// decision table, the wake-source table validation, the timer-wake arming
+// record (S-03-030), and the "no fuel gauge" status fill. The contract lives
+// in ss_hal_power.h.
 
 #include <cstring>
 
@@ -98,6 +99,88 @@ TEST(PowerWakeAdd, RejectsOverflowAtNinth)
     // 9th distinct gpio must be rejected: table full.
     EXPECT_FALSE(ss_power_core_wake_add(&t, 100, 0));
     EXPECT_EQ(t.count, static_cast<unsigned>(SS_PWR_MAX_WAKE_SOURCES));
+}
+
+// ---- timer_set() / timer_clear() (S-03-030) --------------------------------
+
+TEST(PowerTimer, SetArmsWithDuration)
+{
+    ss_power_timer_wake_t t{};
+    EXPECT_TRUE(ss_power_core_timer_set(&t, 5ULL * 60ULL * 1000000ULL)); // 5 min duty
+    EXPECT_TRUE(t.armed);
+    EXPECT_EQ(t.us, 5ULL * 60ULL * 1000000ULL);
+}
+
+TEST(PowerTimer, SetAcceptsBoundaryValues)
+{
+    ss_power_timer_wake_t t{};
+    EXPECT_TRUE(ss_power_core_timer_set(&t, 1)); // minimum non-zero
+    EXPECT_TRUE(t.armed);
+    EXPECT_EQ(t.us, 1u);
+    EXPECT_TRUE(ss_power_core_timer_set(&t, SS_PWR_WAKE_TIMER_MAX_US)); // cap inclusive
+    EXPECT_TRUE(t.armed);
+    EXPECT_EQ(t.us, SS_PWR_WAKE_TIMER_MAX_US);
+}
+
+TEST(PowerTimer, ReArmOverwritesDuration)
+{
+    ss_power_timer_wake_t t{};
+    EXPECT_TRUE(ss_power_core_timer_set(&t, 100));
+    EXPECT_TRUE(ss_power_core_timer_set(&t, 200));
+    EXPECT_TRUE(t.armed);
+    EXPECT_EQ(t.us, 200u);
+}
+
+TEST(PowerTimer, RejectsNullRecord)
+{
+    EXPECT_FALSE(ss_power_core_timer_set(nullptr, 100));
+}
+
+TEST(PowerTimer, RejectsZeroLeavingStateUnchanged)
+{
+    ss_power_timer_wake_t t{};
+    EXPECT_TRUE(ss_power_core_timer_set(&t, 100));
+    EXPECT_FALSE(ss_power_core_timer_set(&t, 0));
+    EXPECT_TRUE(t.armed); // prior arming untouched
+    EXPECT_EQ(t.us, 100u);
+}
+
+TEST(PowerTimer, RejectsOverMaxLeavingStateUnchanged)
+{
+    ss_power_timer_wake_t t{};
+    EXPECT_TRUE(ss_power_core_timer_set(&t, 100));
+    EXPECT_FALSE(ss_power_core_timer_set(&t, SS_PWR_WAKE_TIMER_MAX_US + 1));
+    EXPECT_TRUE(t.armed); // prior arming untouched
+    EXPECT_EQ(t.us, 100u);
+}
+
+TEST(PowerTimer, ClearDisarms)
+{
+    ss_power_timer_wake_t t{};
+    EXPECT_TRUE(ss_power_core_timer_set(&t, 100));
+    ss_power_core_timer_clear(&t);
+    EXPECT_FALSE(t.armed);
+    EXPECT_EQ(t.us, 0u);
+}
+
+TEST(PowerTimer, ClearIsIdempotentAndNullSafe)
+{
+    ss_power_timer_wake_t t{};
+    ss_power_core_timer_clear(&t); // never armed: still fine
+    EXPECT_FALSE(t.armed);
+    ss_power_core_timer_clear(&t); // twice: still fine
+    EXPECT_FALSE(t.armed);
+    ss_power_core_timer_clear(nullptr); // must not crash
+}
+
+TEST(PowerTimer, SetAfterClearReArms)
+{
+    ss_power_timer_wake_t t{};
+    EXPECT_TRUE(ss_power_core_timer_set(&t, 100));
+    ss_power_core_timer_clear(&t);
+    EXPECT_TRUE(ss_power_core_timer_set(&t, 300));
+    EXPECT_TRUE(t.armed);
+    EXPECT_EQ(t.us, 300u);
 }
 
 // ---- fill_nogauge_status() -------------------------------------------------
