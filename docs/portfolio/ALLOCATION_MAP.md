@@ -66,7 +66,7 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-03-009 | T3 (epic-floor) | opus@medium | t3-standard | IN_REVIEW |
 | S-03-010 | T3 (epic-floor) | opus@medium | t3-standard | IN_REVIEW |
 | S-03-011 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
-| S-03-012 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
+| S-03-012 | T3 (override) | opus@medium | t3-standard | DRAFT |
 | S-03-013 | T3 (epic-floor) | opus@medium | t3-standard | IN_REVIEW |
 | S-03-014 | T3 (epic-floor) | opus@medium | t3-standard | IN_REVIEW |
 | S-03-015 | T1 (override) | fable@xhigh | t1-pipeline | IN_REVIEW |
@@ -76,7 +76,7 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-03-019 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-020 | T3 (epic-floor) | opus@medium | t3-standard | DROPPED |
 | S-03-021 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
-| S-03-022 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
+| S-03-022 | T2 (override) | opus@medium | t2-designer+builder | DRAFT |
 | S-03-023 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-024 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-025 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |

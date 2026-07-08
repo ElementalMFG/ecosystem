@@ -380,3 +380,11 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
 - S-03-017 (2026-07-08): T1? flag CONFIRMED T1 — LTKs at rest (encrypted NVS
   only), bond wipe on re-pair. Keys-at-rest is a doc 10 §2 T1 domain; no
   judgment call needed.
+- S-03-012 (2026-07-08): T1? flag resolved DOWN to T3 — 'provisioning' matched
+  incidentally ("region selected at provisioning locks the table"); the story
+  consumes the region choice, doesn't carry credentials. PA tables are
+  well-specified (LoRaWAN regional params) + sweep-verified.
+- S-03-022 (2026-07-08): T1? flag resolved DOWN to T2 — HAL conformance
+  vectors, not crypto/wire vector design. Vector-set shape via t2-designer,
+  build routine. First recorded downward resolutions: the flag system is
+  bidirectional — the AC text decides, in both directions.
