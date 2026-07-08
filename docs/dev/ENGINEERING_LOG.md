@@ -234,3 +234,9 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   assumptions pending confirmation at the D-0013 bench session
   (docs/dev/BENCH_POWER_LITE.md; sleep <= 0.5 mA, wake latency — parks the
   story at IN_REVIEW).
+- S-03-009 (2026-07-08): second orphaned-arbiter catch — ss_hal_muxctl.h
+  (GPIO45 mic/radio mux) was declared with NO implementation and NO owning
+  story; mic (9/3/10) and LoRa share the pin set behind it. Filed S-03-033
+  (ss_muxctl component) and dep-wired S-03-009 + S-03-011 onto it (plus
+  S-03-031 for LoRa's GPIO0). Pattern to watch: every ss_hal_*.h arbiter/
+  contract needs an implementing story before its consumers queue.

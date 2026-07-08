@@ -71,7 +71,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-03 — HAL for Lite (ESP32-S3 + SX1262 + Wi-Fi/BLE) (32 stories)
+## Epic-03 — HAL for Lite (ESP32-S3 + SX1262 + Wi-Fi/BLE) (33 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -107,6 +107,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-03-030 | A | Feature | S | P0 | DONE | L | NF-PWR-01 | C-00,C-01 |
 | S-03-031 | — | Feature | S | P0 | DRAFT | L | — | C-00,C-01 |
 | S-03-032 | — | Feature | S | P0 | DONE | ★ | — | C-00,C-01 |
+| S-03-033 | D | Feature | S | P0 | DRAFT | L | — | C-00,C-01 |
 
 ---
 
@@ -733,11 +734,11 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Totals — 550 stories across 24 epics
+## Totals — 551 stories across 24 epics
 
 | Status | Count |
 |---|---|
-| DRAFT | 508 |
+| DRAFT | 509 |
 | IN_PROGRESS | 1 |
 | IN_REVIEW | 11 |
 | DONE | 26 |
@@ -752,8 +753,8 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 
 | Clause key | Stories | P0 coverage |
 |---|---|---|
-| C-00 | 237 | yes |
-| C-01 | 25 | yes |
+| C-00 | 238 | yes |
+| C-01 | 26 | yes |
 | C-02 | 82 | yes |
 | C-03 | 46 | yes |
 | C-04 | 53 | yes |

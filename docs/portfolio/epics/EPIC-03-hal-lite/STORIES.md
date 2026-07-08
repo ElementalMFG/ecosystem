@@ -59,6 +59,7 @@ As a firmware engineer I want a documented single/double framebuffer allocation 
 As a firmware engineer I want I²S microphone capture at 16 kHz mono so that voice messages and on-device STT get clean input.
 - AC: 16 kHz mono PCM stream delivered with bounded jitter; capture starts within the PTT latency budget; SNR measured and documented on reference hardware
 - Meta: Shard=D | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-MSG-03,F-VOX-01 | Const=C-00,C-01
+- Deps: S-03-033 (mic shares GPIO 9/3/10 with LoRa behind the GPIO45 mux — capture must acquire SS_MUX_MODE_MIC)
 
 ### S-03-010 — I²S speaker output + class-D amp enable
 As a device owner I want I²S speaker output with class-D amp control so that received voice is audible and power is not wasted when idle.
@@ -69,6 +70,7 @@ As a device owner I want I²S speaker output with class-D amp control so that re
 As a firmware engineer I want the SX1262 SPI driver with init, config, and TX/RX so that LoRa is a working bearer on Lite.
 - AC: passes vendor eval-board round-trip test at SF7..SF12; IRQ-driven TX/RX FIFO handling with no busy-wait; driver conforms to the HAL radio contract
 - Meta: Shard=E | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-BR-01 | Const=C-00,C-01,C-08
+- Deps: S-03-031 (GPIO0 CS arbitration), S-03-033 (GPIO45 radio-mode mux acquisition)
 
 ### S-03-012 — LoRa region PA table (US915, EU868, AU915, AS923)
 As a compliance engineer I want the LoRa region PA table so that TX power and channels are legal in every shipped region.
@@ -181,3 +183,9 @@ As a firmware engineer I want the HAL headers C/C++-ABI-safe and the capability 
 - Meta: Shard=— | Type=Feature | Size=S | Prio=P0 | Status=DONE | SKU=★ | PRD=— | Const=C-00,C-01
 - Tasks: spec defect pair from the link failure · design guards pattern + widened signature + header-driven impl · impl 24 headers + ss_hal.c + CMakeLists · test host suite green, 3-board CI green · docs rules/log
 - Deps: —
+
+### S-03-033 — GPIO45 mic/radio mux implementation (`ss_muxctl`)
+As a firmware engineer I want the declared mux-arbitration contract implemented so that the mic and the wireless-header radio can never drive the shared GPIO 9/3/10 set simultaneously.
+- AC: `ss_mux_init/acquire/release` (frozen `ss_hal_muxctl.h`) implemented in a new component-local `ss_muxctl` (core/glue split; `ss_hal/**` untouched): GPIO45 driven per C-01 (LOW = radio, mic mode per mux table), owner-token + mutex arbitration with busy rejection and documented owner semantics; pure decision core host-tested (acquire/release/contention/double-release matrix); portable no-op behaviour on boards without the mux (per the header's contract); 3-board CI green
+- Meta: Shard=D | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01
+
