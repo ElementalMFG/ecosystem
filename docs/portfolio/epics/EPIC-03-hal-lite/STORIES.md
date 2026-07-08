@@ -8,7 +8,7 @@ Format per `../../00_METHODOLOGY.md` §2.7. Meta lines are machine-parsed.
 ### S-03-001 — `ss_power` for Lite — no-gauge contract + power state machine
 As a firmware engineer I want the Lite power HAL implemented against the frozen `ss_hal_power.h` contract so that power state is truthful on hardware that has no fuel gauge.
 - AC: `ss_power_init`/`ss_power_status` return the contract-mandated no-gauge values (`battery_sense_valid=false`, `v_mv=0`, C-01 §Meshtastic-#7993 rationale cited at the impl site); the power state machine (`ss_power_enter`, `ss_power_wake_source_add`, `ss_power_reboot`, `ss_power_shutdown`) is implemented per the frozen header with a pure host-tested decision core; compiles green on all three boards
-- Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=IN_REVIEW | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+- Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DONE | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
 - Tasks: spec — pure decision-core contract (transition table + wake-source table + no-gauge status) split from IDF glue · design — `ss_power_core.[ch]` (host-testable, no esp_err) + `ss_power.c` IDF impl of the frozen `ss_hal_power.h` · impl — new `firmware/components/ss_power/` component (CMake, core, glue) · test — host gtest `test_ss_power_core` for transitions/wake-sources/no-gauge status · docs — impl-site C-01 §Meshtastic-#7993 citation + ENGINEERING_LOG
 - Deps: — (retargeted 2026-07-08: gauge intent preserved in the Alpha epic — see ENGINEERING_LOG + the dropped-story pointers)
 
