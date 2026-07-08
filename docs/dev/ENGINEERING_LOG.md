@@ -259,3 +259,9 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   (contract-audit gate — makes this defect class machine-caught). Watchdog
   finding is notable: S-02-009 shipped a DIVERGENT surface (ss_task_wdt_*)
   beside the frozen ss_hal_watchdog.h (ss_wdt_*) — reconciliation is T1.
+- S-03-033 (2026-07-08): glue calling ss_hal accessors must #include
+  "ss_hal.h" (the sub-headers don't declare has_cap) — implicit-declaration
+  is -Werror on target. Recurring shape: IDF glue is only adjudicated by the
+  3-board CI (host tests cover cores only); expect first-CI-run fixes on
+  glue-heavy stories until S-02-025's contract-audit + a future glue
+  host-mock land.

@@ -10,6 +10,7 @@
 // release. The short state struct is additionally guarded by a portMUX spinlock
 // for consistent multi-core reads. GPIO writes happen OUTSIDE the spinlock.
 
+#include "ss_hal.h" // ss_hal_has_cap()
 #include "ss_hal_muxctl.h"
 #include "ss_hal_caps.h"
 #include "ss_muxctl_core.h"
@@ -21,9 +22,9 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
 
-static const char *TAG = "ss_muxctl";
+static const char* TAG = "ss_muxctl";
 
-static bool s_present; // cap present on this board
+static bool s_present;            // cap present on this board
 static SemaphoreHandle_t s_token; // binary ownership gate, starts AVAILABLE
 static portMUX_TYPE s_spin = portMUX_INITIALIZER_UNLOCKED;
 static ss_muxctl_state_t s_state;
@@ -81,9 +82,7 @@ esp_err_t ss_mux_acquire(ss_mux_mode_t mode, TickType_t timeout, ss_mux_owner_t 
     if (!s_present) {
         return ESP_OK; // no-op board always succeeds
     }
-    if (owner == SS_MUX_OWNER_NONE) {
-        return ESP_ERR_INVALID_ARG;
-    }
+    if (owner == SS_MUX_OWNER_NONE) { return ESP_ERR_INVALID_ARG; }
     if (xSemaphoreTake(s_token, timeout) != pdTRUE) {
         return ESP_ERR_TIMEOUT; // another owner holds the mux
     }
@@ -97,19 +96,13 @@ esp_err_t ss_mux_acquire(ss_mux_mode_t mode, TickType_t timeout, ss_mux_owner_t 
 
 esp_err_t ss_mux_release(ss_mux_owner_t owner)
 {
-    if (!s_present) {
-        return ESP_OK;
-    }
+    if (!s_present) { return ESP_OK; }
     taskENTER_CRITICAL(&s_spin);
     const ss_muxctl_result_t r = ss_muxctl_core_release(&s_state, owner);
     taskEXIT_CRITICAL(&s_spin);
 
-    if (r == SS_MUXCTL_NOT_OWNER) {
-        return ESP_ERR_INVALID_STATE;
-    }
-    if (r == SS_MUXCTL_INVALID_ARG) {
-        return ESP_ERR_INVALID_ARG;
-    }
+    if (r == SS_MUXCTL_NOT_OWNER) { return ESP_ERR_INVALID_STATE; }
+    if (r == SS_MUXCTL_INVALID_ARG) { return ESP_ERR_INVALID_ARG; }
     // OK: revert to the resting/radio level and unblock any waiter.
     drive_mux(s_state.default_mode);
     xSemaphoreGive(s_token);
@@ -118,9 +111,7 @@ esp_err_t ss_mux_release(ss_mux_owner_t owner)
 
 ss_mux_mode_t ss_mux_current_mode(void)
 {
-    if (!s_present) {
-        return SS_MUX_MODE_RADIO;
-    }
+    if (!s_present) { return SS_MUX_MODE_RADIO; }
     taskENTER_CRITICAL(&s_spin);
     const ss_mux_mode_t mode = s_state.mode;
     taskEXIT_CRITICAL(&s_spin);
@@ -129,9 +120,7 @@ ss_mux_mode_t ss_mux_current_mode(void)
 
 ss_mux_owner_t ss_mux_current_owner(void)
 {
-    if (!s_present) {
-        return SS_MUX_OWNER_NONE;
-    }
+    if (!s_present) { return SS_MUX_OWNER_NONE; }
     taskENTER_CRITICAL(&s_spin);
     const ss_mux_owner_t owner = s_state.owner;
     taskEXIT_CRITICAL(&s_spin);
@@ -140,9 +129,7 @@ ss_mux_owner_t ss_mux_current_owner(void)
 
 void ss_mux_force_release(void)
 {
-    if (!s_present) {
-        return;
-    }
+    if (!s_present) { return; }
     taskENTER_CRITICAL(&s_spin);
     ss_muxctl_core_force_release(&s_state);
     taskEXIT_CRITICAL(&s_spin);
