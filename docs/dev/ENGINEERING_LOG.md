@@ -168,3 +168,13 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   when LoRa is active, or a strap-only BOOT role) is unresolved and belongs to
   EPIC-05 radio bring-up. Filed as follow-up DRAFT — do NOT let ss_input and
   the LoRa driver both configure GPIO0 without arbitration.
+- infra (2026-07-08): headless workers were sandbox-denied on git write ops
+  (S-03-004 finished all engineering but could not commit/push — earlier
+  runs' git approvals were nondeterministic). git add/commit/push-to-main/
+  fetch are now project-allowlisted: the queue DESIGN requires workers to
+  push (post-checks + CI depend on it); branch protection + gates remain the
+  safety net.
+- S-03-004 (2026-07-08): GPIO0 has THREE ordered consumers on Lite (recovery
+  watcher during entry window -> ss_input BOOT button -> SX1262 CS when LoRa
+  active); BOOT-input-vs-LoRa-CS runtime conflict is real and unresolved —
+  arbitration story S-03-031 must land before/with S-03-011 (LoRa driver).
