@@ -69,7 +69,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-02-022 | E | Feature | M | P2 | DRAFT | ★ | — | C-00 |
 | S-02-023 | A | Task | XS | P2 | DRAFT | ★ | — | C-00 |
 | S-02-024 | A | Feature | S | P1 | DRAFT | ★ | — | C-00,C-01 |
-| S-02-025 | A | Feature | S | P0 | DRAFT | ★ | — | C-00 |
+| S-02-025 | A | Feature | S | P0 | DONE | ★ | — | C-00 |
 
 ---
 
@@ -748,10 +748,10 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 | Status | Count |
 |---|---|
-| DRAFT | 516 |
+| DRAFT | 515 |
 | IN_PROGRESS | 1 |
 | IN_REVIEW | 13 |
-| DONE | 27 |
+| DONE | 28 |
 | BLOCKED | 1 |
 | DROPPED | 3 |
 

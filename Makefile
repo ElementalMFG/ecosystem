@@ -25,10 +25,11 @@ help:
 lint-docs:
 	python3 tools/lint-docs.py
 
-# Same seven gates as .github/workflows/weekly-audit.yml, fail-fast.
+# Same governance gates as .github/workflows/weekly-audit.yml, fail-fast.
 audit:
 	python3 tools/lint-docs.py
 	python3 tools/gen-stories-index.py --check
+	python3 tools/contract-audit.py
 	python3 tools/allocation.py --check
 	python3 tools/covenant-check.py
 	python3 tools/task-policy-check.py

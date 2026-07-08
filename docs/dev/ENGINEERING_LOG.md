@@ -284,3 +284,10 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   ss_spk_core) is run by NO CI workflow — host-tests.yml paths cover only
   ss_log + firmware/test/host. Follow-up story proposed to wire both audio
   cores into the CI host-test path.
+- S-02-025 (2026-07-08): `tools/contract-audit.py` is now a governance gate (in
+  `make audit` + `weekly-audit.yml`): every function declared in
+  `ss_hal*.h` must be implemented in-tree (column-0 def in `firmware/**/*.c`) or
+  listed in `tools/contract-ownership.txt` (`funcname|header = STORY-ID`). New
+  HAL contract functions MUST land implemented or with an ownership entry, else
+  the audit fails. The scan covers the umbrella `ss_hal.h` too — that caught
+  `ss_hal_init`/`ss_hal_shutdown` still unimplemented (owned by S-03-034, DRAFT).

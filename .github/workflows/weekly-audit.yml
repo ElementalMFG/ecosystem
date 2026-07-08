@@ -21,6 +21,8 @@ jobs:
         run: python3 tools/lint-docs.py
       - name: Verify stories index (D-0008)
         run: python3 tools/gen-stories-index.py --check
+      - name: Contract-ownership gate (S-02-025)
+        run: python3 tools/contract-audit.py
       - name: Verify allocation map
         run: python3 tools/allocation.py --check
       - name: Covenant check

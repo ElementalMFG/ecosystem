@@ -9,6 +9,16 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Contract-ownership CI gate (S-02-025): `tools/contract-audit.py` asserts that
+  every function declared in the HAL contract headers
+  (`firmware/components/ss_hal/include/ss_hal*.h`, including the umbrella
+  `ss_hal.h`) is either implemented in-tree or claimed by a story in the
+  checked-in `tools/contract-ownership.txt` map. Unowned declarations fail the
+  build with a story-filing instruction, making the orphaned-artifact defect
+  class (a declared HAL function with no implementation and no owning story)
+  structurally impossible to merge. Wired into `make audit` and the
+  `weekly-audit.yml` governance workflow alongside the other gates.
+
 - I²S speaker output + class-D amp enable (S-03-010): the `ss_audio` component
   now implements the speaker half of the frozen `ss_hal_audio.h` contract for
   Lite (`ss_spk_open/write/close/mute/volume`). Playback is 16 kHz mono 16-bit

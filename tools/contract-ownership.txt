@@ -1,0 +1,60 @@
+# SPDX-License-Identifier: Apache-2.0
+# HAL contract-ownership map — consumed by tools/contract-audit.py (S-02-025).
+#
+# Every function declared in firmware/components/ss_hal/include/ss_hal*.h
+# must be either implemented in-tree OR listed here with the story/epic that
+# owns building it. Seeded from the 2026-07-08 orphaned-artifact audit
+# (S-03-009/010/026..029/034..040, S-04-*, S-08-017, S-06-008, EPIC-09).
+#
+# Format (one per line, '#' starts a comment):
+#   funcname       = STORY-ID   # rationale          (per-function)
+#   ss_hal_xxx.h   = STORY-ID   # rationale          (header-scoped wildcard)
+# Owner token is a story (S-NN-MMM) or an epic (EPIC-NN).
+#
+# Prefer per-function lines where a header mixes implemented + owned
+# functions, or where different functions belong to different stories.
+# Implemented contracts (audio mic/spk, buttons, muxctl, power, touch, and
+# the ss_hal.c board funcs) need no entry — the audit detects them in-tree.
+
+# --- Header-scoped wildcards: whole contract owned by one story/epic -------
+ss_hal_radio_ble.h    = S-04-003   # BLE bring-up
+ss_hal_radio_wifi.h   = S-04-007   # Wi-Fi bring-up
+ss_hal_radio_lora.h   = S-03-031   # SX126x LoRa path
+ss_hal_radio_halow.h  = S-03-026   # MM8108 HaLow path (Alpha+)
+ss_hal_gnss.h         = S-03-027   # GNSS receiver (Alpha+)
+ss_hal_haptic.h       = S-04-028   # haptic driver
+ss_hal_leds.h         = S-04-029   # LED driver
+ss_hal_storage.h      = S-03-037   # SD / internal FS
+ss_hal_usb.h          = S-03-038   # USB-CDC
+ss_hal_watchdog.h     = S-03-039   # task watchdog
+ss_hal_secure_elem.h  = S-08-017   # ATECC608 / HW crypto element
+ss_hal_ota.h          = EPIC-09    # OTA partition + rollback plumbing
+ss_hal_time.h         = S-02-018   # RTC + monotonic time
+
+# --- Per-function: headers that mix owners (or owned + implemented) --------
+# ss_hal.h (umbrella): board-identity accessors are implemented in-tree; the
+# init/shutdown sequencer is still a stub (comment only in ss_hal.c).
+ss_hal_init           = S-03-034   # boot sequencer (per-driver bring-up)
+ss_hal_shutdown       = S-03-034   # boot sequencer (per-driver bring-up)
+
+# ss_hal_audio.h: mic (S-03-009) and spk (S-03-010) are implemented in-tree.
+ss_buzzer_beep        = S-03-035   # GPIO buzzer beep
+
+# ss_hal_display.h: panel bring-up vs backlight are separate stories.
+ss_display_init       = S-04-013   # display bring-up
+ss_display_info       = S-04-013   # display bring-up
+ss_display_flush      = S-04-013   # display bring-up
+ss_display_sleep      = S-04-013   # display bring-up
+ss_display_set_orient = S-04-013   # display bring-up
+ss_display_backlight  = S-04-014   # backlight / brightness
+
+# ss_hal_rng.h: bytes/init vs NIST SP 800-90B health check.
+ss_rng_init           = S-03-040   # hardware RNG
+ss_rng_bytes          = S-03-040   # hardware RNG
+ss_rng_healthcheck    = S-06-008   # RNG health check
+
+# ss_hal_imu.h: IMU read vs fused-compass (magnetometer) heading.
+ss_imu_init           = S-03-036   # IMU bring-up
+ss_imu_read           = S-03-036   # IMU bring-up
+ss_imu_sleep          = S-03-036   # IMU bring-up
+ss_imu_heading_deg    = S-03-028   # fused compass / magnetometer path
