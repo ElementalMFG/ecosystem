@@ -49,7 +49,10 @@
       "Bash(python3 tools/allocation.py:*)",
       "Bash(python3 tools/covenant-check.py:*)",
       "Bash(python3 tools/task-policy-check.py:*)",
-      "Bash(python3 tools/board-parity.py:*)"
+      "Bash(python3 tools/board-parity.py:*)",
+      "Bash(make:*)",
+      "Bash(gcc:*)",
+      "Bash(g++:*)"
     ],
     "deny": [
       "Edit(docs/portfolio/STORIES_INDEX.md)",

@@ -24,3 +24,5 @@ jobs:
         run: python3 tools/gen-stories-index.py --check
       - name: Verify allocation map
         run: python3 tools/allocation.py --check
+      - name: Contract-ownership gate (S-02-025)
+        run: python3 tools/contract-audit.py

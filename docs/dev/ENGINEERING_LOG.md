@@ -291,3 +291,10 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   HAL contract functions MUST land implemented or with an ownership entry, else
   the audit fails. The scan covers the umbrella `ss_hal.h` too — that caught
   `ss_hal_init`/`ss_hal_shutdown` still unimplemented (owned by S-03-034, DRAFT).
+- S-02-025/S-03-010 (2026-07-08): post-batch review caught (a) contract-audit
+  was wired weekly-only, not per-push — its own AC required docs-lint; now
+  wired + added to the verify skill; (b) the ss_audio make harness ran in NO
+  CI workflow and the speaker worker couldn't execute it locally (gcc/make
+  sandbox-denied — now allowlisted; harness executed by the advisor: 44/44).
+  Standing rule reinforced: every new test harness lands IN a CI workflow in
+  the same commit.

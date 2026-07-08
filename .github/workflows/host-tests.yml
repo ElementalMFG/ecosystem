@@ -17,6 +17,7 @@ on:
       - tools/fixtures/boot-budget/**
       - tools/gen-sbom.py
       - tools/tests/**
+      - firmware/components/ss_audio/**
       - .github/workflows/host-tests.yml
   push:
     branches: [main]
@@ -27,6 +28,7 @@ on:
       - tools/fixtures/boot-budget/**
       - tools/gen-sbom.py
       - tools/tests/**
+      - firmware/components/ss_audio/**
       - .github/workflows/host-tests.yml
 
 permissions:
@@ -95,3 +97,11 @@ jobs:
         run: |
           rc=0; python3 tools/boot-budget-check.py /dev/null || rc=$?
           test "$rc" -eq 2
+
+  audio-mux-harnesses:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: ss_audio host cores (mic + speaker)
+        run: make -C firmware/components/ss_audio/test/host test
+
