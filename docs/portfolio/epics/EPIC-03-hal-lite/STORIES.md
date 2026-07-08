@@ -187,7 +187,7 @@ As a firmware engineer I want the HAL headers C/C++-ABI-safe and the capability 
 ### S-03-033 — GPIO45 mic/radio mux implementation (`ss_muxctl`)
 As a firmware engineer I want the declared mux-arbitration contract implemented so that the mic and the wireless-header radio can never drive the shared GPIO 9/3/10 set simultaneously.
 - AC: `ss_mux_init/acquire/release` (frozen `ss_hal_muxctl.h`) implemented in a new component-local `ss_muxctl` (core/glue split; `ss_hal/**` untouched): GPIO45 driven per C-01 (LOW = radio, mic mode per mux table), owner-token + mutex arbitration with busy rejection and documented owner semantics; pure decision core host-tested (acquire/release/contention/double-release matrix); portable no-op behaviour on boards without the mux (per the header's contract); 3-board CI green
-- Meta: Shard=D | Type=Feature | Size=S | Prio=P0 | Status=IN_REVIEW | SKU=L | PRD=— | Const=C-00,C-01
+- Meta: Shard=D | Type=Feature | Size=S | Prio=P0 | Status=DONE | SKU=L | PRD=— | Const=C-00,C-01
 - Tasks: spec core state-machine + owner semantics · design core/glue split (pure decision core + FreeRTOS token/mutex glue) · impl `ss_muxctl_core.c` + `ss_muxctl.c` glue implementing frozen `ss_hal_muxctl.h` · test host gtest acquire/release/contention/double-release matrix · docs eng-log learnings
 - Deps: — (frozen `ss_hal_muxctl.h` + `ss_hal_types.h` mux enums + `ss_hal_caps.h` `SS_CAP_MUX_MIC_RADIO` + board_config `SS_MUX_*` macros already in tree)
 
