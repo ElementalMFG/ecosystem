@@ -135,7 +135,9 @@ As a release manager I want an SBOM attestation emitted per firmware artifact so
 ### S-02-020 — Firmware version resource (git SHA + tag + build id)
 As a support engineer I want a firmware version resource so that any device can report exactly what it runs.
 - AC: git SHA, tag, and build id compiled into the image; values exposed via API and printed at boot; values match the release artifact metadata
-- Meta: Shard=A | Type=Feature | Size=XS | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
+- Meta: Shard=A | Type=Feature | Size=XS | Prio=P0 | Status=DONE | SKU=★ | PRD=— | Const=C-00
+- Tasks: spec (`ss_version` accessor + CMake git-capture contract; single source of truth shared with `tools/gen-sbom.py`) · design (compile-time `-D` defines from `git rev-parse HEAD` / `git describe --tags --always --dirty`; build id = `<board>-<sha12>`; no-git fallback) · impl (`firmware/main/ss_version.{h,cpp}` accessors; capture in `firmware/main/version.cmake`; boot banner print in `main.cpp`; expose via diag) · test (host test asserting firmware git-capture matches `gen-sbom.py` sourcing; on-target banner check) · docs (CHANGELOG).
+- Deps: S-02-019
 
 ### S-02-021 — Fixed-pool allocator contract for frame/message hot paths
 As a firmware engineer I want a fixed-size pool allocator with a frozen contract for RNS frames, LXMF payloads, and voice frames so that hot paths never touch the general heap and exhaustion behaviour is defined instead of accidental.

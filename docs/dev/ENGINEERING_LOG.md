@@ -97,3 +97,11 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   version under key `git_revision` (no `idf_version` key); toolchain parsed
   from the `c_compiler` path. Keyless attest/publish is tag-only in
   `release-sbom.yml` → story parks IN_REVIEW until a `v*` tag exercises it.
+- S-02-020 (2026-07-07): firmware version provenance = `firmware/main/ss_version.h`
+  accessors (`ss_fw_git_sha/tag/build_id`), values injected at configure time by
+  `firmware/main/version.cmake` (compile defs on the `main` component only) and
+  printed in `main.cpp` banner(). Single source of truth with the SBOM: both use
+  `git describe --tags --always --dirty` (tag) + `git rev-parse HEAD` (sha), so
+  values are byte-identical to `gen-sbom.py` — asserted by
+  `tools/tests/test_fw_version_matches_sbom.py`. build_id = `<board>-<sha12>`.
+  Future OTA/diag/version-query stories: reuse the three accessors, never re-derive.

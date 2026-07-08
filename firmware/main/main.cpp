@@ -37,6 +37,7 @@
 #include "ss_uart_engine.h"
 #include "ss_compass.h"
 #include "ss_diag.h"
+#include "ss_version.h"
 
 static const char* TAG = "ss.main";
 
@@ -49,6 +50,9 @@ static void banner(void)
     ESP_LOGI(TAG, " cores=%d rev=%d flash=%dMB psram=%dMB", chip.cores, chip.revision,
              SS_BOARD_FLASH_MB, SS_BOARD_PSRAM_MB);
     ESP_LOGI(TAG, " caps mask = 0x%08" PRIx32, uint32_t(SS_BOARD_CAPS));
+    ESP_LOGI(TAG, " fw tag   = %s", ss_fw_tag());
+    ESP_LOGI(TAG, " git sha  = %s", ss_fw_git_sha());
+    ESP_LOGI(TAG, " build id = %s", ss_fw_build_id());
 #if CONFIG_SS_LITE_MOD_HALOW
     ESP_LOGI(TAG, " wireless header: Wi-Fi HaLow module");
 #else

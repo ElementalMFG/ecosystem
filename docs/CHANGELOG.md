@@ -9,6 +9,14 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Firmware version resource (S-02-020): git SHA, `git describe` tag, and a
+  `<board>-<sha12>` build id are captured at configure time
+  (`firmware/main/version.cmake`), compiled into the image, exposed via the
+  `ss_version.h` accessors (`ss_fw_git_sha/tag/build_id`), and printed in the
+  boot banner. Values are byte-identical to the release SBOM metadata (both
+  derive from the same git commands as `tools/gen-sbom.py`), machine-verified
+  by `tools/tests/test_fw_version_matches_sbom.py`. Lets any device report
+  exactly what it runs (C-00 firmware baseline).
 - Per-artifact SBOM + keyless CI attestation (S-02-019): `tools/gen-sbom.py`
   emits a deterministic CycloneDX 1.6 JSON SBOM per firmware board from the
   build output and repo tree (first-party components enumerated at runtime, not
