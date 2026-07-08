@@ -89,6 +89,7 @@ EXPLICIT = {
     "S-02-008": ("T1", "doc 10 §11 (panic handler / crash-loop guard)"),
     "S-02-012": ("T1", "doc 10 §11 (brown-out save-state atomicity)"),
     "S-02-021": ("T1", "doc 10 §11 (pool-allocator contract; T1 contract/T2 impl)"),
+    "S-03-030": ("T1", "frozen ss_hal contract change (components/ss_hal/** is a T1 path, doc 10 §8.3)"),
     # task-seed named T1 cores (wire/frame format + protocol state machines)
     "S-10-008": ("T1", "doc 10 §5 EPIC-10 (SS-Link frame format v1 — wire format)"),
     "S-06-016": ("T1", "doc 10 §5/§11 (EPIC-06 crypto-core; redundant w/ epic floor)"),

@@ -18,10 +18,11 @@ As a device owner I want USB-C source detection and a charge state machine so th
 - Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DROPPED | SKU=L | PRD=— | Const=C-00,C-01
 - Deps: DROPPED for Lite 2026-07-08 (triage): no charger IC/PMIC on Lite (C-01, `board_config.h` NOT-onboard list) — capability moved intact to S-04-026 (Alpha)
 
-### S-03-003 — Sleep entry/exit with wake sources (button, RTC, LoRa IRQ)
-As a firmware engineer I want sleep entry/exit with button, RTC, and LoRa IRQ wake sources so that the Lite meets its standby battery target.
-- AC: all three wake sources verified on hardware; sleep current ≤ 0.5 mA measured; wake-to-responsive latency documented
+### S-03-003 — Sleep entry/exit with the canonical Lite wake set (touch, LoRa IRQ, RTC timer)
+As a firmware engineer I want sleep entry/exit wired to Lite's real wake sources so that the Lite meets its standby battery target.
+- AC: the canonical wake trio is wired through `ss_power` — touch INT (GPIO47, light-sleep wake only per S3 RTC-capability rules), LoRa DIO1 (GPIO1, light+deep), and RTC timer wake via the S-03-030 contract surface; wake-table decisions host-tested; the bench-measurement procedure (sleep current ≤ 0.5 mA target, wake-to-responsive latency) is written and executed at the first hardware session
 - Meta: Shard=A | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+- Deps: S-03-001, S-03-030; bench measurements need the D-0013 hardware session — story parks at IN_REVIEW until then (retargeted 2026-07-08: "button" wake was drift — board_config declares touch INT + LoRa DIO1; C-01 §4.3 reconciliation lands with S-03-030)
 
 ### S-03-004 — Input events — GT911 touch gestures + BOOT button
 As a device owner I want debounced touch and BOOT-button input events so that PTT and navigation feel instant and reliable on Lite's actual input hardware.
@@ -157,3 +158,9 @@ As a firmware engineer I want the 3-axis compass driven through the HAL so that 
 As a firmware engineer I want the optional C6 mesh-coprocessor link brought up behind a HAL contract so that the coproc becomes a usable bearer/offload path.
 - AC: framed CRC transport on UART2 (44/43 @115200 per C-01; `CONFIG_SS_LITE_MOD_COPROC_C6`, `SS_CAP_COPROC`) formalized behind a HAL contract with version negotiation per RFC-0003; `ss_uart_engine` coproc pump migrates behind it; link-up/echo smoke passes against a C6 dev module; physical port assignment confirmed at attachment per the D-0013 clause
 - Meta: Shard=— | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01,C-02
+
+### S-03-030 — `ss_hal_power.h` timer/periodic-wake contract surface
+As a firmware engineer I want the frozen power contract extended with a timer-wake surface so that RTC-timer wakeups (NF-PWR-01 periodic LoRa duty) are a contract capability, not an ad-hoc syscall.
+- AC: `ss_hal_power.h` gains a timer-wake API (e.g. `ss_power_wake_timer_set(uint64_t us)` + clear semantics for light vs deep sleep) designed and double-reviewed per the T1 pipeline; `ss_power` implements it (`esp_sleep_enable_timer_wakeup` glue) with the pure decision core host-tested; C-01 §4.3's wake-source row is reconciled with `board_config.h` (touch INT / LoRa DIO1 / RTC timer) in the same change; 3-board CI green
+- Meta: Shard=A | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+

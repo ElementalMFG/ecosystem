@@ -145,3 +145,9 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   a stale rule ("alpha/omega fail at configure by design") misled a worker into
   believing a correct AC was unsatisfiable. When repo reality changes a rule's
   claim, update the rule in the SAME commit (now done for firmware.md).
+- S-03-003 (2026-07-08): wake-set triage — "button" wake was drift; canonical
+  Lite trio = touch INT (GPIO47, LIGHT-sleep wake only), LoRa DIO1 (GPIO1,
+  light+deep), RTC timer. Timer wake had NO surface in the frozen
+  ss_hal_power.h → filed S-03-030 (T1, allocation override) rather than
+  absorbing a T1-path edit into a T3 run; C-01 §4.3 reconciliation rides
+  S-03-030. Worker escalation per doc 10 §8 worked exactly as designed.
