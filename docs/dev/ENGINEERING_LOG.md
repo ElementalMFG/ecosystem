@@ -372,3 +372,11 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   ss_wdt.c — the header flips from owned-gap to impl and the ownership
   wildcard became four per-function tombstone entries. Zero call-site churn
   (ss_compass already used the winner).
+- S-03-016 (2026-07-08): T1? flag CONFIRMED T1 — AC exposes GATT **pairing +
+  provisioning** services; BLE pairing-mode policy (Secure Connections vs
+  Just Works, MITM) and the provisioning characteristic are the same
+  onboarding-security surface as S-03-015's soft-AP handoff. Interactive
+  t1-pipeline; pairs naturally with S-03-017 in one Fable session.
+- S-03-017 (2026-07-08): T1? flag CONFIRMED T1 — LTKs at rest (encrypted NVS
+  only), bond wipe on re-pair. Keys-at-rest is a doc 10 §2 T1 domain; no
+  judgment call needed.
