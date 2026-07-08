@@ -9,4 +9,4 @@ must cross-link the rows they introduce.
 
 | Surface | Deprecated version(s) | Announced in release | Earliest removal release | Reference |
 |---|---|---|---|---|
-| — | — | — | — | *(none yet)* |
+| Firmware HAL C API (`ss_hal_watchdog.h`) | `ss_wdt_init` / `ss_wdt_subscribe` / `ss_wdt_unsubscribe` / `ss_wdt_feed` — original sketch, never implemented, never published | unreleased (`main`, 2026-07-08) | any pre-1.0 release — an internal C API is not one of RFC-0003's seven versioned surfaces and never shipped, so its windows (which bind from first *published* version) do not apply; recorded here per `06_GOVERNANCE.md` §6.3 (single sunset list) with the story standing in for the sunset-procedure governance issue. Tombstone declarations remain until a follow-up removal | S-03-039 (EPIC-03); replacement `ss_task_wdt_*` (S-02-009) |

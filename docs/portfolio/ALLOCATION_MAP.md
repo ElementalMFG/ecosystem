@@ -93,7 +93,7 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-03-036 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-037 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-038 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
-| S-03-039 | T1 (override) | fable@xhigh | t1-pipeline | DRAFT |
+| S-03-039 | T1 (override) | fable@xhigh | t1-pipeline | IN_REVIEW |
 | S-03-040 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-041 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-042 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |

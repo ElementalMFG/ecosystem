@@ -11,8 +11,6 @@
 
 #include <assert.h>
 
-#include "esp_task_wdt.h"
-
 // Compile-time sanity: the bands must stay ordered and within the ceiling, and
 // the ceiling must leave headroom below configMAX_PRIORITIES for IDF system
 // tasks. If any of these trip, the policy table in ss_tasks.h drifted.
@@ -38,21 +36,4 @@ BaseType_t ss_task_create_pinned(TaskFunction_t task, const char* name, uint32_t
 {
     assert(prio > 0 && prio <= SS_PRIO_CEILING);
     return xTaskCreatePinnedToCore(task, name, stack_depth, arg, UBaseType_t(prio), out, core_id);
-}
-
-// Watchdog policy re-exports (see ss_tasks.h WATCHDOG POLICY). NULL == the
-// calling task, so a subscribing task never has to hold its own handle.
-esp_err_t ss_task_wdt_register(void)
-{
-    return esp_task_wdt_add(NULL);
-}
-
-void ss_task_wdt_feed(void)
-{
-    esp_task_wdt_reset();
-}
-
-esp_err_t ss_task_wdt_unregister(void)
-{
-    return esp_task_wdt_delete(NULL);
 }

@@ -352,3 +352,23 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   Pattern for the gotcha file: IDF "convenience" defaults can violate a
   security contract without any code in the diff being wrong. Round 2:
   both APPROVE-WITH-NITS; nits fixed (DNS task owns its fd; docs).
+- S-03-039 (2026-07-08): watchdog HAL reconciliation (T1) — the shipped
+  S-02-009 surface (ss_task_wdt_register/feed/unregister) wins and is adopted
+  verbatim into the contract of record ss_hal_watchdog.h; the original
+  ss_wdt_* sketch (never implemented, zero call sites) is deprecated in place
+  as tombstone declarations + a DEPRECATIONS.md row — never silently
+  dropped. Gotcha (caught by T1 review pass 1, same class as the S-03-015
+  WIFI_STORAGE_FLASH find): IDF's default build spec appends
+  -Wno-error=deprecated-declarations, so __attribute__((deprecated)) alone
+  only WARNS — the claimed "any use fails the build" was false. Fix:
+  tombstones carry GCC __attribute__((error)) too (flag-independent hard
+  compile error on any call, pinned toolchain), deprecated kept for
+  clang-based tooling. Decisive
+  argument: ss_wdt_init(timeout_ms) was a policy-weakening knob; the TWDT
+  deadline/panic-on-expiry are build-time constants (sdkconfig.defaults,
+  S-02-009) no runtime code may loosen, so the canonical contract has no
+  init entry point at all. Mechanical insight: contract-audit.py only scans
+  firmware/**/*.c, so the wrappers moved (unchanged) from ss_tasks.cpp to
+  ss_wdt.c — the header flips from owned-gap to impl and the ownership
+  wildcard became four per-function tombstone entries. Zero call-site churn
+  (ss_compass already used the winner).

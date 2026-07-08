@@ -177,7 +177,7 @@ static void sample(void)
 static void memwatch_task(void* arg)
 {
     (void)arg;
-    // TWDT-EXEMPT (ss_tasks.h WATCHDOG POLICY): this task sleeps for
+    // TWDT-EXEMPT (ss_hal_watchdog.h WATCHDOG POLICY): this task sleeps for
     // CONFIG_SS_MEMWATCH_PERIOD_MS (default 10 s), which is >= the 5 s TWDT
     // deadline, so it deliberately does NOT subscribe — it would false-trip.
     const TickType_t period = pdMS_TO_TICKS(CONFIG_SS_MEMWATCH_PERIOD_MS);

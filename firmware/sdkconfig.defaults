@@ -34,7 +34,8 @@ CONFIG_FREERTOS_CHECK_STACKOVERFLOW_CANARY=y
 # ensuing panic lands with S-02-008). The idle tasks on both cores are
 # subscribed so a runaway task that starves an idle task is also caught.
 # App tasks whose loop latency is bounded strictly under the 5 s deadline
-# register + feed through the ss_task_wdt_* API (see ss_tasks.h WATCHDOG POLICY).
+# register + feed through the ss_task_wdt_* API (see ss_hal_watchdog.h
+# WATCHDOG POLICY — the contract of record since S-03-039).
 CONFIG_ESP_TASK_WDT_EN=y
 CONFIG_ESP_TASK_WDT_INIT=y
 CONFIG_ESP_TASK_WDT_TIMEOUT_S=5

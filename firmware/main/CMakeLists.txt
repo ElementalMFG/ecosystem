@@ -9,6 +9,7 @@ idf_component_register(
         "ss_diag.cpp"
         "ss_bootmark.cpp"
         "ss_tasks.cpp"
+        "ss_wdt.c"
         "ss_panic_guard.cpp"
         "ss_panic_guard_core.c"
         "ss_recovery.cpp"

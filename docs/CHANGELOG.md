@@ -357,6 +357,28 @@ in every user-visible PR (CONTRIBUTING.md §3).
 - One-time `clang-format` conformance pass over `firmware/main/` so the new
   format hook produces no spurious diffs (build-verified in the pinned
   container).
+- Watchdog HAL surface reconciled (S-03-039, T1): `ss_hal_watchdog.h` is now
+  the contract of record for task-watchdog participation and adopts the
+  shipped S-02-009 semantics verbatim (`ss_task_wdt_register` /
+  `ss_task_wdt_feed` / `ss_task_wdt_unregister`). The contract deliberately
+  has no runtime init/reconfigure entry point — the TWDT deadline and
+  panic-on-expiry are build-time policy constants (`sdkconfig.defaults`) no
+  component may weaken. Implementation moved unchanged from `ss_tasks.cpp`
+  to `firmware/main/ss_wdt.c` so the contract-audit gate (which scans `*.c`)
+  classifies the contract as implemented; call sites unchanged.
+
+### Deprecated
+
+- The original, never-implemented `ss_wdt_*` sketch in `ss_hal_watchdog.h`
+  (`ss_wdt_init` / `ss_wdt_subscribe` / `ss_wdt_unsubscribe` / `ss_wdt_feed`)
+  — losing surface of the S-03-039 reconciliation. Kept as compile-visible
+  tombstones with per-symbol migration notes: on the pinned GCC toolchain any
+  call is a hard compile error via `__attribute__((error))` (deliberately
+  flag-independent — ESP-IDF's default build spec appends
+  `-Wno-error=deprecated-declarations`, so `deprecated` alone would only
+  warn; it is kept alongside for IDE/tooling). Recorded in
+  `docs/DEPRECATIONS.md`. `ss_wdt_init` has no replacement by design
+  (config-armed TWDT, see above).
 
 ### Fixed
 

@@ -7,6 +7,7 @@ Consult these at the start of every review; append one line per durable finding.
 - [Coredump / panic-guard gotchas](defects_coredump_panic.md) — espcoredump format default, reset-reason enum gaps, DRAM-capture pinning, app-level breaker scope.
 - [Scripted guard placement](defects_scripted_guard_placement.md) — bulk extern "C"/ifdef inserts land before late #includes / double-wrap; still compiles, so read the diff not just the build.
 - [esp_wifi default flash persistence](defects_esp_wifi_flash_persist.md) — set_config silently writes SSID/PSK/AP-pass to NVS plaintext unless esp_wifi_set_storage(RAM); breaks "always wiped" contracts.
+- [Relocated normative section leaves stale pointers](defects_relocated_normative_section.md) — moving a "normative home" doc block between headers strands external citations (sdkconfig, .cpp exemption comments); no gate catches prose pointers — grep the old section name repo-wide.
 
 ## Per-component / repo gotchas
 - [Repo doc & config gotchas](gotchas_repo.md) — 05_SECURITY_MODEL.md is cited everywhere but does not exist yet; sdkconfig self-documents defaults selectively.

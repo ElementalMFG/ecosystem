@@ -26,7 +26,6 @@ ss_hal_haptic.h       = S-04-028   # haptic driver
 ss_hal_leds.h         = S-04-029   # LED driver
 ss_hal_storage.h      = S-03-037   # SD / internal FS
 ss_hal_usb.h          = S-03-038   # USB-CDC
-ss_hal_watchdog.h     = S-03-039   # task watchdog
 ss_hal_secure_elem.h  = S-08-017   # ATECC608 / HW crypto element
 ss_hal_ota.h          = EPIC-09    # OTA partition + rollback plumbing
 ss_hal_time.h         = S-02-018   # RTC + monotonic time
@@ -52,6 +51,15 @@ ss_display_backlight  = S-04-014   # backlight / brightness
 ss_rng_init           = S-03-040   # hardware RNG
 ss_rng_bytes          = S-03-040   # hardware RNG
 ss_rng_healthcheck    = S-06-008   # RNG health check
+
+# ss_hal_watchdog.h: canonical ss_task_wdt_* are implemented in-tree
+# (firmware/main/ss_wdt.c; S-03-039 reconciliation). The never-implemented
+# ss_wdt_* sketch stays declared only as DEPRECATED tombstones
+# (docs/DEPRECATIONS.md); owned here so the gate tracks them until removal.
+ss_wdt_init           = S-03-039   # deprecated tombstone, no replacement (config-armed TWDT)
+ss_wdt_subscribe      = S-03-039   # deprecated tombstone, use ss_task_wdt_register
+ss_wdt_unsubscribe    = S-03-039   # deprecated tombstone, use ss_task_wdt_unregister
+ss_wdt_feed           = S-03-039   # deprecated tombstone, use ss_task_wdt_feed
 
 # ss_hal_imu.h: IMU read vs fused-compass (magnetometer) heading.
 ss_imu_init           = S-03-036   # IMU bring-up
