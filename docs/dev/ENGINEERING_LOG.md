@@ -326,3 +326,8 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   the first cut but should move to a timer/reconnect task before the HIL rack;
   on-target WPA2/WPA3 association ACs are unverified until the Wi-Fi HIL rack
   (EPIC-03 exit criterion 2), so the story parks at IN_REVIEW.
+- S-03-015 (2026-07-08): T1? flag CONFIRMED T1 — the AC's "credential
+  handoff" over an open soft-AP is an onboarding-security surface (doc 05);
+  runs interactive t1-pipeline. Pattern: keyword flags resolve on the AC
+  text, not the title. Follow-ups filed: S-03-041 (duty persistence
+  compliance determination), S-03-042 (reconnect off the event loop).

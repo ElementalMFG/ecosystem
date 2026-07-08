@@ -235,3 +235,15 @@ As a firmware engineer I want the base RNG surface implemented so that entropy c
 - AC: `ss_rng_init`/`ss_rng_bytes` implemented over the SoC TRNG (`esp_fill_random`), documented as raw-TRNG-until-S-06-008 (which owns healthcheck + DRBG reseed and supersedes nothing here); never returns predictable output on RNG failure — fails loudly; 3-board CI green
 - Meta: Shard=— | Type=Feature | Size=XS | Prio=P1 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-05
 - Deps: S-06-008 owns the DRBG/healthcheck layer above this
+
+### S-03-041 — Cross-reboot duty-cycle persistence determination
+As a compliance owner I want a determination on reboot-durable duty-cycle budgets so that EU868 accounting is regulator-correct, not merely session-correct.
+- AC: a written determination (with EN 300 220 citation) on whether the rolling 1 h duty window must survive reboot; if yes, the S-03-013 core gains a persistence hook via `ss_nvs` (S-02-017) designed to never let persistence failure block SOS; if no, the in-RAM limitation note in the LBT header is marked compliance-approved
+- Meta: Shard=E | Type=Task | Size=S | Prio=P2 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-08
+- Deps: S-03-013
+
+### S-03-042 — Wi-Fi reconnect off the event-loop task
+As a firmware engineer I want the reconnect backoff moved off the default event loop so that a long backoff never stalls unrelated event delivery.
+- AC: the S-03-014 disconnect handler arms an esp_timer (or dedicated task) instead of blocking the event loop with vTaskDelay; backoff/give-up semantics unchanged (host suite still green); verified before/with the Wi-Fi HIL rack (S-03-023)
+- Meta: Shard=F | Type=Feature | Size=XS | Prio=P2 | Status=DRAFT | SKU=L | PRD=— | Const=C-00
+- Deps: S-03-014
