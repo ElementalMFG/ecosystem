@@ -50,10 +50,14 @@ add_library(ss_units STATIC
     ${SS_MAIN_DIR}/ss_recovery_core.c
     ${SS_MAIN_DIR}/ss_memwatch_core.c
     ${SS_MAIN_DIR}/ss_nvs_core.c
+    ${SS_COMPONENTS_DIR}/ss_power/src/ss_power_core.c
 )
 target_include_directories(ss_units PUBLIC
     ${SS_COMPONENTS_DIR}/ss_log/include
     ${SS_MAIN_DIR}
+    ${SS_COMPONENTS_DIR}/ss_power/include
+    ${SS_COMPONENTS_DIR}/ss_hal/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/mocks
 )
 if(SS_COVERAGE)
     # Compile-time instrumentation on the tested code only; PUBLIC link option so
@@ -73,6 +77,7 @@ add_executable(ss_host_tests
     tests/test_ss_recovery.cpp
     tests/test_ss_memwatch.cpp
     tests/test_ss_nvs.cpp
+    tests/test_ss_power_core.cpp
 )
 target_include_directories(ss_host_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/mocks   # host board_config.h mock (first on path)

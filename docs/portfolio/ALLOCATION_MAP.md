@@ -53,7 +53,7 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-02-021 | T1 (override) | fable@xhigh | t1-pipeline | DRAFT |
 | S-02-022 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
 | S-02-023 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
-| S-03-001 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-03-001 | T3 (epic-floor) | opus@medium | t3-standard | IN_REVIEW |
 | S-03-002 | T3 (epic-floor) | opus@medium | t3-standard | DROPPED |
 | S-03-003 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-004 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |

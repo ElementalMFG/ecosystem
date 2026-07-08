@@ -75,7 +75,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
-| S-03-001 | A | Feature | M | P0 | DRAFT | L | NF-PWR-01 | C-00,C-01 |
+| S-03-001 | A | Feature | M | P0 | IN_REVIEW | L | NF-PWR-01 | C-00,C-01 |
 | S-03-002 | A | Feature | M | P0 | DROPPED | L | — | C-00,C-01 |
 | S-03-003 | A | Feature | L | P0 | DRAFT | L | NF-PWR-01 | C-00,C-01 |
 | S-03-004 | B | Feature | S | P0 | DRAFT | L | F-MSG-04,F-UI-06 | C-00,C-01 |
@@ -734,9 +734,9 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 | Status | Count |
 |---|---|
-| DRAFT | 511 |
+| DRAFT | 510 |
 | IN_PROGRESS | 1 |
-| IN_REVIEW | 8 |
+| IN_REVIEW | 9 |
 | DONE | 23 |
 | BLOCKED | 1 |
 | DROPPED | 3 |

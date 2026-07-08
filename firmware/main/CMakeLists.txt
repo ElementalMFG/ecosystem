@@ -20,7 +20,7 @@ idf_component_register(
         "ss_nvs_core.c"
         "ss_version.cpp"
     INCLUDE_DIRS "."
-    REQUIRES ss_hal ss_log driver esp_lcd esp_timer nvs_flash espcoredump esp_partition
+    REQUIRES ss_hal ss_log ss_power driver esp_lcd esp_timer nvs_flash espcoredump esp_partition
              app_update esp_system
 )
 

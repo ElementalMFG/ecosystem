@@ -128,3 +128,10 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   S-03-027 (hal_gnss), S-03-028 (compass, with an explicit HMC@0x1E-vs-
   QMC@0x0D part-verify AC), S-03-029 (C6 link). First-hardware-session
   verify list: compass part/address, GNSS part number, C6 port assignment.
+- S-03-001 (2026-07-07): `ss_power` is the first real firmware/components/ss_power
+  impl — pattern = pure host-testable decision core (`ss_power_core.[ch]`, no
+  ESP-IDF calls) + thin IDF glue (`ss_power.c`). Host tests reach it via a new
+  `firmware/test/host/mocks/esp_err.h` stub, which unblocks host-testing ANY
+  core that includes an `ss_hal_*.h` (they pull `esp_err.h`) — reuse for the
+  other EPIC-03 HAL impls. Lite has no battery sense (C-01 §Meshtastic-#7993):
+  `ss_power_status` is fixed no-gauge (`v_mv=0`, `battery_sense_valid=false`).
