@@ -80,7 +80,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-03-003 | A | Feature | L | P0 | DRAFT | L | NF-PWR-01 | C-00,C-01 |
 | S-03-004 | B | Feature | S | P0 | IN_REVIEW | L | F-MSG-04,F-UI-06 | C-00,C-01 |
 | S-03-005 | B | Feature | S | P1 | DROPPED | L | F-UI-03 | C-00,C-01 |
-| S-03-006 | C | Feature | M | P0 | DRAFT | L | NF-PERF-01 | C-00,C-01 |
+| S-03-006 | C | Feature | M | P0 | IN_REVIEW | L | NF-PERF-01 | C-00,C-01 |
 | S-03-007 | C | Feature | S | P1 | DRAFT | L | NF-PWR-01 | C-00,C-01 |
 | S-03-008 | C | Feature | S | P1 | DRAFT | L | NF-PERF-01 | C-00,C-01 |
 | S-03-009 | D | Feature | M | P0 | DRAFT | L | F-MSG-03,F-VOX-01 | C-00,C-01 |
@@ -736,9 +736,9 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 | Status | Count |
 |---|---|
-| DRAFT | 511 |
+| DRAFT | 510 |
 | IN_PROGRESS | 1 |
-| IN_REVIEW | 9 |
+| IN_REVIEW | 10 |
 | DONE | 24 |
 | BLOCKED | 1 |
 | DROPPED | 3 |

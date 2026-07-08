@@ -178,3 +178,11 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   watcher during entry window -> ss_input BOOT button -> SX1262 CS when LoRa
   active); BOOT-input-vs-LoRa-CS runtime conflict is real and unresolved —
   arbitration story S-03-031 must land before/with S-03-011 (LoRa driver).
+- S-03-006 (2026-07-08): display HAL landed in a NEW `ss_display` component
+  (core/glue split like ss_power); `main/ss_display_boot.*` retired and folded
+  behind `ss_hal_display.h`. Tear-free flush = single DMA scratch reused per
+  chunk, gated by an `on_color_trans_done` binary semaphore (block before
+  refill) — reuse this pattern for S-03-008 (framebuffer). Backlight PWM (LEDC)
+  now ships inside ss_display, so S-03-007 (auto-dim) builds on
+  `ss_display_backlight`, not a fresh LEDC bring-up. ILI9488 SPI is RGB666-only
+  (COLMOD 0x66); upper layers stay RGB565 and convert in flush.

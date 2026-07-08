@@ -7,7 +7,7 @@
 // dual-UART engine, then the sensor/diagnostic threads):
 //
 //   1. NVS + board banner (identity, capability mask)
-//   2. ss_display_boot_init()      — SPI3 @40 MHz, ILI9488, test pattern (goal A)
+//   2. ss_display_init()           — SPI3 @40 MHz, ILI9488, self-test (goal A)
 //   3. ss_uart_engine_start()      — GNSS + coproc ring-buffer pumps  (goal B)
 //   4. ss_compass_start()          — tilt-compensated compass thread  (goal C)
 //   5. ss_diag_start()             — buzzer/speaker diag + power WD   (goal D)
@@ -15,7 +15,7 @@
 //
 // Everything after boot migrates behind the HAL seams as EPIC-03 lands:
 //   TODO(EPIC-03): replace direct module calls with ss_hal_init() + drivers.
-//   TODO(EPIC-15): LVGL 9 + ss_ui multi-page shell hooks ss_display_boot_blit
+//   TODO(EPIC-15): LVGL 9 + ss_ui multi-page shell hooks ss_display_flush
 //                  as its flush callback, then owns the panel.
 //   TODO(EPIC-05/06): ss_rns/ss_lxmf attach to the coproc frame callback.
 
@@ -33,7 +33,7 @@
 #include "ss_memwatch.h"
 #include "ss_panic_guard.h"
 #include "ss_recovery.h"
-#include "ss_display_boot.h"
+#include "ss_display.h"
 #include "ss_uart_engine.h"
 #include "ss_compass.h"
 #include "ss_diag.h"
@@ -108,9 +108,9 @@ extern "C" void app_main(void)
     SS_LOGI("boot", "ss_log online (redaction active)");
 
     // --- 2. Display FIRST (directive goal A: user feedback ASAP) -----------
-    err = ss_display_boot_init();
+    err = ss_display_init();
     if (err == ESP_OK) {
-        ss_display_boot_test_pattern(); // R/G/B + backlight ramp
+        ss_display_selftest(); // R/G/B + backlight ramp
     } else {
         ESP_LOGE(TAG, "display init failed: %s — continuing headless", esp_err_to_name(err));
     }

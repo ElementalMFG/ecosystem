@@ -9,6 +9,22 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- TFT display driver — ILI9488 480×320 SPI-DMA (S-03-006): new `ss_display`
+  component implements the frozen `ss_hal_display.h` contract for Lite
+  (`ss_display_init/info/flush/backlight/sleep/set_orient`). Controller,
+  geometry, SPI host/pins and pixel clock are all read from `board_config.h`
+  `SS_LCD_*` (never hardcoded) and gated on `SS_CAP_DISPLAY` /
+  `SS_CAP_BACKLIGHT_PWM`. RGB565 upper layers are converted to the ILI9488's
+  18-bit RGB666 SPI wire format during flush; a single DMA-capable scratch is
+  reused across chunks with an `on_color_trans_done` completion semaphore, so
+  each flush is synchronous and tear-free. Pure geometry/format/timing logic
+  (clip, 565→666, MADCTL-per-orientation, per-tile SPI transfer budget) lives
+  in a host-tested `ss_display_core` (12 gtests); a 32×32 RGB666 tile clocks
+  in ~615 µs at 40 MHz, comfortably inside the 16.67 ms/60 FPS budget. The
+  `main/ss_display_boot` bring-up scaffolding is retired and folded behind the
+  HAL (boot keeps its display-first R/G/B self-test via `ss_display_selftest`).
+  Empirical 60 FPS partial-redraw and visual tear-free confirmation remain
+  pending an attached Lite board (story IN_REVIEW until then).
 - Input events — GT911 touch + BOOT button (S-03-004): new `ss_input`
   component implements the frozen `ss_hal_touch.h` / `ss_hal_buttons.h`
   contracts for Lite. An INT-driven GT911 driver (GPIO47) emits raw
