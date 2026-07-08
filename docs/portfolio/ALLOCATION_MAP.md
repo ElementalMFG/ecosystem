@@ -54,10 +54,10 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-02-022 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
 | S-02-023 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-001 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
-| S-03-002 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-03-002 | T3 (epic-floor) | opus@medium | t3-standard | DROPPED |
 | S-03-003 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-004 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
-| S-03-005 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-03-005 | T3 (epic-floor) | opus@medium | t3-standard | DROPPED |
 | S-03-006 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-007 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-008 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
@@ -72,7 +72,7 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-03-017 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
 | S-03-018 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
 | S-03-019 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
-| S-03-020 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-03-020 | T3 (epic-floor) | opus@medium | t3-standard | DROPPED |
 | S-03-021 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-022 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
 | S-03-023 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
@@ -102,6 +102,11 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-04-022 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-04-023 | T2 (override) | opus@medium | t2-designer+builder | DRAFT |
 | S-04-024 | T2 (override) | opus@medium | t2-designer+builder | DRAFT |
+| S-04-025 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-04-026 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-04-027 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-04-028 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-04-029 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-05-001 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-05-002 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-05-003 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |

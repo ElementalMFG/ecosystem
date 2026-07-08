@@ -124,3 +124,28 @@ As a firmware engineer I want the HaLow driver integration pinned to the support
 As a firmware engineer I want the 802.11ah power-save mechanisms (TWT, DTIM/snooze, RAW) explicitly engineered and measured so that "HaLow doze" in NF-PWR-02 is a named, tested configuration instead of a vendor default.
 - AC: STA mode negotiates TWT with measured average current at three traffic profiles (idle beacon-only, periodic telemetry, active chat) published in the per-release power report (S-04-020); DTIM/snooze settings are tuned per QoS class with the latency trade-off documented (SOS/ALERT wake budget still meets NF-PERF-04); AP/HGW mode enables RAW grouping when associated-station count crosses a documented threshold and a dense-cell test shows no starvation of low-priority stations; profile settings are exposed via the bearer-policy vocabulary so fleet policy (S-16-026) can tune them; per D-HALOW-04 in `docs/portfolio/08_HALOW_TECHNOLOGY_DOSSIER.md`
 - Meta: Shard=B | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=A | PRD=NF-PWR-02 | Const=C-00,C-08
+
+### S-04-025 — `hal_power` battery fuel gauge (MAX17048) I²C
+As a firmware engineer I want `hal_power` backed by the MAX17048 fuel gauge over I²C so that Alpha battery state is accurately reported to the system.
+- AC: SoC, voltage, current reported; low-battery IRQ wired to the power manager; readings validated against a bench meter within documented tolerance
+- Meta: Shard=— | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=A | PRD=NF-PWR-01 | Const=C-00
+
+### S-04-026 — USB-C PD source detection + charge state machine
+As a device owner I want USB-C source detection and a charge state machine on Alpha so that charging is safe and its status is always accurate.
+- AC: source capability detected on plug-in; charge states (pre-charge/CC/CV/full/fault) transition correctly; fault states surfaced to log and UI
+- Meta: Shard=— | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=A | PRD=— | Const=C-00
+
+### S-04-027 — Button matrix + debounce + long-press events (hard PTT)
+As a device owner I want debounced button-matrix input with long-press events so that Alpha's hard PTT and navigation feel instant and reliable.
+- AC: PTT press < 25 ms latency to audio pipeline; debounce rejects contact bounce without missing fast presses; long-press and release events emitted for all buttons
+- Meta: Shard=— | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=A | PRD=F-MSG-04,F-UI-06 | Const=C-00
+
+### S-04-028 — Haptic driver (DRV2605L)
+As a device owner I want haptic feedback on Alpha so that interactions are confirmed without looking at the screen.
+- AC: DRV2605L plays a basic effect set; per-event haptic hooks exposed to `ss_ui`; degrades gracefully when hardware is absent
+- Meta: Shard=— | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=A | PRD=F-UI-03 | Const=C-00
+
+### S-04-029 — Bezel LED driver (12× SK6805) + status patterns
+As a device owner I want the Alpha bezel LEDs driven with status patterns so that link, activity, and SOS states are visible at a glance.
+- AC: link, activity, and SOS-breathe patterns implemented; higher-priority patterns preempt lower ones; brightness respects the active power profile
+- Meta: Shard=— | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=A | PRD=F-MSG-08 | Const=C-00

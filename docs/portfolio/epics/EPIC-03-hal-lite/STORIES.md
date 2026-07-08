@@ -5,35 +5,40 @@ Format per `../../00_METHODOLOGY.md` §2.7. Meta lines are machine-parsed.
 
 ---
 
-### S-03-001 — `hal_power_init` battery gauge (MAX17048) I²C
-As a firmware engineer I want `hal_power_init` with the MAX17048 battery gauge over I²C so that battery state is accurately reported to the system.
-- AC: SoC, voltage, current reported; low-battery IRQ wired to the power manager; readings validated against a bench meter within documented tolerance
+### S-03-001 — `ss_power` for Lite — no-gauge contract + power state machine
+As a firmware engineer I want the Lite power HAL implemented against the frozen `ss_hal_power.h` contract so that power state is truthful on hardware that has no fuel gauge.
+- AC: `ss_power_init`/`ss_power_status` return the contract-mandated no-gauge values (`battery_sense_valid=false`, `v_mv=0`, C-01 §Meshtastic-#7993 rationale cited at the impl site); the power state machine (`ss_power_enter`, `ss_power_wake_source_add`, `ss_power_reboot`, `ss_power_shutdown`) is implemented per the frozen header with a pure host-tested decision core; compiles green on all three boards
 - Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+- Deps: — (retargeted 2026-07-08: gauge intent preserved in the Alpha epic — see ENGINEERING_LOG + the dropped-story pointers)
 
 ### S-03-002 — USB-C PD source detection + charge state machine
 As a device owner I want USB-C source detection and a charge state machine so that charging is safe and its status is always accurate.
 - AC: source capability detected on plug-in; charge states (pre-charge/CC/CV/full/fault) transition correctly; fault states surfaced to log and UI
-- Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01
+- Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DROPPED | SKU=L | PRD=— | Const=C-00,C-01
+- Deps: DROPPED for Lite 2026-07-08 (triage): no charger IC/PMIC on Lite (C-01, `board_config.h` NOT-onboard list) — capability moved intact to S-04-026 (Alpha)
 
 ### S-03-003 — Sleep entry/exit with wake sources (button, RTC, LoRa IRQ)
 As a firmware engineer I want sleep entry/exit with button, RTC, and LoRa IRQ wake sources so that the Lite meets its standby battery target.
 - AC: all three wake sources verified on hardware; sleep current ≤ 0.5 mA measured; wake-to-responsive latency documented
 - Meta: Shard=A | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
 
-### S-03-004 — Button matrix + debounce + long-press events
-As a device owner I want debounced button-matrix input with long-press events so that PTT and navigation feel instant and reliable.
-- AC: PTT press < 25 ms latency to audio pipeline; debounce rejects contact bounce without missing fast presses; long-press and release events emitted for all four buttons
+### S-03-004 — Input events — GT911 touch gestures + BOOT button
+As a device owner I want debounced touch and BOOT-button input events so that PTT and navigation feel instant and reliable on Lite's actual input hardware.
+- AC: GT911 touch tap/long-press/swipe events emitted through the HAL input contract; BOOT button (GPIO0) debounced with press/long-press/release events, deferring to the S-02-016 recovery-window ownership; on-screen PTT press reaches the audio pipeline < 25 ms; behaviour degrades per capability flags when hardware is absent
 - Meta: Shard=B | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-MSG-04,F-UI-06 | Const=C-00,C-01
+- Deps: — (retargeted 2026-07-08: Lite has no button matrix — touch + BOOT only per C-01; matrix intent preserved in the Alpha epic)
 
 ### S-03-005 — Haptic driver (DRV2605L or PWM)
 As a device owner I want haptic feedback so that interactions are confirmed without looking at the screen.
 - AC: DRV2605L (or PWM fallback) plays a basic effect set; per-event haptic hooks exposed to `ss_ui`; degrades gracefully when hardware is absent
-- Meta: Shard=B | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=L | PRD=F-UI-03 | Const=C-00,C-01
+- Meta: Shard=B | Type=Feature | Size=S | Prio=P1 | Status=DROPPED | SKU=L | PRD=F-UI-03 | Const=C-00,C-01
+- Deps: DROPPED for Lite 2026-07-08 (triage): no haptic IC on Lite (buzzer GPIO8 covers audible feedback via ss_diag) — capability moved intact to S-04-028 (Alpha)
 
-### S-03-006 — TFT display driver (ILI9341/ST7789) SPI DMA
-As a firmware engineer I want an SPI-DMA TFT driver so that the UI renders smoothly within the Lite performance budget.
-- AC: 60 FPS partial redraw of 32×32 tile; ILI9341 and ST7789 variants selectable by config; DMA transfers tear-free with sync
+### S-03-006 — TFT display driver (ILI9488 480×320) SPI DMA
+As a firmware engineer I want an SPI-DMA driver for Lite's actual panel (ILI9488, 480×320) so that the UI renders smoothly within the Lite performance budget.
+- AC: 60 FPS partial redraw of a 32×32 tile; controller/geometry taken from `board_config.h` `SS_LCD_*` (ILI9488 per C-01 §3), never hardcoded; DMA transfers tear-free with sync; builds on (and retires) the `ss_display_boot` bring-up scaffolding
 - Meta: Shard=C | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-PERF-01 | Const=C-00,C-01
+- Deps: — (retargeted 2026-07-08: story predated the Lite panel lock; ILI9341/ST7789 were never Lite parts per C-01)
 
 ### S-03-007 — Backlight PWM + auto-dim on inactivity
 As a device owner I want backlight PWM with auto-dim on inactivity so that battery is conserved without hurting readability.
@@ -90,10 +95,11 @@ As a security engineer I want BLE bonding with LTK storage in secure NVS so that
 - AC: bonding survives reboot; LTKs stored only in encrypted NVS; re-pair flow wipes stale bonds
 - Meta: Shard=G | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-BR-03,NF-SEC-02 | Const=C-05,C-08
 
-### S-03-018 — Flash partition layout (bootloader/app0/app1/nvs/keys/logs/fs)
-As a firmware engineer I want the Lite flash partition layout so that OTA, keys, logs, and user data have safe, fixed homes.
-- AC: bootloader/app0/app1/nvs/keys/logs/fs partitions defined; layout matches `board_config.h` and OTA A/B expectations; keys partition sized for secure storage
+### S-03-018 — Flash partition layout reconciliation (frozen map + keys/fs homes)
+As a firmware engineer I want the frozen partition map reconciled with the remaining storage decisions so that keys, logs, and user data have safe, fixed homes without re-inventing the layout.
+- AC: the frozen `firmware/partitions.csv` (nvs/otadata/phy_init/ota_0/ota_1/storage/coredump — S-02-008, RFC-0003 freeze note) is affirmed as the single source of truth; the keys home (dedicated partition vs NVS-encrypted namespace, EPIC-08 input) is decided and recorded by decision entry; logs/FS mapping onto `storage` (LittleFS, S-03-019) is documented; any layout change follows the partitions.csv freeze procedure
 - Meta: Shard=H | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-05
+- Deps: retargeted 2026-07-08 (triage): original text predated the EPIC-02 partition freeze; S-02-008, S-03-019
 
 ### S-03-019 — LittleFS on user partition
 As a firmware engineer I want LittleFS on the user partition so that file storage is power-fail safe.
@@ -103,7 +109,8 @@ As a firmware engineer I want LittleFS on the user partition so that file storag
 ### S-03-020 — RGB LED driver + status patterns
 As a device owner I want RGB status LED patterns so that link, activity, and SOS states are visible at a glance.
 - AC: link, activity, and SOS-breathe patterns implemented; higher-priority patterns preempt lower ones; brightness respects the active power profile
-- Meta: Shard=I | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=L | PRD=F-MSG-08 | Const=C-00,C-01
+- Meta: Shard=I | Type=Feature | Size=S | Prio=P1 | Status=DROPPED | SKU=L | PRD=F-MSG-08 | Const=C-00,C-01
+- Deps: DROPPED for Lite 2026-07-08 (triage): LED footprint unpopulated on Lite (`SS_LED_PIN -1`, C-01); display/buzzer carry status — capability moved intact to S-04-029 (Alpha bezel LEDs)
 
 ### S-03-021 — Internal temperature sensor + thermal throttle policy
 As a firmware engineer I want the internal temperature sensor with a thermal-throttle policy so that the device protects itself under heat.

@@ -76,10 +76,10 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
 | S-03-001 | A | Feature | M | P0 | DRAFT | L | NF-PWR-01 | C-00,C-01 |
-| S-03-002 | A | Feature | M | P0 | DRAFT | L | — | C-00,C-01 |
+| S-03-002 | A | Feature | M | P0 | DROPPED | L | — | C-00,C-01 |
 | S-03-003 | A | Feature | L | P0 | DRAFT | L | NF-PWR-01 | C-00,C-01 |
 | S-03-004 | B | Feature | S | P0 | DRAFT | L | F-MSG-04,F-UI-06 | C-00,C-01 |
-| S-03-005 | B | Feature | S | P1 | DRAFT | L | F-UI-03 | C-00,C-01 |
+| S-03-005 | B | Feature | S | P1 | DROPPED | L | F-UI-03 | C-00,C-01 |
 | S-03-006 | C | Feature | M | P0 | DRAFT | L | NF-PERF-01 | C-00,C-01 |
 | S-03-007 | C | Feature | S | P1 | DRAFT | L | NF-PWR-01 | C-00,C-01 |
 | S-03-008 | C | Feature | S | P1 | DRAFT | L | NF-PERF-01 | C-00,C-01 |
@@ -94,7 +94,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-03-017 | G | Feature | M | P0 | DRAFT | L | F-BR-03,NF-SEC-02 | C-05,C-08 |
 | S-03-018 | H | Feature | S | P0 | DRAFT | L | — | C-00,C-05 |
 | S-03-019 | H | Feature | S | P0 | DRAFT | L | — | C-00 |
-| S-03-020 | I | Feature | S | P1 | DRAFT | L | F-MSG-08 | C-00,C-01 |
+| S-03-020 | I | Feature | S | P1 | DROPPED | L | F-MSG-08 | C-00,C-01 |
 | S-03-021 | J | Feature | S | P1 | DRAFT | L | — | C-00,C-01 |
 | S-03-022 | — | Feature | L | P0 | DRAFT | L | — | C-00 |
 | S-03-023 | — | Ops | M | P0 | DRAFT | L | — | C-00 |
@@ -103,7 +103,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-04 — HAL for Alpha (ESP32-P4 + HaLow + Wi-Fi 5 + GNSS + IMU) (24 stories)
+## Epic-04 — HAL for Alpha (ESP32-P4 + HaLow + Wi-Fi 5 + GNSS + IMU) (29 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -131,6 +131,11 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-04-022 | C | Feature | M | P1 | DRAFT | A | NF-REG-01,NF-REG-02 | C-00,C-08 |
 | S-04-023 | B | Spike | M | P0 | DRAFT | A | — | C-00,C-08 |
 | S-04-024 | B | Feature | M | P1 | DRAFT | A | NF-PWR-02 | C-00,C-08 |
+| S-04-025 | — | Feature | M | P0 | DRAFT | A | NF-PWR-01 | C-00 |
+| S-04-026 | — | Feature | M | P0 | DRAFT | A | — | C-00 |
+| S-04-027 | — | Feature | S | P0 | DRAFT | A | F-MSG-04,F-UI-06 | C-00 |
+| S-04-028 | — | Feature | S | P1 | DRAFT | A | F-UI-03 | C-00 |
+| S-04-029 | — | Feature | S | P1 | DRAFT | A | F-MSG-08 | C-00 |
 
 ---
 
@@ -721,15 +726,16 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Totals — 538 stories across 24 epics
+## Totals — 543 stories across 24 epics
 
 | Status | Count |
 |---|---|
-| DRAFT | 505 |
+| DRAFT | 507 |
 | IN_PROGRESS | 1 |
 | IN_REVIEW | 8 |
 | DONE | 23 |
 | BLOCKED | 1 |
+| DROPPED | 3 |
 
 ---
 
@@ -739,7 +745,7 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 
 | Clause key | Stories | P0 coverage |
 |---|---|---|
-| C-00 | 225 | yes |
+| C-00 | 230 | yes |
 | C-01 | 18 | yes |
 | C-02 | 81 | yes |
 | C-03 | 46 | yes |

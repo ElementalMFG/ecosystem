@@ -109,3 +109,14 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   refuses stories that are not DRAFT/READY (DONE=already executed,
   IN_PROGRESS/IN_REVIEW=in flight, BLOCKED=parked) and run-queue.sh aborts
   on it; re-executing a completed story is structurally impossible.
+- EPIC-03 (2026-07-08): hardware-reality triage — early EPIC-03 stories were
+  template-written before the Lite lock. Retargeted to real Lite hardware:
+  S-03-001 (no-gauge power contract), S-03-004 (GT911 touch + BOOT button),
+  S-03-006 (ILI9488, from board_config, never hardcoded), S-03-018
+  (reconcile with the FROZEN partitions.csv, don't reinvent). DROPPED-with-
+  pointer (capability moved intact to Alpha): S-03-002→S-04-026 (charger),
+  S-03-005→S-04-028 (haptic), S-03-020→S-04-029 (LEDs). Caught by a T3
+  worker at opus@medium refusing to implement a MAX17048 on a board whose
+  frozen contracts all say it has none (doc 10 §8 escalation working).
+  Remaining EPIC-03 titles pass the hardware audit at title level; AC-level
+  checks continue per story at elaboration.
