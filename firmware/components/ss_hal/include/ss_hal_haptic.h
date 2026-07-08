@@ -1,8 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2025 SS-SP Project Contributors
 #pragma once
+#include <stddef.h>
 #include "esp_err.h"
 #include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
     SS_HAPTIC_TICK,
@@ -19,3 +24,7 @@ esp_err_t ss_haptic_init(void);
 esp_err_t ss_haptic_play(ss_haptic_pattern_t p);
 esp_err_t ss_haptic_custom(const uint8_t* env, size_t n, uint16_t period_ms);
 esp_err_t ss_haptic_stop(void);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

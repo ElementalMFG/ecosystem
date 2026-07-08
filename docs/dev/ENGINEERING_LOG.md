@@ -189,3 +189,11 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
 - infra (2026-07-08): workers also need git rm/mv (file retirement is part of
   refactor stories) — now allowlisted alongside add/commit/push. Full worker
   git surface: add, rm, mv, commit, push origin main, fetch.
+- S-03-032 (2026-07-08): ss_hal ABI baseline — ALL HAL headers now carry
+  extern "C" guards (a C++ TU calling an unguarded C prototype makes a
+  mangled unresolvable symbol); ss_hal_has_cap takes uint64_t (caps reach
+  bit 38 — uint32_t truncated and MIS-EVALUATED high flags); accessors live
+  in ss_hal/src/ss_hal.c (header-driven, no state); ss_hal_init/shutdown
+  deliberately NOT stubbed so missing drivers fail loudly. Lesson: an
+  undefined symbol can hide until a caller makes the object load-bearing —
+  the S-03-004 ss_input reference only surfaced when S-03-006 rewired main.

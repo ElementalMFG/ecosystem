@@ -9,6 +9,10 @@
 #include "ss_hal_types.h"
 #include "esp_err.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     uint32_t center_freq_hz;      // regional
     uint8_t  bandwidth_mhz;       // 1, 2, 4, 8, 16
@@ -36,3 +40,7 @@ typedef struct {
     uint32_t mbps_current;
 } ss_halow_stats_t;
 esp_err_t ss_halow_stats(ss_halow_stats_t* out);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

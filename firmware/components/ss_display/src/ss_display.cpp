@@ -152,9 +152,9 @@ static esp_err_t fill_solid(uint16_t rgb565)
 }
 
 // ===========================================================================
-// Frozen ss_hal_display.h contract. The contract header carries no extern "C"
-// guard, so under this C++ TU its declarations have C++ linkage; the
-// definitions below match. Callers are C++ (main.cpp, future ss_ui).
+// Frozen ss_hal_display.h contract. Since S-03-032 the HAL headers carry
+// extern "C" guards, so these definitions use C linkage from this C++ TU.
+// Callers are C++ (main.cpp, future ss_ui) and future C drivers alike.
 // ===========================================================================
 
 esp_err_t ss_display_init(void)

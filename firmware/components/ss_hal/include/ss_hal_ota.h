@@ -9,6 +9,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef enum { SS_OTA_SLOT_A, SS_OTA_SLOT_B, SS_OTA_SLOT_FACTORY } ss_ota_slot_t;
 
 esp_err_t ss_ota_current_slot(ss_ota_slot_t* out);
@@ -19,3 +23,7 @@ esp_err_t ss_ota_activate(ss_ota_slot_t target);   // marks pending, reboots
 esp_err_t ss_ota_commit(void);                     // called after healthy boot
 esp_err_t ss_ota_rollback(void);
 esp_err_t ss_ota_rollback_counter(uint32_t* out);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

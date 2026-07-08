@@ -19,7 +19,8 @@ extern "C" {
 
 // Compile-time checks: the caps mask fits its 64-bit carrier, and BASE / RADIO
 // are disjoint (a real board_config OR-s independent bit groups).
-static_assert((SS_BOARD_CAPS & ~0xFFFFFFFFFFFFFFFFULL) == 0, "caps mask must fit uint64_t");
+static_assert(SS_CAP_HEADLESS == (1ULL << 38), "highest cap flag moved — re-audit ss_hal_has_cap width");
+static_assert((SS_BOARD_CAPS >> 39) == 0, "caps mask exceeds bit 38 — re-audit accessor width");
 static_assert((SS_BOARD_CAPS_BASE & SS_BOARD_CAPS_RADIO) == 0, "cap groups must be disjoint");
 
 // The board identity macro is a compile-time string constant.

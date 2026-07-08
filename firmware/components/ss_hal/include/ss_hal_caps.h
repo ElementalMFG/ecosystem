@@ -11,6 +11,10 @@
 #pragma once
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define SS_CAP_DISPLAY           (1ULL << 0)
 #define SS_CAP_TOUCH             (1ULL << 1)
 #define SS_CAP_BACKLIGHT_PWM     (1ULL << 2)
@@ -52,3 +56,7 @@
 #define SS_CAP_HEADLESS          (1ULL << 38) // no display, gateway build
 
 // Reserved bits 39..63 for future.
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

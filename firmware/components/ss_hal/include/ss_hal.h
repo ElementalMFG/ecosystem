@@ -38,12 +38,17 @@
 #include "ss_hal_gnss.h"         // GNSS receiver (Alpha+)
 #include "ss_hal_imu.h"          // IMU/mag (Alpha+)
 #include "ss_hal_muxctl.h"       // Lite mic-vs-radio mux; portable no-op elsewhere
+
 #include "ss_hal_secure_elem.h"  // ATECC608 / on-chip HW crypto (variant-selected)
 #include "ss_hal_rng.h"          // hardware RNG
 #include "ss_hal_time.h"         // RTC + monotonic
 #include "ss_hal_usb.h"          // USB-CDC, USB-serial-JTAG on dev units
 #include "ss_hal_watchdog.h"     // watchdog
 #include "ss_hal_ota.h"          // partition + rollback plumbing
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 // ============================================================================
 // Lifecycle
@@ -68,6 +73,16 @@ const char* ss_hal_board_id(void);
 
 /**
  * Runtime capability query. See ss_hal_caps.h for SS_CAP_* flags.
+ *
+ * cap_flag is uint64_t: SS_CAP_* flags reach bit 38 (a uint32_t parameter
+ * truncated high flags and mis-evaluated them — fixed under S-03-032).
+ * Returns true iff EVERY bit in cap_flag is present in the board's mask;
+ * has_cap(0) is vacuously true (the empty requirement).
+ * Pre: none. Never fails.
  */
-bool ss_hal_has_cap(uint32_t cap_flag);
+bool ss_hal_has_cap(uint64_t cap_flag);
 uint64_t ss_hal_caps_mask(void);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

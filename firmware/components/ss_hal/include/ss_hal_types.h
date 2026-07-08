@@ -8,6 +8,10 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // ----- Pixel formats -----------------------------------------------------
 typedef enum {
     SS_PIXFMT_MONO1,          // 1 bpp
@@ -97,3 +101,7 @@ typedef struct {
     int16_t         delta;     // rotary delta or swipe strength
     void*           extra;
 } ss_input_event_t;
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

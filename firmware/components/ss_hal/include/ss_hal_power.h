@@ -4,6 +4,10 @@
 #include "ss_hal_types.h"
 #include "esp_err.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef enum {
     SS_PWR_STATE_ON,
     SS_PWR_STATE_LIGHT_SLEEP,
@@ -39,3 +43,7 @@ esp_err_t ss_power_enter(ss_power_state_t s);
 esp_err_t ss_power_wake_source_add(int gpio, int level);
 esp_err_t ss_power_reboot(void);
 esp_err_t ss_power_shutdown(void);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

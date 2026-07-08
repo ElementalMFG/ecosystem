@@ -20,6 +20,10 @@
 #include "esp_err.h"
 #include "freertos/FreeRTOS.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * Acquire the mux for a given owner in the requested mode. Blocks up to
  * `timeout` ticks. Returns ESP_OK when the mux is switched and owned by
@@ -59,3 +63,7 @@ void ss_mux_force_release(void);
  * Default mode on Lite is SS_MUX_MODE_RADIO.
  */
 esp_err_t ss_mux_init(void);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

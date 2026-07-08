@@ -4,6 +4,10 @@
 #include "ss_hal_types.h"
 #include "esp_err.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     uint32_t sample_rate_hz;
     uint8_t  channels;          // 1=mono, 2=stereo
@@ -24,3 +28,7 @@ esp_err_t ss_spk_volume(uint8_t percent_0_100);
 
 // Simple buzzer beep (Lite has GPIO 8 buzzer)
 esp_err_t ss_buzzer_beep(uint16_t freq_hz, uint16_t duration_ms);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

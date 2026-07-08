@@ -171,3 +171,10 @@ As a firmware engineer I want the frozen power contract extended with a timer-wa
 As a firmware engineer I want GPIO0's three consumers arbitrated explicitly so that the BOOT input line and LoRa SPI chip-select never fight at runtime.
 - AC: an ownership policy for GPIO0 is designed and documented (sequence today: S-02-016 recovery watcher during the entry window → ss_input BOOT button → SX1262 CS when LoRa is active) resolving the runtime conflict by explicit ruling (mux strategy, LoRa-active-drops-BOOT-input, or strap-only BOOT role); ss_input and the S-03-011 LoRa driver both honor the ruling with a host-tested arbitration decision core; C-01 pin-sharing table updated in lockstep; 3-board CI green
 - Meta: Shard=— | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01
+
+### S-03-032 — ss_hal ABI baseline: extern-C guards + 64-bit caps accessors
+As a firmware engineer I want the HAL headers C/C++-ABI-safe and the capability accessors implemented so that HAL contracts link correctly from every consumer.
+- AC: all ss_hal public headers carry extern "C" guards; `ss_hal_has_cap` takes `uint64_t` (caps reach bit 38 — the uint32_t signature truncated and mis-evaluated high caps); `ss_hal.c` implements `ss_hal_has_cap`/`ss_hal_caps_mask`/`ss_hal_board_id` from board_config; both T1 review passes approve; 3-board CI green (fixes the f68e7d2 link failure)
+- Meta: Shard=— | Type=Feature | Size=S | Prio=P0 | Status=IN_REVIEW | SKU=★ | PRD=— | Const=C-00,C-01
+- Tasks: spec defect pair from the link failure · design guards pattern + widened signature + header-driven impl · impl 24 headers + ss_hal.c + CMakeLists · test host suite green, 3-board CI green · docs rules/log
+- Deps: —

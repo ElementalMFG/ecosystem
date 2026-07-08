@@ -4,6 +4,10 @@
 #include "ss_hal_types.h"
 #include "esp_err.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     uint32_t freq_hz;             // e.g. 915000000
     int8_t   tx_power_dbm;
@@ -32,3 +36,7 @@ typedef struct {
     int16_t  rssi_last_dbm; int8_t snr_last_db;
 } ss_lora_stats_t;
 esp_err_t ss_lora_stats(ss_lora_stats_t* out);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
