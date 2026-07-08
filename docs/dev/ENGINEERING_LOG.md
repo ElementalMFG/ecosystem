@@ -90,3 +90,10 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   added S-05-020 (Omega v1.x spec-lock, promised by SL-5) and recorded the
   SL-6 re-train on S-20-007/008/009/010 (Prio P3 + D-0019 Deps note —
   deferred, not descoped).
+- S-02-019 (2026-07-07): SBOM tooling landed — `tools/gen-sbom.py` emits
+  deterministic CycloneDX 1.6 per board; first-party components enumerated at
+  runtime (dirs `firmware/components/ss_*` WITH a `CMakeLists.txt`, 2 today),
+  never hardcoded. IDF v5.3.5 `project_description.json` exposes the IDF
+  version under key `git_revision` (no `idf_version` key); toolchain parsed
+  from the `c_compiler` path. Keyless attest/publish is tag-only in
+  `release-sbom.yml` → story parks IN_REVIEW until a `v*` tag exercises it.

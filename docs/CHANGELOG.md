@@ -9,6 +9,15 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Per-artifact SBOM + keyless CI attestation (S-02-019): `tools/gen-sbom.py`
+  emits a deterministic CycloneDX 1.6 JSON SBOM per firmware board from the
+  build output and repo tree (first-party components enumerated at runtime, not
+  hardcoded). `firmware-build.yml` generates, determinism-checks, and uploads
+  the SBOM on every push; a new tag-triggered `release-sbom.yml` keylessly
+  attests (Sigstore via GitHub OIDC — no private keys) and publishes each
+  board's SBOM + firmware alongside the release. Supports CRA disclosure
+  (NF-SEC-05 / NF-REG-03) and C-OA open assurance. Signing/publishing are
+  exercised only on a real `v*` tag (story IN_REVIEW until then).
 - v1.0 scope lock ratified (RFC-0004 / D-0019 / S-01-018): device identity
   fixed as "sovereign multi-band mesh communicator + universal node" (a
   multi-band Wi-Fi 2.4/5 GHz / HaLow / BLE smartphone-class device in a

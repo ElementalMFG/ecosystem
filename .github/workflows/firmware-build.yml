@@ -25,6 +25,11 @@ on:
 permissions:
   contents: read
 
+# ESP-IDF version — single source for the SBOM steps below. MUST match the
+# pinned container tag (espressif/idf:v5.3.5, digest on the `firmware` job).
+env:
+  IDF_VERSION: v5.3.5
+
 jobs:
   changes:
     runs-on: ubuntu-latest
@@ -77,6 +82,45 @@ jobs:
         run: |
           . "$IDF_PATH/export.sh"
           idf.py -B "build/${{ matrix.board }}" size
+
+      # B1 (contract §9.1): emit the CycloneDX SBOM in the same container.
+      # SOURCE_DATE_EPOCH is already exported above; IDF_VERSION is the
+      # workflow-level env. gen-sbom.py is stdlib-only (no pip / no network).
+      - name: Generate SBOM (${{ matrix.board }})
+        id: sbom
+        run: |
+          path="$(python3 tools/gen-sbom.py \
+              --board "${{ matrix.board }}" \
+              --build-dir "firmware/build/${{ matrix.board }}" \
+              --version-source auto | sed 's/^wrote //')"
+          echo "path=$path" >> "$GITHUB_OUTPUT"
+
+      # B2 (contract §9.1): determinism gate (re-run + cmp) then V1–V7.
+      - name: Validate SBOM (${{ matrix.board }})
+        run: |
+          python3 tools/gen-sbom.py \
+            --board "${{ matrix.board }}" \
+            --build-dir "firmware/build/${{ matrix.board }}" \
+            --version-source auto --output /tmp/sbom-recheck.cdx.json
+          cmp "${{ steps.sbom.outputs.path }}" /tmp/sbom-recheck.cdx.json
+          python3 - "${{ steps.sbom.outputs.path }}" <<'PY'
+          import importlib.util, json, sys
+          spec = importlib.util.spec_from_file_location("g", "tools/gen-sbom.py")
+          g = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(g)
+          errs = g.validate_sbom(json.load(open(sys.argv[1])))
+          if errs:
+              print("\n".join(errs), file=sys.stderr)
+              sys.exit(1)
+          print("SBOM valid")
+          PY
+
+      # B3 (contract §9.1): publish the SBOM as a CI artifact.
+      - name: Upload SBOM artifact (${{ matrix.board }})
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-${{ matrix.board }}
+          path: ${{ steps.sbom.outputs.path }}
 
   # Required-context reporter. Always runs, so `build (lite)` reports on
   # every PR. NOTE: `needs.firmware.result` is the aggregate over the

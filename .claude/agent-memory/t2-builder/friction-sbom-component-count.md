@@ -16,14 +16,13 @@ builds today). Enumeration rule "ss_* dir WITH CMakeLists.txt" yields 2, not 18.
 **Why:** contract was drafted against a planned/future tree; the "18" is a stale
 factual premise, not an implementable spec. `count >= 18` cannot pass now.
 
-**How to apply:** the generator's enumeration logic (dirs with CMakeLists) is
-correct as written — it will grow with the tree. The blocker is only the
-hardcoded test threshold + the "18" prose. Resolution needs the designer:
-either drop the threshold to reality (>= 2) or, better, make the test compute
-the expected component set dynamically from the tree (matches the contract's own
-"NOT a hardcoded list... must track the tree" intent). Don't improvise the
-threshold — it's a mandatory test-case value = contract-level decision.
+**RESOLVED 2026-07-07:** designer amended the contract (§3.4 dynamic
+enumeration, §10.3 tree-equality assertion, no hardcoded count). Implemented in
+`tools/gen-sbom.py` + `tools/tests/test_gen_sbom.py`; the completeness test
+computes the expected set from the tree at runtime, so it needs no edit as
+`ss_*` dirs gain CMakeLists.
 
-Also confirmed while investigating: firmware-build.yml DOES already export
-SOURCE_DATE_EPOCH (step "Deterministic build metadata", from `git log -1
---format=%ct`), so the contract §7 claim holds — no need to add it.
+**How to apply:** enumeration = dirs matching `firmware/components/ss_*` WITH a
+`CMakeLists.txt`. Never hardcode the count. Also confirmed: firmware-build.yml
+already exports SOURCE_DATE_EPOCH (step "Deterministic build metadata", `git
+log -1 --format=%ct`) — consume it, don't re-add.

@@ -128,7 +128,9 @@ As a firmware engineer I want an RTC and wall-clock source with GNSS/NTP fallbac
 ### S-02-019 — Build attestation SBOM emitted per firmware artifact
 As a release manager I want an SBOM attestation emitted per firmware artifact so that releases meet CRA disclosure duties.
 - AC: CycloneDX JSON emitted per artifact; SBOM signed by CI; SBOM published alongside the release
-- Meta: Shard=A | Type=Ops | Size=M | Prio=P0 | Status=DRAFT | SKU=★ | PRD=NF-SEC-05,NF-REG-03 | Const=C-00,C-OA
+- Meta: Shard=A | Type=Ops | Size=M | Prio=P0 | Status=IN_REVIEW | SKU=★ | PRD=NF-SEC-05,NF-REG-03 | Const=C-00,C-OA
+- Tasks: spec (frozen contract `docs/dev/contracts/S-02-019-sbom-contract.md`) · design (CycloneDX 1.6 shape + deterministic serial/purl + keyless-attest boundary) · impl (`tools/gen-sbom.py`; SBOM steps in `firmware-build.yml`; new tag-triggered `release-sbom.yml`) · test (`tools/tests/test_gen_sbom.py` under host-tests; determinism `cmp` + V1–V7 validator) · docs (CHANGELOG).
+- Deps: S-02-001
 
 ### S-02-020 — Firmware version resource (git SHA + tag + build id)
 As a support engineer I want a firmware version resource so that any device can report exactly what it runs.

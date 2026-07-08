@@ -1,0 +1,158 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2026 SS-SP Project Contributors
+#
+# Release SBOM + keyless attestation (S-02-019, contract §9.2). On a `v*`
+# tag: rebuild every board in the pinned container, generate the CycloneDX
+# SBOM from the tag (env version source), then on the runner keylessly attest
+# (GitHub OIDC -> Sigstore) SLSA build provenance + the SBOM and publish both
+# the firmware image and its SBOM alongside the release.
+#
+# Keyless by construction (contract §1.1): NO private keys, HSM/KMS, eFuse,
+# secure-boot or OTA signing here. The attest-* actions use the runner's OIDC
+# identity only — that is why R3/R5 run on the ubuntu runner, not inside the
+# IDF container (the container lacks the runner's OIDC environment).
+
+name: release-sbom
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+# Top-level: least privilege. The build job needs only read; the attest job
+# widens to the three tokens it needs (job-scoped, contract §9.2).
+permissions:
+  contents: read
+
+env:
+  # MUST match the pinned container tag (espressif/idf:v5.3.5).
+  IDF_VERSION: v5.3.5
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        board: [lite, alpha, omega]
+    container:
+      # Same digest as ci/containers/firmware/Dockerfile (espressif/idf:v5.3.5).
+      image: espressif/idf@sha256:114a9f8cde8bdc5a7e95809745b492663f7c5afe9c2821a4127ff133754fafd2
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Deterministic build metadata
+        run: echo "SOURCE_DATE_EPOCH=$(git log -1 --format=%ct || date +%s)" >> "$GITHUB_ENV"
+
+      - name: Build (${{ matrix.board }})
+        working-directory: firmware
+        run: |
+          . "$IDF_PATH/export.sh"
+          idf.py -B "build/${{ matrix.board }}" -DSS_BOARD="${{ matrix.board }}" build
+
+      # R1 (contract §9.2): release SBOMs use env version source (never auto).
+      - name: Generate release SBOM (${{ matrix.board }})
+        id: sbom
+        env:
+          SS_FW_VERSION: ${{ github.ref_name }}
+          SS_FW_GIT_SHA: ${{ github.sha }}
+        run: |
+          path="$(python3 tools/gen-sbom.py \
+              --board "${{ matrix.board }}" \
+              --build-dir "firmware/build/${{ matrix.board }}" \
+              --version-source env | sed 's/^wrote //')"
+          echo "path=$path" >> "$GITHUB_OUTPUT"
+
+      # R2 (contract §9.2): determinism cmp + V1–V7 validator.
+      - name: Validate SBOM (${{ matrix.board }})
+        env:
+          SS_FW_VERSION: ${{ github.ref_name }}
+          SS_FW_GIT_SHA: ${{ github.sha }}
+        run: |
+          python3 tools/gen-sbom.py \
+            --board "${{ matrix.board }}" \
+            --build-dir "firmware/build/${{ matrix.board }}" \
+            --version-source env --output /tmp/sbom-recheck.cdx.json
+          cmp "${{ steps.sbom.outputs.path }}" /tmp/sbom-recheck.cdx.json
+          python3 - "${{ steps.sbom.outputs.path }}" <<'PY'
+          import importlib.util, json, sys
+          spec = importlib.util.spec_from_file_location("g", "tools/gen-sbom.py")
+          g = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(g)
+          errs = g.validate_sbom(json.load(open(sys.argv[1])))
+          if errs:
+              print("\n".join(errs), file=sys.stderr)
+              sys.exit(1)
+          print("SBOM valid")
+          PY
+
+      # R4 (contract §9.2 / §6.4): placeholders must never ship in a release.
+      - name: Reject unresolved versions (${{ matrix.board }})
+        run: |
+          if grep -q 'ss:version-unresolved' "${{ steps.sbom.outputs.path }}"; then
+            echo "SBOM contains ss:version-unresolved — refusing to release" >&2
+            exit 1
+          fi
+
+      # Stage release-named copies (the "published alongside" filenames).
+      - name: Stage release assets (${{ matrix.board }})
+        run: |
+          mkdir -p dist
+          cp "${{ steps.sbom.outputs.path }}" dist/
+          cp "firmware/build/${{ matrix.board }}/ss_sp_firmware.bin" \
+             "dist/ss_sp_firmware-${{ matrix.board }}-${{ github.ref_name }}.bin"
+
+      - name: Upload staged assets (${{ matrix.board }})
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.board }}
+          path: dist/
+
+  attest-publish:
+    needs: build
+    runs-on: ubuntu-latest
+    # Job-scoped minimal permissions (contract §9.2): OIDC for keyless
+    # signing, attestation store write, release asset upload.
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    strategy:
+      fail-fast: false
+      matrix:
+        board: [lite, alpha, omega]
+    steps:
+      - name: Download staged assets (${{ matrix.board }})
+        uses: actions/download-artifact@v4
+        with:
+          name: release-${{ matrix.board }}
+          path: dist
+
+      - name: Resolve asset paths (${{ matrix.board }})
+        id: assets
+        run: |
+          echo "bin=$(ls dist/*.bin)" >> "$GITHUB_OUTPUT"
+          echo "sbom=$(ls dist/*.cdx.json)" >> "$GITHUB_OUTPUT"
+
+      # R3 (contract §9.2): keyless SLSA provenance for the firmware image.
+      - name: Attest build provenance (${{ matrix.board }})
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
+        with:
+          subject-path: ${{ steps.assets.outputs.bin }}
+
+      # R3 (contract §9.2): keyless SBOM attestation — "SBOM signed by CI".
+      - name: Attest SBOM (${{ matrix.board }})
+        uses: actions/attest-sbom@bd218ad0dbcb3e146bd073d1d9c6d78e08aa8a0b # v2.4.0
+        with:
+          subject-path: ${{ steps.assets.outputs.bin }}
+          sbom-path: ${{ steps.assets.outputs.sbom }}
+
+      # R5 (contract §9.2): publish image + SBOM alongside the release.
+      - name: Publish release assets (${{ matrix.board }})
+        uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b # v3.0.1
+        with:
+          files: |
+            ${{ steps.assets.outputs.bin }}
+            ${{ steps.assets.outputs.sbom }}
