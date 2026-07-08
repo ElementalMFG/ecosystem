@@ -272,3 +272,15 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   releases on every failure path). Speaker/buzzer symbols in the same contract
   are deliberately unimplemented (S-03-010). On-hardware SNR + capture-start
   latency + jitter pending a bench board -> parks at IN_REVIEW (like S-03-004/006).
+- S-03-010 (2026-07-08): ss_spk (speaker half of ss_hal_audio.h) added to the
+  ss_audio component, same core/glue split. Class-D amp (MAX98357A-class) SD =
+  active-high enable on SS_SPK_PIN_MUTE (GPIO21). Pop-free is a pure decision:
+  ss_spk_core open_seq = {I2S_ENABLE, SETTLE(5ms), AMP_ENABLE}, close_seq =
+  {AMP_DISABLE, SETTLE, I2S_DISABLE} (clocks before amp / amp before clocks).
+  No gain register -> volume is a software Q15 multiply in ss_spk_write. The
+  speaker takes NO mux (dedicated I2S pins) — that absence IS the sidetone
+  guarantee (concurrent with a mic that holds the mux). Parks at IN_REVIEW.
+- audit (2026-07-08): the ss_audio host Makefile harness (ss_audio_core +
+  ss_spk_core) is run by NO CI workflow — host-tests.yml paths cover only
+  ss_log + firmware/test/host. Follow-up story proposed to wire both audio
+  cores into the CI host-test path.

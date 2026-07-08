@@ -9,6 +9,21 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- I²S speaker output + class-D amp enable (S-03-010): the `ss_audio` component
+  now implements the speaker half of the frozen `ss_hal_audio.h` contract for
+  Lite (`ss_spk_open/write/close/mute/volume`). Playback is 16 kHz mono 16-bit
+  through the IDF v5.3.5 I2S std driver on the dedicated `SS_SPK_*` pins — the
+  speaker takes **no mux**, so it runs concurrently with mic capture and keeps
+  the sidetone path open. The MAX98357A-class amp has an active-high SD/enable
+  on `SS_SPK_PIN_MUTE` and no gain register, so volume is a software Q15 gain
+  applied per sample in `ss_spk_write`. Amp on/off is **pop-free by
+  construction**: a pure, host-tested `ss_spk_core` produces the open sequence
+  (I2S clocks up → 5 ms settle → amp enable) and the close sequence (amp mute →
+  settle → clocks down); format validation and TX DMA sizing live in the same
+  core (host harness `test_ss_spk_core`). Gated on `SS_CAP_SPEAKER`; returns
+  `ESP_ERR_NOT_SUPPORTED` on boards without a speaker. On-hardware playback,
+  pop-free confirmation, and concurrent sidetone remain pending an attached
+  Lite board (story IN_REVIEW until then).
 - I²S microphone capture — 16 kHz mono (S-03-009): new `ss_audio` component
   implements the microphone half of the frozen `ss_hal_audio.h` contract for
   Lite (`ss_mic_open/read/close`). The INMP441-class I2S mic is driven through
