@@ -7,6 +7,9 @@
 
 #include "ss_hal_power.h"
 #include "ss_power_core.h"
+#include "ss_power_lite.h"
+
+#include "board_config.h" // canonical Lite pin map (via ss_hal include path)
 
 #include <string.h>
 
@@ -65,7 +68,12 @@ static void register_wake_sources_deep(void)
     for (uint8_t i = 0; i < s_wake.count; i++) {
         const int gpio = s_wake.items[i].gpio;
         const int level = s_wake.items[i].level;
-        if (!rtc_gpio_is_valid_gpio((gpio_num_t)gpio)) {
+        // Pure predicate is the decision: ss_power_core_wake_is_deep_capable()
+        // encodes the S3 RTC-capable range (0..21) and is host-tested.
+        // rtc_gpio_is_valid_gpio() stays as a defense-in-depth secondary check
+        // in case a target's RTC IO map ever diverges from the 0..21 range.
+        if (!ss_power_core_wake_is_deep_capable(gpio) ||
+            !rtc_gpio_is_valid_gpio((gpio_num_t)gpio)) {
             ESP_LOGW(TAG, "deep wake gpio %d skipped: not RTC-capable on ESP32-S3 (0..21)", gpio);
             continue;
         }
@@ -196,6 +204,28 @@ esp_err_t ss_power_wake_timer_clear(void)
         }
     }
     ss_power_core_timer_clear(&s_timer);
+    return ESP_OK;
+}
+
+esp_err_t ss_power_wake_lite_defaults(void)
+{
+    // Touch INT (GPIO47): GT911 INT idles HIGH, asserts LOW on touch -> wake on
+    // level 0. Not RTC-capable on S3, so light-sleep-only (filtered from the
+    // deep-wake ext0/ext1 set by ss_power_core_wake_is_deep_capable). C-01 §4.3.
+    esp_err_t err = ss_power_wake_source_add(SS_TOUCH_PIN_INT, 0);
+    if (err != ESP_OK) {
+        ESP_LOGW(TAG, "lite touch INT (gpio %d) wake add failed: 0x%x", SS_TOUCH_PIN_INT, err);
+        return err;
+    }
+    // LoRa DIO1 (GPIO1): SX1262 DIO1 IRQ asserts HIGH -> wake on level 1.
+    // RTC-capable, so this serves both light and deep sleep.
+    err = ss_power_wake_source_add(SS_LORA_PIN_DIO1, 1);
+    if (err != ESP_OK) {
+        ESP_LOGW(TAG, "lite LoRa DIO1 (gpio %d) wake add failed: 0x%x", SS_LORA_PIN_DIO1, err);
+        return err;
+    }
+    // NF-PWR-01 periodic RTC-timer wake is armed separately by the duty-cycle
+    // owner via ss_power_wake_timer_set(); deliberately not armed here.
     return ESP_OK;
 }
 

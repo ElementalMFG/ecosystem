@@ -21,7 +21,8 @@ As a device owner I want USB-C source detection and a charge state machine so th
 ### S-03-003 — Sleep entry/exit with the canonical Lite wake set (touch, LoRa IRQ, RTC timer)
 As a firmware engineer I want sleep entry/exit wired to Lite's real wake sources so that the Lite meets its standby battery target.
 - AC: the canonical wake trio is wired through `ss_power` — touch INT (GPIO47, light-sleep wake only per S3 RTC-capability rules), LoRa DIO1 (GPIO1, light+deep), and RTC timer wake via the S-03-030 contract surface; wake-table decisions host-tested; the bench-measurement procedure (sleep current ≤ 0.5 mA target, wake-to-responsive latency) is written and executed at the first hardware session
-- Meta: Shard=A | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+- Meta: Shard=A | Type=Feature | Size=L | Prio=P0 | Status=IN_REVIEW | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+- Tasks: spec canonical Lite wake set (touch INT 47 light-only, LoRa DIO1 1 light+deep, RTC timer via S-03-030) reconciled to C-01 §4.3 / NF-PWR-01 · design host-testable light-vs-deep partition (pure S3 RTC-capability predicate) + canonical wiring API · impl `ss_power_wake_lite_defaults()` from board_config macros + core RTC-capability predicate feeding the deep-wake filter · test host coverage for the wake-table light/deep partition decisions · docs bench-measurement procedure (sleep ≤ 0.5 mA, wake-to-responsive latency) for the D-0013 session
 - Deps: S-03-001, S-03-030; bench measurements need the D-0013 hardware session — story parks at IN_REVIEW until then (retargeted 2026-07-08: "button" wake was drift — board_config declares touch INT + LoRa DIO1; C-01 §4.3 reconciliation lands with S-03-030)
 
 ### S-03-004 — Input events — GT911 touch gestures + BOOT button

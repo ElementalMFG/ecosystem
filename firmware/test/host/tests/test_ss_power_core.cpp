@@ -101,6 +101,44 @@ TEST(PowerWakeAdd, RejectsOverflowAtNinth)
     EXPECT_EQ(t.count, static_cast<unsigned>(SS_PWR_MAX_WAKE_SOURCES));
 }
 
+// ---- wake_is_deep_capable() (S-03-003) -------------------------------------
+
+TEST(PowerDeepCapable, RtcRangeBoundaries)
+{
+    // S3 RTC-capable GPIO range is 0..21 inclusive.
+    EXPECT_TRUE(ss_power_core_wake_is_deep_capable(0));   // low boundary
+    EXPECT_TRUE(ss_power_core_wake_is_deep_capable(21));  // high boundary
+    EXPECT_FALSE(ss_power_core_wake_is_deep_capable(22)); // just above
+    EXPECT_FALSE(ss_power_core_wake_is_deep_capable(-1)); // negative
+}
+
+TEST(PowerDeepCapable, CanonicalLitePartition)
+{
+    // Touch INT (GPIO47) is not RTC-capable -> light-sleep-wake only.
+    EXPECT_FALSE(ss_power_core_wake_is_deep_capable(47));
+    // LoRa DIO1 (GPIO1) is RTC-capable -> light + deep wake.
+    EXPECT_TRUE(ss_power_core_wake_is_deep_capable(1));
+}
+
+TEST(PowerDeepCapable, CanonicalWakeTableLightVsDeep)
+{
+    // Build the canonical Lite pair: touch INT (47, low) + LoRa DIO1 (1, high).
+    ss_power_wake_table_t t{};
+    ASSERT_TRUE(ss_power_core_wake_add(&t, 47, 0));
+    ASSERT_TRUE(ss_power_core_wake_add(&t, 1, 1));
+    ASSERT_EQ(t.count, 2u);
+
+    // Light set = every registered source (both).
+    unsigned light = 0;
+    unsigned deep = 0;
+    for (uint8_t i = 0; i < t.count; i++) {
+        light++;
+        if (ss_power_core_wake_is_deep_capable(t.items[i].gpio)) { deep++; }
+    }
+    EXPECT_EQ(light, 2u); // both wake from light sleep
+    EXPECT_EQ(deep, 1u);  // only LoRa DIO1 wakes from deep sleep
+}
+
 // ---- timer_set() / timer_clear() (S-03-030) --------------------------------
 
 TEST(PowerTimer, SetArmsWithDuration)

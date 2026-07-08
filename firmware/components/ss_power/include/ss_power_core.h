@@ -47,6 +47,17 @@ typedef struct {
 //       otherwise the sleep action matching `target`.
 ss_power_action_t ss_power_core_decide(ss_power_state_t current, ss_power_state_t target);
 
+// Report whether `gpio` can serve as a deep-sleep / hibernate wake source.
+// Target dependency: on the ESP32-S3 (the only Lite target) the deep-sleep
+// wake domain (ext0/ext1) is driven from the RTC IO mux, which reaches only
+// GPIO 0..21; higher pins have no RTC-domain path and cannot wake from deep
+// sleep. This is the pure decision behind the light-vs-deep wake partition:
+// e.g. the Lite touch INT on GPIO47 is light-sleep-only, while LoRa DIO1 on
+// GPIO1 is deep-capable.
+// Pre:  none (arguments are validated).
+// Post: returns true iff 0 <= gpio <= 21; false otherwise (including negative).
+bool ss_power_core_wake_is_deep_capable(int gpio);
+
 // Append a wake source (gpio, level) to `t`.
 // Pre:  none (arguments are validated).
 // Post: returns false and leaves `t` unchanged when `t` is NULL, `level` is not

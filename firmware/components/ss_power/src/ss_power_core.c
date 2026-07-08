@@ -33,6 +33,14 @@ ss_power_action_t ss_power_core_decide(ss_power_state_t current, ss_power_state_
     }
 }
 
+bool ss_power_core_wake_is_deep_capable(int gpio)
+{
+    // ESP32-S3 RTC-capable GPIO range (see esp_deep_sleep wake domain): only
+    // pins on the RTC IO mux, GPIO 0..21, can wake from deep sleep via
+    // ext0/ext1. Pins outside this range are light-sleep-wake only.
+    return gpio >= 0 && gpio <= 21;
+}
+
 bool ss_power_core_wake_add(ss_power_wake_table_t* t, int gpio, int level)
 {
     if (t == NULL) { return false; }
