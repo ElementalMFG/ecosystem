@@ -230,7 +230,7 @@ As a firmware engineer I want the declared USB CDC surface implemented so that t
 ### S-03-039 — Watchdog HAL surface reconciliation (`ss_wdt_*` vs `ss_task_wdt_*`)
 As a firmware engineer I want the two watchdog surfaces reconciled so that exactly one contract exists.
 - AC: decision recorded (adopt the shipped `ss_task_wdt_*` semantics into the frozen header, or implement `ss_wdt_*` as the canonical wrapper) via the T1 pipeline since ss_hal_watchdog.h changes are a T1 path; the losing surface is deprecated with a migration note, never silently dropped; ss_tasks call sites updated if the contract wins; 3-board CI green
-- Meta: Shard=F | Type=Feature | Size=S | Prio=P1 | Status=IN_REVIEW | SKU=★ | PRD=— | Const=C-00
+- Meta: Shard=F | Type=Feature | Size=S | Prio=P1 | Status=DONE | SKU=★ | PRD=— | Const=C-00
 - Tasks: spec decision record — shipped `ss_task_wdt_*` semantics win; no runtime init by design (TWDT deadline/panic are sdkconfig policy constants) · design contract-of-record header layout: canonical decls + `ss_wdt_*` tombstones (`deprecated`+GCC `error` attrs — hard compile error on any call; IDF defaults soften deprecated-only to a warning) with per-symbol migration notes · impl adopt semantics into `ss_hal_watchdog.h`, move wrappers unchanged to `ss_wdt.c` (contract-audit sees `*.c` only), `ss_tasks.h` re-points at the contract, ownership wildcard → 4 tombstone entries · test behavior unchanged (on-target crash tests stay `test_ss_wdt.c`); gates contract-audit/task-policy/board-parity + 3-board CI · docs DEPRECATIONS.md row + CHANGELOG (Changed/Deprecated) + ENGINEERING_LOG decision entry
 - Deps: S-02-006 (ss_tasks home), S-02-009 (shipped semantics adopted), S-02-025 (contract-audit gate)
 
