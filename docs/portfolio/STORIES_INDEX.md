@@ -15,7 +15,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-01 — Governance & Constitution (17 stories)
+## Epic-01 — Governance & Constitution (18 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -36,6 +36,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-01-015 | A | Ops | M | P1 | DONE | ★ | — | C-OA,C-04 |
 | S-01-016 | A | Task | XS | P2 | DRAFT | ★ | — | C-06 |
 | S-01-017 | — | RFC | S | P1 | DONE | ★ | — | C-02 |
+| S-01-018 | A | RFC | M | P0 | IN_PROGRESS | ★ | — | C-00,C-06 |
 
 ---
 
@@ -61,7 +62,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-02-016 | D | Feature | L | P0 | IN_REVIEW | ★ | NF-REL-03 | C-00,C-05 |
 | S-02-017 | B | Feature | S | P0 | DONE | ★ | — | C-00 |
 | S-02-018 | D | Feature | M | P1 | DRAFT | ★ | — | C-00 |
-| S-02-019 | A | Ops | M | P0 | DRAFT | ★ | NF-SEC-05,NF-REG-03 | C-00,C-OA |
+| S-02-019 | A | Ops | M | P0 | IN_PROGRESS | ★ | NF-SEC-05,NF-REG-03 | C-00,C-OA |
 | S-02-020 | A | Feature | XS | P0 | DRAFT | ★ | — | C-00 |
 | S-02-021 | — | Feature | M | P1 | DRAFT | ★ | NF-PERF-03 | C-00 |
 | S-02-022 | E | Feature | M | P2 | DRAFT | ★ | — | C-00 |
@@ -717,12 +718,12 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Totals — 534 stories across 24 epics
+## Totals — 535 stories across 24 epics
 
 | Status | Count |
 |---|---|
-| DRAFT | 504 |
-| IN_PROGRESS | 1 |
+| DRAFT | 503 |
+| IN_PROGRESS | 3 |
 | IN_REVIEW | 7 |
 | DONE | 21 |
 | BLOCKED | 1 |
@@ -735,13 +736,13 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 
 | Clause key | Stories | P0 coverage |
 |---|---|---|
-| C-00 | 221 | yes |
+| C-00 | 222 | yes |
 | C-01 | 18 | yes |
 | C-02 | 81 | yes |
 | C-03 | 46 | yes |
 | C-04 | 53 | yes |
 | C-05 | 154 | yes |
-| C-06 | 52 | yes |
+| C-06 | 53 | yes |
 | C-07 | 61 | yes |
 | C-08 | 108 | yes |
 | C-OA | 36 | yes |

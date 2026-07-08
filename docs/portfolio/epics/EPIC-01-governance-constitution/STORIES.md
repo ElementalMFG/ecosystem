@@ -119,3 +119,10 @@ As a protocol steward I want a single ratified compatibility-and-deprecation pol
 - Meta: Shard=— | Type=RFC | Size=S | Prio=P1 | Status=DONE | SKU=★ | PRD=— | Const=C-02
 - Tasks: spec per-surface version windows from 06 §4.4/§6.3 constraints · design RFC-0003 + DEPRECATIONS.md channel + PR-body CI cite check · impl rfcs/0003, docs/DEPRECATIONS.md, wire-format-policy workflow, story/SDK citations, 02 §11 link · test lint + index + covenant green, CI check logic reviewed · docs README index + decisions D-0018 + changelog
 - Deps: S-01-014
+
+### S-01-018 — v1.0 scope-lock RFC (device identity, feature truth, compatibility guards)
+As the product owner I want a ratified scope-lock RFC that freezes what SS-SP v1.0 IS — universal multi-band mesh node, not merely a pager — and resolves every scope contradiction, so that no epic drifts and no current engineering forecloses a declared future capability.
+- AC: an RFC resolves, with owner sign-off: device framing (pager vs universal node) across README/PRD §1/§8, the on-device-LLM contradiction (PRD §5 vs `ss_ai`), video-calling/streaming language ("micro-frames" vs plugin), on-device browsing (in/out), Omega v1.0 shipping status, and SDK-language descope options; a compatibility-guards section binds current firmware work (partition headroom, versioned surfaces per RFC-0003, capability-flagged HAL roles) to the declared future set; the doc-drift edits it mandates are enumerated as T4 stories; RFC reaches ACCEPTED with a decision-ledger entry
+- Meta: Shard=A | Type=RFC | Size=M | Prio=P0 | Status=IN_PROGRESS | SKU=★ | PRD=— | Const=C-00,C-06
+- Tasks: spec drift inventory (verified against portfolio; wake-word gap disproven — S-14-013 exists) · design decision sheet with recommendations + owner markers · impl `rfcs/DRAFT-scope-lock.md` · test owner ratification → renumber + ACCEPTED + D-entry per rfcs/README convention · docs mandated T4 edit list inside the RFC + changelog
+- Deps: RFC-0003, S-01-014

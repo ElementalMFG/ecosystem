@@ -73,3 +73,7 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
 - infra (2026-07-07): NEVER `git add -A` — stage explicit paths. A root-level
   personal note file was swept into a public commit; root `*.txt` is now
   gitignored and tip-removed (history retains it; no secrets were present).
+- S-01-018 (2026-07-07): scope-lock RFC drafted (rfcs/DRAFT-scope-lock.md) —
+  capability audit verified drift-not-gaps; wake-word "gap" was false
+  (S-14-013 exists); compatibility guards bind partition headroom, versioned
+  surfaces, HAL caps, and the pin-sharing ledger.
