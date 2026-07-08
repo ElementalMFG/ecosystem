@@ -439,12 +439,28 @@ def cmd_next(stories: list[dict], n: int) -> int:
 
 
 def cmd_eligible(stories: list[dict], sid: str) -> int:
-    """Check whether one story's deps are satisfied (its own status is moot)."""
+    """Check a story is runnable: its own status AND its deps.
+
+    Own-status guard (doc 11 §6e): only DRAFT/READY stories may launch —
+    DONE means already executed (nothing to do), IN_PROGRESS/IN_REVIEW means
+    in flight elsewhere, BLOCKED means explicitly parked. Exit 5.
+    Dep guard: unsatisfied dependencies. Exit 4.
+    """
     by_id = {s["id"]: s for s in stories}
     s = by_id.get(sid)
     if s is None:
         print(f"allocation: story {sid} not found", file=sys.stderr)
         return 2
+    status = s.get("Status", "")
+    if status not in FRONTIER_STATUS:
+        reason = {
+            "DONE": "already executed — nothing to do",
+            "IN_PROGRESS": "in flight (another session/worker owns it)",
+            "IN_REVIEW": "executed and parked pending review evidence",
+            "BLOCKED": "explicitly parked (see its Deps line)",
+        }.get(status, f"status {status} is not runnable")
+        print(f"eligible: no — {sid} is {status}: {reason}", file=sys.stderr)
+        return 5
     blocking, in_review, statuses = dep_report(s, by_id)
     depstr = ", ".join(statuses) if statuses else "none"
     if not blocking:

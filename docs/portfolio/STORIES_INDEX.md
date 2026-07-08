@@ -41,7 +41,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-02 — Firmware Foundation (22 stories)
+## Epic-02 — Firmware Foundation (23 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -67,6 +67,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-02-020 | A | Feature | XS | P0 | DONE | ★ | — | C-00 |
 | S-02-021 | — | Feature | M | P1 | DRAFT | ★ | NF-PERF-03 | C-00 |
 | S-02-022 | E | Feature | M | P2 | DRAFT | ★ | — | C-00 |
+| S-02-023 | A | Task | XS | P2 | DRAFT | ★ | — | C-00 |
 
 ---
 
@@ -720,11 +721,11 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Totals — 537 stories across 24 epics
+## Totals — 538 stories across 24 epics
 
 | Status | Count |
 |---|---|
-| DRAFT | 504 |
+| DRAFT | 505 |
 | IN_PROGRESS | 1 |
 | IN_REVIEW | 8 |
 | DONE | 23 |
@@ -738,7 +739,7 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 
 | Clause key | Stories | P0 coverage |
 |---|---|---|
-| C-00 | 224 | yes |
+| C-00 | 225 | yes |
 | C-01 | 18 | yes |
 | C-02 | 81 | yes |
 | C-03 | 46 | yes |

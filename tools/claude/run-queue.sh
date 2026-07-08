@@ -64,14 +64,20 @@ for STORY in "${STORIES[@]}"; do
   fi
 
   # ORDER-GUARD: refuse to launch a story whose dependencies are unsatisfied.
+  # STATUS-GUARD (exit 5): refuse a story that is not DRAFT/READY — already
+  # executed, in flight, or blocked. Re-execution is structurally impossible.
   ELIG="$(python3 "$ROOT/tools/allocation.py" --eligible "$STORY" 2>&1)" && ERC=0 || ERC=$?
-  if [[ $ERC -eq 4 ]]; then
+  if [[ $ERC -eq 4 || $ERC -eq 5 ]]; then
     echo "############################################################" >&2
-    echo "ORDER-GUARD ABORT [$STORY]: dependencies not satisfied" >&2
+    if [[ $ERC -eq 5 ]]; then
+      echo "STATUS-GUARD ABORT [$STORY]: story is not runnable" >&2
+    else
+      echo "ORDER-GUARD ABORT [$STORY]: dependencies not satisfied" >&2
+    fi
     printf '%s\n' "$ELIG" >&2
     echo "Run 'python3 tools/allocation.py --next' to see the eligible frontier." >&2
     echo "############################################################" >&2
-    exit 4
+    exit $ERC
   fi
 
   if [[ $DANGEROUS -eq 1 ]]; then

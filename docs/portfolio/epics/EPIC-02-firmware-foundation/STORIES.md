@@ -148,3 +148,8 @@ As a firmware engineer I want a fixed-size pool allocator with a frozen contract
 As a firmware engineer I want a crash-loop breaker that also covers failures before `app_main` so that bootloader-stage, init-hook, or global-constructor crash loops cannot reboot-cycle forever below the S-02-008 gate.
 - AC: a counter mechanism owned by the 2nd-stage bootloader (or verified equivalent) detects N consecutive resets that never reach the S-02-008 boot gate and diverts to a recoverable state; interplay with secure-boot and OTA rollback (EPIC-08/09) is specified before implementation; the S-02-008 gate's scope note is updated to reference the delivered mechanism
 - Meta: Shard=E | Type=Feature | Size=M | Prio=P2 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
+
+### S-02-023 — Push-time SBOM provenance inside the container (safe.directory)
+As a release manager I want push-time (non-release) SBOMs to carry real git provenance so that every CI artifact — not just tagged releases — matches its firmware image.
+- AC: `gen-sbom.py --version-source auto` resolves the real SHA/tag inside the pinned root-owned container (`_git()` gains the `-c safe.directory` guard, or the Dockerfile sets `safe.directory` — one mechanism, documented); a host test proves the container-ownership path; push-time SBOM values match the `ss_version` image values on the same commit
+- Meta: Shard=A | Type=Task | Size=XS | Prio=P2 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00

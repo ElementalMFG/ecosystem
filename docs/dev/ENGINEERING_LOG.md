@@ -105,3 +105,7 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   values are byte-identical to `gen-sbom.py` — asserted by
   `tools/tests/test_fw_version_matches_sbom.py`. build_id = `<board>-<sha12>`.
   Future OTA/diag/version-query stories: reuse the three accessors, never re-derive.
+- infra (2026-07-08): STATUS-GUARD (exit 5) — allocation.py --eligible now
+  refuses stories that are not DRAFT/READY (DONE=already executed,
+  IN_PROGRESS/IN_REVIEW=in flight, BLOCKED=parked) and run-queue.sh aborts
+  on it; re-executing a completed story is structurally impossible.
