@@ -388,3 +388,12 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   vectors, not crypto/wire vector design. Vector-set shape via t2-designer,
   build routine. First recorded downward resolutions: the flag system is
   bidirectional — the AC text decides, in both directions.
+- S-03-012 (2026-07-08): PA-table policy landed as pure host-tested core
+  `ss_lora_pa_core` (no HAL/IDF). `ss_lora_region_t` {UNKNOWN=0, US915, EU868,
+  AU915, AS923} is now the SINGLE source of truth for the region enum — the
+  SX1262 driver (S-03-011) MUST consume it, not redefine one. Regulatory max
+  EIRP is pinned (US915/AU915 30 dBm, EU868/AS923 16 dBm) and clamped further
+  to the SX1262 conducted ceiling SS_LORA_PA_HW_MAX_DBM=22; clamp never
+  exceeds min(region, hw) and never drops below SS_LORA_PA_SAFE_MIN_DBM=2.
+  Region latch is one-shot in-RAM only — persistence to sealed NVS is S-03-043.
+  On-hardware RF sweep (spectrum-analyzer) parks with S-03-011 + HIL rack.

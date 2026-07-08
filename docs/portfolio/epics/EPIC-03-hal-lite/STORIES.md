@@ -78,7 +78,9 @@ As a firmware engineer I want the SX1262 SPI driver with init, config, and TX/RX
 ### S-03-012 — LoRa region PA table (US915, EU868, AU915, AS923)
 As a compliance engineer I want the LoRa region PA table so that TX power and channels are legal in every shipped region.
 - AC: US915, EU868, AU915, AS923 tables present; region selected at provisioning locks the table; TX power never exceeds regional limit in a test sweep
-- Meta: Shard=E | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-REG-01,NF-REG-02,NF-REG-05 | Const=C-00,C-08
+- Meta: Shard=E | Type=Feature | Size=M | Prio=P0 | Status=IN_REVIEW | SKU=L | PRD=NF-REG-01,NF-REG-02,NF-REG-05 | Const=C-00,C-08
+- Tasks: spec per-region max-EIRP + frequency-plan bounds for US915/EU868/AU915/AS923 (LoRaWAN RP002 + FCC 47 CFR §15.247 / ETSI EN 300 220 / ARIB STD-T108) + one-shot region-latch semantics · design pure host-testable contract `ss_lora_pa_core.h` (no ESP-IDF/HAL) · impl region-table lookup + never-exceed EIRP clamp + in-band frequency validation + one-shot region latch in `ss_lora_pa_core.c` · test host harness `test_ss_lora_pa_core` (ASan/UBSan) with a TX-power sweep across all regions proving the clamp never exceeds the regional limit · docs contract doc-block + ENGINEERING_LOG + CHANGELOG + host-tests CI wiring
+- Deps: S-03-011 (SX1262 driver — on-target consumer that applies the clamped EIRP to the PA register and runs the physical RF sweep; NOT DONE, so the on-hardware sweep AC parks with it — the host sweep proves the policy now); region persistence deferred to sealed NVS (S-03-043, EPIC-08); external: LoRaWAN Regional Parameters RP002-1.0.4, FCC 47 CFR §15.247, ETSI EN 300 220-2, ARIB STD-T108 (AS923)
 
 ### S-03-013 — LBT (Listen-Before-Talk) + duty-cycle guard
 As a compliance engineer I want listen-before-talk and a duty-cycle guard so that EU 868 duty limits and channel etiquette are enforced in software.

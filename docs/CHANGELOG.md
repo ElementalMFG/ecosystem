@@ -9,6 +9,23 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- LoRa region PA table (S-03-012): the `ss_lora` component gains a pure,
+  host-tested regional power-amplifier policy core (`ss_lora_pa_core`, no
+  ESP-IDF/HAL dependency) covering US915, EU868, AU915, and AS923. Each region
+  carries its pinned regulatory maximum EIRP (US915/AU915 30 dBm; EU868/AS923
+  16 dBm per LoRaWAN RP002 / FCC §15.247 / ETSI EN 300 220 / ARIB STD-T108)
+  and channel-plan band edges. `ss_lora_pa_clamp_dbm()` guarantees a requested
+  TX power is never handed to the radio above the regional EIRP ceiling, above
+  the SX1262 conducted hardware limit (+22 dBm), or below a safe floor
+  (+2 dBm) — proven by a 204-point host sweep across every region. A one-shot
+  region latch (`ss_lora_region_latch()`) fixes the active region once at
+  provisioning and refuses any later change, so the table cannot be swapped at
+  runtime. Fail-safe by construction: the enum's `UNKNOWN == 0` row has an
+  empty band and the safe-floor power, so any uninitialised or out-of-range
+  path defaults to "lowest legal power, no channel in band". The on-target
+  SX1262 driver (S-03-011) will consume the clamped EIRP; the physical
+  spectrum-analyzer RF sweep lands on the Lite HIL rack (EPIC-03 exit
+  criterion). Host suite: 673 checks green under ASan/UBSan.
 - Wi-Fi soft-AP captive provisioning (S-03-015): the `ss_wifi` component gains
   a standalone first-boot provisioning path — a soft-AP captive portal that
   hands home-network credentials to the STA with no companion infrastructure.

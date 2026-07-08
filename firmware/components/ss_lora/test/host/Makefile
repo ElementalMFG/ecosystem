@@ -10,16 +10,25 @@
 CC ?= gcc
 CFLAGS := -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined -I../../include
 
-SRCS := test_ss_lora_lbt_core.c ../../src/ss_lora_lbt_core.c
-BIN := test_ss_lora_lbt_core
+LBT_SRCS := test_ss_lora_lbt_core.c ../../src/ss_lora_lbt_core.c
+LBT_BIN := test_ss_lora_lbt_core
+
+PA_SRCS := test_ss_lora_pa_core.c ../../src/ss_lora_pa_core.c
+PA_BIN := test_ss_lora_pa_core
+
+BINS := $(LBT_BIN) $(PA_BIN)
 
 .PHONY: test clean
 
-test: $(BIN)
-	./$(BIN)
+test: $(BINS)
+	./$(LBT_BIN)
+	./$(PA_BIN)
 
-$(BIN): $(SRCS)
-	$(CC) $(CFLAGS) -o $@ $(SRCS)
+$(LBT_BIN): $(LBT_SRCS)
+	$(CC) $(CFLAGS) -o $@ $(LBT_SRCS)
+
+$(PA_BIN): $(PA_SRCS)
+	$(CC) $(CFLAGS) -o $@ $(PA_SRCS)
 
 clean:
-	rm -f $(BIN)
+	rm -f $(BINS)

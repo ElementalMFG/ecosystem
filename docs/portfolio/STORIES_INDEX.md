@@ -88,7 +88,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-03-009 | D | Feature | M | P0 | IN_REVIEW | L | F-MSG-03,F-VOX-01 | C-00,C-01 |
 | S-03-010 | D | Feature | M | P0 | IN_REVIEW | L | F-MSG-03,F-VOX-02 | C-00,C-01 |
 | S-03-011 | E | Feature | L | P0 | DRAFT | L | F-BR-01 | C-00,C-01,C-08 |
-| S-03-012 | E | Feature | M | P0 | DRAFT | L | NF-REG-01,NF-REG-02,NF-REG-05 | C-00,C-08 |
+| S-03-012 | E | Feature | M | P0 | IN_REVIEW | L | NF-REG-01,NF-REG-02,NF-REG-05 | C-00,C-08 |
 | S-03-013 | E | Feature | M | P0 | IN_REVIEW | L | NF-REG-05,F-BR-01 | C-00,C-08 |
 | S-03-014 | F | Feature | M | P0 | IN_REVIEW | L | F-BR-02 | C-00,C-08 |
 | S-03-015 | F | Feature | M | P0 | IN_REVIEW | L | F-BR-02,F-APP-07 | C-00,C-08 |
@@ -751,9 +751,9 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 | Status | Count |
 |---|---|
-| DRAFT | 514 |
+| DRAFT | 513 |
 | IN_PROGRESS | 1 |
-| IN_REVIEW | 16 |
+| IN_REVIEW | 17 |
 | DONE | 29 |
 | BLOCKED | 1 |
 | DROPPED | 3 |
