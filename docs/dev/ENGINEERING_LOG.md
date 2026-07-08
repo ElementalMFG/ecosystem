@@ -135,3 +135,13 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   core that includes an `ss_hal_*.h` (they pull `esp_err.h`) — reuse for the
   other EPIC-03 HAL impls. Lite has no battery sense (C-01 §Meshtastic-#7993):
   `ss_power_status` is fixed no-gauge (`v_mv=0`, `battery_sense_valid=false`).
+- S-03-001 (2026-07-08): ESP32-S3 sleep APIs — esp_deep_sleep_enable_gpio_wakeup
+  and ESP_GPIO_WAKEUP_GPIO_* DO NOT EXIST on Xtensa (RISC-V-only API). S3 deep
+  wake = esp_sleep_enable_ext1_wakeup (ANY_HIGH mask) / ext0 (one pin, either
+  level), RTC-capable GPIO 0..21 only; light-sleep wake = gpio_wakeup_enable +
+  esp_sleep_enable_gpio_wakeup (any GPIO — this is how touch INT 47 wakes).
+  Registration must be sleep-mode-specific.
+- infra (2026-07-08): the .claude/rules files are VERIFIED-AT-A-DATE snapshots —
+  a stale rule ("alpha/omega fail at configure by design") misled a worker into
+  believing a correct AC was unsatisfiable. When repo reality changes a rule's
+  claim, update the rule in the SAME commit (now done for firmware.md).
