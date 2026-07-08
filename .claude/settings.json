@@ -42,6 +42,8 @@
       "Bash(ctest:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
+      "Bash(git rm:*)",
+      "Bash(git mv:*)",
       "Bash(git push origin main:*)",
       "Bash(git fetch:*)",
       "Bash(python3 tools/allocation.py:*)",

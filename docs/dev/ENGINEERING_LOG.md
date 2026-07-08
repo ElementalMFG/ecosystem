@@ -186,3 +186,6 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   now ships inside ss_display, so S-03-007 (auto-dim) builds on
   `ss_display_backlight`, not a fresh LEDC bring-up. ILI9488 SPI is RGB666-only
   (COLMOD 0x66); upper layers stay RGB565 and convert in flush.
+- infra (2026-07-08): workers also need git rm/mv (file retirement is part of
+  refactor stories) — now allowlisted alongside add/commit/push. Full worker
+  git surface: add, rm, mv, commit, push origin main, fetch.
