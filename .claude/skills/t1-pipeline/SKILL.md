@@ -15,5 +15,5 @@ Execute in order; do not skip steps.
 5. **Review pass 1:** invoke the `t1-review` agent with only the artifact paths + contract references — never the authoring reasoning (fresh context is the point).
 6. **Review pass 2:** invoke the `t1-cross-review` agent the same way.
 7. **REWORK findings** → fix → re-run ONLY the review pass that issued the findings (both passes only if the fixes changed the core contract/semantics — doc 11 §6f cost rule). Repeat until both verdicts are APPROVE or APPROVE-WITH-NITS (nits fixed or ticketed).
-8. **Gates:** `make lite` (if firmware touched), `git add` then `python3 tools/lint-docs.py`, `python3 tools/gen-stories-index.py --check` (if stories touched) — from repo root.
+8. **Gates:** `make lite` (if firmware touched), `git add` then `python3 tools/lint-docs.py`, `python3 tools/gen-stories-index.py` AND `python3 tools/allocation.py --generate` + both `--check`s (any status flip stales BOTH generated files — CI docs-lint enforces the allocation map too), plus covenant/task-policy/board-parity — from repo root. Local and CI gate sets must be identical.
 9. **Report:** what was built, both verdicts with finding counts, gate results — and remind that merge requires 2 CODEOWNER approvals + wg-security sign-off (`CONTRIBUTING.md` §9), plus an RFC if wire/crypto/API changed.

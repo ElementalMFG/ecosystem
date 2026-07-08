@@ -212,3 +212,11 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   HIBERNATE forward-note: today it maps to esp_deep_sleep_start so the
   header's "whichever wake source fires first" holds; revisit if HIBERNATE
   ever powers down RTC peripherals.
+- S-03-030 (2026-07-08): RFC-required determination — the timer-wake HAL
+  extension is ADDITIVE to an INTERNAL contract: ss_hal headers are not on
+  the RFC-0003 versioned-surface list (wire/LXMF/crypto/pairing/plugin-ABI/
+  node-profile/cloud), and CONTRIBUTING §10 requires RFCs for BREAKING API
+  changes; additive is always allowed (06 §4.4). T1 double review is the
+  correct governance for internal HAL contract changes; no RFC needed.
+  Also: t1-pipeline gate list now includes allocation --generate/--check
+  (same local-vs-CI parity lesson as the first queue run).
