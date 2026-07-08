@@ -265,3 +265,10 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   3-board CI (host tests cover cores only); expect first-CI-run fixes on
   glue-heavy stories until S-02-025's contract-audit + a future glue
   host-mock land.
+- S-03-009 (2026-07-08): ss_audio component (mic half of ss_hal_audio.h) built
+  core/glue split like ss_muxctl. INMP441 24-in-32 -> 16-bit PCM = slot_bit_width
+  32 + data_bit_width 16 (peripheral keeps the 16 MSBs, no post-processing).
+  ss_mic_open acquires SS_MUX_MODE_MIC as SS_MUX_OWNER_AUDIO_MIC (25 ms cap,
+  releases on every failure path). Speaker/buzzer symbols in the same contract
+  are deliberately unimplemented (S-03-010). On-hardware SNR + capture-start
+  latency + jitter pending a bench board -> parks at IN_REVIEW (like S-03-004/006).

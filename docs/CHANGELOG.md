@@ -9,6 +9,22 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- I²S microphone capture — 16 kHz mono (S-03-009): new `ss_audio` component
+  implements the microphone half of the frozen `ss_hal_audio.h` contract for
+  Lite (`ss_mic_open/read/close`). The INMP441-class I2S mic is driven through
+  the IDF v5.3.5 std driver on `SS_MIC_*` pins, capturing 16 kHz mono 16-bit
+  PCM: the slot is 32 BCLK wide (so the mic shifts its full 24-bit word) while
+  the peripheral keeps only the 16 MSBs, yielding ready-to-use int16 PCM with
+  no post-processing. Because the mic shares GPIO 9/3/10 with LoRa behind the
+  GPIO45 mux, `ss_mic_open` acquires `SS_MUX_MODE_MIC` as
+  `SS_MUX_OWNER_AUDIO_MIC` (25 ms cap, inside the <25 ms PTT budget) and every
+  failure path releases it. Format validation and DMA/jitter sizing live in a
+  pure, host-tested `ss_audio_core` (21 host checks); DMA is double-buffered at
+  a ~10 ms target so per-read jitter is bounded to one descriptor period. Gated
+  on `SS_CAP_MIC`; returns `ESP_ERR_NOT_SUPPORTED` on boards without a mic
+  (Alpha/Omega). Speaker/buzzer symbols in the same contract are left to
+  S-03-010. On-hardware 16 kHz capture, measured SNR, and capture-start latency
+  remain pending an attached Lite board (story IN_REVIEW until then).
 - TFT display driver — ILI9488 480×320 SPI-DMA (S-03-006): new `ss_display`
   component implements the frozen `ss_hal_display.h` contract for Lite
   (`ss_display_init/info/flush/backlight/sleep/set_orient`). Controller,

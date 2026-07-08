@@ -58,8 +58,9 @@ As a firmware engineer I want a documented single/double framebuffer allocation 
 ### S-03-009 — I²S microphone capture (16 kHz mono)
 As a firmware engineer I want I²S microphone capture at 16 kHz mono so that voice messages and on-device STT get clean input.
 - AC: 16 kHz mono PCM stream delivered with bounded jitter; capture starts within the PTT latency budget; SNR measured and documented on reference hardware
-- Meta: Shard=D | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-MSG-03,F-VOX-01 | Const=C-00,C-01
-- Deps: S-03-033 (mic shares GPIO 9/3/10 with LoRa behind the GPIO45 mux — capture must acquire SS_MUX_MODE_MIC)
+- Meta: Shard=D | Type=Feature | Size=M | Prio=P0 | Status=IN_REVIEW | SKU=L | PRD=F-MSG-03,F-VOX-01 | Const=C-00,C-01
+- Tasks: spec mic capture params (16 kHz mono 16-bit locked per `SS_MIC_*`; INMP441 24-in-32 slot → 16-bit PCM; DMA ring sizing for bounded read jitter; mux acquire as `SS_MUX_OWNER_AUDIO_MIC`/`SS_MUX_MODE_MIC` inside the PTT <25 ms budget) · design pure IDF-free core (format validation + DMA/jitter sizing + mux-plan decision) in new `ss_audio` component, mirroring the `ss_muxctl` core/glue split · impl `firmware/components/ss_audio/{include/ss_audio_core.h,src/ss_audio_core.c,src/ss_mic.c,CMakeLists.txt}` implementing the mic half of `ss_hal_audio.h`, capability-gated via `ss_hal_has_cap(SS_CAP_MIC)`, mux via `ss_mux_acquire/release` · test host harness for the core (format accept/reject, jitter-buffer math, mux plan), lite CI build; on-hardware 16 kHz capture + measured SNR + measured capture-start latency pending an attached board · docs contract doc-block + changelog + engineering-log
+- Deps: S-03-033 (mic shares GPIO 9/3/10 with LoRa behind the GPIO45 mux — capture must acquire SS_MUX_MODE_MIC) DONE
 
 ### S-03-010 — I²S speaker output + class-D amp enable
 As a device owner I want I²S speaker output with class-D amp control so that received voice is audible and power is not wasted when idle.
