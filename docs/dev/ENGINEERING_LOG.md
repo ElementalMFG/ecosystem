@@ -120,3 +120,11 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   frozen contracts all say it has none (doc 10 §8 escalation working).
   Remaining EPIC-03 titles pass the hardware audit at title level; AC-level
   checks continue per story at elaboration.
+- EPIC-03 (2026-07-08): owner confirmed the physical Lite dev-fleet build
+  (CrowPanel 3.5" S3 + Elecrow HaLow on the wireless header + Elecrow GPS on
+  UART1 + Elecrow 3-axis compass on I2C0 + speaker; C6 on UART2 optional).
+  Doc 01 already matches, but NO driver stories existed for the plugged
+  modules — added S-03-026 (HaLow-on-SPI, distinct from Alpha's SDIO path),
+  S-03-027 (hal_gnss), S-03-028 (compass, with an explicit HMC@0x1E-vs-
+  QMC@0x0D part-verify AC), S-03-029 (C6 link). First-hardware-session
+  verify list: compass part/address, GNSS part number, C6 port assignment.

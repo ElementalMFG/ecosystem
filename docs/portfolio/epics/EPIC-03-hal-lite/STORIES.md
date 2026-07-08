@@ -136,3 +136,23 @@ As a firmware engineer I want a power-consumption measurement and budget report 
 As a firmware engineer I want a Wi-Fi/BLE coexistence stress test so that shared-antenna scheduling never starves either radio.
 - AC: concurrent BLE link + Wi-Fi throughput soak passes; BLE connection maintained under sustained Wi-Fi load; packet-loss thresholds defined and met
 - Meta: Shard=F,G | Type=Ops | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-BR-02,F-BR-03 | Const=C-00,C-08
+
+### S-03-026 — HaLow module bring-up on the Lite wireless header (SPI)
+As a firmware engineer I want the Elecrow HaLow module brought up on Lite's wireless header so that the D-0013 dev fleet's primary long-range bearer works on the shipping board.
+- AC: HaLow host driver initializes over the wireless-header SPI set (0/10/9/3, RST 2, IRQ 1, mux GPIO45=LOW per C-01 §3 table) with `SS_CAP_RADIO_HALOW` replacing `SS_CAP_RADIO_LORA` under `CONFIG_SS_LITE_MOD_HALOW`; SPI init defers to the S-02-016 recovery-window ownership of GPIO0; association + data-path smoke passes between the two D-0013 dev units; module part/stack pin recorded (Lite SPI path is distinct from Alpha's MM8108-SDIO stories S-04-003/023)
+- Meta: Shard=— | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01,C-08
+
+### S-03-027 — GNSS HAL driver (`hal_gnss`) — UART1 NMEA behind the HAL contract
+As a firmware engineer I want the GNSS module driven through `hal_gnss` so that location leaves the bring-up scaffolding and binds to the HAL contract.
+- AC: `hal_gnss` implements the `ss_hal_gnss.h` contract on UART1 (18/17 @9600, DMA ring buffer, NMEA-0183 parse per C-01 §HAL map); the `ss_uart_engine` GNSS path migrates behind it with no fix-loss regression; exact module part number confirmed at attachment and recorded per the D-0013 clause (any deviation updates doc 01 + pin map first); fix acquisition verified on a dev-fleet unit
+- Meta: Shard=— | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01
+
+### S-03-028 — Magnetometer/compass HAL driver (`hal_imu` mag path)
+As a firmware engineer I want the 3-axis compass driven through the HAL so that heading is a contract-backed capability, not bring-up code.
+- AC: mag driver implements the HAL contract on I²C0 (15/16) at the C-01 roster address (HMC5883L @0x1E as documented — **actual Elecrow module part verified at attachment**: a QMC5883L variant sits at 0x0D and changes the driver; any deviation updates doc 01 + pin map FIRST per D-0013); `ss_compass` migrates behind the HAL preserving the three documented behaviours (tilt-compensated with IMU, flat-hold mag-only, phone-fed with neither); heading sanity-checked on a dev-fleet unit
+- Meta: Shard=— | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01
+
+### S-03-029 — ESP32-C6 coprocessor link bring-up (UART2 framed transport)
+As a firmware engineer I want the optional C6 mesh-coprocessor link brought up behind a HAL contract so that the coproc becomes a usable bearer/offload path.
+- AC: framed CRC transport on UART2 (44/43 @115200 per C-01; `CONFIG_SS_LITE_MOD_COPROC_C6`, `SS_CAP_COPROC`) formalized behind a HAL contract with version negotiation per RFC-0003; `ss_uart_engine` coproc pump migrates behind it; link-up/echo smoke passes against a C6 dev module; physical port assignment confirmed at attachment per the D-0013 clause
+- Meta: Shard=— | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01,C-02
