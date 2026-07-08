@@ -314,3 +314,15 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   in-RAM only (a reboot resets the 1 h window); persisting it across reboot is
   deliberately out of scope here (persistence is an escalation trigger) and
   should be filed as its own story if strict cross-reboot compliance is needed.
+- S-03-014 (2026-07-08): Wi-Fi STA landed as a new `ss_wifi` component
+  (pure host-tested core `ss_wifi_sta_core` + esp_wifi glue `ss_wifi.c`
+  implementing the frozen `ss_hal_radio_wifi.h` lifecycle). Auth-mode policy:
+  the enum ordinal is NOT the security order — WPA2/WPA3 mixed-transition ranks
+  EQUAL to WPA3-SAE (a WPA3-capable STA negotiates SAE against a transition AP),
+  so `ss_wifi_ap_acceptable` compares an internal `authmode_rank`, not raw enum
+  values; `SS_WIFI_AUTH_UNKNOWN` and any out-of-enum cast always reject
+  (fail-safe, never OPEN). KNOWN LIMITATION → follow-up: the glue's disconnect
+  handler blocks the default event-loop task on `vTaskDelay(backoff)` — fine for
+  the first cut but should move to a timer/reconnect task before the HIL rack;
+  on-target WPA2/WPA3 association ACs are unverified until the Wi-Fi HIL rack
+  (EPIC-03 exit criterion 2), so the story parks at IN_REVIEW.

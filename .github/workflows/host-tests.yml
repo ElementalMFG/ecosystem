@@ -19,6 +19,7 @@ on:
       - tools/tests/**
       - firmware/components/ss_audio/**
       - firmware/components/ss_lora/**
+      - firmware/components/ss_wifi/**
       - .github/workflows/host-tests.yml
   push:
     branches: [main]
@@ -31,6 +32,7 @@ on:
       - tools/tests/**
       - firmware/components/ss_audio/**
       - firmware/components/ss_lora/**
+      - firmware/components/ss_wifi/**
       - .github/workflows/host-tests.yml
 
 permissions:
@@ -108,4 +110,6 @@ jobs:
         run: make -C firmware/components/ss_audio/test/host test
       - name: ss_lora LBT + duty core
         run: make -C firmware/components/ss_lora/test/host test
+      - name: ss_wifi STA core
+        run: make -C firmware/components/ss_wifi/test/host test
 

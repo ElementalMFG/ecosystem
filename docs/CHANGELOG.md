@@ -9,6 +9,18 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Wi-Fi STA scan + connect + WPA2/3 (S-03-014): a new `ss_wifi` component
+  ships a pure, host-tested policy core (`ss_wifi_sta_core`) plus esp_wifi glue
+  (`ss_wifi.c`) implementing the frozen `ss_hal_radio_wifi.h` STA lifecycle. The
+  core sorts scan results strongest-RSSI-first (stable), applies a fail-safe
+  auth-mode selection policy (open/WPA2-PSK/WPA2-WPA3-mixed/WPA3-SAE, rejecting
+  downgrades, secure APs without a passphrase, and unknown auth modes), and
+  drives a bounded exponential-backoff reconnect (250 ms base, 32 s ceiling,
+  give up after 8 attempts). The core is self-contained (no HAL/IDF dependency)
+  and verified on the host under ASan/UBSan (117 checks). On-target WPA2/WPA3
+  association lands with the Wi-Fi hardware-in-loop rack (EPIC-03 exit
+  criterion 2).
+
 - Listen-before-talk + EU868 duty-cycle guard (S-03-013): a new `ss_lora`
   component ships a pure, host-tested policy core (`ss_lora_lbt_core`) that
   enforces LoRa channel etiquette and the ETSI EN 300 220 duty-cycle limits in

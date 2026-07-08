@@ -90,7 +90,9 @@ As a compliance engineer I want listen-before-talk and a duty-cycle guard so tha
 ### S-03-014 — Wi-Fi STA scan + connect + WPA2/3
 As a device owner I want Wi-Fi STA scan/connect with WPA2/3 so that my pager uses home Wi-Fi whenever it is available.
 - AC: scan returns RSSI-sorted results; connect succeeds to WPA2 and WPA3 APs; disconnect/reconnect handled with bounded retry
-- Meta: Shard=F | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-BR-02 | Const=C-00,C-08
+- Meta: Shard=F | Type=Feature | Size=M | Prio=P0 | Status=IN_REVIEW | SKU=L | PRD=F-BR-02 | Const=C-00,C-08
+- Tasks: spec RSSI-sorted scan ordering + WPA2/WPA3 auth-mode selection policy + bounded disconnect/reconnect backoff · design pure host-testable contract `ss_wifi_sta_core.h` (no ESP-IDF) · impl stable RSSI-descending sort + auth-mode selection + bounded-retry backoff/give-up state machine in `ss_wifi_sta_core.c`, plus ESP-IDF glue `ss_wifi.c` implementing the frozen `ss_hal_radio_wifi.h` lifecycle and wiring esp_wifi scan/connect · test host harness `test_ss_wifi_sta_core` (ASan/UBSan) · docs contract doc-block + ENGINEERING_LOG + CHANGELOG + host-tests CI wiring
+- Deps: `ss_hal_radio_wifi.h` lifecycle contract (already frozen in ss_hal — init/config/start/stop/sleep); scan + bounded-retry live in the new `ss_wifi` component's own core so `ss_hal/**` stays untouched (keeps the story T3, not the T1 HAL path); on-hardware ACs (WPA2/WPA3 connect to a live AP) need an attached Lite board + Wi-Fi HIL rack (EPIC-03 exit criterion 2) — story parks at IN_REVIEW until then; external: IEEE 802.11 + WPA3-SAE via the esp_wifi supplicant (ESP-IDF v5.3.5)
 
 ### S-03-015 — Wi-Fi soft-AP for captive provisioning
 As a device owner I want a Wi-Fi soft-AP captive provisioning mode so that first-boot setup works without any companion infrastructure.
