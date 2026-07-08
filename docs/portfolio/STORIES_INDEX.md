@@ -106,7 +106,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-03-029 | — | Feature | M | P1 | DRAFT | L | — | C-00,C-01,C-02 |
 | S-03-030 | A | Feature | S | P0 | DRAFT | L | NF-PWR-01 | C-00,C-01 |
 | S-03-031 | — | Feature | S | P0 | DRAFT | L | — | C-00,C-01 |
-| S-03-032 | — | Feature | S | P0 | IN_REVIEW | ★ | — | C-00,C-01 |
+| S-03-032 | — | Feature | S | P0 | DONE | ★ | — | C-00,C-01 |
 
 ---
 
@@ -739,8 +739,8 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 |---|---|
 | DRAFT | 510 |
 | IN_PROGRESS | 1 |
-| IN_REVIEW | 11 |
-| DONE | 24 |
+| IN_REVIEW | 10 |
+| DONE | 25 |
 | BLOCKED | 1 |
 | DROPPED | 3 |
 
