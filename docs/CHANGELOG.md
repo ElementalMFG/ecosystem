@@ -9,6 +9,20 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Input events — GT911 touch + BOOT button (S-03-004): new `ss_input`
+  component implements the frozen `ss_hal_touch.h` / `ss_hal_buttons.h`
+  contracts for Lite. An INT-driven GT911 driver (GPIO47) emits raw
+  touch-down/move/up plus derived tap / long-press / four-way swipe events
+  through the HAL input callback; the BOOT button (GPIO0) is debounced into
+  press / long-press / release events. Decision logic (gesture recogniser +
+  debounce FSMs) lives in a pure, host-tested `ss_input_core` (11 gtests).
+  BOOT input defers acquiring GPIO0 until after the S-02-016 recovery entry
+  window (`CONFIG_SS_RECOVERY_ENTRY_WINDOW_MS`) since the pin is shared with
+  the recovery watcher and LoRa CS; the raw touch-down is emitted before
+  gesture classification to keep the PTT path low-latency. Behaviour degrades
+  cleanly on boards without `SS_CAP_TOUCH` (Alpha/Omega). On-hardware GT911
+  event emission and measured PTT < 25 ms remain pending an attached Lite
+  board (story IN_REVIEW until then).
 - Firmware version resource (S-02-020): git SHA, `git describe` tag, and a
   `<board>-<sha12>` build id are captured at configure time
   (`firmware/main/version.cmake`), compiled into the image, exposed via the

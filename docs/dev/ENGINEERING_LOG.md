@@ -151,3 +151,20 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   ss_hal_power.h → filed S-03-030 (T1, allocation override) rather than
   absorbing a T1-path edit into a T3 run; C-01 §4.3 reconciliation rides
   S-03-030. Worker escalation per doc 10 §8 worked exactly as designed.
+- S-03-004 (2026-07-08): input events land in a NEW `ss_input` component (not
+  ss_hal — the touch/buttons contracts were already frozen header-only in the
+  ss_hal T1 path; implementing them in a driver component keeps the run T3 and
+  out of the T1 path). GT911 @ 0x5D on I2C0 (SDA15/SCL16), INT GPIO47
+  (neg-edge, INT-driven for the <25 ms PTT path), RST GPIO48; address-select
+  reset = INT held low across RST rising edge. Uses the ESP-IDF 5.3
+  `i2c_master.h` API (legacy `i2c.h` is `-Wdeprecated`).
+- S-03-004 (2026-07-08): GPIO0 now has THREE ordered consumers on Lite —
+  (1) recovery watcher owns it for the first CONFIG_SS_RECOVERY_ENTRY_WINDOW_MS
+  (S-02-016), (2) ss_input BOOT-button claims it as input+pull-up AFTER that
+  window, (3) LoRa/HaLow CS (SS_LORA_PIN_CS = GPIO0, EPIC-05). (2) and (3)
+  genuinely CONFLICT at runtime: a debounced button-input line cannot also
+  drive SPI CS. S-03-004's AC only required deferral to the recovery window
+  (satisfied); the button-vs-CS arbitration (mux, or drop runtime BOOT input
+  when LoRa is active, or a strap-only BOOT role) is unresolved and belongs to
+  EPIC-05 radio bring-up. Filed as follow-up DRAFT — do NOT let ss_input and
+  the LoRa driver both configure GPIO0 without arbitration.
