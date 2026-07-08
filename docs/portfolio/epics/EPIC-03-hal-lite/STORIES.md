@@ -191,3 +191,40 @@ As a firmware engineer I want the declared mux-arbitration contract implemented 
 - Tasks: spec core state-machine + owner semantics · design core/glue split (pure decision core + FreeRTOS token/mutex glue) · impl `ss_muxctl_core.c` + `ss_muxctl.c` glue implementing frozen `ss_hal_muxctl.h` · test host gtest acquire/release/contention/double-release matrix · docs eng-log learnings
 - Deps: — (frozen `ss_hal_muxctl.h` + `ss_hal_types.h` mux enums + `ss_hal_caps.h` `SS_CAP_MUX_MIC_RADIO` + board_config `SS_MUX_*` macros already in tree)
 
+
+### S-03-034 — `ss_hal_init`/`ss_hal_shutdown` boot sequencer
+As a firmware engineer I want the HAL lifecycle aggregator implemented so that main boots subsystems through one contract call instead of direct module calls.
+- AC: `ss_hal_init` sequences every enabled subsystem per the C-01 §7 Lite order (capability-gated, per-driver errors reported not swallowed); `ss_hal_shutdown` reverses for deep-sleep prep; main.cpp's TODO(EPIC-03) direct calls migrate behind it incrementally as drivers land; pure sequencing core host-tested; 3-board CI green
+- Meta: Shard=— | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00,C-01
+
+### S-03-035 — Buzzer behind the HAL (`ss_buzzer_beep`)
+As a firmware engineer I want the buzzer migrated behind its declared HAL surface so that audio feedback is contract-driven, not ss_diag-local.
+- AC: `ss_buzzer_beep` (frozen ss_hal_audio.h) implemented over the GPIO8 LEDC path; ss_diag migrates to the HAL call; degrades via caps on boards without a buzzer; 3-board CI green
+- Meta: Shard=D | Type=Feature | Size=XS | Prio=P2 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01
+
+### S-03-036 — Lite 6-axis IMU HAL path (`ss_imu_init/read/sleep`)
+As a firmware engineer I want the optional 6-axis IMU driven through the HAL so that tilt-compensated heading gets contract-backed accel data.
+- AC: `ss_imu_init/read/sleep` implemented for the C-01 optional IMU module (I²C0 @0x68, `CONFIG_SS_LITE_MOD_IMU`), accel+gyro fields populated; ss_compass consumes the HAL read for tilt compensation; exact module part confirmed at attachment per D-0013; host-tested core; 3-board CI green
+- Meta: Shard=— | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01
+
+### S-03-037 — Storage HAL aggregator + SD + MODELS kinds
+As a firmware engineer I want the remaining ss_hal_storage.h surface implemented so that every declared storage kind has a real path.
+- AC: `ss_storage_init`/`ss_storage_stat` aggregate the kinds; SS_STORAGE_SD implemented over the soft-SPI microSD (6/4/5/7, hot-remove tolerant); SS_STORAGE_MODELS maps its partition/mount point; INTERNAL_FS/NVS kinds delegate to the shipped S-03-019/S-02-017 paths; host-tested dispatch core; 3-board CI green
+- Meta: Shard=H | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01
+- Deps: S-02-017, S-03-019
+
+### S-03-038 — USB CDC data channel (`ss_usb_cdc_*`)
+As a firmware engineer I want the declared USB CDC surface implemented so that the companion tether has a wired data path distinct from the debug console.
+- AC: `ss_usb_cdc_*` (frozen ss_hal_usb.h) implemented coexisting with the USB-Serial-JTAG console; framed read/write with host-tested framing core; enumeration smoke on a dev unit at the D-0013 hardware session; 3-board CI green
+- Meta: Shard=— | Type=Feature | Size=M | Prio=P2 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01
+
+### S-03-039 — Watchdog HAL surface reconciliation (`ss_wdt_*` vs `ss_task_wdt_*`)
+As a firmware engineer I want the two watchdog surfaces reconciled so that exactly one contract exists.
+- AC: decision recorded (adopt the shipped `ss_task_wdt_*` semantics into the frozen header, or implement `ss_wdt_*` as the canonical wrapper) via the T1 pipeline since ss_hal_watchdog.h changes are a T1 path; the losing surface is deprecated with a migration note, never silently dropped; ss_tasks call sites updated if the contract wins; 3-board CI green
+- Meta: Shard=F | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
+
+### S-03-040 — `ss_rng` base plumbing (Lite)
+As a firmware engineer I want the base RNG surface implemented so that entropy consumers have a contract path before the EPIC-06 DRBG work.
+- AC: `ss_rng_init`/`ss_rng_bytes` implemented over the SoC TRNG (`esp_fill_random`), documented as raw-TRNG-until-S-06-008 (which owns healthcheck + DRBG reseed and supersedes nothing here); never returns predictable output on RNG failure — fails loudly; 3-board CI green
+- Meta: Shard=— | Type=Feature | Size=XS | Prio=P1 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-05
+- Deps: S-06-008 owns the DRBG/healthcheck layer above this

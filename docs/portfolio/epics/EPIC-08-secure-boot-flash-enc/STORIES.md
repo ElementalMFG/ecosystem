@@ -82,3 +82,8 @@ As a security engineer I want an automated rack test proving that older firmware
 As a device owner I want clear documentation on what a tamper-triggered chip-erase means and which recovery paths exist so that I know whether a device is recoverable and how.
 - AC: doc explains the erase trigger conditions, what data is destroyed, and the recovery-mode path requiring a signed bootloader (per R08-01); doc distinguishes recoverable states from permanent-scrap states; doc is published in the user documentation set and reviewed by wg-security
 - Meta: Shard=G | Type=Docs | Size=S | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-05
+
+### S-08-017 — Lite-optional ATECC608 secure-element HAL (`ss_se_*`)
+As a firmware engineer I want the declared secure-element surface implemented for the Lite-optional ATECC608 so that key-storage consumers have a contract path on fitted units.
+- AC: `ss_se_*` (frozen ss_hal_secure_elem.h) implemented for the I²C0 ATECC608 optional module, capability-gated (absent module degrades per caps, never fakes success); key material never leaves the SE unwrapped per doc 05; part/address confirmed at attachment per D-0013; distinct from the Omega S-05-013 path; 3-board CI green
+- Meta: Shard=— | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-05

@@ -53,6 +53,8 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-02-021 | T1 (override) | fable@xhigh | t1-pipeline | DRAFT |
 | S-02-022 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
 | S-02-023 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-02-024 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-02-025 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-001 | T3 (epic-floor) | opus@medium | t3-standard | DONE |
 | S-03-002 | T3 (epic-floor) | opus@medium | t3-standard | DROPPED |
 | S-03-003 | T3 (epic-floor) | opus@medium | t3-standard | IN_REVIEW |
@@ -86,6 +88,13 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-03-031 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-032 | T1 (override) | fable@xhigh | t1-pipeline | DONE |
 | S-03-033 | T3 (epic-floor) | opus@medium | t3-standard | IN_REVIEW |
+| S-03-034 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-03-035 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-03-036 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-03-037 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-03-038 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-03-039 | T1 (override) | fable@xhigh | t1-pipeline | DRAFT |
+| S-03-040 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-04-001 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-04-002 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-04-003 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
@@ -193,6 +202,7 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-08-014 | T1 (override) | fable@xhigh | t1-pipeline | DRAFT |
 | S-08-015 | T1 (override) | fable@xhigh | t1-pipeline | DRAFT |
 | S-08-016 | T1 (override) | fable@xhigh | t1-pipeline | DRAFT |
+| S-08-017 | T1 (override) | fable@xhigh | t1-pipeline | DRAFT |
 | S-09-001 | T1? (keyword-flag) | opus@medium | t2-designer+builder | DRAFT |
 | S-09-002 | T1? (keyword-flag) | opus@medium | t2-designer+builder | DRAFT |
 | S-09-003 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |

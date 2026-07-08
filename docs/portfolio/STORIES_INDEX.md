@@ -41,7 +41,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-02 — Firmware Foundation (23 stories)
+## Epic-02 — Firmware Foundation (25 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -68,10 +68,12 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-02-021 | — | Feature | M | P1 | DRAFT | ★ | NF-PERF-03 | C-00 |
 | S-02-022 | E | Feature | M | P2 | DRAFT | ★ | — | C-00 |
 | S-02-023 | A | Task | XS | P2 | DRAFT | ★ | — | C-00 |
+| S-02-024 | A | Feature | S | P1 | DRAFT | ★ | — | C-00,C-01 |
+| S-02-025 | A | Feature | S | P0 | DRAFT | ★ | — | C-00 |
 
 ---
 
-## Epic-03 — HAL for Lite (ESP32-S3 + SX1262 + Wi-Fi/BLE) (33 stories)
+## Epic-03 — HAL for Lite (ESP32-S3 + SX1262 + Wi-Fi/BLE) (40 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -108,6 +110,13 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-03-031 | — | Feature | S | P0 | DRAFT | L | — | C-00,C-01 |
 | S-03-032 | — | Feature | S | P0 | DONE | ★ | — | C-00,C-01 |
 | S-03-033 | D | Feature | S | P0 | IN_REVIEW | L | — | C-00,C-01 |
+| S-03-034 | — | Feature | M | P1 | DRAFT | ★ | — | C-00,C-01 |
+| S-03-035 | D | Feature | XS | P2 | DRAFT | L | — | C-00,C-01 |
+| S-03-036 | — | Feature | M | P1 | DRAFT | L | — | C-00,C-01 |
+| S-03-037 | H | Feature | M | P1 | DRAFT | L | — | C-00,C-01 |
+| S-03-038 | — | Feature | M | P2 | DRAFT | L | — | C-00,C-01 |
+| S-03-039 | F | Feature | S | P1 | DRAFT | ★ | — | C-00 |
+| S-03-040 | — | Feature | XS | P1 | DRAFT | L | — | C-00,C-05 |
 
 ---
 
@@ -230,7 +239,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-08 — Secure Boot & Flash Encryption (16 stories)
+## Epic-08 — Secure Boot & Flash Encryption (17 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -250,6 +259,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-08-014 | F | Ops | M | P0 | DRAFT | ★ | F-SEC-06 | C-05 |
 | S-08-015 | D | Ops | M | P0 | DRAFT | ★ | NF-SEC-04 | C-05 |
 | S-08-016 | G | Docs | S | P0 | DRAFT | ★ | — | C-05 |
+| S-08-017 | — | Feature | M | P1 | DRAFT | L | — | C-00,C-05 |
 
 ---
 
@@ -734,11 +744,11 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Totals — 551 stories across 24 epics
+## Totals — 561 stories across 24 epics
 
 | Status | Count |
 |---|---|
-| DRAFT | 508 |
+| DRAFT | 518 |
 | IN_PROGRESS | 1 |
 | IN_REVIEW | 12 |
 | DONE | 26 |
@@ -753,12 +763,12 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 
 | Clause key | Stories | P0 coverage |
 |---|---|---|
-| C-00 | 238 | yes |
-| C-01 | 26 | yes |
+| C-00 | 248 | yes |
+| C-01 | 32 | yes |
 | C-02 | 82 | yes |
 | C-03 | 46 | yes |
 | C-04 | 53 | yes |
-| C-05 | 154 | yes |
+| C-05 | 156 | yes |
 | C-06 | 53 | yes |
 | C-07 | 61 | yes |
 | C-08 | 109 | yes |

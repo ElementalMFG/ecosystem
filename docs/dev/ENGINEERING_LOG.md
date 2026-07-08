@@ -250,3 +250,12 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   fatal under -Werror, so any board-pin GPIO code must sit behind
   `#if <PIN> >= 0` even when it is runtime-dead. Applies to every future
   component that touches a parity-placeholder pin macro.
+- audit (2026-07-08): orphaned-artifact sweep (4 classes) — 6 HAL-surface
+  GAPs + 2 PARTIALs, 1 real Kconfig orphan (SS_LITE_MOD_SX1262: consumer
+  lands with S-03-011; COPROC_NONE benign choice-default), 1 phantom "pin-map
+  CI test" reference, 0 dangling Deps. All gaps now story-owned: S-03-034..040
+  (sequencer, buzzer, IMU, storage, USB CDC, watchdog-reconcile[T1], RNG
+  base), S-08-017 (Lite ATECC), S-02-024 (pinmap checker), S-02-025
+  (contract-audit gate — makes this defect class machine-caught). Watchdog
+  finding is notable: S-02-009 shipped a DIVERGENT surface (ss_task_wdt_*)
+  beside the frozen ss_hal_watchdog.h (ss_wdt_*) — reconciliation is T1.

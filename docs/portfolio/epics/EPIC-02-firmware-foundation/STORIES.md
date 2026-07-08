@@ -153,3 +153,13 @@ As a firmware engineer I want a crash-loop breaker that also covers failures bef
 As a release manager I want push-time (non-release) SBOMs to carry real git provenance so that every CI artifact — not just tagged releases — matches its firmware image.
 - AC: `gen-sbom.py --version-source auto` resolves the real SHA/tag inside the pinned root-owned container (`_git()` gains the `-c safe.directory` guard, or the Dockerfile sets `safe.directory` — one mechanism, documented); a host test proves the container-ownership path; push-time SBOM values match the `ss_version` image values on the same commit
 - Meta: Shard=A | Type=Task | Size=XS | Prio=P2 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
+
+### S-02-024 — Pin-map lockstep checker (doc 01 §3 vs board_config)
+As a firmware engineer I want the referenced-but-nonexistent "pin-map CI test" to actually exist so that the T1 pin map and its constitution doc cannot drift.
+- AC: `tools/pinmap-check.py` parses the C-01 §3 pin tables and asserts each documented pin/bus/address matches the corresponding `SS_*` macro in `firmware/boards/lite/board_config.h` (and future boards as their docs lock); wired into CI; the stale "pin-map CI test" references in rules/lore become true
+- Meta: Shard=A | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00,C-01
+
+### S-02-025 — Contract-ownership gate (`contract-audit`)
+As the program lead I want a CI gate asserting every declared HAL contract function is implemented or story-owned so that the orphaned-artifact defect class is structurally extinct.
+- AC: `tools/contract-audit.py` extracts declared functions from `ss_hal_*.h`, verifies each is implemented in-tree OR claimed in a checked-in ownership map (seeded from the 2026-07-08 audit: S-03-009/010/026..029/034..040, S-04-*, S-08-017, S-06-008, EPIC-09); unowned declarations fail CI with the story-filing instruction; wired into docs-lint alongside the other gates
+- Meta: Shard=A | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
