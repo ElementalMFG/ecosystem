@@ -220,3 +220,17 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   correct governance for internal HAL contract changes; no RFC needed.
   Also: t1-pipeline gate list now includes allocation --generate/--check
   (same local-vs-CI parity lesson as the first queue run).
+- S-03-003 (2026-07-08): canonical Lite wake set wired via a NEW
+  component-local `ss_power_lite.h` / `ss_power_wake_lite_defaults()` — NOT in
+  the frozen `ss_hal_power.h` ABI (kept the run T3, out of the ss_hal T1 path).
+  It arms touch INT (GPIO47, level 0 — GT911 idles HIGH / active-LOW) and LoRa
+  DIO1 (GPIO1, level 1 — SX1262 IRQ active-HIGH); RTC timer is NOT armed here
+  (duty-cycle owner arms it via ss_power_wake_timer_set). DOWNSTREAM WIRING
+  POINT: nothing in main/ calls it yet (no power-owner task exists); a future
+  duty-cycle/power-owner story must call it once after ss_power_init(). The
+  light-vs-deep partition is now a pure host-tested predicate
+  ss_power_core_wake_is_deep_capable() (S3 RTC range 0..21); glue keeps
+  rtc_gpio_is_valid_gpio() as defense-in-depth. GPIO polarities are documented
+  assumptions pending confirmation at the D-0013 bench session
+  (docs/dev/BENCH_POWER_LITE.md; sleep <= 0.5 mA, wake latency — parks the
+  story at IN_REVIEW).
