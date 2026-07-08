@@ -93,3 +93,8 @@ CLAUDE.local.md
 
 # Root-level note/scratch text files are never repo content (accidental-publication guard)
 /*.txt
+
+# Compiled host-test binaries (the .c sources + Makefile are tracked; the ELF
+# outputs of `make -C .../test/host test` are build artifacts).
+firmware/components/*/test/host/test_*
+!firmware/components/*/test/host/test_*.c

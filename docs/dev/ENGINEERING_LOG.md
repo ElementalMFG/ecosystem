@@ -298,3 +298,19 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   sandbox-denied — now allowlisted; harness executed by the advisor: 44/44).
   Standing rule reinforced: every new test harness lands IN a CI workflow in
   the same commit.
+- S-03-013 (2026-07-08): LBT + EU868 duty-cycle guard landed as a pure,
+  host-tested policy core `ss_lora/ss_lora_lbt_core.[ch]` (no HAL/IDF dep,
+  self-contained on stdint/stdbool/stddef). Contract facts the LoRa driver
+  (S-03-011) must honour when it consumes this core: (a) fail-safe decision
+  enum — `SS_LORA_TX_ERR == 0`, so any NULL/unknown-band/uninitialised path
+  means "do not transmit"; (b) the driver feeds a channel RSSI sample +
+  threshold into `ss_lora_tx_evaluate`, backs off per `ss_lora_lbt_backoff_ms`
+  (10 ms base, ×2, cap 320 ms, give up after 5) on `DEFER_BUSY`, drops+logs on
+  `BLOCK_DUTY` (C-08), and calls `ss_lora_duty_record` AFTER a successful TX
+  with the real airtime (`ss_lora_lbt_toa_ms`); (c) SOS override is bounded to
+  `SS_LORA_SOS_OVERRIDE_MAX_MS` (5 s) of airtime per rolling hour per sub-band
+  and LBT still defers SOS (collision avoidance). EU868 sub-band duty table is
+  from ETSI EN 300 220. KNOWN LIMITATION → follow-up: duty accounting is
+  in-RAM only (a reboot resets the 1 h window); persisting it across reboot is
+  deliberately out of scope here (persistence is an escalation trigger) and
+  should be filed as its own story if strict cross-reboot compliance is needed.

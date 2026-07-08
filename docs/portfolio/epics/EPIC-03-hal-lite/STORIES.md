@@ -83,7 +83,9 @@ As a compliance engineer I want the LoRa region PA table so that TX power and ch
 ### S-03-013 — LBT (Listen-Before-Talk) + duty-cycle guard
 As a compliance engineer I want listen-before-talk and a duty-cycle guard so that EU 868 duty limits and channel etiquette are enforced in software.
 - AC: LBT backs off on a busy channel; EU868 duty-cycle accounting blocks over-limit TX; SOS override path documented and bounded
-- Meta: Shard=E | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-REG-05,F-BR-01 | Const=C-00,C-08
+- Meta: Shard=E | Type=Feature | Size=M | Prio=P0 | Status=IN_REVIEW | SKU=L | PRD=NF-REG-05,F-BR-01 | Const=C-00,C-08
+- Tasks: spec EU868 sub-band duty limits (ETSI EN 300 220) + LBT/CAD backoff + bounded SOS override · design pure host-testable contract `ss_lora_lbt_core.h` · impl duty accounting + busy-channel backoff + SOS override in `ss_lora_lbt_core.c` · test host harness `test_ss_lora_lbt_core` (ASan/UBSan) · docs contract doc-block + ENGINEERING_LOG + CHANGELOG + host-tests CI wiring
+- Deps: S-03-011 (LoRa driver — on-target integration consumer that feeds RSSI/CAD samples and gates ss_lora_tx; NOT DONE, so on-target ACs land with it); external: ETSI EN 300 220 duty-cycle sub-band table
 
 ### S-03-014 — Wi-Fi STA scan + connect + WPA2/3
 As a device owner I want Wi-Fi STA scan/connect with WPA2/3 so that my pager uses home Wi-Fi whenever it is available.

@@ -18,6 +18,7 @@ on:
       - tools/gen-sbom.py
       - tools/tests/**
       - firmware/components/ss_audio/**
+      - firmware/components/ss_lora/**
       - .github/workflows/host-tests.yml
   push:
     branches: [main]
@@ -29,6 +30,7 @@ on:
       - tools/gen-sbom.py
       - tools/tests/**
       - firmware/components/ss_audio/**
+      - firmware/components/ss_lora/**
       - .github/workflows/host-tests.yml
 
 permissions:
@@ -104,4 +106,6 @@ jobs:
       - uses: actions/checkout@v7
       - name: ss_audio host cores (mic + speaker)
         run: make -C firmware/components/ss_audio/test/host test
+      - name: ss_lora LBT + duty core
+        run: make -C firmware/components/ss_lora/test/host test
 

@@ -9,6 +9,19 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Listen-before-talk + EU868 duty-cycle guard (S-03-013): a new `ss_lora`
+  component ships a pure, host-tested policy core (`ss_lora_lbt_core`) that
+  enforces LoRa channel etiquette and the ETSI EN 300 220 duty-cycle limits in
+  software. It computes LoRa time-on-air, tracks per-sub-band airtime in a
+  rolling one-hour window, and returns a fail-safe TX decision (`ALLOW`,
+  `DEFER_BUSY` with an exponential backoff schedule, or `BLOCK_DUTY` — drop and
+  log, per constitution C-08). An emergency/SOS override may exceed the duty
+  budget but is bounded to 5 s of airtime per hour per sub-band, and
+  listen-before-talk still defers SOS on a busy channel. The core is
+  self-contained (no HAL/IDF dependency) and verified on the host under
+  ASan/UBSan (41 checks). On-target enforcement lands with the SX1262 LoRa
+  driver (S-03-011), which feeds RSSI/CAD samples into the core.
+
 - Contract-ownership CI gate (S-02-025): `tools/contract-audit.py` asserts that
   every function declared in the HAL contract headers
   (`firmware/components/ss_hal/include/ss_hal*.h`, including the umbrella
