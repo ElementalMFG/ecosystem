@@ -36,22 +36,26 @@ As an SDK consumer I want an LXMF client in the Python SDK so that scripted tool
 ### S-20-007 — TypeScript SDK skeleton (npm)
 As an SDK consumer I want an npm-published TypeScript SDK skeleton so that web and Node developers get typed SS-SP access.
 - AC: `npm i @ss-sp/sdk` hello-world passes (epic exit criterion 1); package ships ESM and CJS builds with published type declarations; unit tests run on Node LTS in CI
-- Meta: Shard=D | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=★ | PRD=F-SDK-05 | Const=C-00
+- Meta: Shard=D | Type=Feature | Size=M | Prio=P3 | Status=DRAFT | SKU=★ | PRD=F-SDK-05 | Const=C-00
+- Deps: v1.1 train per RFC-0004 SL-6 (D-0019) — deferred, not descoped
 
 ### S-20-008 — TypeScript SDK browser build (WebBLE)
 As an SDK consumer I want a browser build of the TypeScript SDK using Web-BLE so that web apps can talk to a SS-SP device directly.
 - AC: connects to a device over Web-BLE from a Chromium browser in test; browser bundle requires no Node polyfills; Web-BLE availability is feature-detected and reported through a documented capability API
-- Meta: Shard=D | Type=Feature | Size=L | Prio=P1 | Status=DRAFT | SKU=★ | PRD=F-SDK-05 | Const=C-00
+- Meta: Shard=D | Type=Feature | Size=L | Prio=P3 | Status=DRAFT | SKU=★ | PRD=F-SDK-05 | Const=C-00
+- Deps: v1.1 train per RFC-0004 SL-6 (D-0019) — deferred, not descoped
 
 ### S-20-009 — Dart SDK skeleton
 As an SDK consumer I want a pub.dev-ready Dart SDK skeleton so that Flutter developers can build SS-SP apps.
 - AC: `dart pub publish --dry-run` passes clean; API is null-safe; unit tests run on stable Dart in CI
-- Meta: Shard=E | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=★ | PRD=F-SDK-04 | Const=C-00
+- Meta: Shard=E | Type=Feature | Size=M | Prio=P3 | Status=DRAFT | SKU=★ | PRD=F-SDK-04 | Const=C-00
+- Deps: v1.1 train per RFC-0004 SL-6 (D-0019) — deferred, not descoped
 
 ### S-20-010 — Dart SDK Flutter integration example
 As an SDK consumer I want a Flutter example app using the Dart SDK so that mobile developers have a working starting point.
 - AC: example app pairs with a device and sends a message; runs on both iOS and Android; the example is built in CI so it never rots
-- Meta: Shard=E | Type=Feature | Size=M | Prio=P2 | Status=DRAFT | SKU=★ | PRD=F-SDK-04 | Const=C-00
+- Meta: Shard=E | Type=Feature | Size=M | Prio=P3 | Status=DRAFT | SKU=★ | PRD=F-SDK-04 | Const=C-00
+- Deps: v1.1 train per RFC-0004 SL-6 (D-0019) — deferred, not descoped
 
 ### S-20-011 — Wire testkit YAML vector format
 As an SDK maintainer I want a YAML test-vector format covering SS-Link/RNS/LXMF frames so that all five SDKs prove wire conformance against one source of truth.

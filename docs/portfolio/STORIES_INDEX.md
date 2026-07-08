@@ -63,7 +63,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-02-016 | D | Feature | L | P0 | IN_REVIEW | ★ | NF-REL-03 | C-00,C-05 |
 | S-02-017 | B | Feature | S | P0 | DONE | ★ | — | C-00 |
 | S-02-018 | D | Feature | M | P1 | DRAFT | ★ | — | C-00 |
-| S-02-019 | A | Ops | M | P0 | IN_PROGRESS | ★ | NF-SEC-05,NF-REG-03 | C-00,C-OA |
+| S-02-019 | A | Ops | M | P0 | DRAFT | ★ | NF-SEC-05,NF-REG-03 | C-00,C-OA |
 | S-02-020 | A | Feature | XS | P0 | DRAFT | ★ | — | C-00 |
 | S-02-021 | — | Feature | M | P1 | DRAFT | ★ | NF-PERF-03 | C-00 |
 | S-02-022 | E | Feature | M | P2 | DRAFT | ★ | — | C-00 |
@@ -133,7 +133,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-05 — HAL for Omega (Alpha + Cellular + LEO Sat option) (19 stories)
+## Epic-05 — HAL for Omega (Alpha + Cellular + LEO Sat option) (20 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -156,6 +156,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-05-017 | D | Ops | M | P0 | DRAFT | O | F-BR-06 | C-08 |
 | S-05-018 | A | Feature | M | P0 | DRAFT | O | NF-REL-02 | C-05,C-08 |
 | S-05-019 | A | Spike | S | P1 | DRAFT | O | F-BR-06, NF-COST-02 | C-01, C-08 |
+| S-05-020 | — | Task | M | P2 | DRAFT | O | — | C-00 |
 
 ---
 
@@ -564,10 +565,10 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-20-004 | B | Feature | L | P1 | DRAFT | ★ | F-SDK-02 | C-00, C-02 |
 | S-20-005 | C | Feature | M | P1 | DRAFT | ★ | F-SDK-03 | C-00 |
 | S-20-006 | C | Feature | M | P1 | DRAFT | ★ | F-SDK-03 | C-00, C-02 |
-| S-20-007 | D | Feature | M | P1 | DRAFT | ★ | F-SDK-05 | C-00 |
-| S-20-008 | D | Feature | L | P1 | DRAFT | ★ | F-SDK-05 | C-00 |
-| S-20-009 | E | Feature | M | P1 | DRAFT | ★ | F-SDK-04 | C-00 |
-| S-20-010 | E | Feature | M | P2 | DRAFT | ★ | F-SDK-04 | C-00 |
+| S-20-007 | D | Feature | M | P3 | DRAFT | ★ | F-SDK-05 | C-00 |
+| S-20-008 | D | Feature | L | P3 | DRAFT | ★ | F-SDK-05 | C-00 |
+| S-20-009 | E | Feature | M | P3 | DRAFT | ★ | F-SDK-04 | C-00 |
+| S-20-010 | E | Feature | M | P3 | DRAFT | ★ | F-SDK-04 | C-00 |
 | S-20-011 | F | Feature | M | P1 | DRAFT | ★ | F-SDK-01, F-SDK-02, F-SDK-03, F-SDK-04, F-SDK-05 | C-00, C-02 |
 | S-20-012 | F | Feature | L | P1 | DRAFT | ★ | F-SDK-01, F-SDK-02, F-SDK-03, F-SDK-04, F-SDK-05 | C-00, C-02 |
 | S-20-013 | G | Feature | M | P1 | DRAFT | ★ | F-SEC-11 | C-00, C-05 |
@@ -719,12 +720,12 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Totals — 536 stories across 24 epics
+## Totals — 537 stories across 24 epics
 
 | Status | Count |
 |---|---|
-| DRAFT | 504 |
-| IN_PROGRESS | 2 |
+| DRAFT | 506 |
+| IN_PROGRESS | 1 |
 | IN_REVIEW | 7 |
 | DONE | 22 |
 | BLOCKED | 1 |
@@ -737,7 +738,7 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 
 | Clause key | Stories | P0 coverage |
 |---|---|---|
-| C-00 | 223 | yes |
+| C-00 | 224 | yes |
 | C-01 | 18 | yes |
 | C-02 | 81 | yes |
 | C-03 | 46 | yes |

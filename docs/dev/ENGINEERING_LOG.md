@@ -84,3 +84,9 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   scoped plugins); video = signed plugins post-v1.0; ss_ai scaffold-only
   until v2.x; v1.0 ships Lite+Alpha; SDKs C/Rust/Python (TS/Dart v1.1).
   All additive — no story deleted or narrowed.
+- S-01-018 (2026-07-08): RFC-0004 follow-through audit — guard 6 needed NO
+  new stories (EPIC-18 S-18-004/005/006 + reference plugins already cover
+  the smartphone-app capability floor; S-18-018 is the video-plugin story);
+  added S-05-020 (Omega v1.x spec-lock, promised by SL-5) and recorded the
+  SL-6 re-train on S-20-007/008/009/010 (Prio P3 + D-0019 Deps note —
+  deferred, not descoped).
