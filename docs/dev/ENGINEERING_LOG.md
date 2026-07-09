@@ -481,3 +481,14 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   (BLE disconnects 0, notif loss ≤0.5%, Wi-Fi TCP floor ≥10 Mbps, UDP loss
   ≤1%, bidir degradation ≤20%); measured/pass columns fill at D-0013, so the
   story parks at IN_REVIEW. Closes EPIC-03 risk R03-02.
+- S-03-026 (2026-07-09): stop-and-escalate CONFIRMED VALID (doc 10 §8 —
+  surprise contract contradiction). Frozen `ss_hal_radio_halow.h` prose says
+  "via Morse Micro MM8108 … absent on Lite", but ratified Lite hardware
+  (C-01 §3) carries an Elecrow HaLow module on the wireless-header SPI.
+  The API surface (init/config/start/stop/tx/rx) is largely silicon-neutral;
+  the stale parts are the prose + MM8108-shaped comments (MCS 0..10,
+  BW ≤16 MHz). Resolution: filed S-03-046 (T1, t1-pipeline) to reconcile
+  the header; S-03-026 → BLOCKED on it. Elecrow part/stack stays TBD-D-0013 —
+  the reconciliation must not guess silicon ranges. Pattern: headers written
+  before the hardware lock are contract-drift candidates; the T3 escalation
+  path caught this exactly as designed.

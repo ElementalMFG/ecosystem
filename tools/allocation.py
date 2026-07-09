@@ -92,6 +92,7 @@ EXPLICIT = {
     "S-03-030": ("T1", "frozen ss_hal contract change (components/ss_hal/** is a T1 path, doc 10 §8.3)"),
     "S-03-032": ("T1", "ss_hal ABI/signature repair (components/ss_hal/** is a T1 path, doc 10 §8.3)"),
     "S-03-039": ("T1", "watchdog HAL surface reconciliation (ss_hal_watchdog.h change is a T1 path)"),
+    "S-03-046": ("T1", "HaLow HAL contract reconciliation (ss_hal_radio_halow.h change is a T1 path; filed 2026-07-09 from S-03-026 stop-and-escalate)"),
     "S-03-015": ("T1", "confirmed 2026-07-08: AC carries credential handoff over an open soft-AP — onboarding security surface (doc 05); portal plumbing rides the same story under T1 review"),
     "S-03-016": ("T1", "confirmed 2026-07-08: AC exposes GATT pairing + provisioning services — BLE pairing-mode/MITM policy and the provisioning characteristic are the onboarding security surface (doc 05); GATT plumbing rides the same story under T1 review"),
     "S-03-017": ("T1", "confirmed 2026-07-08: LTK storage, encrypted-NVS-only rest state, bond wipe lifecycle — keys at rest (doc 10 §2 T1 domain)"),

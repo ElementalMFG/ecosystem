@@ -168,7 +168,9 @@ As a firmware engineer I want a Wi-Fi/BLE coexistence stress test so that shared
 ### S-03-026 — HaLow module bring-up on the Lite wireless header (SPI)
 As a firmware engineer I want the Elecrow HaLow module brought up on Lite's wireless header so that the D-0013 dev fleet's primary long-range bearer works on the shipping board.
 - AC: HaLow host driver initializes over the wireless-header SPI set (0/10/9/3, RST 2, IRQ 1, mux GPIO45=LOW per C-01 §3 table) with `SS_CAP_RADIO_HALOW` replacing `SS_CAP_RADIO_LORA` under `CONFIG_SS_LITE_MOD_HALOW`; SPI init defers to the S-02-016 recovery-window ownership of GPIO0; association + data-path smoke passes between the two D-0013 dev units; module part/stack pin recorded (Lite SPI path is distinct from Alpha's MM8108-SDIO stories S-04-003/023)
-- Meta: Shard=— | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01,C-08
+- Meta: Shard=— | Type=Feature | Size=L | Prio=P0 | Status=BLOCKED | SKU=L | PRD=— | Const=C-00,C-01,C-08
+- Tasks: spec (blocked on contract decision) · design/impl/test/docs pending S-03-046 outcome
+- Deps: S-03-046 (HaLow HAL contract reconciliation — BLOCKED 2026-07-09: frozen `ss_hal_radio_halow.h` says "absent on Lite"/MM8108-only, contradicting this story's AC; T3 worker correctly stopped per doc 10 §8), S-02-016 (recovery-window GPIO0 ownership — soft dep, IN_REVIEW); smoke clause additionally needs the two D-0013 dev units
 
 ### S-03-027 — GNSS HAL driver (`hal_gnss`) — UART1 NMEA behind the HAL contract
 As a firmware engineer I want the GNSS module driven through `hal_gnss` so that location leaves the bring-up scaffolding and binds to the HAL contract.
@@ -281,3 +283,9 @@ As a test engineer I want the full HIL matrix executed on D-0013 boards so that 
 - AC: the full 4-exit-criteria × 5-conformance-domain matrix from `HIL_TEST_PLAN_LITE.md` §4 is run on D-0013 fleet Lite units; §4.1 results table populated with real measurements + timestamps + firmware revs; per-domain JUnit XML archived as evidence; any exit-criterion failure blocks EPIC-03 exit (does not silently downgrade)
 - Meta: Shard=I | Type=Ops | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00
 - Deps: S-03-022 (vectors), S-03-023 (plan), S-03-044 (workflow), S-02-015 (Unity rig); blocking hardware event: D-0013 fleet online
+
+### S-03-046 — HaLow HAL contract reconciliation (Lite Elecrow-SPI vs MM8108-only framing)
+As a platform engineer I want `ss_hal_radio_halow.h` reconciled with the ratified Lite hardware so that the Lite HaLow driver (S-03-026) builds against a contract that admits it exists.
+- AC: header prose ("via Morse Micro MM8108", "absent on Lite") reconciled with C-01 §3 (Elecrow HaLow module on Lite's wireless-header SPI); decision recorded whether the header stays the single silicon-neutral HaLow contract (transport = implementation detail) or Lite gets a distinct contract; silicon-specific field framing (MCS 0..10, BW up to 16 MHz comments) generalized or explicitly bounded per-silicon via caps query; ranges that depend on the unconfirmed Elecrow part are marked TBD-D-0013, not guessed; decision + rationale in ENGINEERING_LOG (+ DEPRECATIONS/CHANGELOG if any symbol changes)
+- Meta: Shard=— | Type=Task | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00,C-01,C-08
+- Deps: — (part/stack confirmation at D-0013 may refine numeric ranges; the reconciliation itself must not wait on it). Filed 2026-07-09 from the S-03-026 stop-and-escalate (frozen-contract contradiction, doc 10 §8).
