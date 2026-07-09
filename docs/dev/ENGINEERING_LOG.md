@@ -456,3 +456,9 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   D-0013 fleet and fills `HIL_TEST_PLAN_LITE.md` §4.1 results. Rule of thumb
   reinforced: a plan doc without an execution owner is orphaned — every plan
   story earns at least one execution story before the workers close.
+- ss_storage.c (2026-07-08): comment-only TODO owner correction — line 125
+  pointed to S-03-023 (HIL rack test-plan) but the correct owner of NVS/SD/
+  MODELS storage-kind aggregation is S-03-018 (Flash partition layout
+  reconciliation), whose AC explicitly names "logs/FS mapping onto storage
+  (LittleFS, S-03-019)" as scope. Worker ID transposition (018↔023); caught
+  during the follow-up filing sweep. No code change.

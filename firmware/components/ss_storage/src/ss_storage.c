@@ -122,8 +122,10 @@ esp_err_t ss_storage_mount(ss_storage_kind_t kind)
         }
         return drive_self_heal_mount();
 
-    // TODO(S-03-023): NVS/SD/MODELS kinds are out of scope for S-03-019 and are
-    // wired by the ss_storage aggregation story.
+    // TODO(S-03-018): NVS/SD/MODELS kinds are out of scope for S-03-019 and are
+    // wired by the flash-partition-layout / storage-aggregation story
+    // (S-03-018 AC: "logs/FS mapping onto `storage` (LittleFS, S-03-019) is
+    // documented"). S-03-023 is the HIL rack plan — not this owner.
     case SS_STORAGE_INTERNAL_NVS:
     case SS_STORAGE_SD:
     case SS_STORAGE_MODELS:
