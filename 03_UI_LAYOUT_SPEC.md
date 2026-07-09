@@ -92,7 +92,19 @@ The layout descriptor is defined in `boards/<name>/board_config.h` and consumed 
   .color=true, .min_refresh_ms=33, .board_name="ss-sp-lite" }
 ```
 
-**Alpha 1.0 (2.4" 320×240 + 12 SK6805 ring)**
+**Omega v1.0 (3.92" square 480×480 + 12 SK6805 ring)**
+
+Descriptor from the released Omega v69 board (D-0021, `docs/dev/OMEGA_HW_BASELINE.md`). The Omega descriptor and its focus-nav graph are **owned by story S-05-039** (which authors the `SS_SHAPE_SQUARE` layout + touch-primary/limited-key focus graph). Inputs are single-touch GT911 (touch-primary) plus 4 side keys (power/vol+/vol−/reset) exposed as **system-level buttons only** — there is no D-pad/rocker for UI focus navigation.
+```c
+{ .shape=SQUARE, .orient=LANDSCAPE, .w_px=480, .h_px=480, .dpi=175, // dpi TBD from panel datasheet
+  .safe_area_px={2,2,2,2}, .bezel_led_count=12,  // physical SK6805 ring
+  .inputs = TOUCH_SINGLE | VOICE,   // 4 side keys are system-level buttons, not UI focus nav
+  .color=true, .min_refresh_ms=33, .board_name="ss-sp-omega" }
+```
+
+**Alpha 1.0 (TBD at Alpha lock — values below are legacy/unverified, D-0021)**
+
+Alpha is **not locked** (`docs/dev/OMEGA_HW_BASELINE.md`); the descriptor below is a legacy placeholder and is **not asserted**. Its panel, DPI, and input set are **TBD at Alpha lock** and will be authored from a released Alpha package.
 ```c
 { .shape=RECT, .orient=LANDSCAPE, .w_px=320, .h_px=240, .dpi=167,
   .safe_area_px={2,2,2,2}, .bezel_led_count=12,

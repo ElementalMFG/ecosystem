@@ -60,7 +60,7 @@ As a firmware developer I want a fuzzer harness over SS-Link framing so that bea
 
 ### S-22-012 — Chaos bearer-flap test
 As a firmware developer I want a chaos test that flaps Wi-Fi/LoRa/BLE bearers under live traffic so that bearer failover is proven, not assumed.
-- AC: bearers are flapped in randomized sequences under message load; bearer re-selection completes within the 3 s NF-PERF-02 budget in every iteration; queued messages survive the flaps with zero loss
+- AC: bearers are flapped in randomized sequences under message load; bearer re-selection completes within the 3 s NF-PERF-02 budget in every iteration; queued messages survive the flaps with zero loss; D-0021: per-SKU bearer set: L=Wi-Fi/LoRa/BLE, A/O=HaLow/Wi-Fi/BLE
 - Meta: Shard=E | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=★ | PRD=NF-PERF-02 | Const=C-00
 
 ### S-22-013 — Chaos brownout test
@@ -110,8 +110,8 @@ As a firmware developer I want a single versioned test-vector library shared bet
 
 ### S-22-022 — LoRa TX latency benchmark (NF-PERF-03)
 As a firmware engineer I want an automated queue-to-on-air latency benchmark for LoRa so that the < 250 ms non-SOS budget is continuously enforced.
-- AC: hardware-in-loop rig measures enqueue → preamble-start latency across payload sizes and duty-cycle states; CI perf job fails when P95 exceeds 250 ms outside SOS priority; results are trended per commit so regressions are attributable
-- Meta: Shard=— | Type=Ops | Size=S | Prio=P1 | Status=DRAFT | SKU=★ | PRD=NF-PERF-03 | Const=C-00, C-08
+- AC: hardware-in-loop rig measures enqueue → preamble-start latency across payload sizes and duty-cycle states; CI perf job fails when P95 exceeds 250 ms outside SOS priority; results are trended per commit so regressions are attributable; D-0021: HaLow-equivalent benchmark for A/O at elaboration
+- Meta: Shard=— | Type=Ops | Size=S | Prio=P1 | Status=DRAFT | SKU=L | PRD=NF-PERF-03 | Const=C-00, C-08
 
 ### S-22-023 — Indefinite-offline soak test (NF-REL-01)
 As a firmware engineer I want a long-duration cloudless soak test so that field devices are proven to operate indefinitely without cloud contact.

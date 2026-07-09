@@ -106,8 +106,8 @@ Verified against Elecrow wiki, Elecrow-RD GitHub, and Meshtastic `variants/esp32
 - **Bezel:** 12× SK6805‑EC15 addressable RGB
 - **Power:** EA3059QDR 4‑ch PMIC + TP4056 charger + MAX17048 fuel gauge + 5000 mAh LiPo
 - **Storage:** microSD (SDIO 2.0)
-- **I/O:** USB‑C IP68, IP68 buttons, SMA bulkhead antenna, PCA9555 GPIO expander
-- **Rugged:** IPC Class 2 + Class 3 RF path, IP68 sealing, -40 to +85 °C
+- **I/O:** USB‑C (IP‑rated mid‑mount), IP‑rated buttons, SMA bulkhead antenna, PCA9555 GPIO expander
+- **Rugged:** IPC Class 2 + Class 3 RF path, IP65/66 sealing (D-0021: Omega v1.0 targets **IP65/66**; IP68 is aspirational for a later rev — `docs/dev/OMEGA_HW_BASELINE.md`), -40 to +85 °C
 
 ---
 
@@ -119,11 +119,11 @@ Grouped by capability layer. Every item is derived from the real silicon in the 
 - HaLow mesh chat (short + long messages, store‑and‑forward)
 - HaLow digital voice PTT (Opus/Codec2 encoded)
 - HaLow **broadcast beacon / SOS**
-- HaLow **live video micro‑frames** (H.264 hardware‑accelerated on P4, sub‑resolution/thumbnail on Lite)
+- HaLow **live video micro‑frames** (H.264 hardware‑accelerated where the SoC supports it — the P4 has a HW H.264 encoder; **Lite/ESP32‑S3 has none, so Lite is JPEG stills only**, D-0021 `docs/dev/OMEGA_HW_BASELINE.md`)
 - **Reticulum** identity + LXMF messaging + micronets (transport‑agnostic — works over HaLow, LoRa, TCP, Wi‑Fi, serial)
 - **BLE tether** to phone (companion app is a "remote UI + backhaul")
 - **Wi‑Fi 6 hotspot / STA** (Alpha via C6, Lite native) for internet bridging when available
-- **Optional LoRa** expansion (Lite header, future Omega dual‑radio) — bridged to HaLow via router
+- **Optional LoRa** expansion (Lite header, future Omega dual‑radio) — bridged to HaLow via router (D-0021: **Omega dual‑radio = post‑v1.0 board respin** — v69 has **no expansion interface**, so it cannot be added as a module; see D-0020 note §1 and `docs/dev/OMEGA_HW_BASELINE.md`)
 - **Cross‑protocol gateway** (HaLow ↔ LoRa ↔ MQTT ↔ Matrix ↔ Meshtastic ↔ APRS ↔ Nostr ↔ Iridium/Starlink IP)
 
 ### 2.2 Multimodal I/O
@@ -132,7 +132,7 @@ Grouped by capability layer. Every item is derived from the real silicon in the 
 - **Digital voice calls** (full‑duplex on HaLow, half‑duplex PTT on LoRa)
 - **Audio‑reactive bezel** (VU meter, direction pulse)
 - **Haptic feedback** patterns (LRA library)
-- **Cap touch UI** + physical buttons + rocker
+- **Cap touch UI** + system‑level side keys (per‑SKU input, D-0021 `docs/dev/OMEGA_HW_BASELINE.md`: **Omega v69 = 4 side keys** power/vol+/vol−/reset, touch‑primary, **no rocker/D‑pad**; **Lite** = touch + BLE/USB‑HID; **Alpha** input set TBD at lock)
 - **Voice wake word** (optional, "Hey Seekie")
 
 ### 2.3 Location, Navigation, Sensing
@@ -141,14 +141,14 @@ Grouped by capability layer. Every item is derived from the real silicon in the 
 - Offline map tiles (SD storage, MBTiles/PMTiles)
 - Geofencing, breadcrumb, track‑back
 - Rally‑point / muster‑point broadcast
-- Man‑down / dead‑man switch (accelerometer if fitted; else motion via mic/haptics feedback)
+- Man‑down / dead‑man switch (**hardware‑gated**, D-0021 `docs/dev/OMEGA_HW_BASELINE.md`: Omega v69 has **no IMU** so no wake‑on‑motion source; Lite via the optional IMU module S-03-036; Alpha TBD at lock — else motion inferred via mic/haptics feedback)
 - Ambient light + temperature (via ESP32 internal ADC / added sensor)
 
 ### 2.4 Data / Payload
 - Encrypted text messaging (per‑channel + per‑contact keys)
 - File transfer (chunked, resumable, CRDT‑merged)
 - Sensor telemetry (JSON‑CBOR)
-- Micro‑video/still image share (JPEG/H.264 fragments)
+- Micro‑video/still image share (JPEG fragments on all SKUs; H.264 fragments only where a HW encoder exists — P4/Omega, **not** Lite/S3, D-0021)
 - Distributed key/value store (CRDT — for shared maps, waypoints, roster)
 - **Offline map + waypoint sync** across mesh (only diffs propagate)
 
@@ -157,7 +157,7 @@ Grouped by capability layer. Every item is derived from the real silicon in the 
 - Per‑channel symmetric keys + per‑user asymmetric keys
 - **Forward secrecy** via ephemeral session keys (Signal‑style double ratchet optional layer)
 - **Secure boot** + **flash encryption** (ESP32‑S3 / P4 native)
-- Hardware‑backed key store (eFuse + optional external ATECC608)
+- Hardware‑backed key store (eFuse + optional external ATECC608 — D-0021: SE scoped to the **Lite D-0013 attachment** now / **Omega rev-2** later; no on‑board SE on Omega v69, `docs/dev/OMEGA_HW_BASELINE.md`)
 - **Firmware signature** + **anti‑rollback** counter in eFuse
 - Panic wipe / plausible‑deniability duress PIN
 - **No‑cloud mode** as a first‑class deployment
@@ -166,7 +166,7 @@ Grouped by capability layer. Every item is derived from the real silicon in the 
 ### 2.6 Fleet / Ops
 - OTA over HaLow, USB, and Wi‑Fi (delta + signed)
 - Remote diagnostics (opt‑in) via Reticulum admin channel
-- Provisioning QR / NFC handoff
+- Provisioning QR / NFC handoff (**NFC future‑board‑gated** — no NFC on any v1.0 board, D-0021 `docs/dev/OMEGA_HW_BASELINE.md`)
 - Battery health, TX/RX counters, mesh graph telemetry
 - Group management: roles (admin/operator/observer), channel ACLs
 - Tactical overlays (ATAK/CoT interop bridge on phone side)
@@ -230,6 +230,7 @@ A single `hal_*.h` API per subsystem, with per‑board `board_lite.c`, `board_al
 ```
 hal_display.h  hal_touch.h  hal_led.h  hal_audio.h  hal_mic.h
 hal_gnss.h     hal_imu.h    hal_haptic.h hal_pmic.h hal_fuelgauge.h
+   // hal_imu.h is capability-flagged per SKU (D-0021): SS_CAP_IMU=0 on Omega v69 (no IMU); present on Lite via optional module S-03-036; Alpha TBD at lock.
 hal_button.h   hal_storage.h hal_radio.h (HaLow, LoRa, Wi‑Fi, BLE)
 hal_power.h    hal_secure.h  hal_time.h
 ```
@@ -269,7 +270,7 @@ We also fork the **Meshtastic Android/iOS/web clients** into `SeekieSpeakieUI` c
   - Takes a *logical* screen (grid of tiles), and *renders* to the physical panel using layout templates.
   - Ships templates for: **rectangular portrait (Lite 320×480), rectangular landscape, square (240×240), round (240/320/480 circular), tall bar (128×320), e‑ink (SPI), HMD/glass mono**.
   - All widgets are **DPI‑ and aspect‑ratio‑aware**, use relative units, and support **safe‑area insets** (for bezels, notches, round corners).
-- Input abstraction: capacitive touch, physical rotary/rocker, wake button, voice — all normalized to a single `ss_input_event_t`.
+- Input abstraction: capacitive touch, system‑level side keys, voice — all normalized to a single `ss_input_event_t` (rotary/rocker are roadmap input classes, **not present on any v1.0 board**; Omega v69 exposes 4 side keys only, D-0021 `docs/dev/OMEGA_HW_BASELINE.md`).
 - **Themes**: Tactical (dark, high‑contrast), Civilian (light, friendly), Night‑vision (deep red), High‑vis (yellow/black), Accessibility (large font, screen‑reader over TTS).
 
 ### 3.6 Application layer (L7)
@@ -293,7 +294,7 @@ apps/
 ## 4. HaLow + Reticulum Integration — the Hard Part
 
 ### 4.1 HaLow driver
-- Use Morse Micro's official ESP‑IDF integration: the **`morsemicro/halow` component from the ESP Component Registry** (Apache‑2.0; the older `mm-iot-esp32` repo is deprecated). Host interface: SDIO 2.0 or USB 2.0 HS (MM8108 supports both; selection spike S‑04‑023, see `docs/portfolio/08_HALOW_TECHNOLOGY_DOSSIER.md`). Wrap in `hal_radio_halow.c`.
+- Use Morse Micro's official ESP‑IDF integration: the **`morsemicro/halow` component from the ESP Component Registry** (Apache‑2.0; the older `mm-iot-esp32` repo is deprecated). Host interface: for **Omega the answer is fixed — MM8108 on SDIO** per the released v69 board (D-0021, `docs/dev/OMEGA_HW_BASELINE.md`); the SDIO-vs-USB selection spike **S‑04‑023 remains open only for the unlocked Alpha board** (MM8108 supports both; see `docs/portfolio/08_HALOW_TECHNOLOGY_DOSSIER.md`). Wrap in `hal_radio_halow.c`.
 - Expose two modes:
   - **Infrastructure**: SS‑SP acts as AP or STA on an 802.11ah network (for interop with commercial HaLow deployments — AREDN‑HaLow, industrial IoT gateways).
   - **Mesh (802.11s over HaLow)**: peer‑to‑peer mesh using 802.11s protocol on HaLow — this is what enables the tactical use case with no infrastructure. Morse Micro's stack supports 802.11s.
@@ -355,7 +356,7 @@ layout: {
   width_px, height_px, dpi
   safe_area: {top, right, bottom, left}
   bezel_led_count: N   // 0 for none
-  input: [touch, rocker, rotary, voice, physical_keys]
+  input: [touch, rocker, rotary, voice, physical_keys]   // D-0021: enumerable classes; actual fit is per-SKU — Omega v69 = touch + 4 physical_keys only (no rocker/rotary)
 }
 ```
 
@@ -392,7 +393,7 @@ Adversaries considered:
 ### 6.2 Controls
 - **Secure boot v2** + **flash encryption** (ESP32‑S3/P4 native), keys in eFuse.
 - Firmware signing with **two‑key** scheme (vendor key + operator key). Anti‑rollback via eFuse monotonic counter.
-- **Reticulum identity** stored in encrypted namespace on flash + optional ATECC608 secure element.
+- **Reticulum identity** stored in encrypted namespace on flash + optional ATECC608 secure element (D-0021: SE = **Lite D-0013 attachment** now / **Omega rev-2** later; no on‑board SE on Omega v69, `docs/dev/OMEGA_HW_BASELINE.md`).
 - Duress PIN → panic wipe (fills PSRAM + flash region with random, then reboots to factory).
 - Deniable dual‑volume mode (real vs cover‑persona identity).
 - Mesh‑layer protections: RNS announces are rate‑limited; **proof‑of‑work challenge** on new peer to slow Sybil; per‑channel admission control.
@@ -405,7 +406,7 @@ Adversaries considered:
 
 ### 6.4 Provisioning
 - QR‑code + BLE onboarding (Wi‑Fi Easy Connect style).
-- NFC handoff (Alpha future) for zero‑touch mesh join.
+- NFC handoff for zero‑touch mesh join (**future‑board‑gated** — no NFC on any v1.0 board, D-0021 `docs/dev/OMEGA_HW_BASELINE.md`; Alpha TBD at lock).
 - Factory‑programmed unique key + serial + eFuse burn; certificate of provenance signed by vendor CA.
 
 ---
@@ -414,7 +415,7 @@ Adversaries considered:
 
 ### 7.1 Power management
 - Wake‑on‑radio (HaLow TWT — target wake time — for long battery life).
-- Wake‑on‑motion / wake‑on‑button.
+- Wake‑on‑button (wake‑on‑motion is **hardware‑gated** — requires an IMU, **absent on Omega v69**; Lite via optional module S-03-036; Alpha TBD at lock, D-0021 `docs/dev/OMEGA_HW_BASELINE.md`).
 - Idle: <5 mA target on Alpha (RTC + fuel gauge + radio TWT).
 - TX bursts: 1 W radio only when actually transmitting; PA fully shut down via SKY66423 CSD.
 - Per‑app power budget (declared in manifest).

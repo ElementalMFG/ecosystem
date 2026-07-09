@@ -20,8 +20,8 @@ As a firmware engineer I want Codec2 3200 encode/decode integrated as a licence-
 
 ### S-14-004 — Codec2 1600/700C for LoRa constrained
 As a firmware engineer I want the Codec2 1600 and 700C modes available so that emergency voice remains possible on the most constrained LoRa links.
-- AC: Codec2 1600 and 700C encode/decode round-trips pass an intelligibility listening test for short emergency phrases; mode selection falls back 3200 → 1600 → 700C automatically when the bearer reports insufficient throughput, matching the rate ladder in `02_PROTOCOL_STACK.md` §5.4; module reuses the S-14-003 licence-isolation boundary
-- Meta: Shard=B | Type=Feature | Size=M | Prio=P2 | Status=DRAFT | SKU=A,O | PRD=F-VOX-04 | Const=C-00, C-04
+- AC: Codec2 1600 and 700C encode/decode round-trips pass an intelligibility listening test for short emergency phrases; mode selection falls back 3200 → 1600 → 700C automatically when the bearer reports insufficient throughput, matching the rate ladder in `02_PROTOCOL_STACK.md` §5.4; module reuses the S-14-003 licence-isolation boundary; D-0021: HaLow-MCS-driven codec ladder on A/O (equivalent trigger, not LoRa)
+- Meta: Shard=B | Type=Feature | Size=M | Prio=P2 | Status=DRAFT | SKU=L | PRD=F-VOX-04 | Const=C-00, C-04
 
 ### S-14-005 — PTT event pipeline
 As a device owner I want hold-to-talk capture that encodes and transmits while I speak so that pressing PTT is all it takes to send live voice.

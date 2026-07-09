@@ -35,7 +35,7 @@ As a protocol engineer I want an RNS interface over the Wi-Fi bearer so that dev
 
 ### S-11-007 — `ss_rns_iface_cellular` interface plugin
 As a protocol engineer I want an RNS interface over the cellular bearer so that Omega devices stay on the mesh with no local peers in range.
-- AC: RNS packets transit the cellular bearer to a remote transport node; interface marks itself metered and defers bulk resource transfers per bearer policy; interface tolerates cellular latency without spurious path timeouts
+- AC: RNS packets transit the cellular bearer to a remote transport node; interface marks itself metered and defers bulk resource transfers per bearer policy; interface tolerates cellular latency without spurious path timeouts; D-0021: path timeouts must be per-interface, not global
 - Meta: Shard=F | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=O | PRD=F-BR-06 | Const=C-02, C-08
 
 ### S-11-008 — Announce packet handling
@@ -100,7 +100,7 @@ As a protocol engineer I want RFC-0007 specifying how RNS integrates with SS-SP 
 
 ### S-11-020 — IP-over-RNS tunnel interface spec (`ss_rns_iface_tun`)
 As a protocol engineer I want a TUN-semantics IP-over-RNS interface specified by RFC before any consumer ships so that EUD tethering, HGW Ethernet, and IP-mesh bridging all consume one stable spec instead of inventing three.
-- AC: RFC specifies MTU discipline, fragmentation policy, and addressing derived from RNS identity per `03_ARCHITECTURE.md` §4.6; a reference implementation round-trips IPv4/IPv6 packets between two devices over the mesh in an integration test; spec reaches ACCEPTED via the governance process before F-EUD-02 implementation starts
+- AC: RFC specifies MTU discipline, fragmentation policy, and addressing derived from RNS identity per `03_ARCHITECTURE.md` §4.6; a reference implementation round-trips IPv4/IPv6 packets between two devices over the mesh in an integration test; spec reaches ACCEPTED via the governance process before F-EUD-02 implementation starts; D-0021: HGW deployment only, not a handheld-SKU claim
 - Meta: Shard=— | Type=RFC | Size=M | Prio=P1 | Status=DRAFT | SKU=★ | PRD=F-EUD-02 | Const=C-02, C-08, C-06
 
 ### S-11-021 — Host-portable `ss_node_core` library build
@@ -115,8 +115,8 @@ As a protocol engineer I want BLE (and USB serial) as a first-class RNS interfac
 
 ### S-11-023 — Announce budgets + transport-tier profile for constrained bearers
 As a protocol engineer I want per-bearer announce budgets and a leaf/transport tier profile so that a 1 000-node LoRa region spends its duty-cycle airtime on user traffic instead of drowning in path-table chatter.
-- AC: constrained-bearer nodes default to leaf (non-transport) mode with transport role reserved for mains-powered/gateway profiles, user-overridable; announce ingress and egress budgets are enforced per bearer with priority eviction that never evicts paths in active use; cross-bearer announce damping re-emits fast-bearer announces onto LoRa only when the destination is plausibly reachable there; simulation of a 1 000-node region shows combined announce airtime ≤ 5 % of the regional duty-cycle budget per NF-SCALE-02; path-table caps fit Lite/Alpha RAM budgets with LRU + pin-active policy and are covered by unit tests
-- Meta: Shard=— | Type=Feature | Size=L | Prio=P1 | Status=DRAFT | SKU=★ | PRD=NF-SCALE-02 | Const=C-02, C-08
+- AC: constrained-bearer nodes default to leaf (non-transport) mode with transport role reserved for mains-powered/gateway profiles, user-overridable; announce ingress and egress budgets are enforced per bearer with priority eviction that never evicts paths in active use; cross-bearer announce damping re-emits fast-bearer announces onto LoRa only when the destination is plausibly reachable there; simulation of a 1 000-node region shows combined announce airtime ≤ 5 % of the regional duty-cycle budget per NF-SCALE-02; path-table caps fit Lite/Alpha RAM budgets with LRU + pin-active policy and are covered by unit tests; D-0021: HaLow-scenario equivalent for A/O tracked at story elaboration
+- Meta: Shard=— | Type=Feature | Size=L | Prio=P1 | Status=DRAFT | SKU=L | PRD=NF-SCALE-02 | Const=C-02, C-08
 
 ### S-11-024 — Hostile-network resilience for IP transports (captive portals, TLS interception)
 As a device owner I want IP-based transports to survive captive portals, TLS-intercepting middleboxes, and DNS tampering so that hotel/airport/corporate Wi-Fi degrades gracefully instead of silently breaking connectivity.

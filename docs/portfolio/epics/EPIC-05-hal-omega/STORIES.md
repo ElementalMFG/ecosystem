@@ -110,7 +110,7 @@ As a firmware engineer I want the enhanced power path validated so that cellular
 
 ### S-05-016 — Omega HIL rack test-plan
 As a test engineer I want an Omega HIL rack test-plan so that cellular, satellite, and security hardware are exercised per merge.
-- AC: rack includes a cell simulator or live-SIM fixture; tamper and secure-element tests automated; test matrix maps to EPIC-05 exit criteria
+- AC: rack includes a cell simulator or live-SIM fixture; tamper and secure-element tests automated; test matrix maps to EPIC-05 exit criteria; D-0021: covers the EVT matrix EVT-1..9 (FPC ESD, SDIO EMI, SK6805 low-vbat, I²C 400 kHz, HaLow range, skin temp, MM8108 mesh/AP SDK availability, USB CDC/ECM device-role) — see docs/dev/OMEGA_LEDGER_ALIGNMENT.md §6
 - Meta: Shard=— | Type=Ops | Size=M | Prio=P0 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
 
 ### S-05-017 — Cellular network compatibility matrix (top 20 carriers)
@@ -139,3 +139,98 @@ As the product owner I want an Omega v1.x spec-lock — mirroring the Lite D-001
 - AC: SoM/module part numbers selected and recorded by decision entry; the RFC-0004 SL-4/SL-5 deferrals (on-device browser, expanded app platform) are scoped in/out explicitly for v1.x; board_config.h TODO(models/CATALOG) placeholders for Omega resolve against the locked BOM; EPIC-05 story priorities re-sequenced against the lock
 - Meta: Shard=— | Type=Task | Size=M | Prio=P2 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
 - Deps: input of record 2026-07-09 (D-0020): `docs/dev/OMEGA_HW_BASELINE.md` (PCB release v69, SHA 054eaa8b) — board_config claims flow from it; Alpha inherits nothing until an Alpha release package exists
+
+### S-05-021 — Display driver: ST7796S 8-bit parallel I8080, 480×480
+As a firmware engineer I want the ST7796S 8-bit parallel I8080 display driver so that the Omega 480×480 panel renders the UI reliably.
+- AC: I8080 bus brought up per the v69 pinmap (ER-TFT3.92-1, 40-pin FPC / J6) · 480×480 framebuffer with tearing-safe refresh · backlight PWM ≥ 20 kHz on the SY7201 boost EN pin with no visible beat against panel refresh (FW-15) · boot splash rendered within the boot-time budget
+- Meta: Shard=J | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=O | PRD=F-UI-01 | Const=C-00
+
+### S-05-022 — GT911 touch driver + D-27 strap sequence
+As a firmware engineer I want the GT911 touch driver with the D-27 reset-strap sequence so that touch works and the controller never collides with the BMM350 magnetometer on I²C.
+- AC: tp_int held LOW while touch_rst is released so the GT911 straps to I²C 0x5D (never 0x14, which collides with BMM350 — FW-16) · boot-order dependency (touch strap before magnetometer probe) documented in board_config · probe confirms 0x5D on boot · multi-touch events delivered to ss_input
+- Meta: Shard=J | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
+
+### S-05-023 — Audio path bring-up: ES8311 + NS4150B gating + PDM mic
+As a firmware engineer I want the ES8311 codec, NS4150B gating, and PDM mic capture brought up so that Omega has clean playback and capture with no idle class-D noise.
+- AC: SPH0641LU4H PDM mic captured, clocked from i2s_bck · ES8311 codec playback path functional · NS4150B SD pin toggled on RX/TX transitions so "muted" playback emits no class-D switching noise (FW-9) · SD-gate GPIO assignment recorded in board_config
+- Meta: Shard=J | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
+
+### S-05-024 — Battery policy: MAX17048 + two-tier low-battery shutdown
+As a device owner I want a two-tier low-battery policy driven by the MAX17048 fuel gauge so that Omega shuts down cleanly instead of corrupting data on brown-out.
+- AC: SoC/voltage polled every ≤ 5 s · current is MODELED from ΔV/Δt (MAX17048 has no shunt — FW-12) · warn at 3.3 V, save-state + deep-sleep at 3.0 V (FW-6) · SD writes quiesced before cutoff
+- Meta: Shard=K | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=O | PRD=NF-PWR-01 | Const=C-00
+
+### S-05-025 — Power-tree bring-up: EA3059 3-ch rails + TP4056 charger
+As a firmware engineer I want the EA3059 3-channel power tree and TP4056 charger brought up so that all rails are sequenced within v69 tolerances and charge state is observable.
+- AC: v3v3 / v1v8 / v3v6_rf rails sequenced and validated against v69 tolerances · TP4056 charger status surfaced to the power service · per-rail brownout thresholds set · boot aborts safely if a rail is out of tolerance
+- Meta: Shard=K | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
+
+### S-05-026 — USB-C ↔ LCD pin arbitration
+As a firmware engineer I want a VBUS-detect arbitration state machine for the shared GPIO26/27 pins so that plugging USB never garbles the UI or fails enumeration.
+- AC: VBUS-detect state machine drives mux ownership · LCD de-init before GPIO26/27 are muxed to the USB FS device, and re-init on VBUS drop (FW-3) · no garbled UI or failed enumeration across 100 plug/unplug cycles · mux ownership is race-free (single-owner)
+- Meta: Shard=J | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
+
+### S-05-027 — Boot-strap pin deferral guard
+As a firmware engineer I want a compile/assert guard against early writes to the boot-strap pins so that random boot-mode misfires are eliminated.
+- AC: any write to GPIO34/35/36 before `board_init_done` fails a compile-time check or asserts at runtime (FW-2) · reset-loop soak shows 0 boot-mode misfires · guard and rationale documented in board_config
+- Meta: Shard=J | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
+
+### S-05-028 — TX thermal duty cap + case-temp model
+As a device owner I want a TX duty cap driven by a software case-temperature model so that Omega meets IEC 62368-1 skin-temp limits during sustained transmit.
+- AC: rolling-60 s TX duty ≤ 40 % enforced in the TX task (FW-1) · software case-temp model derived from die temperature (no pack NTC — FW-8) feeds the cap · IEC 62368-1 43 °C skin-temp gate met in soak testing · the EPIC-24 certification story cites this cap (SPEC-2)
+- Meta: Shard=K | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
+
+### S-05-029 — PA VSWR watchdog on pa_pdet
+As a device owner I want a PA VSWR watchdog on pa_pdet so that an antenna-disconnect fault inhibits TX before the PA degrades.
+- AC: pa_pdet sampled every ≤ 10 ms during TX · TX inhibited when pa_pdet is outside the 0.4–2.0 V envelope (FW-5, antenna-disconnect protection; SPEC-1) · user notified of the fault via LED/screen · normal TX resumes when the envelope recovers
+- Meta: Shard=L | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=O | PRD=NF-REG-01,NF-REG-02 | Const=C-00,C-08
+
+### S-05-030 — HaLow MM8108 SDIO bring-up + EU regional profile loader
+As a device owner I want MM8108 HaLow bring-up over SDIO with a signed EU regional profile so that transmit is impossible outside the licensed 863–868 MHz allocation.
+- AC: MM8108 brought up over SDIO per the v69 pinmap · EU 863–868 MHz channel + duty-cycle table loaded at first boot from a SIGNED region blob (FW-10; blob signing is a T1 sub-task) · TX impossible outside the loaded region's allocation · region enforcement survives reboot
+- Meta: Shard=L | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=O | PRD=F-BR-04,NF-REG-04 | Const=C-00,C-08
+
+### S-05-031 — P4↔C6 ESP-Hosted-NG transport
+As a firmware engineer I want the P4↔C6 ESP-Hosted-NG transport pinned so that Wi-Fi STA and BLE work through the C6 bridge with bounded wake latency.
+- AC: framing, baud (≈2 Mbps), and flow control pinned in an ADR (FW-11) · Wi-Fi STA + BLE functional through the bridge · wake-from-sleep latency across the UART measured with a C6 doze protocol (FW-19) · transport recovers from C6 reset without a P4 reboot (SPEC-6)
+- Meta: Shard=L | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=O | PRD=F-BR-05 | Const=C-00,C-08
+
+### S-05-032 — BLE bonding key boundary: LTK confined to C6
+As a security engineer I want BLE bonding LTKs confined to the C6 so that long-term key material never reaches P4 memory.
+- AC: LTK generated and stored on the C6 only · any cross-UART provisioning uses a derived transport key, never the LTK itself (FW-17) · P4-side memory never holds the LTK (verified by test/memory inspection) · key boundary documented in a wg-security-reviewed ADR
+- Meta: Shard=L | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=O | PRD=F-BR-05 | Const=C-05
+
+### S-05-033 — JTAG / ROM-download lockdown policy
+As a security engineer I want ROM-download and JTAG locked down after production programming so that a captured device cannot be dropped into download mode.
+- AC: ROM download mode disabled post-production-programming via eFuse (FW-4) · lockdown decision and revocation path documented · dev-unit escape hatch defined and access-controlled · lockdown state verifiable in the QC self-test
+- Meta: Shard=J | Type=Task | Size=S | Prio=P0 | Status=DRAFT | SKU=O | PRD=— | Const=C-05
+
+### S-05-034 — I²C bus clock policy
+As a firmware engineer I want a conservative I²C bus clock policy so that the 4.7 kΩ pull-ups on the v69 bus don't cause NACKs.
+- AC: 100 kHz default (705 ns rise on the 4.7 kΩ pull-ups fails Fast-mode timing — FW-7) · 400 kHz enabled only after EVT-4 validation · per-slave NACK-rate telemetry exposed · policy documented in board_config
+- Meta: Shard=J | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
+
+### S-05-035 — Side-key input map
+As a device owner I want the four side keys mapped with long-press semantics so that power/volume/reset work without any phantom D-pad paths.
+- AC: power / vol+ / vol− / reset handled including long-press semantics · no phantom D-pad or rocker paths present in ss_input for Omega (DOC-24) · debounce + event delivery to ss_input verified · key map recorded in board_config
+- Meta: Shard=J | Type=Feature | Size=S | Prio=P1 | Status=DRAFT | SKU=O | PRD=F-MSG-04,F-UI-06 | Const=C-00
+
+### S-05-036 — microSD SDIO storage bring-up
+As a firmware engineer I want robust microSD SDIO storage so that logs and data survive power loss.
+- AC: mount/unmount robust across power loss (pairs with the S-05-024 write-quiesce) · filesystem integrity verified after an abrupt cut · EMI note: SD_CLK is the dominant emission — EVT-2 hook recorded · card-absent handled gracefully
+- Meta: Shard=J | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
+
+### S-05-037 — GNSS driver: u-blox MIA-M10Q over I²C, L1-only
+As a device owner I want the u-blox MIA-M10Q GNSS driver over I²C so that the Seekie has a position fix.
+- AC: I²C (DDC) transport, not UART (AL-5) · L1-only expectations encoded in the ACs (no L5 claims) · fix acquisition and TTFF targets taken from the MIA-M10Q datasheet · parsed fixes delivered to ss_gnss
+- Meta: Shard=G | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=O | PRD=F-MSG-07 | Const=C-00
+
+### S-05-038 — Haptics driver: DRV2625
+As a device owner I want the DRV2625 haptics driver so that notifications and confirmations have tactile feedback.
+- AC: I²C-only control (no DRV2605L legacy PWM/trigger assumptions — AL-8 / D-28) · LRA waveforms defined for notify and confirm events · licensed effects/waveform configuration documented · driver delivered through the HAL haptics API
+- Meta: Shard=J | Type=Feature | Size=S | Prio=P2 | Status=DRAFT | SKU=O | PRD=F-UI-03 | Const=C-00
+
+### S-05-039 — Omega UI layout descriptor + touch-primary focus nav
+As a UI engineer I want a 480×480 square layout descriptor with touch-primary focus navigation so that the Omega UI is authored for its real panel (FW-13).
+- AC: SQUARE 480×480 descriptor (dpi ≈ 175 TBD from the panel datasheet, bezel_led_count = 12) registered in doc 03 (DOC-25/26) · focus-nav works touch-primary · the 4 side keys act only as a system-level nav fallback · descriptor round-trips in the UI layout loader
+- Meta: Shard=J | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=O | PRD=F-UI-01 | Const=C-00

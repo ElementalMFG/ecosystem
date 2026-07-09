@@ -11,7 +11,7 @@ As a firmware engineer I want a frozen `ss_bearer_ops` plugin contract (send, re
 ### S-10-002 — LoRa bearer plugin
 As a firmware engineer I want a LoRa (SX1262) bearer plugin implementing `ss_bearer_ops` so that the mandatory long-range bearer is available to the scheduler on every SKU.
 - AC: plugin implements all `ss_bearer_ops` operations and reports correct capabilities (small-frame, high-latency, low-power); two devices exchange frames over LoRa through the plugin; plugin passes the same upper-layer functional tests as the Wi-Fi plugin (exit criterion 1); EU 868 MHz duty-cycle limits enforced per NF-REG-05
-- Meta: Shard=B | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=★ | PRD=F-BR-01, NF-REG-05 | Const=C-08
+- Meta: Shard=B | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-BR-01, NF-REG-05 | Const=C-08
 
 ### S-10-003 — Wi-Fi STA bearer plugin
 As a firmware engineer I want a Wi-Fi station-mode bearer plugin so that devices on an access point get a high-throughput bearer through the same `ss_link` API.

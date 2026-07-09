@@ -52,6 +52,8 @@ L1  HAL (hardware abstraction)
 L0  Base OS (ESP‑IDF/FreeRTOS on MCU targets; Linux on gateway targets)
 ```
 
+**L2 bearer reality (D-0020/D-0021, 2026-07-09):** the L2 list above is the transport-agnostic superset; the actual bearer set is per-SKU. On the released Omega v69 there is **no LoRa** and **no on-die Wi-Fi/BLE** — HaLow (MM8108 on SDIO) plus an ESP32-C6 bridge (Wi-Fi 2.4 GHz + BLE over UART) is the shipped complement; Lite carries SX1262 (or a HaLow header module); Alpha's set is TBD at Alpha lock. Authoritative list: `docs/dev/OMEGA_HW_BASELINE.md`.
+
 The **innovation** is at L4 (Reticulum as the routing spine) and L5 (a small set of well‑specified CBOR record types + a Meshtastic compatibility bridge).
 
 ---
@@ -66,7 +68,7 @@ The **innovation** is at L4 (Reticulum as the routing spine) and L5 (a small set
 
 ### 2.2 Group / channel identity
 - A "channel" is a symmetric AEAD context (XChaCha20‑Poly1305, 256‑bit key, 24‑byte nonce) plus a group name and metadata blob.
-- Channels are shared by QR code / NFC handoff / RNS out‑of‑band invite.
+- Channels are shared by QR code / NFC handoff (**where fitted — no NFC on any v1.0 board**, D-0021 `docs/dev/OMEGA_HW_BASELINE.md`) / RNS out‑of‑band invite.
 - Rotating group keys ("epoch") supported: each channel carries a monotonically increasing epoch counter; new epoch keys are ratcheted from `HKDF(prev_key, "ss-ep\|epoch")`.
 
 ### 2.3 Contact (peer‑to‑peer) identity
@@ -232,7 +234,7 @@ Bridges are strict:
 - Voice sessions have their own signal state machine: `INVITE → RINGING → ACTIVE → HANGUP` sent as `voice.session` records; frames are `voice.frame`.
 
 ### 5.5 Video (Alpha only)
-- H.264 hardware encoder on ESP32‑P4.
+- H.264 hardware encoder on ESP32‑P4 (per-SKU, D-0021 `docs/dev/OMEGA_HW_BASELINE.md`: the P4 has a HW H.264 encoder; **Lite/ESP32‑S3 has none — Lite is JPEG stills only**).
 - `video.mframe` records (type 24) at 5–15 fps, 320×240 or smaller.
 - Not for cinematic use — for situational awareness (still cam, brief look).
 

@@ -100,7 +100,7 @@ As a community manager I want string extraction and runtime locale switching for
 
 ### S-19-020 — ATAK plugin (CoT PLI + chat via device)
 As a first responder I want an open-source ATAK plugin that exchanges CoT PLI and GeoChat with my SS-SP over the tether/BLE link so that my TAK client and the mesh share one tactical picture using the published gateway mapping.
-- AC: ATAK plugin exchanges position and chat with mesh peers end-to-end through the device using the S-12-019 CoT ↔ LXMF mapping; plugin consumes only the public device API (API parity — no private endpoints); plugin is published open source with the mapping RFC referenced so WinTAK/iTAK ports need no SS-SP cooperation; degraded-link behaviour (LoRa-only path) is documented with expected PLI refresh limits
+- AC: ATAK plugin exchanges position and chat with mesh peers end-to-end through the device using the S-12-019 CoT ↔ LXMF mapping; plugin consumes only the public device API (API parity — no private endpoints); plugin is published open source with the mapping RFC referenced so WinTAK/iTAK ports need no SS-SP cooperation; degraded-link behaviour (LoRa-only path) is documented with expected PLI refresh limits; D-0021: degraded-path bearer is LoRa on L, HaLow on A/O
 - Meta: Shard=— | Type=Feature | Size=L | Prio=P1 | Status=DRAFT | SKU=★ | PRD=F-INT-01, F-INT-02 | Const=C-00, C-02
 
 ### S-19-021 — Standalone node mode (app as full RNS/LXMF node)
@@ -110,7 +110,7 @@ As an app user without SS-SP hardware I want the app to operate as a full mesh n
 
 ### S-19-022 — Gateway mode (app bridges its uplinks into the mesh)
 As a device owner I want my phone to bridge its Internet/cell/Wi-Fi connectivity into the mesh so that my device reaches distant peers even when no HaLow or LoRa path exists — and my phone reaches the mesh through the device when it has no signal.
-- AC: with gateway mode enabled, a device whose only link is BLE to the phone reaches a remote Internet RNS transport node end-to-end in an integration test, and the reverse path (phone → device LoRa → peer) also passes; the role is opt-in with a persistent visible indicator and per-session data counters; cellular uplink is marked metered with bulk traffic classes deferred per bearer policy; disabling the role tears down cleanly with mesh routes re-converging in < 30 s
+- AC: with gateway mode enabled, a device whose only link is BLE to the phone reaches a remote Internet RNS transport node end-to-end in an integration test, and the reverse path (phone → device LoRa → peer) also passes; the role is opt-in with a persistent visible indicator and per-session data counters; cellular uplink is marked metered with bulk traffic classes deferred per bearer policy; disabling the role tears down cleanly with mesh routes re-converging in < 30 s; D-0021: reverse-path bearer is LoRa on L, HaLow on A/O
 - Meta: Shard=— | Type=Feature | Size=L | Prio=P1 | Status=DRAFT | SKU=★ | PRD=F-NODE-03 | Const=C-00, C-08
 
 ### S-19-023 — Headless node daemon (Linux/macOS/Windows/Docker)

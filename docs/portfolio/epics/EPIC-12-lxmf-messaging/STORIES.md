@@ -20,7 +20,7 @@ As a protocol engineer I want a receiver state machine with duplicate detection 
 
 ### S-12-004 — Delivery receipt round-trip
 As a device owner I want delivery receipts (and optional read receipts) round-tripped so that I know whether my message reached the other device.
-- AC: delivery receipt returns to the sender end-to-end over LoRa RNS (exit criterion 4); read receipts are emitted only when the recipient has opted in per F-MSG-01; receipt loss does not cause message re-send (receipts are idempotent)
+- AC: delivery receipt returns to the sender end-to-end over LoRa RNS (exit criterion 4); read receipts are emitted only when the recipient has opted in per F-MSG-01; receipt loss does not cause message re-send (receipts are idempotent); D-0021: bearer name resolves per SKU: LoRa on L, HaLow on A/O
 - Meta: Shard=C | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=★ | PRD=F-MSG-01 | Const=C-02
 
 ### S-12-005 — Priority queue integration w/ SS-Link
@@ -45,7 +45,7 @@ As a firmware engineer I want read/unread state and conversation threading expos
 
 ### S-12-009 — Voice-note attachment (Codec2 3.2 kbps)
 As a device owner I want voice notes carried as Codec2 3.2 kbps LXMF attachments so that spoken messages deliver even over the narrow LoRa bearer.
-- AC: a recorded voice note encodes, transmits as an LXMF attachment, and plays back intelligibly on the receiving device (exit criterion 3); Codec2 code stays module-isolated per the licensing strategy noted in F-VOX-04; attachment size for a 10 s note fits the LoRa store-and-forward budget
+- AC: a recorded voice note encodes, transmits as an LXMF attachment, and plays back intelligibly on the receiving device (exit criterion 3); Codec2 code stays module-isolated per the licensing strategy noted in F-VOX-04; attachment size for a 10 s note fits the LoRa store-and-forward budget; D-0021: size budget per SKU bearer: LoRa on L, HaLow on A/O
 - Meta: Shard=F | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=★ | PRD=F-MSG-03, F-VOX-04 | Const=C-02, C-04
 
 ### S-12-010 — Small-file attachment (< 32 KB, chunked)

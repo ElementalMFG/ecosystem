@@ -50,6 +50,8 @@ Every device becomes a mesh node on every radio it physically has.
 
 **Bearer availability vs shipped boards (D-0020, 2026-07-09):** the table lists roadmap availability. Against the signed-off designs: the LoRa row's Alpha/Omega listing and the Cellular row's Omega listing are **deferred** — Omega v1.0 (PCB release v69) and the Alpha 1.0 design carry no SX1262 and no cellular/satellite modem; HaLow + Wi-Fi 2.4 GHz + BLE is the shipped complement on both, and Lite's wireless header takes an SX1262 **or** HaLow module (dev fleet is HaLow-fitted, D-0013). Authoritative list: `docs/dev/OMEGA_HW_BASELINE.md`.
 
+**Wi-Fi band reality (D-0021, 2026-07-09):** the "Wi-Fi 5 GHz" row's chip cell ("ESP32-C6 / P4") is corrected — on the released Omega v69 all Wi-Fi/BLE lives on the **ESP32-C6 bridge**, which is **2.4 GHz-only** (single-band 802.11ax); the P4 SoM has **no on-die radio**. 5 GHz Wi-Fi therefore requires future hardware and is **roadmap-preserved, not shipped** on v1.0; Alpha values are TBD at Alpha lock. See `docs/dev/OMEGA_HW_BASELINE.md`.
+
 ---
 
 ## 2. The SS-Link abstraction
@@ -155,7 +157,7 @@ Meshtastic devices see SS-SP devices as regular Meshtastic peers. SS-SP devices 
 Automatically, when **all** of:
 
 - Device is on external power (USB, dock, or wall).
-- Wi-Fi station is associated to a configured trusted SSID **or** Ethernet-over-USB is up.
+- Wi-Fi station is associated to a configured trusted SSID **or** a USB-ECM device-role tether is up (D-0021: this USB-ECM path is **EVT-gated** — on Omega v69 the USB D+/D− pins are shared with the LCD and there is **no USB host**, so the tether is a device-role-only capability pending EVT sign-off; see `docs/dev/OMEGA_HW_BASELINE.md`).
 - User has enabled Home Gateway (default: prompt on first dock; opt-in).
 - Battery ≥50 % or on charger.
 
@@ -171,7 +173,7 @@ Deactivates when any of the above stops being true.
 
 **d. RNS transport node.** Device announces itself as a transport peer to configured public RNS routers, extending the mesh globally.
 
-**e. Wi-Fi range extender / hotspot (Alpha, Omega only).** Because ESP32-P4 supports simultaneous STA + AP, the device optionally re-broadcasts the home SSID (repeater mode) or a distinct SS-SP hotspot SSID with the same backhaul. Wi-Fi extension is off by default — user opts in per SSID because of the security implications of proxying a home network.
+**e. Wi-Fi range extender / hotspot (Alpha, Omega only).** The device optionally re-broadcasts the home SSID (repeater mode) or a distinct SS-SP hotspot SSID with the same backhaul. Wi-Fi extension is off by default — user opts in per SSID because of the security implications of proxying a home network. (D-0021: on Omega v69 Wi-Fi/BLE live on the **ESP32-C6 bridge** via ESP-Hosted-NG over UART — not on the P4 die — so simultaneous STA + AP and any concurrency ceiling are **the C6's limits**, exercised through the bridge transport; see `docs/dev/OMEGA_HW_BASELINE.md`.)
 
 **f. LXMF propagation node.** Optional. Provides store-and-forward for offline peers within its mesh. Uses a small disk quota. User can enable/disable.
 
@@ -211,7 +213,7 @@ Discovered gateways get a trust score (paired-in-companion-app, seen-many-times,
 Radio conflicts are managed by the HAL:
 
 - **Lite:** LoRa and microphone share pins via GPIO 45 mux (`ss_hal_muxctl`). At any moment only one is active. Voice PTT capture pauses LoRa RX for the capture duration; SOS overrides mic.
-- **Alpha:** LoRa, HaLow, Wi-Fi, BLE run concurrently. All are on separate PHYs and separate chips (SX1262 + MM8108 + ESP32-P4's on-die WiFi/BLE). No mux.
+- **Alpha:** LoRa, HaLow, Wi-Fi, BLE run concurrently. All are on separate PHYs and separate chips. No mux. (D-0021 per-SKU correction, `docs/dev/OMEGA_HW_BASELINE.md`: there is **no P4 on-die Wi-Fi/BLE** — the released Omega v69 radio system is **MM8108 HaLow on SDIO + an ESP32-C6 bridge (Wi-Fi 2.4 GHz + BLE) over UART**, no SX1262; Lite's complement is **SX1262 or a HaLow header module**; Alpha's radio set is TBD at Alpha lock.)
 - **Omega:** Alpha bearers + LTE-M module. LTE and Wi-Fi 2.4 GHz coexistence handled by the LTE modem's built-in AGC and off-time.
 
 Concurrency policy is expressed as a small state machine per SKU, not per-radio code. It lives at `firmware/components/ss_link/policy_<board>.c`.

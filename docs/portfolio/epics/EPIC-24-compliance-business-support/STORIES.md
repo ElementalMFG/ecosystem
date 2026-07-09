@@ -11,7 +11,7 @@ As a compliance officer I want an FCC 15.247 test plan for the Lite SKU so that 
 ### S-24-002 — CE / ETSI EN 300 220 test plan
 As a compliance officer I want a CE RED test plan under ETSI EN 300 220 so that the 868 MHz LoRa radio is certifiable for EU sale.
 - AC: plan covers EN 300 220 including EU 868 duty-cycle limits per NF-REG-05; RED essential requirements are mapped to concrete evidence items; lab slots are booked with pre-test on EVT hardware
-- Meta: Shard=A | Type=Compliance | Size=L | Prio=P0 | Status=DRAFT | SKU=★ | PRD=NF-REG-02, NF-REG-05 | Const=C-07
+- Meta: Shard=A | Type=Compliance | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-REG-02, NF-REG-05 | Const=C-07
 
 ### S-24-003 — ETSI EN 300 328 (Wi-Fi 2.4)
 As a compliance officer I want EN 300 328 testing planned for the 2.4 GHz Wi-Fi/BLE radios so that the EU declaration covers every bearer on every SKU.
@@ -26,12 +26,16 @@ As a compliance officer I want per-region HaLow certification mapped for the Alp
 ### S-24-005 — LTE-M modem cert reuse (Omega)
 As a compliance officer I want the LTE-M modem module's existing certifications inventoried and reused so that Omega avoids redundant cellular testing.
 - AC: module pre-certifications (FCC, PTCRB, carrier) are inventoried with reuse conditions confirmed in writing; the end-product delta-testing scope is defined; the carrier-approval path is documented per target market
-- Meta: Shard=A | Type=Compliance | Size=M | Prio=P0 | Status=DRAFT | SKU=O | PRD=NF-REG-01, NF-REG-02 | Const=C-07
+- Meta: Shard=A | Type=Compliance | Size=M | Prio=P0 | Status=BLOCKED | SKU=O | PRD=NF-REG-01, NF-REG-02 | Const=C-07
+- Tasks: spec · design · impl · test · docs — all pending Omega rev-2 hardware
+- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular/satellite modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved for Omega rev-2 — see `docs/dev/OMEGA_HW_BASELINE.md`
 
 ### S-24-006 — Iridium / NTN cert plan (Omega optional)
 As a compliance officer I want a certification plan scoped for the optional Iridium/NTN bearer so that a satellite go/no-go decision is grounded in real cost and schedule.
 - AC: regulatory and operator certification path is scoped per target market; cost and lead-time estimate supports a documented go/no-go decision; RF co-existence test plan with the other Omega radios is drafted
-- Meta: Shard=A | Type=Compliance | Size=L | Prio=P1 | Status=DRAFT | SKU=O | PRD=NF-REG-01 | Const=C-07
+- Meta: Shard=A | Type=Compliance | Size=L | Prio=P1 | Status=BLOCKED | SKU=O | PRD=NF-REG-01 | Const=C-07
+- Tasks: spec · design · impl · test · docs — all pending Omega rev-2 hardware
+- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular/satellite modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved for Omega rev-2 — see `docs/dev/OMEGA_HW_BASELINE.md`
 
 ### S-24-007 — UL 62368-1 safety cert
 As a compliance officer I want UL/IEC 62368-1 safety certification planned so that the battery-powered hardware is legally sellable as consumer electronics.

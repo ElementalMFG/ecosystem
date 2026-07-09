@@ -37,4 +37,4 @@ EPIC-02 (baseline).
 |---|------|-----------|
 | R06-01 | PQ standard drift | Track NIST FIPS 203/204 releases, versioned crypto suite ID |
 | R06-02 | Side-channel leak in primitives | External audit + valgrind-ctgrind |
-| R06-03 | ROM library conflict on ESP32-S3 | Use library-agnostic wrapper |
+| R06-03 | ROM crypto-library conflict, per SKU: **ESP32-S3** ROM libs on **Lite**; **ESP32-P4** mbedTLS-in-ROM on **Omega** (and Alpha at lock) — D-0021 | Use library-agnostic wrapper across both ROM variants |

@@ -162,7 +162,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-05 — HAL for Omega (Alpha + Cellular + LEO Sat option) (20 stories)
+## Epic-05 — HAL for Omega (Alpha + Cellular + LEO Sat option) (39 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -186,6 +186,25 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-05-018 | A | Feature | M | P0 | BLOCKED | O | NF-REL-02 | C-05,C-08 |
 | S-05-019 | A | Spike | S | P1 | BLOCKED | O | F-BR-06, NF-COST-02 | C-01, C-08 |
 | S-05-020 | — | Task | M | P2 | DRAFT | O | — | C-00 |
+| S-05-021 | J | Feature | L | P0 | DRAFT | O | F-UI-01 | C-00 |
+| S-05-022 | J | Feature | M | P0 | DRAFT | O | — | C-00 |
+| S-05-023 | J | Feature | L | P0 | DRAFT | O | — | C-00 |
+| S-05-024 | K | Feature | M | P0 | DRAFT | O | NF-PWR-01 | C-00 |
+| S-05-025 | K | Feature | M | P0 | DRAFT | O | — | C-00 |
+| S-05-026 | J | Feature | M | P0 | DRAFT | O | — | C-00 |
+| S-05-027 | J | Feature | S | P0 | DRAFT | O | — | C-00 |
+| S-05-028 | K | Feature | M | P0 | DRAFT | O | — | C-00 |
+| S-05-029 | L | Feature | S | P0 | DRAFT | O | NF-REG-01,NF-REG-02 | C-00,C-08 |
+| S-05-030 | L | Feature | L | P0 | DRAFT | O | F-BR-04,NF-REG-04 | C-00,C-08 |
+| S-05-031 | L | Feature | L | P0 | DRAFT | O | F-BR-05 | C-00,C-08 |
+| S-05-032 | L | Feature | M | P0 | DRAFT | O | F-BR-05 | C-05 |
+| S-05-033 | J | Task | S | P0 | DRAFT | O | — | C-05 |
+| S-05-034 | J | Feature | S | P1 | DRAFT | O | — | C-00 |
+| S-05-035 | J | Feature | S | P1 | DRAFT | O | F-MSG-04,F-UI-06 | C-00 |
+| S-05-036 | J | Feature | M | P1 | DRAFT | O | — | C-00 |
+| S-05-037 | G | Feature | M | P1 | DRAFT | O | F-MSG-07 | C-00 |
+| S-05-038 | J | Feature | S | P2 | DRAFT | O | F-UI-03 | C-00 |
+| S-05-039 | J | Feature | M | P1 | DRAFT | O | F-UI-01 | C-00 |
 
 ---
 
@@ -217,7 +236,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-07 — Identity & Provisioning (21 stories)
+## Epic-07 — Identity & Provisioning (22 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -242,6 +261,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-07-019 | H | Feature | M | P1 | DRAFT | ★ | F-CL-01, F-CL-02 | C-05 |
 | S-07-020 | — | Feature | M | P1 | DRAFT | ★ | F-SEC-10, NF-SEC-02 | C-05 |
 | S-07-021 | — | Feature | M | P0 | DRAFT | ★ | F-SEC-10, NF-SEC-02 | C-05 |
+| S-07-022 | D | Feature | M | P1 | DRAFT | A,O | F-SEC-01, F-SEC-02 | C-05 |
 
 ---
 
@@ -304,7 +324,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
 | S-10-001 | A | Feature | M | P0 | DRAFT | ★ | — | C-08 |
-| S-10-002 | B | Feature | L | P0 | DRAFT | ★ | F-BR-01, NF-REG-05 | C-08 |
+| S-10-002 | B | Feature | L | P0 | DRAFT | L | F-BR-01, NF-REG-05 | C-08 |
 | S-10-003 | B | Feature | M | P0 | DRAFT | ★ | F-BR-02 | C-08 |
 | S-10-004 | B | Feature | M | P0 | DRAFT | ★ | F-BR-02, F-HGW-06 | C-08 |
 | S-10-005 | B | Feature | M | P0 | DRAFT | ★ | F-BR-03 | C-08 |
@@ -354,7 +374,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-11-020 | — | RFC | M | P1 | DRAFT | ★ | F-EUD-02 | C-02, C-08, C-06 |
 | S-11-021 | A | Feature | L | P1 | DRAFT | ★ | F-NODE-01 | C-02, C-00 |
 | S-11-022 | — | Feature | M | P1 | DRAFT | ★ | F-NODE-04 | C-02, C-08 |
-| S-11-023 | — | Feature | L | P1 | DRAFT | ★ | NF-SCALE-02 | C-02, C-08 |
+| S-11-023 | — | Feature | L | P1 | DRAFT | L | NF-SCALE-02 | C-02, C-08 |
 | S-11-024 | — | Feature | M | P1 | DRAFT | ★ | NF-REL-01, NF-PERF-02 | C-02, C-05, C-08 |
 
 ---
@@ -392,18 +412,18 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 |---|---|---|---|---|---|---|---|---|
 | S-13-001 | I | Task | M | P0 | DRAFT | ★ | F-BR-07 | C-04 |
 | S-13-002 | B | Feature | M | P0 | DRAFT | ★ | F-BR-07 | C-04, C-02 |
-| S-13-003 | A | Feature | L | P0 | DRAFT | ★ | F-BR-07 | C-04, C-02 |
-| S-13-004 | C | Feature | M | P0 | DRAFT | ★ | F-BR-07 | C-04, C-02, C-05 |
-| S-13-005 | D | Feature | S | P0 | DRAFT | ★ | F-BR-07 | C-04, C-02 |
-| S-13-006 | E | Feature | M | P0 | DRAFT | ★ | F-BR-07, F-MSG-01 | C-04, C-02 |
-| S-13-007 | F | Feature | M | P0 | DRAFT | ★ | F-BR-07, F-MSG-07 | C-04, C-02 |
-| S-13-008 | F | Feature | S | P1 | DRAFT | ★ | F-BR-07 | C-04, C-02 |
-| S-13-009 | G | Feature | L | P1 | DRAFT | ★ | F-BR-07, F-MSG-09 | C-04, C-02 |
-| S-13-010 | H | Feature | M | P1 | DRAFT | ★ | F-BR-07 | C-04, C-02, C-05 |
-| S-13-011 | J | Feature | S | P0 | DRAFT | ★ | F-BR-07 | C-04, C-02 |
+| S-13-003 | A | Feature | L | P0 | DRAFT | L | F-BR-07 | C-04, C-02 |
+| S-13-004 | C | Feature | M | P0 | DRAFT | L | F-BR-07 | C-04, C-02, C-05 |
+| S-13-005 | D | Feature | S | P0 | DRAFT | L | F-BR-07 | C-04, C-02 |
+| S-13-006 | E | Feature | M | P0 | DRAFT | L | F-BR-07, F-MSG-01 | C-04, C-02 |
+| S-13-007 | F | Feature | M | P0 | DRAFT | L | F-BR-07, F-MSG-07 | C-04, C-02 |
+| S-13-008 | F | Feature | S | P1 | DRAFT | L | F-BR-07 | C-04, C-02 |
+| S-13-009 | G | Feature | L | P1 | DRAFT | L | F-BR-07, F-MSG-09 | C-04, C-02 |
+| S-13-010 | H | Feature | M | P1 | DRAFT | L | F-BR-07 | C-04, C-02, C-05 |
+| S-13-011 | J | Feature | S | P0 | DRAFT | L | F-BR-07 | C-04, C-02 |
 | S-13-012 | I | Task | M | P0 | DRAFT | ★ | — | C-04 |
-| S-13-013 | — | Ops | M | P0 | DRAFT | ★ | F-BR-07 | C-04, C-02 |
-| S-13-014 | — | Ops | M | P0 | DRAFT | ★ | F-BR-07 | C-04, C-02 |
+| S-13-013 | — | Ops | M | P0 | DRAFT | L | F-BR-07 | C-04, C-02 |
+| S-13-014 | — | Ops | M | P0 | DRAFT | L | F-BR-07 | C-04, C-02 |
 | S-13-015 | A | RFC | L | P0 | DRAFT | ★ | F-BR-07 | C-04, C-02, C-06 |
 | S-13-016 | — | Docs | S | P0 | DRAFT | ★ | F-BR-07 | C-04 |
 
@@ -416,7 +436,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-14-001 | A | Feature | M | P1 | DRAFT | A,O | F-VOX-03, F-MSG-03 | C-00 |
 | S-14-002 | A | Feature | M | P1 | DRAFT | A,O | F-VOX-03, F-MSG-03 | C-00 |
 | S-14-003 | B | Feature | M | P1 | DRAFT | A,O | F-VOX-04 | C-00, C-04 |
-| S-14-004 | B | Feature | M | P2 | DRAFT | A,O | F-VOX-04 | C-00, C-04 |
+| S-14-004 | B | Feature | M | P2 | DRAFT | L | F-VOX-04 | C-00, C-04 |
 | S-14-005 | C | Feature | M | P0 | DRAFT | A,O | F-MSG-04, F-VOX-03 | C-00 |
 | S-14-006 | D | Feature | M | P0 | DRAFT | A,O | F-MSG-04 | C-00, C-08 |
 | S-14-007 | E | Feature | M | P1 | DRAFT | A,O | F-MSG-04, F-VOX-03 | C-00 |
@@ -504,7 +524,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-17-003 | C | Feature | M | P0 | DRAFT | A,O | F-HGW-02, F-HGW-03 | C-08 |
 | S-17-004 | D | Feature | L | P0 | DRAFT | A,O | F-HGW-06 | C-08 |
 | S-17-005 | D | Feature | M | P0 | DRAFT | A,O | F-HGW-06 | C-08 |
-| S-17-006 | E | Feature | L | P0 | DRAFT | A,O | F-HGW-03 | C-08, C-05 |
+| S-17-006 | E | Feature | L | P0 | DRAFT | L | F-HGW-03 | C-08, C-05 |
 | S-17-007 | F | Feature | L | P0 | DRAFT | A,O | F-HGW-02 | C-08 |
 | S-17-008 | E | Feature | L | P0 | DRAFT | A,O | F-HGW-07, F-HGW-05, F-MSG-09 | C-08 |
 | S-17-009 | G | Feature | L | P0 | DRAFT | A,O | F-HGW-01, F-HGW-06 | C-08 |
@@ -519,7 +539,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-17-018 | — | Docs | S | P0 | DRAFT | A,O | F-HGW-06 | C-08, C-07 |
 | S-17-019 | — | Feature | L | P1 | DRAFT | A,O | F-EUD-02 | C-08, C-02 |
 | S-17-020 | — | Feature | M | P2 | DRAFT | A,O | F-EUD-03 | C-08, C-05 |
-| S-17-021 | — | Feature | M | P2 | DRAFT | ★ | F-HGW-04, F-BR-07 | C-00, C-08 |
+| S-17-021 | — | Feature | M | P2 | DRAFT | L | F-HGW-04, F-BR-07 | C-00, C-08 |
 
 ---
 
@@ -671,7 +691,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-22-019 | I | Ops | M | P0 | DRAFT | ★ | — | C-00, C-06 |
 | S-22-020 | C | Ops | L | P0 | DRAFT | ★ | — | C-00 |
 | S-22-021 | — | Feature | M | P0 | DRAFT | ★ | — | C-00, C-02 |
-| S-22-022 | — | Ops | S | P1 | DRAFT | ★ | NF-PERF-03 | C-00, C-08 |
+| S-22-022 | — | Ops | S | P1 | DRAFT | L | NF-PERF-03 | C-00, C-08 |
 | S-22-023 | — | Ops | M | P1 | DRAFT | ★ | NF-REL-01 | C-00, C-05 |
 | S-22-024 | — | Ops | XL | P1 | DRAFT | ★ | NF-SCALE-01, NF-SCALE-02 | C-00, C-08 |
 | S-22-025 | — | Feature | L | P1 | DRAFT | ★ | F-CERT-01, F-CERT-02 | C-02, C-OA, C-07 |
@@ -711,11 +731,11 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
 | S-24-001 | A | Compliance | L | P0 | DRAFT | L | NF-REG-01 | C-07 |
-| S-24-002 | A | Compliance | L | P0 | DRAFT | ★ | NF-REG-02, NF-REG-05 | C-07 |
+| S-24-002 | A | Compliance | L | P0 | DRAFT | L | NF-REG-02, NF-REG-05 | C-07 |
 | S-24-003 | A | Compliance | M | P0 | DRAFT | ★ | NF-REG-02 | C-07 |
 | S-24-004 | A | Compliance | L | P0 | DRAFT | A | NF-REG-01, NF-REG-02, NF-REG-04 | C-07 |
-| S-24-005 | A | Compliance | M | P0 | DRAFT | O | NF-REG-01, NF-REG-02 | C-07 |
-| S-24-006 | A | Compliance | L | P1 | DRAFT | O | NF-REG-01 | C-07 |
+| S-24-005 | A | Compliance | M | P0 | BLOCKED | O | NF-REG-01, NF-REG-02 | C-07 |
+| S-24-006 | A | Compliance | L | P1 | BLOCKED | O | NF-REG-01 | C-07 |
 | S-24-007 | B | Compliance | L | P0 | DRAFT | ★ | — | C-07 |
 | S-24-008 | C | Compliance | M | P0 | DRAFT | ★ | — | C-07 |
 | S-24-009 | C | Compliance | S | P1 | DRAFT | ★ | — | C-07 |
@@ -750,15 +770,15 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Totals — 567 stories across 24 epics
+## Totals — 587 stories across 24 epics
 
 | Status | Count |
 |---|---|
-| DRAFT | 492 |
+| DRAFT | 510 |
 | IN_PROGRESS | 2 |
 | IN_REVIEW | 22 |
 | DONE | 30 |
-| BLOCKED | 18 |
+| BLOCKED | 20 |
 | DROPPED | 3 |
 
 ---
@@ -769,15 +789,15 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 
 | Clause key | Stories | P0 coverage |
 |---|---|---|
-| C-00 | 254 | yes |
+| C-00 | 271 | yes |
 | C-01 | 33 | yes |
 | C-02 | 82 | yes |
 | C-03 | 46 | yes |
 | C-04 | 53 | yes |
-| C-05 | 157 | yes |
+| C-05 | 160 | yes |
 | C-06 | 53 | yes |
 | C-07 | 61 | yes |
-| C-08 | 111 | yes |
+| C-08 | 114 | yes |
 | C-OA | 36 | yes |
 | C-TM | 6 | yes |
 | C-CoC | 1 | yes |

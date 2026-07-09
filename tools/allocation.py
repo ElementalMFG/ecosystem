@@ -96,8 +96,13 @@ EXPLICIT = {
     "S-03-015": ("T1", "confirmed 2026-07-08: AC carries credential handoff over an open soft-AP — onboarding security surface (doc 05); portal plumbing rides the same story under T1 review"),
     "S-03-016": ("T1", "confirmed 2026-07-08: AC exposes GATT pairing + provisioning services — BLE pairing-mode/MITM policy and the provisioning characteristic are the onboarding security surface (doc 05); GATT plumbing rides the same story under T1 review"),
     "S-03-017": ("T1", "confirmed 2026-07-08: LTK storage, encrypted-NVS-only rest state, bond wipe lifecycle — keys at rest (doc 10 §2 T1 domain)"),
+    "S-05-030": ("T1", "confirmed 2026-07-09 (D-0021): EU region blob is SIGNED — signature format + verification path are T1 (keys/wire); SDIO bring-up rides the same story under T1 review"),
+    "S-05-032": ("T1", "confirmed 2026-07-09 (D-0021): LTK confinement to C6 + derived UART transport key — keys crossing a boundary (doc 10 §2 T1 domain; ledger FW-17)"),
+    "S-05-033": ("T1", "confirmed 2026-07-09 (D-0021): eFuse ROM-download lockdown — irreversible secure-boot surface (doc 10 §2; ledger FW-4)"),
     # keyword flags resolved DOWNWARD at elaboration (AC text, not title)
     "S-03-012": ("T3", "resolved 2026-07-08: 'provisioning' match is incidental — story consumes the region choice; PA tables are well-specified (LoRaWAN regional params) and gate-verified by the TX sweep. Credential surface owned by S-03-015/016"),
+    "S-05-035": ("T3", "resolved 2026-07-09: 'key' match is physical side keys (buttons), not crypto keys — routine input-map work against the v69 pinmap"),
+    "S-05-039": ("T3", "resolved 2026-07-09: 'key' match is the side-key nav fallback (buttons), not crypto — UI descriptor + focus graph per doc 03"),
     "S-03-022": ("T2", "resolved 2026-07-08: 'vector' match is HAL conformance vectors, not crypto/wire vector design — vector-set shape is a t2-designer contract, build is routine (doc 10 §2)"),
     # task-seed named T1 cores (wire/frame format + protocol state machines)
     "S-10-008": ("T1", "doc 10 §5 EPIC-10 (SS-Link frame format v1 — wire format)"),

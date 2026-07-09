@@ -156,3 +156,19 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 - Status: RECORDED
 - Reference: `rfcs/0004-scope-lock.md`, S-01-018, S-01-019, RFC-0003, D-0015, RFC-0001
 
+
+## D-0020 — Software portfolio aligned to signed-off Omega v69 / Alpha reality
+
+- Date: 2026-07-09
+- Decision: Software claims follow the **released** board. Omega v1.0 hardware truth = PCB `release_v69/` (2026-07-08, TVF 69/69, SHA `054eaa8b…`; source `closure_work/v67_route_work.kicad_pcb`). Bearers/parts absent from v69 (cellular, satellite, LoRa, barometer, secure element, supercap power path) are **preserved as rev-2-gated roadmap intent**, never silently dropped: 16 EPIC-05 stories BLOCKED on the Omega rev-2 respin. Alpha v152 is NOT release-verified (v14 "FUNCTIONALLY DEAD — DO NOT FABRICATE"; v15 unverified): no hardware-empirical elaboration of EPIC-04 until an Alpha release package exists. Doc of record: `docs/dev/OMEGA_HW_BASELINE.md`.
+- Rationale: The board is final and shipped to fab; software aligning to aspiration instead of copper produces ghostware stories and un-meetable ACs (the EPIC-03 pre-hardware-lock drift class, at portfolio scale).
+- Status: RECORDED (retroactive entry — decision applied 2026-07-09 in commit 4c3ff7b; ledger entry added same day)
+- Reference: `docs/dev/OMEGA_HW_BASELINE.md`, `ss-pcb-design-engeneering/release_v69/`, EPIC-05, S-05-020
+
+## D-0021 — Omega concerns-ledger projection: EPIC-05 owns the v69 HAL
+
+- Date: 2026-07-09
+- Decision: The HW repo's closure artifacts (`UNIFIED_CONCERNS_LEDGER.md` ~88 concerns, `OPTIMIZATION_DECISIONS.md`, `HW_SW_ALIGNMENT_AUDIT.md`) are absorbed via the re-projection rules in `docs/dev/OMEGA_LEDGER_ALIGNMENT.md`: (1) per `NAMING.md` the audited board IS the ss-sp omega, so the ledger's legacy "Alpha/EPIC-04/S-04-xxx" targets re-project onto **EPIC-05**, which owns the entire v69 HAL (new shards J/K/L, stories S-05-021…039); EPIC-05's dependency on "EPIC-04 frozen" is inverted. (2) EPIC-04 (Alpha, unlocked) is preserved and annotated, never force-aligned to v69 evidence. (3) Chip-level facts are fixed outright in founding docs; board-level facts are asserted for Omega only. (4) Factual corrections to D-0020's baseline recorded: touch = GT911 (not FT6206), SKY66423 FEM + pa_pdet ARE routed ("gap G1" was a misread GNSS pin name), EA3059 3-ch PMIC present, mic is PDM.
+- Rationale: Single projection of record prevents the ledger's ~88 findings being re-litigated per story; the naming re-projection prevents Omega board evidence from deleting Alpha capability (anti-rug-pull).
+- Status: RECORDED. Open flag: RFC-0004 SL-5 ("v1.0 ships Lite + Alpha") contradicts hardware reality (Omega released, Alpha unfabricatable) — owner amendment required, tracked in `OMEGA_LEDGER_ALIGNMENT.md` §8.
+- Reference: `docs/dev/OMEGA_LEDGER_ALIGNMENT.md`, `docs/dev/OMEGA_HW_BASELINE.md`, `ss-pcb-design-engeneering/NAMING.md`, D-0020, D-0019

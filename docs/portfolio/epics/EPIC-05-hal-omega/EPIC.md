@@ -11,11 +11,15 @@ All Alpha HAL contracts plus Omega additions: LTE-M/NB-IoT modem (e.g. Nordic nR
 
 The signed-off Omega v1.0 board (PCB release v69) carries **none** of the Outcome's modem/sensor additions: no cellular, no satellite, no barometer, no secure element, no supercap power path, and no expansion interface (respin required). Shards S-05.A/B/C/D/E/F/I and the modem exit criteria are therefore **rev-2-gated**; their stories are `BLOCKED`, capability preserved. What v69 DOES add over the plan: BMM350 magnetometer (not MMC5983MA), MIA-M10Q I²C GNSS, DRV2625 haptics, ES8311 audio, 12× SK6805 LED ring. Authoritative: `docs/dev/OMEGA_HW_BASELINE.md`.
 
+**D-0021 corrections (2026-07-09):** v69 also carries a GT911 touch controller (via the display FPC), a **routed** SKY66423 FEM including `pa_pdet` VSWR sense to a P4 ADC, an EA3059 3-channel PMIC, and a SPH0641LU4H PDM mic (clocked from i2s_bck) — the earlier "SKY66423 unrouted / gap G1" finding was a mis-read ("G1" is a GNSS pin name, not a gap ID). Core-platform HAL for these lands in new shards S-05.J/K/L (stories S-05-021…039). Ledger projection of record: `docs/dev/OMEGA_LEDGER_ALIGNMENT.md`.
+
+**Omega rev-2 optimization batch:** ledger items HW-1…5 are small BOM tweaks (~$0.003/board total — charge-set resistor, rail trims, I²C pull-up values) with no firmware dependency; they are batched with the rev-2 respin decision and file no stories until that decision lands (HW-6 NTC-divider bypass is a documented design choice — FW-8 / S-05-028 owns the thermal envelope instead).
+
 ## Constitution
 C-00 `00_MASTER_SOFTWARE_PLAN.md` §HAL contracts, §tiers + `models/CATALOG` (Omega hardware); C-05 `05_SECURITY_MODEL.md` §secure element, §tamper response; C-08 `08_UNIVERSAL_CONNECTIVITY.md` §bearers (cellular LTE-M/NB-IoT, LEO satellite).
 
 ## Dependencies
-EPIC-04 (Alpha HAL frozen).
+**EPIC-04 (Alpha) is NOT a dependency.** Under the D-0021 inversion, Omega v69 is the released board and ships first; the shared-platform HAL components (display, touch, audio, power, USB, SD, inputs, haptics, HaLow/C6 plumbing) are authored here and later reused by Alpha when an Alpha release package exists. EPIC-06 (crypto core) gates the T1 sub-tasks (HaLow region-blob signing, BLE key boundary, JTAG/ROM eFuse lockdown). See `docs/dev/OMEGA_LEDGER_ALIGNMENT.md` §1.
 
 ## Shards
 - **S-05.A Cellular modem UART/USB driver** — AT+MUX + IP passthrough.
@@ -27,13 +31,24 @@ EPIC-04 (Alpha HAL frozen).
 - **S-05.G Baro (BMP390) + mag (MMC5983MA).**
 - **S-05.H Enterprise LED bar** (multi-LED status ring for radio state).
 - **S-05.I Physical security hardware** — tamper switch, secure element (ATECC608 or SE050).
+- **S-05.J Core platform HAL bring-up** — display, touch, audio, USB, SD, inputs, haptics.
+- **S-05.K Power & thermal** — battery policy, power tree, IEC 62368-1 TX duty cap.
+- **S-05.L Radio & comms plumbing** — HaLow SDIO, ESP-Hosted C6 bridge, PA VSWR watchdog, BLE key boundary.
 
 ## Exit criteria
-1. LTE-M attach + IP data path within 30 s in cell coverage.
-2. PSM sleep current ≤ 15 µA.
-3. eSIM profile install / delete works over BIP.
-4. Satellite SBD round-trip succeeds in field trial.
-5. Tamper switch triggers key-wipe when armed.
+
+**Omega rev-2-gated (D-0020 — hardware absent from v69):**
+1. LTE-M attach + IP data path within 30 s in cell coverage. *(rev-2-gated)*
+2. PSM sleep current ≤ 15 µA. *(rev-2-gated)*
+3. eSIM profile install / delete works over BIP. *(rev-2-gated)*
+4. Satellite SBD round-trip succeeds in field trial. *(rev-2-gated)*
+5. Tamper switch triggers key-wipe when armed. *(rev-2-gated)*
+
+**Omega v1.0 (v69 board):**
+6. Display + touch + audio + HaLow bring-up on v69.
+7. IEC 62368-1 TX duty cap active (rolling-60 s ≤ 40 %).
+8. USB↔LCD arbitration passes the 100-cycle plug soak.
+9. ESP-Hosted Wi-Fi/BLE functional through the C6 bridge.
 
 ## Risks
 | # | Risk | Mitigation |

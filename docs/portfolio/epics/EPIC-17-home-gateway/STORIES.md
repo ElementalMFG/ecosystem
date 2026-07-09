@@ -31,7 +31,7 @@ As a firmware engineer I want NAT and a DHCP server on the soft-AP segment so th
 ### S-17-006 — LoRa ↔ RNS gateway (mesh to Internet)
 As a home user I want my docked device to bridge the local LoRa mesh to the global Reticulum network so that neighbourhood mesh traffic can reach distant peers over the Internet.
 - AC: A LoRa-only device in range exchanges LXMF messages with an Internet-side Reticulum peer through the gateway (epic exit criterion 1); bridging preserves end-to-end encryption — the gateway never decrypts user payloads; bridge role is visible and can be disabled from the admin surfaces
-- Meta: Shard=E | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=A,O | PRD=F-HGW-03 | Const=C-08, C-05
+- Meta: Shard=E | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=F-HGW-03 | Const=C-08, C-05
 
 ### S-17-007 — HaLow ↔ RNS gateway
 As a home user I want the gateway to bridge HaLow devices to the Internet so that neighbourhood devices 1–2 km away get global reach through my house.
@@ -106,4 +106,4 @@ As a device owner I want a local web admin console served by the device so that 
 ### S-17-021 — Meshtastic-compat gateway on LoRa
 As a home-gateway owner I want the gateway to bridge Meshtastic LoRa traffic so that legacy Meshtastic nodes around my home reach the SS-SP mesh and (policy-permitting) the Internet.
 - AC: gateway joins a configured Meshtastic channel and relays text/position packets to/from the SS-SP side using the EPIC-13 compat layer; bridging is opt-in per channel with rate limits and duty-cycle enforcement per NF-REG-05; gateway never leaks SS-SP-encrypted payloads onto the Meshtastic channel; bridge status is visible in the gateway admin surface
-- Meta: Shard=— | Type=Feature | Size=M | Prio=P2 | Status=DRAFT | SKU=★ | PRD=F-HGW-04, F-BR-07 | Const=C-00, C-08
+- Meta: Shard=— | Type=Feature | Size=M | Prio=P2 | Status=DRAFT | SKU=L | PRD=F-HGW-04, F-BR-07 | Const=C-00, C-08

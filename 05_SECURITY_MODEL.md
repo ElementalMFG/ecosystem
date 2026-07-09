@@ -31,7 +31,7 @@
 
 ## 0. TL;DR
 
-- **Identity primitives**: Ed25519 (sign) + X25519 (KEX), derived from a single 256-bit seed sealed in ESP32 eFuse (or ATECC608 secure element on Alpha/Omega).
+- **Identity primitives**: Ed25519 (sign) + X25519 (KEX), derived from a single 256-bit seed sealed in ESP32 eFuse (or an ATECC608 secure element where fitted — D-0021, `docs/dev/OMEGA_HW_BASELINE.md`: the released Omega v69 carries **no on-board secure element**, so ATECC608 is scoped to the **Lite external attachment (D-0013)** now and an **Omega rev-2** later; Alpha is TBD at Alpha lock).
 - **1:1 messaging**: Signal-style Double Ratchet over LXMF, forward-secret and post-compromise-secure.
 - **Group messaging**: MLS-inspired epoch-based ratchet with cheap sender-keys optimization for low bandwidth.
 - **Voice**: SRTP-like AEAD (XChaCha20-Poly1305) with per-session keys and rekey every 60 s or 2^16 packets.
@@ -133,7 +133,7 @@ All symmetric encryption is authenticated. Un-authenticated encryption is forbid
 ## 3. Identity & Key Hierarchy
 
 ### 3.1 Device root secret
-Each device holds a **256-bit device seed** `S_dev` provisioned at factory (see §7), stored in ESP32 eFuse block (write-once, read-protected) or in the ATECC608B secure element on Alpha/Omega.
+Each device holds a **256-bit device seed** `S_dev` provisioned at factory (see §7), stored in ESP32 eFuse block (write-once, read-protected) or in an ATECC608B secure element where fitted (D-0021: no SE on Omega v69 — ATECC608 is the **Lite D-0013 attachment** now, **Omega rev-2** later; Alpha TBD at lock; see `docs/dev/OMEGA_HW_BASELINE.md`).
 
 From `S_dev`, we derive by HKDF-Expand-Label:
 
@@ -232,7 +232,7 @@ Two modes:
 3. **Application image** — verified by second-stage bootloader; signature over the whole image.
 4. **Application** — mounts encrypted filesystem partitions using `FS_key`.
 
-Signatures use **Secure Boot v2 (RSA-3072-PSS)** on ESP32-S3, or **ECDSA-P256** where supported. Bootloader supports **≥3 pinned keys** for future rotation.
+Signatures use **Secure Boot v2 (RSA-3072-PSS)** on ESP32-S3 (Lite), or **ECDSA-P256** where supported. Bootloader supports **≥3 pinned keys** for future rotation. (D-0021, `docs/dev/OMEGA_HW_BASELINE.md`: the **ESP32-P4** (Omega, and Alpha at lock) also provides Secure Boot V2 — the chip supports RSA-3072-PSS **and** ECDSA-P256/P384; the SS-SP P4 profile **pins RSA-3072-PSS**.)
 
 ### 5.2 Flash encryption
 - **AES-256-XTS** on all partitions except OTADATA and reserved.
@@ -246,6 +246,7 @@ Signatures use **Secure Boot v2 (RSA-3072-PSS)** on ESP32-S3, or **ECDSA-P256** 
 - Development units carry an "unlocked" eFuse profile and are marked with a red boot banner and a scary "not for field use" splash.
 
 ### 5.4 Alpha / Omega hardware secure element (ATECC608B or equivalent)
+> **Scope (D-0021, `docs/dev/OMEGA_HW_BASELINE.md`):** the released Omega v69 carries **no on-board secure element**. This section describes the SE-fitted profile, which currently applies to the **Lite D-0013 external ATECC608 attachment** and is deferred to an **Omega rev-2** for on-board integration; Alpha's SE fit is **TBD at Alpha lock**. On SE-less boards the same identity keys are sealed in P4/ESP32 eFuse per §3.1.
 - Long-term identity keys stored in secure element with `ReadKey` disabled.
 - All sign/kex operations executed inside the secure element; ESP32 sees only opaque outputs.
 - Fault-injection detection triggers zeroization of I2C-side cache; secure element zeroization by explicit CLI or duress event.
@@ -339,7 +340,7 @@ Provisioning is the **highest-risk** manufacturing step. It happens **once per d
 ### 7.3 Anti-cloning
 - HSM refuses to sign a birth certificate for a `node_id` it has seen before.
 - Provisioning ledger is compared to production yield at end of shift; any mismatch flagged.
-- Silicon `MAC` (48-bit factory MAC on WROOM-1) is captured and linked to `node_id` in the ledger for later forensic tracing.
+- Silicon `MAC` is captured and linked to `node_id` in the ledger for later forensic tracing. Per SKU (D-0021, `docs/dev/OMEGA_HW_BASELINE.md`): **Lite** uses the 48-bit factory MAC on the ESP32-S3 WROOM-1; **Omega** anchors identity on the **P4 eFuse UID (MAC_FACTORY base MAC)** with the **ESP32-C6 MAC bound via a signed device manifest** (EPIC-07); Alpha follows the P4 pattern, finalized at Alpha lock.
 
 ### 7.4 Post-factory identity change
 - User can trigger **"identity wipe"**: erase persona derivations, but device seed `S_dev` cannot be re-derived (eFuse). BirthCert remains — device is still recognized as genuine, but presents fresh persona keys.
@@ -354,7 +355,7 @@ Provisioning is the **highest-risk** manufacturing step. It happens **once per d
 ## 8. User Authentication & Duress
 
 ### 8.1 Access model
-- **Locked mode**: screen off; PIN/pattern/biometric (Alpha's optional fingerprint) required.
+- **Locked mode**: screen off; PIN/pattern (plus biometric where fitted) required. (D-0021, `docs/dev/OMEGA_HW_BASELINE.md`: no fingerprint/biometric sensor exists on any v1.0 board — Omega v69 has none and Lite has none; the optional-fingerprint path is **future-hardware-gated** and TBD at Alpha lock.)
 - **Unlocked mode**: full UI access; auto-lock timeout configurable (default 3 min).
 - **Emergency mode**: SOS beacon and dial-out accessible from lock screen; nothing else.
 
@@ -375,6 +376,7 @@ Provisioning is the **highest-risk** manufacturing step. It happens **once per d
 - SOS remains available regardless.
 
 ### 8.5 Biometric (Alpha optional fingerprint)
+> **Scope (D-0021, `docs/dev/OMEGA_HW_BASELINE.md`):** no v1.0 board carries a fingerprint/biometric sensor (none on Omega v69, none on Lite). This section is **future-hardware-gated**; any biometric fit is TBD at Alpha lock or a later board rev.
 - Biometric unlocks wrap-key, but PIN is still required at boot.
 - Duress PIN always wins over biometric.
 
@@ -389,7 +391,7 @@ Even trusted first-party firmware components run with **explicit capabilities**.
 ss_cap_grant_t granted;
 esp_err_t err = ss_caps_request(
     (const ss_cap_req_t[]) {
-        { .cap = SS_CAP_LORA_TX,     .why = "chat.send"           },
+        { .cap = SS_CAP_HALOW_TX,    .why = "chat.send"           },
         { .cap = SS_CAP_MIC,         .why = "ptt.record"          },
         { .cap = SS_CAP_STORAGE_R,   .why = "roster.load"         },
         { .cap = SS_CAP_STORAGE_W,   .why = "roster.save"         },
@@ -402,7 +404,7 @@ Any HAL call checks the caller's capability set.
 ### 9.2 Plugins
 Third-party plugins run in a sandbox:
 - **Preferred**: **WASM** via a minimal Wasm3 or WAMR runtime, capability-restricted host API.
-- **Fallback**: signed ELF loaded into a MPU-isolated region on ESP32-S3 with a syscall shim.
+- **Fallback**: signed ELF loaded into a memory-isolated region with a syscall shim — an **MPU-isolated** region on ESP32-S3 (Lite); on **P4** SKUs (Omega, and Alpha at lock) the equivalent isolation uses the P4's **RISC-V PMP** (Physical Memory Protection), not an MPU (D-0021, `docs/dev/OMEGA_HW_BASELINE.md`).
 - Plugins declare required capabilities in a manifest; user must approve on install.
 - Plugins cannot access raw radio, cannot open arbitrary files, cannot call into other plugins.
 
@@ -528,7 +530,7 @@ If `ProvCA` compromised:
 - **EU Cyber Resilience Act (CRA)** — coming into force; our SBOM + signed updates + vulnerability disclosure policy + 5-year support window aligns.
 - **UK PSTI** — default-password prohibition; we have no defaults, everything provisioned unique.
 - **NIST IR 8259A** (IoT baseline) — device identification, config, data protection, interfaces, update, all covered.
-- **FIPS-140-3** — alternate crypto profile (AES-256-GCM, ECDSA-P256, SHA-256, HKDF, RFC 5869) available for gov/enterprise builds; requires CMVP module which we would seek for the ATECC608 secure element already-certified path.
+- **FIPS-140-3** — alternate crypto profile (AES-256-GCM, ECDSA-P256, SHA-256, HKDF, RFC 5869) available for gov/enterprise builds; requires a CMVP module. Per SKU (D-0021, `docs/dev/OMEGA_HW_BASELINE.md`): the **Lite** path leverages the already-certified **ATECC608** attachment (D-0013); **P4** SKUs (Omega, and Alpha at lock) take the FIPS path via a **CMVP-tested software crypto module** running on the P4 (no on-board secure element on Omega v69).
 
 ### 14.3 Data
 - **GDPR** — DPO designated; data-processing inventory maintained; user rights implemented in-app.

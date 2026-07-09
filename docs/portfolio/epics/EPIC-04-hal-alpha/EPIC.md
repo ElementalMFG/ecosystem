@@ -7,6 +7,8 @@
 ## Outcome
 All Lite HAL contracts plus the Alpha-specific ones (Wi-Fi HaLow MM8108 + SKY66423 FEM, Wi-Fi 5 client chip, u-blox GNSS, LSM6DSV IMU, larger DSI display) are implemented, tested, and pass conformance vectors.
 
+> **Alpha lock status (D-0021, `docs/dev/OMEGA_LEDGER_ALIGNMENT.md`):** the Alpha board is **not locked** — its latest source (v152) carries a v14 **"DO NOT FABRICATE"** functional-verification verdict and the v15 fixes are **unverified** (no release package). This epic is therefore **preserved, not force-aligned**: shard part numbers and values here are platform precedent (drawn from the released Omega v69) and are **TBD until Alpha lock**. The hardware-empirical rewrites of these shards (the ledger's AL-verdicts) fire **only when an Alpha release package equivalent to Omega v69 exists**. See `docs/dev/OMEGA_HW_BASELINE.md`.
+
 ## Constitution
 C-00 `00_MASTER_SOFTWARE_PLAN.md` §HAL contracts, §tiers + `models/CATALOG` (Alpha hardware); C-08 `08_UNIVERSAL_CONNECTIVITY.md` §bearers (Wi-Fi HaLow, Wi-Fi 5).
 
@@ -18,7 +20,7 @@ EPIC-02, EPIC-03 (HAL contracts frozen).
 - **S-04.B Wi-Fi HaLow driver (MM8108)** — SDIO interface, Morse OSAL glue, WPA3-SAE.
 - **S-04.C SKY66423 FEM** — TX gain, RX LNA, T/R switch timing.
 - **S-04.D Wi-Fi 5 client chip** — ESP32-P4 uses external, e.g. RTL8852BE, PCIe/SDIO.
-- **S-04.E GNSS** — u-blox ZOE-M8Q UART, NMEA/UBX parser, cold/warm/hot fix.
+- **S-04.E GNSS** — u-blox MIA-M10Q (platform precedent per Omega v69; Alpha part finalized at lock), NMEA/UBX parser, cold/warm/hot fix.
 - **S-04.F IMU** — LSM6DSV I²C, motion wake, tilt/orient.
 - **S-04.G Large DSI display** — 320×480 or 480×640 MIPI-DSI.
 - **S-04.H HaLow region PA table & channel plan** — US, EU, JP, KR, IN, AU.
