@@ -54,6 +54,9 @@ add_library(ss_units STATIC
     ${SS_COMPONENTS_DIR}/ss_input/src/ss_input_core.c
     ${SS_COMPONENTS_DIR}/ss_display/src/ss_display_core.c
     ${SS_COMPONENTS_DIR}/ss_muxctl/src/ss_muxctl_core.c
+    ${SS_COMPONENTS_DIR}/ss_hal/test/conformance/ss_hal_conformance_core.c
+    ${SS_COMPONENTS_DIR}/ss_hal/test/conformance/ss_hal_conformance_vectors.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/mocks/ss_hal_mock_env.c
 )
 target_include_directories(ss_units PUBLIC
     ${SS_COMPONENTS_DIR}/ss_log/include
@@ -63,6 +66,7 @@ target_include_directories(ss_units PUBLIC
     ${SS_COMPONENTS_DIR}/ss_display/include
     ${SS_COMPONENTS_DIR}/ss_muxctl/include
     ${SS_COMPONENTS_DIR}/ss_hal/include
+    ${SS_COMPONENTS_DIR}/ss_hal/test/conformance
     ${CMAKE_CURRENT_SOURCE_DIR}/mocks
 )
 if(SS_COVERAGE)
@@ -87,6 +91,7 @@ add_executable(ss_host_tests
     tests/test_ss_input_core.cpp
     tests/test_ss_display_core.cpp
     tests/test_ss_muxctl_core.cpp
+    tests/test_hal_conformance.cpp
 )
 target_include_directories(ss_host_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/mocks   # host board_config.h mock (first on path)

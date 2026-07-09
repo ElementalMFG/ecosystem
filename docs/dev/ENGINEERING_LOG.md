@@ -421,3 +421,27 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   S-03-019 landed the plaintext implementation of. Does NOT constitute a T1
   contract change under doc 10 §8.3 (no declaration modified) — flagged
   explicitly so the record is unambiguous.
+- S-03-022 (2026-07-08): HAL conformance vectors live in a NEW pure-C core
+  `firmware/components/ss_hal/test/conformance/` (ss_hal_conformance_core.c =
+  runner + frozen diff formatter; ss_hal_conformance_vectors.c = builtin
+  static-const tables, 19 vectors over power/audio/LoRa/Wi-Fi/BLE). The core
+  never calls a HAL fn — it drives an env vtable (`ss_conf_env_t`: reset/exec/
+  emit), so the IDENTICAL core+vector objects run under host gtest today (mock
+  env, S-02-014 harness) and on-target Unity later (real-driver adapter,
+  S-02-015 — deferred, no board). New drivers are graded against these vectors:
+  the state/aux word encodings + `SS_CONF_RET_*` numerics are FROZEN in the
+  header. Vectors are the tie-breaker of record where a HAL header is silent on
+  error behavior (NULL req-ptr → 0x102 INVALID_ARG, use-before-init → 0x103
+  INVALID_STATE) — relaxing one is a header change first, vector second.
+- S-03-022 (2026-07-08): the diff grammar is byte-for-byte frozen and the host
+  test asserts it with LITERAL strings: `CONF-FAIL dom=<d> vec=<n> step=<N>
+  op=<OP> field=<ret|state|aux|exec> expected=0x<8hex> actual=0x<8hex>`. Any
+  future formatter edit that drifts this fails CI. Placed under ss_hal/** (a T1
+  stop-path) but is test-only, consumes frozen headers, modifies NO
+  include/*.h, and holds NO keys/pairing/wire bytes (BLE pairing/LTK stays T1,
+  S-03-016/017) — consistent with the recorded downward T2 resolution.
+- S-03-022 (2026-07-08): GOTCHA — the host `ss_units` lib does NOT apply
+  `-Wconversion/-Wshadow/-Werror`, and these conformance .c files are in NO
+  component SRCS (S-02-015 owns target wiring), so `make lite` never compiles
+  them and ctest-green alone is not sufficient. Strict-`gcc -c` the pure cores
+  separately when touching them.

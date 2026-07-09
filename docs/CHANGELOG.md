@@ -9,6 +9,16 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- HAL conformance test vectors (S-03-022): a host-run conformance suite that
+  grades any board implementation against the frozen HAL contracts for power,
+  audio, LoRa, Wi-Fi, and BLE. Nineteen data-driven vectors live in a new
+  pure-C core (`firmware/components/ss_hal/test/conformance/`) that never calls
+  a HAL function directly — it drives an environment vtable, so the identical
+  vectors run against a host mock today (googletest, S-02-014 harness) and,
+  unchanged, against real drivers on target once the S-02-015 Unity rig has a
+  board. Failures emit one frozen-format, actionable diff line per divergent
+  field (`CONF-FAIL dom=… vec=… step=… op=… field=… expected=… actual=…`),
+  naming exactly what drifted. The vectors are normative for future drivers.
 - LittleFS user filesystem (S-03-019): the new `ss_storage` component brings
   power-fail-safe file storage to the Lite user partition. It implements the
   `ss_hal_storage.h` contract over joltwallet/littlefs, mounting the existing

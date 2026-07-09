@@ -140,7 +140,9 @@ As a firmware engineer I want the internal temperature sensor with a thermal-thr
 ### S-03-022 — HAL conformance test vectors (host-run)
 As a firmware engineer I want host-run HAL conformance test vectors so that any board implementation can be verified against the contracts.
 - AC: vectors cover power, audio, LoRa, Wi-Fi, and BLE HAL contracts; runnable on host against mocks and on target; failures produce actionable diffs
-- Meta: Shard=— | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00
+- Meta: Shard=— | Type=Feature | Size=L | Prio=P0 | Status=IN_REVIEW | SKU=L | PRD=— | Const=C-00
+- Tasks: spec conformance vector-set binding to the frozen HAL contract headers (power, audio, LoRa, Wi-Fi, BLE) — each vector = a HAL call sequence + expected observable state/return runnable in the S-02-014 `firmware/test/host` gtest harness against HAL mocks · design vector-set shape as a t2 frozen contract (per-domain data-driven case struct, mock-observation interface, actionable-diff formatter, on-target reuse shape) · impl mock HAL backends for the five domains + vector tables + a diff-printing conformance runner, wired into `firmware/test/host` CMake and `host-tests.yml` CI · test the harness self-check (a deliberately non-conforming mock produces the expected actionable diff) under gtest/ASan · docs conformance-vector authoring guide + engineering-log + changelog
+- Deps: S-02-014 (host gtest baseline + mocked HAL headers, DONE); S-02-015 (on-target Unity harness — carries the "runnable on target" AC clause, itself IN_REVIEW pending a Lite board, so that clause defers with it); HAL contract headers frozen for the five domains (power S-03-001 DONE; audio S-03-009/S-03-010; LoRa S-03-011; Wi-Fi S-03-014/S-03-015; BLE `ss_hal_radio_ble.h`) — vectors bind to the headers and run against mocks, so real-driver completion is not required for host runs
 
 ### S-03-023 — HIL rack test-plan for Lite
 As a test engineer I want a HIL rack test-plan for Lite so that every merge is validated on real hardware.
