@@ -472,3 +472,12 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   S-03-003) and the PPK2 series fixture is reused from HIL_TEST_PLAN_LITE.md
   (S-03-023). Measured columns + numeric standby fill park at IN_REVIEW on the
   same D-0013 hardware session as S-03-003/BENCH_POWER_LITE.
+- S-03-025 (2026-07-08): `docs/dev/COEX_STRESS_LITE.md` is the Wi-Fi/BLE
+  coexistence stress plan. Lite's ESP32-S3 shares ONE 2.4 GHz antenna, so the
+  two bearers time-share the RF front end via ESP-IDF software coex
+  (`CONFIG_ESP_COEX_SW_COEXIST_ENABLE=y` + coex preference: balance /
+  Wi-Fi-priority / BLE-priority). The soak reuses the HIL rack's Wi-Fi AP +
+  BLE central peer (S-03-023) — no second rack. Thresholds are DEFINED targets
+  (BLE disconnects 0, notif loss ≤0.5%, Wi-Fi TCP floor ≥10 Mbps, UDP loss
+  ≤1%, bidir degradation ≤20%); measured/pass columns fill at D-0013, so the
+  story parks at IN_REVIEW. Closes EPIC-03 risk R03-02.

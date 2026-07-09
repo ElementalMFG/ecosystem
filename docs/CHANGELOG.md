@@ -9,6 +9,17 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Wi-Fi/BLE coexistence stress-test plan for Lite (S-03-025): a shared-antenna
+  soak plan at `docs/dev/COEX_STRESS_LITE.md` closing EPIC-03 risk R03-02. The
+  Lite ESP32-S3 time-shares one 2.4 GHz antenna between Wi-Fi and BLE under the
+  ESP-IDF software coex scheduler (`CONFIG_ESP_COEX_SW_COEXIST_ENABLE`, coex
+  preference), so the plan documents the coex config, a concurrent Wi-Fi iperf
+  (TCP/UDP) + BLE-link soak reusing the `HIL_TEST_PLAN_LITE.md` rack peer
+  (S-03-023), and a defined coexistence threshold table (BLE unexpected
+  disconnects, notification loss, Wi-Fi throughput floor, UDP packet loss,
+  bidirectional degradation) surfaced as a non-blocking self-hosted HIL job.
+  Threshold targets are design parameters; measured/pass columns and the
+  soak run defer to the D-0013 hardware session.
 - Power budget roll-up for Lite (S-03-024): a unified power budget at
   `docs/dev/POWER_BUDGET_LITE.md` proving NF-PWR-01 ("Lite standby ≥ 24 h with
   LoRa periodic"). It rolls up the whole Lite power model — one row per
