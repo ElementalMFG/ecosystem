@@ -98,6 +98,8 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-03-041 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-042 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-03-043 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
+| S-03-044 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-03-045 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-04-001 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-04-002 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-04-003 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |

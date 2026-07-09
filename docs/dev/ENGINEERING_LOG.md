@@ -450,3 +450,9 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   matrix, CI (self-hosted `[hil, lite]` runner, JUnit+artifact reporting). On-
   target conformance reuses `ss_hal_conformance_core` via the S-02-015 adapter;
   actual HIL workflow wiring + execution defer to the D-0013 fleet (VA-03).
+- S-03-044 / S-03-045 (2026-07-08): filed the two HIL follow-ups the S-03-023
+  worker discovered: S-03-044 wires the `.github/workflows/hil-lite.yml`
+  self-hosted runner + JUnit plumbing; S-03-045 executes the matrix on the
+  D-0013 fleet and fills `HIL_TEST_PLAN_LITE.md` §4.1 results. Rule of thumb
+  reinforced: a plan doc without an execution owner is orphaned — every plan
+  story earns at least one execution story before the workers close.

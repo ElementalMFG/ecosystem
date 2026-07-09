@@ -265,3 +265,15 @@ As a security engineer I want handed-off Wi-Fi credentials persisted sealed unde
 - AC: a credential store seals the S-03-015 handoff output under `FS_key` (EPIC-08) and feeds STA auto-join on boot; plaintext never touches flash (doc 05 §10.3 "never stores Wi-Fi PSKs plaintext" holds end-to-end); store failure degrades to re-provisioning, never to plaintext fallback; wipe-on-command supported
 - Meta: Shard=F | Type=Feature | Size=S | Prio=P2 | Status=DRAFT | SKU=L | PRD=F-APP-07 | Const=C-00,C-05
 - Deps: S-03-015 (handoff producer); EPIC-08 FS_key store (blocking — no sealed storage exists before it)
+
+### S-03-044 — HIL CI workflow wiring (self-hosted `[hil, lite]` runner)
+As a test engineer I want the HIL CI workflow implemented so that the plan defined by S-03-023 is executed automatically once the fleet is online.
+- AC: `.github/workflows/hil-lite.yml` created with `workflow_dispatch` + merges touching `firmware/**` triggers on the self-hosted `[hil, lite]` runner (per `HIL_TEST_PLAN_LITE.md` §5); runs the S-03-022 conformance suite against real HAL drivers via the S-02-015 Unity adapter; emits per-domain JUnit XML + evidence artifacts; empty-diff-across-5-domains is the merge-gate pass condition; job is a no-op (documented) until the fleet is registered
+- Meta: Shard=I | Type=Ops | Size=S | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00
+- Deps: S-03-022 (vectors), S-03-023 (plan), S-02-015 (Unity target adapter); blocked in practice on D-0013 fleet registration before the runner produces useful signal
+
+### S-03-045 — HIL matrix execution on D-0013 fleet (fills `HIL_TEST_PLAN_LITE.md` §4.1)
+As a test engineer I want the full HIL matrix executed on D-0013 boards so that EPIC-03's on-hardware exit criteria are objectively met, not just documented.
+- AC: the full 4-exit-criteria × 5-conformance-domain matrix from `HIL_TEST_PLAN_LITE.md` §4 is run on D-0013 fleet Lite units; §4.1 results table populated with real measurements + timestamps + firmware revs; per-domain JUnit XML archived as evidence; any exit-criterion failure blocks EPIC-03 exit (does not silently downgrade)
+- Meta: Shard=I | Type=Ops | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00
+- Deps: S-03-022 (vectors), S-03-023 (plan), S-03-044 (workflow), S-02-015 (Unity rig); blocking hardware event: D-0013 fleet online
