@@ -445,3 +445,8 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   component SRCS (S-02-015 owns target wiring), so `make lite` never compiles
   them and ctest-green alone is not sufficient. Strict-`gcc -c` the pure cores
   separately when touching them.
+- S-03-023 (2026-07-08): Lite HIL rack test-plan authored at
+  `docs/dev/HIL_TEST_PLAN_LITE.md` — topology, fixtures, exit-criteria×domain
+  matrix, CI (self-hosted `[hil, lite]` runner, JUnit+artifact reporting). On-
+  target conformance reuses `ss_hal_conformance_core` via the S-02-015 adapter;
+  actual HIL workflow wiring + execution defer to the D-0013 fleet (VA-03).

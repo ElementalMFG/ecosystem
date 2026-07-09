@@ -9,6 +9,15 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- HIL rack test-plan for Lite (S-03-023): a hardware-in-the-loop rack plan at
+  `docs/dev/HIL_TEST_PLAN_LITE.md` documenting the rack topology and fixture
+  inventory, a test matrix mapping every EPIC-03 exit criterion and all five
+  conformance domains (power/audio/LoRa/Wi-Fi/BLE) to concrete on-hardware
+  vector runs, and the CI trigger + result-reporting contract (self-hosted
+  `[hil, lite]` runner, per-domain JUnit + evidence artifacts, empty-diff green
+  gate). The rack reuses the same `ss_hal_conformance_core` vectors that run on
+  the host mock (S-03-022), executed on real drivers via the S-02-015 target
+  adapter; execution and workflow wiring defer to the D-0013 hardware fleet.
 - HAL conformance test vectors (S-03-022): a host-run conformance suite that
   grades any board implementation against the frozen HAL contracts for power,
   audio, LoRa, Wi-Fi, and BLE. Nineteen data-driven vectors live in a new

@@ -147,7 +147,9 @@ As a firmware engineer I want host-run HAL conformance test vectors so that any 
 ### S-03-023 — HIL rack test-plan for Lite
 As a test engineer I want a HIL rack test-plan for Lite so that every merge is validated on real hardware.
 - AC: rack topology and fixtures documented; test matrix maps to EPIC-03 exit criteria; CI trigger and result reporting defined
-- Meta: Shard=— | Type=Ops | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00
+- Meta: Shard=— | Type=Ops | Size=M | Prio=P0 | Status=DONE | SKU=L | PRD=— | Const=C-00
+- Tasks: spec enumerate the EPIC-03 exit criteria (HAL impls · 5-domain conformance vectors · FCC 15.247 duty cycle · idle ≤25 mA / sleep ≤0.5 mA) and the observable each requires on real hardware · design rack topology (DUT fixture, host controller, instrumentation: RF-shield/attenuator path for LoRa, µA current path, Wi-Fi/BLE peer, serial-JTAG console) + a fixture inventory + a test-matrix schema binding each exit criterion and each of the 5 conformance domains (power/audio/LoRa/Wi-Fi/BLE) to a measurement/vector-run · impl author `docs/dev/HIL_TEST_PLAN_LITE.md` — topology diagram, fixture table, exit-criteria→test matrix, CI trigger (self-hosted runner label + `workflow_dispatch`/merge-gate), result-reporting format (JUnit/artifact + PASS/FAIL surfaced to the merge) · test lint-docs passes, all relative links + anchors resolve, matrix covers all 4 exit criteria + 5 domains (self-check) · docs engineering-log + changelog
+- Deps: S-03-022 (host-run conformance vectors the rack executes on-target — IN_REVIEW; plan references the frozen vector set but does not require it DONE to author); S-03-003/BENCH_POWER_LITE.md (sibling µA bench procedure the current-draw fixture reuses — IN_REVIEW, itself pending the D-0013 session); external: D-0013 Lite hardware fleet (not yet built — on-hardware execution of the matrix defers to that session, so this story lands IN_REVIEW not DONE)
 
 ### S-03-024 — Power-consumption measurement + budget report
 As a firmware engineer I want a power-consumption measurement and budget report so that the Lite battery targets are provable.
