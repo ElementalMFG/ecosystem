@@ -397,3 +397,20 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   exceeds min(region, hw) and never drops below SS_LORA_PA_SAFE_MIN_DBM=2.
   Region latch is one-shot in-RAM only — persistence to sealed NVS is S-03-043.
   On-hardware RF sweep (spectrum-analyzer) parks with S-03-011 + HIL rack.
+- S-03-019 (2026-07-08): LittleFS user FS lives in a NEW `ss_storage` component
+  (NOT ss_hal, which is a T1 stop-path) implementing `ss_hal_storage.h`. It
+  mounts joltwallet/littlefs (pinned ^1.22.2) on the EXISTING frozen "storage"
+  partition BY LABEL at base path "/user" — the data/spiffs subtype is kept
+  as-is, so no partitions.csv change / RFC-0003 trigger. Self-heal =
+  mount→(on fail)format→remount, decided by the pure host-tested core
+  `ss_storage_fs_core` (bounded: format at most once). Wear stats surface via
+  `ss_storage_log_stats()` in the ss_diag 30 s health loop.
+- S-03-019 (2026-07-08): user FS is PLAINTEXT for now — at-rest encryption is
+  deferred to EPIC-08 flash-encryption (TODO markers in ss_storage). The
+  power-cut torture AC + real-hardware mount need the S-02-015 on-target Unity
+  rig, so S-03-019 lands IN_REVIEW with those as the blocking hardware gate.
+- S-03-019 (2026-07-08): FSM driver convention is PERFORM-then-advance —
+  perform the first step (always MOUNT), then call ss_fs_heal_next(last,res)
+  for the next. Priming the core with (MOUNT, OK) instead makes it report
+  DONE_OK without ever mounting; any future consumer of a *_heal_next FSM
+  must drive it this way.

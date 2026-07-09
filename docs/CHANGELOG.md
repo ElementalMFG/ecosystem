@@ -9,6 +9,18 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- LittleFS user filesystem (S-03-019): the new `ss_storage` component brings
+  power-fail-safe file storage to the Lite user partition. It implements the
+  `ss_hal_storage.h` contract over joltwallet/littlefs, mounting the existing
+  frozen `storage` partition by label at `/user` (no partition-table change).
+  Mount is self-healing: a failed mount triggers a one-shot format-and-remount,
+  and only if that also fails is the FS declared unrecoverable — the decision
+  logic is a bounded, pure state machine (`ss_storage_fs_core`) proven by a
+  host suite of 36 checks under ASan/UBSan. Wear/usage stats (total/used/free
+  and fill %) are surfaced through the `ss_diag` diagnostics loop via
+  `ss_storage_log_stats()`. The user FS is plaintext for now; at-rest
+  encryption is deferred to the EPIC-08 flash-encryption work. The on-target
+  power-cut torture test lands with the S-02-015 hardware rig.
 - LoRa region PA table (S-03-012): the `ss_lora` component gains a pure,
   host-tested regional power-amplifier policy core (`ss_lora_pa_core`, no
   ESP-IDF/HAL dependency) covering US915, EU868, AU915, and AS923. Each region

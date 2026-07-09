@@ -18,6 +18,7 @@
 #include "esp_system.h"
 
 #include "board_config.h"
+#include "ss_storage.h"
 #include "ss_tasks.h"
 
 static const char* TAG = "ss.diag";
@@ -168,6 +169,9 @@ static void power_watchdog_task(void*)
         vTaskDelay(pdMS_TO_TICKS(30000));
         ESP_LOGD(TAG, "health: heap=%u min=%u", unsigned(esp_get_free_heap_size()),
                  unsigned(esp_get_minimum_free_heap_size()));
+        // Surface LittleFS wear/usage stats (S-03-019). No-op-with-warning when
+        // the user FS is not mounted, so this is safe regardless of boot order.
+        ss_storage_log_stats();
     }
 }
 

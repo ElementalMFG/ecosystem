@@ -95,7 +95,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-03-016 | G | Feature | L | P0 | DRAFT | L | F-BR-03,F-APP-07 | C-00,C-08 |
 | S-03-017 | G | Feature | M | P0 | DRAFT | L | F-BR-03,NF-SEC-02 | C-05,C-08 |
 | S-03-018 | H | Feature | S | P0 | DRAFT | L | — | C-00,C-05 |
-| S-03-019 | H | Feature | S | P0 | DRAFT | L | — | C-00 |
+| S-03-019 | H | Feature | S | P0 | IN_REVIEW | L | — | C-00 |
 | S-03-020 | I | Feature | S | P1 | DROPPED | L | F-MSG-08 | C-00,C-01 |
 | S-03-021 | J | Feature | S | P1 | DRAFT | L | — | C-00,C-01 |
 | S-03-022 | — | Feature | L | P0 | DRAFT | L | — | C-00 |
@@ -751,9 +751,9 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 | Status | Count |
 |---|---|
-| DRAFT | 513 |
+| DRAFT | 512 |
 | IN_PROGRESS | 1 |
-| IN_REVIEW | 17 |
+| IN_REVIEW | 18 |
 | DONE | 29 |
 | BLOCKED | 1 |
 | DROPPED | 3 |

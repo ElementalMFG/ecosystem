@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 SS-SP Project Contributors
+#
+# Managed-component manifest for ss_storage. Pulls in the joltwallet esp_littlefs
+# driver used by the ESP-IDF glue (ss_storage.c). Pinned to a specific recent
+# release (do NOT float to '*'); the local CMake component name is `littlefs`.
+dependencies:
+  joltwallet/littlefs: "^1.22.2"

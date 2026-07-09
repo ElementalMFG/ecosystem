@@ -122,7 +122,9 @@ As a firmware engineer I want the frozen partition map reconciled with the remai
 ### S-03-019 — LittleFS on user partition
 As a firmware engineer I want LittleFS on the user partition so that file storage is power-fail safe.
 - AC: mount/format/self-heal verified; power-cut torture test passes without corruption; wear-levelling stats exposed via diagnostics
-- Meta: Shard=H | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=L | PRD=— | Const=C-00
+- Meta: Shard=H | Type=Feature | Size=S | Prio=P0 | Status=IN_REVIEW | SKU=L | PRD=— | Const=C-00
+- Tasks: spec ss_storage INTERNAL_FS mount/self-heal FSM + wear-stat surface against ss_hal_storage.h (partition label "storage") · design pure host-testable core (mount→format→remount self-heal FSM + wear-stat aggregation) split from esp_littlefs glue · impl new ss_storage component: core + joltwallet/littlefs glue registering on label "storage", plaintext (TODO EPIC-08 encryption) · test gcc host harness for FSM + wear-stat formatting under ASan/UBSan; on-target power-cut torture deferred to S-02-015 hardware gate · docs diagnostics wear-stat surface + engineering-log + changelog
+- Deps: S-02-008 (storage partition frozen, DONE); S-02-015 (on-target Unity harness — for the deferred power-cut torture test; IN_PROGRESS)
 
 ### S-03-020 — RGB LED driver + status patterns
 As a device owner I want RGB status LED patterns so that link, activity, and SOS states are visible at a glance.
