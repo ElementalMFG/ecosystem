@@ -492,3 +492,14 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   the reconciliation must not guess silicon ranges. Pattern: headers written
   before the hardware lock are contract-drift candidates; the T3 escalation
   path caught this exactly as designed.
+- S-03-027 (2026-07-09): GNSS driven behind `hal_gnss` (`firmware/components/ss_gnss/`):
+  pure host-tested `ss_gnss_core.[ch]` (NMEA-0183 checksum/coord/RMC-GGA parse,
+  byte-identical to the old `ss_uart_engine` logic) + IDF glue `ss_gnss.c` owning
+  UART1 + pump + fix. `ss_uart_engine` GNSS API now forwards to `ss_gnss` (main.cpp
+  unchanged). Future GNSS consumers use `ss_hal_gnss.h`/`ss_gnss_*`, NOT the engine.
+- firmware/components (2026-07-09): component-owned pump tasks use a RAW
+  `xTaskCreate` with a documented numeric priority because `ss_tasks.h`
+  (`ss_task_create`/`SS_PRIO_*`) is main-only and unreachable from a component
+  (precedent: `ss_input/ss_touch.c` prio 10; now `ss_gnss` prio 12 == SS_PRIO_COMMS).
+  This sidesteps the ss_tasks priority-ceiling convention — a follow-up could expose
+  a component-safe task shim. S-03-028/S-03-029 will hit the same when they land.

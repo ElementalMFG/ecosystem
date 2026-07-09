@@ -20,8 +20,8 @@ idf_component_register(
         "ss_nvs_core.c"
         "ss_version.cpp"
     INCLUDE_DIRS "."
-    REQUIRES ss_hal ss_log ss_power ss_display ss_storage driver esp_timer nvs_flash espcoredump
-             esp_partition app_update esp_system
+    REQUIRES ss_hal ss_log ss_power ss_display ss_storage ss_gnss driver esp_timer nvs_flash
+             espcoredump esp_partition app_update esp_system
 )
 
 # Capture git provenance (SHA + tag + build id) into the main component.

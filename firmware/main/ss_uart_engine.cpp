@@ -16,29 +16,24 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include <math.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
-#include "freertos/semphr.h"
 #include "driver/uart.h"
 #include "esp_log.h"
 #include "esp_check.h"
 
 #include "board_config.h"
 #include "ss_tasks.h"
+#include "ss_gnss.h" // GNSS channel now lives in the ss_gnss HAL component
 
 static const char* TAG = "ss.uart";
 
 // ---------------------------------------------------------------------------
-// Shared state
+// Shared state (coprocessor channel only; GNSS state moved to ss_gnss)
 // ---------------------------------------------------------------------------
-static ss_gnss_fix_t s_fix;
-static bool s_fix_ever = false;
-static SemaphoreHandle_t s_fix_lock;
-static ss_nmea_sentence_cb_t s_nmea_tap = nullptr;
 static ss_coproc_frame_cb_t s_coproc_cb = nullptr;
-static ss_uart_chan_stats_t s_gnss_stats, s_coproc_stats;
+static ss_uart_chan_stats_t s_coproc_stats;
 
 // SLIP special bytes (RFC 1055)
 static constexpr uint8_t SLIP_END = 0xC0, SLIP_ESC = 0xDB, SLIP_ESC_END = 0xDC, SLIP_ESC_ESC = 0xDD;
@@ -56,136 +51,6 @@ static uint16_t crc16_ccitt(const uint8_t* d, size_t n)
             crc = (crc & 0x8000) ? uint16_t((crc << 1) ^ 0x1021) : uint16_t(crc << 1);
     }
     return crc;
-}
-
-// Verify "$....*hh" checksum; NMEA XOR between '$' and '*'.
-static bool nmea_checksum_ok(const char* s, size_t len)
-{
-    if (len < 9 || s[0] != '$') return false;
-    const char* star = static_cast<const char*>(memchr(s, '*', len));
-    if (!star || size_t(star - s) + 3 > len) return false;
-    uint8_t x = 0;
-    for (const char* p = s + 1; p < star; ++p) x ^= uint8_t(*p);
-    return strtoul(star + 1, nullptr, 16) == x;
-}
-
-// ddmm.mmmm(,dir) → signed decimal degrees.
-static double nmea_coord(const char* f, char dir)
-{
-    if (!f || !*f) return 0.0;
-    const double v = atof(f);
-    const double deg = floor(v / 100.0);
-    double out = deg + (v - deg * 100.0) / 60.0;
-    if (dir == 'S' || dir == 'W') out = -out;
-    return out;
-}
-
-// Split a sentence into comma fields in place. Returns field count.
-static size_t split_fields(char* s, const char* fields[], size_t max)
-{
-    size_t n = 0;
-    for (char* p = s; p && n < max;) {
-        fields[n++] = p;
-        p = strchr(p, ',');
-        if (p) *p++ = '\0';
-    }
-    return n;
-}
-
-// ---------------------------------------------------------------------------
-// GNSS channel — NMEA line framing + minimal RMC/GGA parse
-// ---------------------------------------------------------------------------
-static void gnss_handle_sentence(char* line, size_t len)
-{
-    s_gnss_stats.rx_frames++;
-    if (s_nmea_tap) s_nmea_tap(line, len);
-    if (!nmea_checksum_ok(line, len)) {
-        s_gnss_stats.rx_crc_errors++;
-        return;
-    }
-
-    // Strip "*hh" so field splitting is clean.
-    char* star = strchr(line, '*');
-    if (star) *star = '\0';
-
-    const char* f[24];
-    const size_t n = split_fields(line, f, 24);
-    if (n < 2) return;
-    const char* type = f[0] + 3; // skip "$GP"/"$GN"/…
-
-    xSemaphoreTake(s_fix_lock, portMAX_DELAY);
-    if (strncmp(type, "RMC", 3) == 0 && n >= 10) {
-        // $..RMC,time,status,lat,NS,lon,EW,sog_kn,cog,date,...
-        s_fix.has_fix = (f[2][0] == 'A');
-        s_fix.lat_deg = nmea_coord(f[3], f[4][0]);
-        s_fix.lon_deg = nmea_coord(f[5], f[6][0]);
-        s_fix.speed_mps = float(atof(f[7]) * 0.514444);
-        s_fix.course_deg = float(atof(f[8]));
-        s_fix_ever = true;
-    } else if (strncmp(type, "GGA", 3) == 0 && n >= 10) {
-        // $..GGA,time,lat,NS,lon,EW,quality,sats,hdop,alt,...
-        s_fix.sats_used = uint8_t(atoi(f[7]));
-        s_fix.hdop = float(atof(f[8]));
-        s_fix.alt_m = float(atof(f[9]));
-        s_fix_ever = true;
-    }
-    xSemaphoreGive(s_fix_lock);
-}
-
-static void gnss_pump_task(void*)
-{
-    QueueHandle_t q;
-    uart_config_t cfg = {};
-    cfg.baud_rate = SS_UART_GNSS_BAUD;
-    cfg.data_bits = UART_DATA_8_BITS;
-    cfg.parity = UART_PARITY_DISABLE;
-    cfg.stop_bits = UART_STOP_BITS_1;
-    cfg.flow_ctrl = UART_HW_FLOWCTRL_DISABLE;
-    cfg.source_clk = UART_SCLK_DEFAULT;
-
-    ESP_ERROR_CHECK(uart_driver_install(SS_UART_GNSS_PORT, SS_UART_GNSS_RX_BUF, 0, 16, &q, 0));
-    ESP_ERROR_CHECK(uart_param_config(SS_UART_GNSS_PORT, &cfg));
-    ESP_ERROR_CHECK(uart_set_pin(SS_UART_GNSS_PORT, SS_UART_GNSS_PIN_TX, SS_UART_GNSS_PIN_RX,
-                                 UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
-    // Fire an event on '\n' so we wake exactly once per sentence.
-    uart_enable_pattern_det_baud_intr(SS_UART_GNSS_PORT, '\n', 1, 9, 0, 0);
-    uart_pattern_queue_reset(SS_UART_GNSS_PORT, 16);
-    ESP_LOGI(TAG, "GNSS channel up: UART%d RX=%d @%d", int(SS_UART_GNSS_PORT), SS_UART_GNSS_PIN_RX,
-             SS_UART_GNSS_BAUD);
-
-    static char line[128];
-    uart_event_t ev;
-    for (;;) {
-        if (xQueueReceive(q, &ev, portMAX_DELAY) != pdTRUE) continue;
-        switch (ev.type) {
-        case UART_PATTERN_DET: {
-            const int pos = uart_pattern_pop_pos(SS_UART_GNSS_PORT);
-            if (pos < 0) {
-                uart_flush_input(SS_UART_GNSS_PORT);
-                break;
-            }
-            const int n = uart_read_bytes(
-                SS_UART_GNSS_PORT, line,
-                size_t(pos) + 1 > sizeof(line) - 1 ? sizeof(line) - 1 : size_t(pos) + 1, 0);
-            if (n <= 0) break;
-            s_gnss_stats.rx_bytes += uint32_t(n);
-            line[n] = '\0';
-            // Trim trailing CR/LF.
-            size_t len = size_t(n);
-            while (len && (line[len - 1] == '\r' || line[len - 1] == '\n')) line[--len] = '\0';
-            if (len) gnss_handle_sentence(line, len);
-            break;
-        }
-        case UART_FIFO_OVF:
-        case UART_BUFFER_FULL:
-            s_gnss_stats.rx_overflows++;
-            uart_flush_input(SS_UART_GNSS_PORT);
-            xQueueReset(q);
-            break;
-        default:
-            break;
-        }
-    }
 }
 
 // ---------------------------------------------------------------------------
@@ -287,21 +152,12 @@ static void coproc_pump_task(void*)
 // ---------------------------------------------------------------------------
 esp_err_t ss_uart_engine_start(void)
 {
-    s_fix_lock = xSemaphoreCreateMutex();
-    if (!s_fix_lock) return ESP_ERR_NO_MEM;
-    memset(&s_fix, 0, sizeof(s_fix));
-
-#if CONFIG_SS_LITE_MOD_GNSS_BN880
-    // TWDT-EXEMPT (S-02-009): gnss_pump_task blocks on xQueueReceive(portMAX_
-    // DELAY) waiting for UART events; when the GNSS is idle / absent it sleeps
-    // indefinitely (>> the 5 s TWDT deadline), so it deliberately does NOT
-    // subscribe to the task watchdog.
-    if (ss_task_create(gnss_pump_task, "ss_gnss_uart", 4096, nullptr, SS_PRIO_COMMS, nullptr) !=
-        pdPASS)
-        return ESP_ERR_NO_MEM;
-#else
-    ESP_LOGI(TAG, "GNSS module disabled (CONFIG_SS_LITE_MOD_GNSS_BN880=n)");
-#endif
+    // GNSS channel now lives in the ss_gnss HAL component (S-03-027); both calls
+    // are cap/CONFIG-gated internally and idle at zero cost when absent.
+    esp_err_t gerr = ss_gnss_init();
+    if (gerr != ESP_OK) return gerr;
+    gerr = ss_gnss_start();
+    if (gerr != ESP_OK) return gerr;
 
 #if CONFIG_SS_LITE_MOD_COPROC_C6 || CONFIG_SS_LITE_MOD_COPROC_H2
     // TWDT-EXEMPT (S-02-009): coproc_pump_task blocks on xQueueReceive(portMAX_
@@ -319,17 +175,13 @@ esp_err_t ss_uart_engine_start(void)
 
 bool ss_uart_gnss_last_fix(ss_gnss_fix_t* out)
 {
-    if (!out || !s_fix_lock) return false;
-    xSemaphoreTake(s_fix_lock, portMAX_DELAY);
-    *out = s_fix;
-    const bool ever = s_fix_ever;
-    xSemaphoreGive(s_fix_lock);
-    return ever;
+    return ss_gnss_get(out) == ESP_OK;
 }
 
 void ss_uart_gnss_set_tap(ss_nmea_sentence_cb_t cb)
 {
-    s_nmea_tap = cb;
+    // ss_nmea_sentence_cb_t and ss_gnss_nmea_tap_t are identical signatures.
+    ss_gnss_set_nmea_tap((ss_gnss_nmea_tap_t)cb);
 }
 void ss_uart_coproc_set_on_frame(ss_coproc_frame_cb_t cb)
 {
@@ -379,6 +231,14 @@ esp_err_t ss_uart_coproc_send(const uint8_t* payload, size_t len)
 
 void ss_uart_engine_stats(ss_uart_chan_stats_t* gnss, ss_uart_chan_stats_t* coproc)
 {
-    if (gnss) *gnss = s_gnss_stats;
+    if (gnss) {
+        ss_gnss_stats_t g = {};
+        ss_gnss_get_stats(&g);
+        *gnss = ss_uart_chan_stats_t{};
+        gnss->rx_bytes = g.rx_bytes;
+        gnss->rx_frames = g.rx_frames;
+        gnss->rx_crc_errors = g.rx_crc_errors;
+        gnss->rx_overflows = g.rx_overflows;
+    }
     if (coproc) *coproc = s_coproc_stats;
 }

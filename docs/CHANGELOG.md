@@ -9,6 +9,15 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- GNSS HAL driver `hal_gnss` for Lite (S-03-027): a new `firmware/components/ss_gnss/`
+  component implements the frozen `ss_hal_gnss.h` contract on UART1 (RX=18/TX=17
+  @9600, DMA ring, NMEA-0183 parse), split into a pure host-tested parse core
+  (`ss_gnss_core`) plus thin ESP-IDF glue owning the UART pump, fix state, sentence
+  tap and RX counters. The `ss_uart_engine` GNSS path migrates behind it (parse now
+  shared, so no fix-loss regression) and its public GNSS API forwards to the driver.
+  Part-agnostic across NMEA-0183 modules; `ss_gnss_sleep` and exact part-number
+  recording defer to the D-0013 hardware session, so the story parks at IN_REVIEW
+  pending on-target fix-acquisition verification.
 - Wi-Fi/BLE coexistence stress-test plan for Lite (S-03-025): a shared-antenna
   soak plan at `docs/dev/COEX_STRESS_LITE.md` closing EPIC-03 risk R03-02. The
   Lite ESP32-S3 time-shares one 2.4 GHz antenna between Wi-Fi and BLE under the
