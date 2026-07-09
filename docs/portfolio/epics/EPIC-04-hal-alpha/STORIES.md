@@ -34,6 +34,7 @@ As a compliance engineer I want HaLow scan with channel-plan enforcement so that
 As a firmware engineer I want SKY66423 FEM gain and mode control so that HaLow TX/RX performance meets link-budget targets.
 - AC: TX gain and RX LNA modes controlled via GPIO per datasheet timing; T/R switch timing validated on scope; FEM state tied to the radio state machine
 - Meta: Shard=C | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=A | PRD=F-BR-04 | Const=C-00,C-08
+- Deps: external: gap G1 (D-0020) — SKY66423-11 is in the BOM but UNROUTED on both the Alpha v152 design and Omega v69 (integrated-PA-only output); FEM control work waits for a routed revision, and the Alpha design itself is not release-verified (v14 "DO NOT FABRICATE", v15 unverified) — see `docs/dev/OMEGA_HW_BASELINE.md`
 
 ### S-04-007 — RTL8852BE Wi-Fi 5 driver integration
 As a firmware engineer I want RTL8852BE Wi-Fi 5 driver integration so that Alpha gets high-throughput Wi-Fi.

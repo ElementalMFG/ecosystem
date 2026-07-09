@@ -7,6 +7,10 @@
 ## Outcome
 All Alpha HAL contracts plus Omega additions: LTE-M/NB-IoT modem (e.g. Nordic nRF9161 or Quectel BG95/BG770A), embedded SIM (eSIM/eUICC), optional LEO satellite modem (e.g. Iridium 9770 / Skylo NTN), enhanced power path for higher TX bursts, and enterprise-grade sensor set (baro, magnetometer).
 
+## Hardware baseline (D-0020, 2026-07-09)
+
+The signed-off Omega v1.0 board (PCB release v69) carries **none** of the Outcome's modem/sensor additions: no cellular, no satellite, no barometer, no secure element, no supercap power path, and no expansion interface (respin required). Shards S-05.A/B/C/D/E/F/I and the modem exit criteria are therefore **rev-2-gated**; their stories are `BLOCKED`, capability preserved. What v69 DOES add over the plan: BMM350 magnetometer (not MMC5983MA), MIA-M10Q I²C GNSS, DRV2625 haptics, ES8311 audio, 12× SK6805 LED ring. Authoritative: `docs/dev/OMEGA_HW_BASELINE.md`.
+
 ## Constitution
 C-00 `00_MASTER_SOFTWARE_PLAN.md` §HAL contracts, §tiers + `models/CATALOG` (Omega hardware); C-05 `05_SECURITY_MODEL.md` §secure element, §tamper response; C-08 `08_UNIVERSAL_CONNECTIVITY.md` §bearers (cellular LTE-M/NB-IoT, LEO satellite).
 

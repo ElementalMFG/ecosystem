@@ -48,6 +48,8 @@
 
 Every device becomes a mesh node on every radio it physically has.
 
+**Bearer availability vs shipped boards (D-0020, 2026-07-09):** the table lists roadmap availability. Against the signed-off designs: the LoRa row's Alpha/Omega listing and the Cellular row's Omega listing are **deferred** — Omega v1.0 (PCB release v69) and the Alpha 1.0 design carry no SX1262 and no cellular/satellite modem; HaLow + Wi-Fi 2.4 GHz + BLE is the shipped complement on both, and Lite's wireless header takes an SX1262 **or** HaLow module (dev fleet is HaLow-fitted, D-0013). Authoritative list: `docs/dev/OMEGA_HW_BASELINE.md`.
+
 ---
 
 ## 2. The SS-Link abstraction

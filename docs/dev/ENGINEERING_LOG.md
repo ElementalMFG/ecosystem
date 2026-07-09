@@ -503,6 +503,19 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   (precedent: `ss_input/ss_touch.c` prio 10; now `ss_gnss` prio 12 == SS_PRIO_COMMS).
   This sidesteps the ss_tasks priority-ceiling convention — a follow-up could expose
   a component-safe task shim. S-03-028/S-03-029 will hit the same when they land.
+- S-03-028 (2026-07-09): compass/mag driven behind the `ss_hal_imu.h` mag path
+  (`firmware/components/ss_compass/`): pure host-tested `ss_compass_core.[ch]`
+  (HMC5883L X→Z→Y decode + `-4096` overflow reject, tilt-comp/flat-hold heading,
+  `ss_compass_src_t` now owned here) + IDF glue `ss_compass.c` implementing
+  `ss_imu_read/heading_deg/sleep` (I²C0 @0x1E mag + @0x68 accel, gated on
+  `SS_CAP_MAGNETOMETER`/`SS_CAP_IMU`, on-demand reads — no pump task, unlike
+  `ss_gnss`). `main/ss_compass.cpp` now delegates its math to the shared core.
+  Two open items for whoever wires this into boot: (1) both the new `ss_imu_init`
+  glue and the legacy `main/ss_compass_start()` thread call `i2c_new_master_bus`
+  on I²C0 (shared with GT911 touch) — bus ownership must be reconciled before
+  enabling both; (2) exact Elecrow part is TBD-D-0013: doc 01 documents HMC5883L
+  @0x1E but a QMC5883L variant sits @0x0D and changes the decode — verify at
+  attachment and update doc 01 + pin map FIRST on any deviation.
 - IN_REVIEW audit (2026-07-09): 22 stories parked. Semantics clarified and
   now enforced: IN_REVIEW = merged + tier-review-complete, AC *evidence*
   pending — it is NOT a pending-code-review status. Audit found 5 stories
@@ -514,3 +527,17 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   C: D-0013 fleet/rack, D: later-epic-gated) + the binding exit rule
   (flip only on linked evidence; never "probably fine"). Verified
   S-03-015's T1 double review ran (commit d13cf6e body carries verdicts).
+- D-0020 (2026-07-09): Omega/Alpha hardware-truth alignment. Omega v1.0 =
+  PCB release v69 (signed off 2026-07-08, TVF 69/69, SHA 054eaa8b) — P4 SoM
+  + C6 bridge + MM8108 HaLow; NO LoRa/cellular/satellite/baro/SE/supercap
+  and NO expansion interface (respin required for any of them). Alpha v152
+  is NOT release-verified (v14 "DO NOT FABRICATE"; v15 unverified) — do not
+  elaborate EPIC-04 against it yet. Actions: doc of record
+  docs/dev/OMEGA_HW_BASELINE.md; 16 EPIC-05 ghostware stories BLOCKED
+  (capability preserved for rev-2); S-05-011 retargeted MMC5983MA→BMM350;
+  S-05-012 part confirmed (12× SK6805); additive D-0020 callouts in doc 00
+  §1.2/§11-Ph4, doc 08 bearer table, PRD F-BR-01/06; omega board_config
+  narration fixed. Covenant note: docs 00/08 anchors are mutable
+  (existence+SPDX only) — content callouts are sanctioned. Pattern repeats
+  EPIC-03: plans written before a hardware lock are drift candidates; the
+  PCB release package is the only alignment source.

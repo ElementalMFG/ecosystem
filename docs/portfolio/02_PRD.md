@@ -46,12 +46,12 @@ Independent developer building a marine-navigation plugin. Cares about SDK stabi
 - **F-MSG-09** — Store-and-forward via propagation nodes when recipient is offline.
 
 ### 2.2 Bearers
-- **F-BR-01** — LoRa (SX1262) — mandatory on all SKUs.
+- **F-BR-01** — LoRa (SX1262) — mandatory on all SKUs. *(Board reality, D-0020: fitted via Lite's wireless header only — the signed-off Alpha 1.0 and Omega v1.0 (v69) designs carry no SX1262; requirement deferred to board revisions for those SKUs, and F-BR-07 scope rides with it. See `docs/dev/OMEGA_HW_BASELINE.md`.)*
 - **F-BR-02** — Wi-Fi 2.4 GHz — mandatory on all SKUs.
 - **F-BR-03** — Bluetooth LE 5.x — mandatory on all SKUs.
 - **F-BR-04** — Wi-Fi HaLow (MM8108) — mandatory Alpha, Omega.
 - **F-BR-05** — Wi-Fi 5 GHz — mandatory Alpha, Omega.
-- **F-BR-06** — Cellular LTE-M / NB-IoT — mandatory Omega.
+- **F-BR-06** — Cellular LTE-M / NB-IoT — mandatory Omega. *(Board reality, D-0020: no modem on Omega v1.0 (v69, no expansion interface) — deferred to the Omega rev-2 respin. See `docs/dev/OMEGA_HW_BASELINE.md`.)*
 - **F-BR-07** — Meshtastic wire compat on LoRa — mandatory all SKUs.
 - **F-BR-08** — Bearer channel agility — interference/degradation detection with automatic channel move **within the region plan** on every bearer that supports it; agility events logged. All SKUs (depth varies by radio).
 - **F-BR-09** — 802.11s L2 IP-mesh interop bearer (opt-in) — join or serve standard 802.11s meshes (OpenWRT/MANET-class gear) as an additional SS-Link bearer. Alpha, Omega.

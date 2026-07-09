@@ -15,11 +15,12 @@
 //
 // Locked facts used here:
 //   Class: next-gen "Enterprise / heavy-duty" flagship (doc 00 §1.2 tier table).
-//   Radios: dual-radio HaLow + LoRa hardware onboard, plus Cellular + LEO
-//     SatCom fallback (doc 00 §1.2 and §11 Phase 4 items 2-3).
-//   MCU: TBD — next-gen SoC selection, RISC-V + Linux SoM likely
-//     (doc 00 §1.2 tier table and §11 Phase 4 item 1); NOT a fixed part yet.
-//   Display: "larger IPS / OLED" (doc 00 §1.2) — geometry NOT locked.
+//   Board of record: Omega v1.0 = PCB release v69 (2026-07-08, D-0020) —
+//     see docs/dev/OMEGA_HW_BASELINE.md for the authoritative part list.
+//   Radios: MM8108 HaLow + ESP32-C6 bridge (Wi-Fi/BLE). NO LoRa, NO
+//     cellular, NO satellite on v1.0 (rev-2-gated; doc 00 §1.2 baseline note).
+//   MCU: ESP32-P4NRW32X SoM (U1) + ESP32-C6-MINI-1 (U12) — locked by v69.
+//   Display: ER-TFT3.92-1 3.92" IPS, ST7796S 8-bit parallel via 40-pin FPC.
 //   On-device models: Omega is a target for whisper-tiny STT, Piper TTS, and
 //     (Omega-only) llama-3.2-1b LLM assist (models/CATALOG/README.md); this
 //     drives memory sizing later but locks no pin here.
@@ -77,13 +78,13 @@
        lock */                                                               \
     )
 
-// ---- Dual mesh radio (HaLow + LoRa onboard per doc 00 §1.2 / §11 Ph4) -----
-#define SS_BOARD_CAPS_RADIO   0   // TODO(models/CATALOG): claim SS_CAP_RADIO_HALOW | SS_CAP_RADIO_LORA once the dual-radio pin map locks
+// ---- Mesh radio (v69: MM8108 HaLow only — no LoRa on this board, D-0020) --
+#define SS_BOARD_CAPS_RADIO   0   // TODO(S-05-020): claim SS_CAP_RADIO_HALOW once the v69 pin map lands here (NEVER SS_CAP_RADIO_LORA on v1.0)
 
 // ---- GNSS + compass -------------------------------------------------------
-#define SS_BOARD_CAPS_GNSS    0   // TODO(models/CATALOG): claim SS_CAP_GNSS_L1 | SS_CAP_GNSS_L5 | SS_CAP_MAGNETOMETER once pin map locks
+#define SS_BOARD_CAPS_GNSS    0   // TODO(S-05-020): claim SS_CAP_GNSS_L1 | SS_CAP_MAGNETOMETER once the v69 pin map lands (MIA-M10Q I2C + BMM350, D-0020)
 
-// ---- Bridge / connectivity coprocessor (Cellular + LEO SatCom fallback) ---
+// ---- Bridge / connectivity coprocessor (v69: ESP32-C6-MINI-1, U12) --------
 #define SS_BOARD_CAPS_COPROC  0   // TODO(models/CATALOG): claim SS_CAP_RADIO_WIFI6 | SS_CAP_RADIO_BLE once the coproc/link locks
 
 // ---- Inertial sensor ------------------------------------------------------
@@ -194,7 +195,7 @@
 #define SS_UART_GNSS_BAUD       0                  // TODO(models/CATALOG): confirm baud
 #define SS_UART_GNSS_RX_BUF     0                  // TODO(models/CATALOG): confirm RX buffer size
 
-#define SS_UART_COPROC_PORT     UART_NUM_2         // TODO(models/CATALOG): confirm connectivity-coproc UART (cellular/LEO/bridge)
+#define SS_UART_COPROC_PORT     UART_NUM_2         // TODO(S-05-020): confirm C6-bridge link (UART vs SDIO/ESP-Hosted); no cellular/LEO on v1.0 (D-0020)
 #define SS_UART_COPROC_PIN_RX   -1                 // TODO(models/CATALOG): confirm
 #define SS_UART_COPROC_PIN_TX   -1                 // TODO(models/CATALOG): confirm
 #define SS_UART_COPROC_BAUD     0                  // TODO(models/CATALOG): confirm baud

@@ -9,6 +9,26 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Omega/Alpha hardware baseline ratified (D-0020): new doc of record
+  `docs/dev/OMEGA_HW_BASELINE.md` aligning the portfolio to the signed-off
+  Omega v1.0 PCB (release v69 — P4 SoM + C6 bridge + MM8108 HaLow; no
+  LoRa/cellular/satellite and no expansion interface on v1.0) and recording
+  that the Alpha v152 design is not yet release-verified. Sixteen EPIC-05
+  modem/sensor stories are BLOCKED on the Omega rev-2 respin with capability
+  preserved; S-05-011 retargets MMC5983MA→BMM350; doc 00/doc 08/PRD bearer
+  claims carry additive baseline callouts.
+
+- Magnetometer/compass HAL driver for Lite (S-03-028): a new
+  `firmware/components/ss_compass/` component drives the 3-axis compass through the
+  frozen `ss_hal_imu.h` magnetometer path (HMC5883L @0x1E + accelerometer @0x68 on
+  I²C0), split into a pure host-tested decision core (`ss_compass_core` — HMC5883L
+  X→Z→Y decode, tilt-compensated and flat-hold heading, three-source selection) plus
+  thin ESP-IDF glue implementing `ss_imu_read`/`ss_imu_heading_deg`. `main/ss_compass`
+  migrates its heading/tilt math behind the shared core, preserving the three
+  documented behaviours (tilt-compensated with IMU, flat-hold mag-only, phone-fed
+  with neither) with no regression. Exact Elecrow part (HMC5883L @0x1E vs a QMC5883L
+  variant @0x0D) and on-fleet heading verification defer to the D-0013 hardware
+  session, so the story parks at IN_REVIEW.
 - GNSS HAL driver `hal_gnss` for Lite (S-03-027): a new `firmware/components/ss_gnss/`
   component implements the frozen `ss_hal_gnss.h` contract on UART1 (RX=18/TX=17
   @9600, DMA ring, NMEA-0183 parse), split into a pure host-tested parse core

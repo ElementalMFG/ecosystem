@@ -166,25 +166,25 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
-| S-05-001 | A | Feature | L | P0 | DRAFT | O | F-BR-06 | C-00,C-08 |
-| S-05-002 | A | Feature | M | P0 | DRAFT | O | F-BR-06 | C-08 |
-| S-05-003 | A | Feature | M | P0 | DRAFT | O | F-BR-06 | C-08 |
-| S-05-004 | D | Feature | M | P0 | DRAFT | O | F-BR-06 | C-08 |
-| S-05-005 | C | Feature | M | P0 | DRAFT | O | NF-PWR-03 | C-00,C-08 |
-| S-05-006 | B | Feature | L | P0 | DRAFT | O | F-BR-06 | C-08 |
-| S-05-007 | B | Feature | S | P1 | DRAFT | O | F-BR-06 | C-00,C-08 |
-| S-05-008 | E | Feature | L | P1 | DRAFT | O | F-MSG-08 | C-08 |
-| S-05-009 | E | Feature | L | P2 | DRAFT | O | F-MSG-08 | C-08 |
-| S-05-010 | G | Feature | S | P1 | DRAFT | O | — | C-00 |
+| S-05-001 | A | Feature | L | P0 | BLOCKED | O | F-BR-06 | C-00,C-08 |
+| S-05-002 | A | Feature | M | P0 | BLOCKED | O | F-BR-06 | C-08 |
+| S-05-003 | A | Feature | M | P0 | BLOCKED | O | F-BR-06 | C-08 |
+| S-05-004 | D | Feature | M | P0 | BLOCKED | O | F-BR-06 | C-08 |
+| S-05-005 | C | Feature | M | P0 | BLOCKED | O | NF-PWR-03 | C-00,C-08 |
+| S-05-006 | B | Feature | L | P0 | BLOCKED | O | F-BR-06 | C-08 |
+| S-05-007 | B | Feature | S | P1 | BLOCKED | O | F-BR-06 | C-00,C-08 |
+| S-05-008 | E | Feature | L | P1 | BLOCKED | O | F-MSG-08 | C-08 |
+| S-05-009 | E | Feature | L | P2 | BLOCKED | O | F-MSG-08 | C-08 |
+| S-05-010 | G | Feature | S | P1 | BLOCKED | O | — | C-00 |
 | S-05-011 | G | Feature | S | P1 | DRAFT | O | F-APP-04 | C-00 |
 | S-05-012 | H | Feature | S | P2 | DRAFT | O | — | C-00 |
-| S-05-013 | I | Feature | L | P0 | DRAFT | O | F-SEC-01,F-SEC-02,NF-SEC-01 | C-05 |
-| S-05-014 | I | Feature | M | P0 | DRAFT | O | F-SEC-10,NF-SEC-02 | C-05 |
-| S-05-015 | F | Feature | M | P0 | DRAFT | O | NF-PWR-03 | C-00 |
+| S-05-013 | I | Feature | L | P0 | BLOCKED | O | F-SEC-01,F-SEC-02,NF-SEC-01 | C-05 |
+| S-05-014 | I | Feature | M | P0 | BLOCKED | O | F-SEC-10,NF-SEC-02 | C-05 |
+| S-05-015 | F | Feature | M | P0 | BLOCKED | O | NF-PWR-03 | C-00 |
 | S-05-016 | — | Ops | M | P0 | DRAFT | O | — | C-00 |
-| S-05-017 | D | Ops | M | P0 | DRAFT | O | F-BR-06 | C-08 |
-| S-05-018 | A | Feature | M | P0 | DRAFT | O | NF-REL-02 | C-05,C-08 |
-| S-05-019 | A | Spike | S | P1 | DRAFT | O | F-BR-06, NF-COST-02 | C-01, C-08 |
+| S-05-017 | D | Ops | M | P0 | BLOCKED | O | F-BR-06 | C-08 |
+| S-05-018 | A | Feature | M | P0 | BLOCKED | O | NF-REL-02 | C-05,C-08 |
+| S-05-019 | A | Spike | S | P1 | BLOCKED | O | F-BR-06, NF-COST-02 | C-01, C-08 |
 | S-05-020 | — | Task | M | P2 | DRAFT | O | — | C-00 |
 
 ---
@@ -754,11 +754,11 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 | Status | Count |
 |---|---|
-| DRAFT | 508 |
+| DRAFT | 492 |
 | IN_PROGRESS | 2 |
 | IN_REVIEW | 22 |
 | DONE | 30 |
-| BLOCKED | 2 |
+| BLOCKED | 18 |
 | DROPPED | 3 |
 
 ---
