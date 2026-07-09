@@ -71,10 +71,10 @@ TEST(GnssCore, BadChecksumRejectedFixUnchanged)
 
 TEST(GnssCore, ChecksumOkAcceptsValidXor)
 {
-    EXPECT_TRUE(ss_gnss_core_checksum_ok(
-        "$GPGGA,123519,4807.038,N,01131.000,E,1,08,0.9,545.4,M,46.9,M,,*47", 64));
-    EXPECT_FALSE(ss_gnss_core_checksum_ok(
-        "$GPGGA,123519,4807.038,N,01131.000,E,1,08,0.9,545.4,M,46.9,M,,*48", 64));
+    const char* good = "$GPGGA,123519,4807.038,N,01131.000,E,1,08,0.9,545.4,M,46.9,M,,*47";
+    const char* bad = "$GPGGA,123519,4807.038,N,01131.000,E,1,08,0.9,545.4,M,46.9,M,,*48";
+    EXPECT_TRUE(ss_gnss_core_checksum_ok(good, std::strlen(good)));
+    EXPECT_FALSE(ss_gnss_core_checksum_ok(bad, std::strlen(bad)));
 }
 
 TEST(GnssCore, TruncatedSentenceRejected)
