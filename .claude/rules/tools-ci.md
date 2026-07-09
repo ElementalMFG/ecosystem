@@ -15,7 +15,7 @@ paths:
 - `tools/{artwork,brand-guard,ota-signer,protocol-fuzzer,provisioning-line,sim}/` are empty scaffolds (epic-gated) — creating the first tool there is new work, not maintenance.
 - Workflows (`.github/workflows/`, all required checks on `main`):
   - `firmware-build.yml` — builds `lite` in the pinned container on PRs touching `firmware/**` / `ci/containers/firmware/**` / workflows, and on push to main.
-  - `docs-lint.yml` — runs `tools/lint-docs.py` on `**.md` changes.
+  - `docs-lint.yml` — on `**.md`/tool changes runs `tools/lint-docs.py`, `gen-stories-index.py --check` (story grammar + §2.7 + park-reason rules), `allocation.py --check`, and `contract-audit.py` — the same set `verify` runs locally (parity is binding).
   - `dco.yml` — every commit needs a `Signed-off-by:` trailer (`git commit -s`).
 - **Toolchain pinning policy (RFC-0002)**: the single source of truth for the firmware image is the digest in `ci/containers/firmware/Dockerfile` (`espressif/idf` v5.3.5, sha256-pinned); `.devcontainer/devcontainer.json` and `firmware-build.yml` must carry the **same digest** — changing one means changing all three in one commit.
 - Container build (canonical): `docker run --rm -v "$PWD":/workspace -w /workspace/firmware <pinned-image> idf.py -B build/lite -DSS_BOARD=lite build`. Container runs as root → `firmware/build/` artifacts may need `sudo rm -rf`.

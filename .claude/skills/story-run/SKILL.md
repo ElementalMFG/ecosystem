@@ -71,6 +71,15 @@ output, file path, test result). An AC that cannot be verified now (e.g.
 needs hardware or a hosted repo) blocks `DONE` — use `IN_REVIEW` or `BLOCKED`
 and tell the user why.
 
+Parking rules (machine-enforced by `gen-stories-index.py --check`):
+- `IN_REVIEW` → the `- Deps:` line must record the park reason (which clause
+  is unproven + what supplies the evidence), AND add a row for the pending
+  clause to `docs/dev/EVIDENCE_RUNSHEET.md` in the same commit (grouped by
+  discharging fixture). `IN_REVIEW → DONE` later requires linked evidence
+  per the runsheet's exit rule — never "probably fine".
+- `BLOCKED` → the `- Deps:` line must carry `BLOCKED <date>: <reason>` naming
+  the blocker.
+
 ## 5a. Knowledge sweep (before gates — makes fresh sessions lossless)
 
 Ask: did this story learn anything a FUTURE story needs that is not already

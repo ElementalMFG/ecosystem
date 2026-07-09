@@ -199,6 +199,8 @@ Only P0 and P1 stories may be pulled into active work without a re-triage.
 
 `DRAFT → READY → IN_PROGRESS → IN_REVIEW → DONE` with two off-ramps: `BLOCKED` and `DROPPED`. Every off-ramp writes a note in the story.
 
+`IN_REVIEW` means merged, gate-verified, and tier-review-complete with one or more AC clauses awaiting *evidence* (hardware, fleet, release event, or a dependent driver) — it is not a pending-code-review state. The park reason lives in the story's `- Deps:` line and the pending clause in `docs/dev/EVIDENCE_RUNSHEET.md` (grouped by discharging fixture); `BLOCKED` requires a `BLOCKED <date>: <reason>` annotation. Both rules are CI-enforced by `tools/gen-stories-index.py --check` (added 2026-07-09). `IN_REVIEW → DONE` flips only on linked evidence (results-table row with value + timestamp + firmware rev, CI run ID, or release URL) per the runsheet's exit rule.
+
 ---
 
 ## 9. Working-group ownership

@@ -21,5 +21,6 @@ echo "--- recent engineering-log entries (grep it for your component):"
 grep "^- " docs/dev/ENGINEERING_LOG.md 2>/dev/null | tail -4 || true
 
 echo "--- reminders: allocation via 'python3 tools/allocation.py --story ID';"
-echo "    binding policies: CLAUDE.md + docs/portfolio/11_TOKEN_ECONOMY.md"
+echo "    binding policies: CLAUDE.md + docs/portfolio/11_TOKEN_ECONOMY.md;"
+echo "    IN_REVIEW exits (evidence-linked only): docs/dev/EVIDENCE_RUNSHEET.md"
 exit 0
