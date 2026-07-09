@@ -17,7 +17,7 @@ As a firmware engineer I want a monorepo CMake wrapper so that any board target 
 - AC: `firmware/CMakeLists.txt` selects board from `BOARD` env; `make lite|alpha|omega` targets work; unknown board value fails with a clear error
 - Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DONE | SKU=★ | PRD=— | Const=C-00
 - Tasks: spec (board-selection contract) · design (`SS_BOARD` cache var + make targets) · impl (`firmware/CMakeLists.txt` + root `Makefile`) · test (`make lite` green; unknown board fails with FATAL_ERROR listing ports) · docs (`BUILDING.md`).
-- Deps: S-02-001
+- Deps: S-02-001; the emit + validator clauses are CI-evidenced now, but "SBOM signed by CI" and "published alongside the release" park at IN_REVIEW until the first tagged release exercises `release-sbom.yml` end-to-end
 
 ### S-02-003 — `boards/lite/board_config.h` complete
 As a firmware engineer I want a complete `boards/lite/board_config.h` so that all Lite HAL code binds to documented pins and settings.
@@ -130,7 +130,7 @@ As a release manager I want an SBOM attestation emitted per firmware artifact so
 - AC: CycloneDX JSON emitted per artifact; SBOM signed by CI; SBOM published alongside the release
 - Meta: Shard=A | Type=Ops | Size=M | Prio=P0 | Status=IN_REVIEW | SKU=★ | PRD=NF-SEC-05,NF-REG-03 | Const=C-00,C-OA
 - Tasks: spec (frozen contract `docs/dev/contracts/S-02-019-sbom-contract.md`) · design (CycloneDX 1.6 shape + deterministic serial/purl + keyless-attest boundary) · impl (`tools/gen-sbom.py`; SBOM steps in `firmware-build.yml`; new tag-triggered `release-sbom.yml`) · test (`tools/tests/test_gen_sbom.py` under host-tests; determinism `cmp` + V1–V7 validator) · docs (CHANGELOG).
-- Deps: S-02-001
+- Deps: S-02-001; the emit + validator clauses are CI-evidenced now, but "SBOM signed by CI" and "published alongside the release" park at IN_REVIEW until the first tagged release exercises `release-sbom.yml` end-to-end
 
 ### S-02-020 — Firmware version resource (git SHA + tag + build id)
 As a support engineer I want a firmware version resource so that any device can report exactly what it runs.

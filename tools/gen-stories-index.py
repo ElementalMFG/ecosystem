@@ -263,6 +263,17 @@ def main():
                         errors.append(f"{ctx}: story depends on itself")
                     elif ref not in all_ids:
                         errors.append(f"{ctx}: Deps references unknown story {ref}")
+            # Park-reason rule (2026-07-09, from the S-02-019/S-03-009 ledger
+            # audit): a parked/blocked status must say WHAT it waits on, in the
+            # Deps line, or the story silently rots — nobody can drive it out.
+            if s["Status"] == "IN_REVIEW" and s["Deps"]:
+                if not re.search(r"park|pending|await|until|needs?\b", s["Deps"], re.I):
+                    errors.append(f"{ctx}: Status=IN_REVIEW but the Deps line records no "
+                                  f"park reason (what evidence is missing + what supplies it)")
+            if s["Status"] == "BLOCKED" and s["Deps"]:
+                if not re.search(r"block", s["Deps"], re.I):
+                    errors.append(f"{ctx}: Status=BLOCKED but the Deps line does not "
+                                  f"say what blocks it (annotate 'BLOCKED <date>: <reason>')")
 
     generated, total, clause_cover, clause_p0 = build(epics)
 

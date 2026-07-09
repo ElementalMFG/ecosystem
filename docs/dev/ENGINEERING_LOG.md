@@ -503,3 +503,14 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   (precedent: `ss_input/ss_touch.c` prio 10; now `ss_gnss` prio 12 == SS_PRIO_COMMS).
   This sidesteps the ss_tasks priority-ceiling convention — a follow-up could expose
   a component-safe task shim. S-03-028/S-03-029 will hit the same when they land.
+- IN_REVIEW audit (2026-07-09): 22 stories parked. Semantics clarified and
+  now enforced: IN_REVIEW = merged + tier-review-complete, AC *evidence*
+  pending — it is NOT a pending-code-review status. Audit found 5 stories
+  with no recorded park reason (S-02-019, S-03-009, S-03-013, S-03-019,
+  S-03-025) — all fixed; gen-stories-index now REJECTS IN_REVIEW/BLOCKED
+  stories without a park/blocker reason in Deps. New doc of record:
+  docs/dev/EVIDENCE_RUNSHEET.md — every parked clause grouped by the
+  fixture that discharges it (A: software-now, B: any Lite board,
+  C: D-0013 fleet/rack, D: later-epic-gated) + the binding exit rule
+  (flip only on linked evidence; never "probably fine"). Verified
+  S-03-015's T1 double review ran (commit d13cf6e body carries verdicts).
