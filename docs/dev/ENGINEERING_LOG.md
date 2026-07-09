@@ -462,3 +462,13 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   reconciliation), whose AC explicitly names "logs/FS mapping onto storage
   (LittleFS, S-03-019)" as scope. Worker ID transposition (018↔023); caught
   during the follow-up filing sweep. No code change.
+- S-03-024 (2026-07-08): `docs/dev/POWER_BUDGET_LITE.md` is the roll-up Lite
+  power budget proving NF-PWR-01 — per-`ss_hal_power.h`-state table + RX-idle
+  (≤25 mA) + per-bearer TX peaks + a symbolic duty-cycle standby-hours model
+  (≥24 h). Per-bearer TX peaks are DATASHEET TYPICALS (SX1262 ~118 mA @ +22 dBm,
+  ESP32-S3 Wi-Fi ~355 mA 802.11b, ESP32-S3 BLE ~30 mA @ 0 dBm), NOT measured —
+  actual draw is set by firmware TX-power / the region PA table (S-03-012). The
+  sleep ≤0.5 mA procedure is NOT duplicated (lives in BENCH_POWER_LITE.md,
+  S-03-003) and the PPK2 series fixture is reused from HIL_TEST_PLAN_LITE.md
+  (S-03-023). Measured columns + numeric standby fill park at IN_REVIEW on the
+  same D-0013 hardware session as S-03-003/BENCH_POWER_LITE.

@@ -154,7 +154,9 @@ As a test engineer I want a HIL rack test-plan for Lite so that every merge is v
 ### S-03-024 — Power-consumption measurement + budget report
 As a firmware engineer I want a power-consumption measurement and budget report so that the Lite battery targets are provable.
 - AC: sleep ≤ 0.5 mA; RX-idle ≤ 25 mA; TX peak documented per bearer
-- Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+- Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=IN_REVIEW | SKU=L | PRD=NF-PWR-01 | Const=C-00,C-01
+- Tasks: spec — full Lite power model (per-state draw: sleep/RX-idle/per-bearer TX/active) + the NF-PWR-01 ≥24 h standby roll-up · design — `POWER_BUDGET_LITE.md`: budget table, per-bearer TX-peak table (datasheet + measured columns), RX-idle measurement procedure reusing the PPK2 series fixture, standby-hours estimate from a duty-cycle model · impl — author `docs/dev/POWER_BUDGET_LITE.md` with datasheet TX figures (SX1262 / ESP32-S3 Wi-Fi / ESP32-S3 BLE), cross-refs to `BENCH_POWER_LITE.md` (sleep) + `HIL_TEST_PLAN_LITE.md` (rack) · test — docs-lint + index --check green; internal links resolve · docs — CHANGELOG + ENGINEERING_LOG
+- Deps: S-03-001, S-03-003, S-03-030 (S-03-003 is IN_REVIEW — it parks on the same D-0013 hardware session; the budget report + datasheet TX figures are authorable now, and the measured sleep/RX-idle cells fill alongside the sleep bench at that session)
 
 ### S-03-025 — Wi-Fi/BLE coexistence stress test
 As a firmware engineer I want a Wi-Fi/BLE coexistence stress test so that shared-antenna scheduling never starves either radio.

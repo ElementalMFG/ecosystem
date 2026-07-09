@@ -9,6 +9,18 @@ in every user-visible PR (CONTRIBUTING.md §3).
 
 ### Added
 
+- Power budget roll-up for Lite (S-03-024): a unified power budget at
+  `docs/dev/POWER_BUDGET_LITE.md` proving NF-PWR-01 ("Lite standby ≥ 24 h with
+  LoRa periodic"). It rolls up the whole Lite power model — one row per
+  `ss_hal_power.h` power state plus RX-idle and per-bearer TX peaks, a per-bearer
+  TX-peak table (SX1262 LoRa, ESP32-S3 Wi-Fi, ESP32-S3 BLE) carrying datasheet
+  typicals labelled as such (actual draw set by the firmware TX-power / region PA
+  table, S-03-012), the RX-idle ≤ 25 mA measurement procedure on the PPK2 series
+  fixture, and a duty-cycle standby-hours estimate (sleep baseline + periodic
+  LoRa wake energy over a user-supplied 3.7 V LiPo, no gauge). It complements the
+  sleep-slice bench (`BENCH_POWER_LITE.md`, S-03-003) and the rack
+  (`HIL_TEST_PLAN_LITE.md`, S-03-023) rather than duplicating them; measured
+  columns and the numeric standby fill defer to the D-0013 hardware session.
 - HIL rack test-plan for Lite (S-03-023): a hardware-in-the-loop rack plan at
   `docs/dev/HIL_TEST_PLAN_LITE.md` documenting the rack topology and fixture
   inventory, a test matrix mapping every EPIC-03 exit criterion and all five
