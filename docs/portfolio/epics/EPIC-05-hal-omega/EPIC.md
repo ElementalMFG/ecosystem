@@ -15,6 +15,8 @@ The signed-off Omega v1.0 board (PCB release v69) carries **none** of the Outcom
 
 **Omega rev-2 optimization batch:** ledger items HW-1…5 are small BOM tweaks (~$0.003/board total — charge-set resistor, rail trims, I²C pull-up values) with no firmware dependency; they are batched with the rev-2 respin decision and file no stories until that decision lands (HW-6 NTC-divider bypass is a documented design choice — FW-8 / S-05-028 owns the thermal envelope instead).
 
+**BIT corrections (2026-07-09, HW readiness-audit second pass):** no `pa_pdet` net exists on v69 — S-05-029 rescopes to a composite VSWR proxy (Path A); the NS4150B mute pin is hard-strapped to v3v3 — S-05-023 mutes codec-side (ES8311 register mute + MCLK stop); BIT-3 hybrid RTC/backup-domain policy (GNSS→NTP-via-C6→Y2 freewheel) is added to S-05-037. **Rev-2 scope per owner direction 2026-07-09: LoRa is the rev-2 priority** (S-05-040, D-0023); cellular is UNSCHEDULED (D-0024, not in current product intent); satellite/SE/baro remain rev-2-preserved. Story elaboration must pull the HW readiness-audit §6 amendment row for each S-05-02x/03x story (per `docs/dev/OMEGA_LEDGER_ALIGNMENT.md` §7.5).
+
 ## Constitution
 C-00 `00_MASTER_SOFTWARE_PLAN.md` §HAL contracts, §tiers + `models/CATALOG` (Omega hardware); C-05 `05_SECURITY_MODEL.md` §secure element, §tamper response; C-08 `08_UNIVERSAL_CONNECTIVITY.md` §bearers (cellular LTE-M/NB-IoT, LEO satellite).
 

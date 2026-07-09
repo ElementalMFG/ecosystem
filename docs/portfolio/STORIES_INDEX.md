@@ -73,7 +73,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-03 — HAL for Lite (ESP32-S3 + SX1262 + Wi-Fi/BLE) (46 stories)
+## Epic-03 — HAL for Lite (ESP32-S3 + SX1262 + Wi-Fi/BLE) (48 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -123,6 +123,8 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-03-044 | I | Ops | S | P0 | DRAFT | L | — | C-00 |
 | S-03-045 | I | Ops | M | P0 | DRAFT | L | — | C-00 |
 | S-03-046 | — | Task | M | P0 | DRAFT | L | — | C-00,C-01,C-08 |
+| S-03-047 | — | Feature | M | P1 | DRAFT | L,A | — | C-00 |
+| S-03-048 | — | Feature | M | P1 | DRAFT | L,A | — | C-00 |
 
 ---
 
@@ -162,7 +164,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-05 — HAL for Omega (Alpha + Cellular + LEO Sat option) (39 stories)
+## Epic-05 — HAL for Omega (Alpha + Cellular + LEO Sat option) (40 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -205,6 +207,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-05-037 | G | Feature | M | P1 | DRAFT | O | F-MSG-07 | C-00 |
 | S-05-038 | J | Feature | S | P2 | DRAFT | O | F-UI-03 | C-00 |
 | S-05-039 | J | Feature | M | P1 | DRAFT | O | F-UI-01 | C-00 |
+| S-05-040 | L | Feature | M | P1 | BLOCKED | O | F-BR-01 | C-00,C-08 |
 
 ---
 
@@ -666,7 +669,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-22 — Testing & Simulation (26 stories)
+## Epic-22 — Testing & Simulation (27 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -696,6 +699,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-22-024 | — | Ops | XL | P1 | DRAFT | ★ | NF-SCALE-01, NF-SCALE-02 | C-00, C-08 |
 | S-22-025 | — | Feature | L | P1 | DRAFT | ★ | F-CERT-01, F-CERT-02 | C-02, C-OA, C-07 |
 | S-22-026 | — | Ops | M | P1 | DRAFT | A,O | NF-REL-04 | C-08 |
+| S-22-027 | A | Feature | M | P1 | DRAFT | O | — | C-00 |
 
 ---
 
@@ -770,15 +774,15 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Totals — 587 stories across 24 epics
+## Totals — 591 stories across 24 epics
 
 | Status | Count |
 |---|---|
-| DRAFT | 510 |
+| DRAFT | 513 |
 | IN_PROGRESS | 2 |
 | IN_REVIEW | 22 |
 | DONE | 30 |
-| BLOCKED | 20 |
+| BLOCKED | 21 |
 | DROPPED | 3 |
 
 ---
@@ -789,7 +793,7 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 
 | Clause key | Stories | P0 coverage |
 |---|---|---|
-| C-00 | 271 | yes |
+| C-00 | 275 | yes |
 | C-01 | 33 | yes |
 | C-02 | 82 | yes |
 | C-03 | 46 | yes |
@@ -797,7 +801,7 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 | C-05 | 160 | yes |
 | C-06 | 53 | yes |
 | C-07 | 61 | yes |
-| C-08 | 114 | yes |
+| C-08 | 115 | yes |
 | C-OA | 36 | yes |
 | C-TM | 6 | yes |
 | C-CoC | 1 | yes |

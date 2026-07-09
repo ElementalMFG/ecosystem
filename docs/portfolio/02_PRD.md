@@ -51,7 +51,7 @@ Independent developer building a marine-navigation plugin. Cares about SDK stabi
 - **F-BR-03** — Bluetooth LE 5.x — mandatory on all SKUs.
 - **F-BR-04** — Wi-Fi HaLow (MM8108) — mandatory Alpha, Omega.
 - **F-BR-05** — Wi-Fi 5 GHz — mandatory Alpha, Omega.
-- **F-BR-06** — Cellular LTE-M / NB-IoT — mandatory Omega. *(Board reality, D-0020: no modem on Omega v1.0 (v69, no expansion interface) — deferred to the Omega rev-2 respin. See `docs/dev/OMEGA_HW_BASELINE.md`.)*
+- **F-BR-06** — Cellular LTE-M / NB-IoT — mandatory Omega. *(Board reality, D-0020/D-0024: no modem on Omega v1.0; cellular is an UNSCHEDULED roadmap option — not in current product intent; bearer abstraction stays cellular-capable. See `docs/dev/OMEGA_HW_BASELINE.md`.)*
 - **F-BR-07** — Meshtastic wire compat on LoRa — mandatory all SKUs.
 - **F-BR-08** — Bearer channel agility — interference/degradation detection with automatic channel move **within the region plan** on every bearer that supports it; agility events logged. All SKUs (depth varies by radio).
 - **F-BR-09** — 802.11s L2 IP-mesh interop bearer (opt-in) — join or serve standard 802.11s meshes (OpenWRT/MANET-class gear) as an additional SS-Link bearer. Alpha, Omega.

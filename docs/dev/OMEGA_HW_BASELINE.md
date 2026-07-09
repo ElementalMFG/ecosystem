@@ -23,11 +23,11 @@ Source board: `closure_work/v67_route_work.kicad_pcb` (v69 is its release).
 | GNSS | u-blox MIA-M10Q (I²C) | U78 |
 | Magnetometer | Bosch BMM350 (**not** MMC5983MA) | U79 |
 | Haptics | TI DRV2625 + LRA (JST J8) | U80 |
-| Audio | ES8311 codec + NS4150B class-D + SPH0641LU4H **PDM** mic (clocked from i2s_bck) | U9/U10/U22 |
+| Audio | ES8311 codec + NS4150B class-D + SPH0641LU4H **PDM** mic (clocked from i2s_bck). NS4150B U10 CTRL/SD is **hard-strapped to v3v3** (BIT-2) — no runtime mute GPIO; muting is codec-side only (ES8311 registers + MCLK stop) | U9/U10/U22 |
 | Status LEDs | 12× SK6805-EC15 addressable ring | U24–U35 |
 | Display | ER-TFT3.92-1 3.92″ IPS 480×480, ST7796S, 8-bit parallel I8080, 40-pin FPC | J6 |
 | Touch | **GT911** (via display FPC) — D-27: firmware must strap to I²C 0x5D at reset (tp_int LOW during touch_rst release) to avoid 0x14 collision with BMM350 | — |
-| HaLow FEM | SKY66423-11 — **routed**, incl. `pa_pdet` (VSWR sense) to a P4 ADC | U3 |
+| HaLow FEM | SKY66423-11 — routed (CTX/CSD/CPS control paths). **No `pa_pdet`/VSWR sense net exists** (BIT-1): VSWR protection is a composite proxy (die-temp + v3v6_rf current + MM8108 PHY telemetry, Path A per owner decision #4), EVT-validated | U3 |
 | Buttons | 4 side keys: power / vol+ / vol− / reset (SKRTLAE010); **no D-pad, no rocker** | U18–U21 |
 | Power | EA3059QDR 3-ch PMIC (v3v3/v1v8/v3v6_rf) + TP4056 charger + MAX17048 fuel gauge; SY7201ABC boost (backlight only) | U6/U4/U5/U8 |
 | USB | USB-C 5 V sink only, **no PD IC**, D+/D− routed FS-only (12 Mbps); SoC-level pin mux with LCD CSX/DCX (GPIO26/27) — firmware VBUS-detect arbitration required | U13 |

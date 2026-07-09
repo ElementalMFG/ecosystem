@@ -39,7 +39,7 @@ As a compliance officer I want a certification plan scoped for the optional Irid
 
 ### S-24-007 — UL 62368-1 safety cert
 As a compliance officer I want UL/IEC 62368-1 safety certification planned so that the battery-powered hardware is legally sellable as consumer electronics.
-- AC: safety test plan covers 62368-1 for battery, charging, and thermal cases; critical-components list uses certified parts with certificates collected; lab quote and schedule are approved before DVT
+- AC: safety test plan covers 62368-1 for battery, charging, and thermal cases; critical-components list uses certified parts with certificates collected; lab quote and schedule are approved before DVT; binds to S-05-028 rolling-60s TX duty ≤40% + soak protocol (43 °C plastic / 51 °C metal skin-temp ceiling)
 - Meta: Shard=B | Type=Compliance | Size=L | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-07
 
 ### S-24-008 — RoHS 3 / REACH declaration
@@ -164,7 +164,7 @@ As a programme manager I want per-SKU BOM cost and cloud gross-margin tracked ag
 
 ### S-24-032 — Repairability guide & spares programme
 As a device owner I want a published repair guide and a 3-year spare-parts commitment so that my device is serviceable rather than disposable.
-- AC: repair guide covers battery, display, antenna, and enclosure replacement with torque/ESD notes and is published openly; spare-parts list with 3-year availability commitment is published and reflected in supplier agreements; disassembly does not void regulatory compliance (documented re-assembly verification steps)
+- AC: repair guide covers battery, display, antenna, and enclosure replacement with torque/ESD notes and is published openly; spare-parts list with 3-year availability commitment is published and reflected in supplier agreements; disassembly does not void regulatory compliance (documented re-assembly verification steps); D-0021 SPEC-8: post-repair steps include button-gasket re-seat + IP65/66 re-verification + antenna-mount RF recheck
 - Meta: Shard=— | Type=Task | Size=S | Prio=P2 | Status=DRAFT | SKU=★ | PRD=NF-SUS-02 | Const=C-07, C-03
 
 ### S-24-033 — Open accessory & expansion-port standard (Grove-compatible)
@@ -179,7 +179,7 @@ As a compliance officer I want the product's cryptography classified under EAR (
 
 ### S-24-035 — UN 38.3 lithium-battery transport certification + shipping compliance
 As a compliance officer I want UN 38.3 test certification and dangerous-goods shipping procedures for every battery-containing SKU so that devices can legally ship by air and sea worldwide.
-- AC: UN 38.3 test summaries exist for each shipped battery/SKU combination (from cell vendor or commissioned lab) and are published in the compliance pack; packaging, labelling, and documentation procedures for lithium-ion shipments (IATA PI 966/967 as applicable) are documented for direct sales, distributors, and RMA return shipments; battery state-of-charge limits for air freight are reflected in the manufacturing/packout process; a battery change on any SKU triggers re-assessment via the change-control checklist
+- AC: UN 38.3 test summaries exist for each shipped battery/SKU combination (from cell vendor or commissioned lab) and are published in the compliance pack; packaging, labelling, and documentation procedures for lithium-ion shipments (IATA PI 966/967 as applicable) are documented for direct sales, distributors, and RMA return shipments; battery state-of-charge limits for air freight are reflected in the manufacturing/packout process; a battery change on any SKU triggers re-assessment via the change-control checklist; acknowledges the no-NTC pack design (RT1/RT2 jumpered, HW-6); thermal envelope is FW-owned (S-05-028) and its duty-cap evidence goes in the T.2 thermal submission
 - Meta: Shard=— | Type=Compliance | Size=S | Prio=P0 | Status=DRAFT | SKU=★ | PRD=— | Const=C-00
 
 ### S-24-036 — Child-user / COPPA-and-equivalents privacy posture

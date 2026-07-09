@@ -36,7 +36,7 @@ Drift, not missing capability, is the risk.
 | SL-2 | On-device LLM | **RATIFIED as recommended:** `ss_ai` stays capability-only scaffold; STT/TTS are the v1.0 AI products; no product LLM promise before v2.x |
 | SL-3 | Video calling/streaming | **RATIFIED as recommended:** signed-WASM-plugin path (EPIC-18) post-v1.0; "micro-frames" language becomes "thumbnail attachments" |
 | SL-4 | On-device web browsing | **RATIFIED, refined:** browsing is an APPLICATION-LAYER capability, never core firmware. Delivery: (a) v1.0 — browse *through* the device via EPIC-17 gateway/tether roles; (b) browser-type and other smartphone-class apps ride the signed-plugin platform where hardware permits; (c) full on-device browser targets Omega (Linux SoM, v1.x). See compatibility guard 6 |
-| SL-5 | Omega in v1.0 | **RATIFIED as recommended:** v1.0 ships Lite + Alpha; Omega is v1.x with its own spec-lock story |
+| SL-5 | Omega in v1.0 | **RATIFIED as recommended:** v1.0 ships Lite + Alpha; Omega is v1.x with its own spec-lock story *(amended 2026-07-09 — see Amendments A1)* |
 | SL-6 | SDK descope | **RATIFIED as recommended:** v1.0 SDKs = C, Rust, Python; TypeScript + Dart in v1.1 |
 | SL-7 | Lite honesty callouts | **RATIFIED as recommended:** half-duplex PTT + no fuel-gauge stated in the README variant matrix |
 
@@ -104,3 +104,28 @@ DRAFT). Everything is additive: no story is dropped or narrowed; SL-6
 moves two SDK stories to the v1.1 train without deleting them; guard 6
 binds a capability floor onto EPIC-15/18 without changing their stories.
 S-01-018 → DONE.
+
+# Amendments
+
+## A1 — SL-5 device lineup rebased on hardware reality (2026-07-09)
+
+Ratified via the bootstrap governance provision (program lead as SC per
+D-0015), owner-directed 2026-07-09; recorded as part of D-0021/D-0023.
+
+SL-5's ratified text ("v1.0 ships Lite + Alpha; Omega is v1.x") predates two
+hardware facts: the **ss-sp omega board is released** (PCB `release_v69/`,
+2026-07-08, D-0020) and the **proprietary P4 Alpha design is not
+fabricatable** (v14 "FUNCTIONALLY DEAD — DO NOT FABRICATE"; v15 unverified).
+SL-5 is amended to:
+
+> **SL-5 (as amended):** v1.0 ships on the **Elecrow-based Lite platform** —
+> ss-sp lite and its ratified module variants, including the provisional
+> C6-coprocessor variant that may ship as **ss-sp alpha v1** (D-0023).
+> **ss-sp omega** proceeds on its own v1.x track from the released v69 board
+> (spec-lock S-05-020). The **proprietary P4 Alpha** is deferred to its own
+> hardware lock and re-enters the release train when a v69-style release
+> package exists.
+
+Unchanged: SL-1..SL-4, SL-6, SL-7 and all compatibility guards. Nothing is
+dropped or narrowed — the amendment names which hardware carries the already
+ratified scope. Cellular remains outside v1.0 scope entirely (D-0024).

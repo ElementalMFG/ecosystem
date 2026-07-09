@@ -101,6 +101,7 @@ EXPLICIT = {
     "S-05-033": ("T1", "confirmed 2026-07-09 (D-0021): eFuse ROM-download lockdown — irreversible secure-boot surface (doc 10 §2; ledger FW-4)"),
     # keyword flags resolved DOWNWARD at elaboration (AC text, not title)
     "S-03-012": ("T3", "resolved 2026-07-08: 'provisioning' match is incidental — story consumes the region choice; PA tables are well-specified (LoRaWAN regional params) and gate-verified by the TX sweep. Credential surface owned by S-03-015/016"),
+    "S-03-047": ("T3", "resolved 2026-07-09: 'provisioning' match is the substring of 'provisional' (alpha-v1 lineup wording, D-0023) — build-config/CI-matrix work, tool-checked by the board-parity gate; no credential surface"),
     "S-05-035": ("T3", "resolved 2026-07-09: 'key' match is physical side keys (buttons), not crypto keys — routine input-map work against the v69 pinmap"),
     "S-05-039": ("T3", "resolved 2026-07-09: 'key' match is the side-key nav fallback (buttons), not crypto — UI descriptor + focus graph per doc 03"),
     "S-03-022": ("T2", "resolved 2026-07-08: 'vector' match is HAL conformance vectors, not crypto/wire vector design — vector-set shape is a t2-designer contract, build is routine (doc 10 §2)"),

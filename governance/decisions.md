@@ -172,3 +172,27 @@ Chronological, append-only. Each entry is signed by the Chair at close.
 - Rationale: Single projection of record prevents the ledger's ~88 findings being re-litigated per story; the naming re-projection prevents Omega board evidence from deleting Alpha capability (anti-rug-pull).
 - Status: RECORDED. Open flag: RFC-0004 SL-5 ("v1.0 ships Lite + Alpha") contradicts hardware reality (Omega released, Alpha unfabricatable) — owner amendment required, tracked in `OMEGA_LEDGER_ALIGNMENT.md` §8.
 - Reference: `docs/dev/OMEGA_LEDGER_ALIGNMENT.md`, `docs/dev/OMEGA_HW_BASELINE.md`, `ss-pcb-design-engeneering/NAMING.md`, D-0020, D-0019
+
+## D-0022 — Signature-algorithm coherence: dual chain (RSA-3072-PSS SBv2 + Ed25519 application manifests)
+
+- Date: 2026-07-09
+- Decision: The firmware trust chain uses **two deliberately distinct algorithms**: (1) **Secure Boot V2 = RSA-3072-PSS** (silicon-locked eFuse digest — S-08-001, identical profile on S3/Lite and P4/Omega); (2) **all application-layer signed artifacts = Ed25519** — the OTA manifest inner signature over the SBv2-verified image (S-09-001) and, by the same rule, the HaLow region blob (S-05-030) and any future signed config/manifest. Rule of thumb: silicon-locked chains use what the ROM verifies; everything above it uses Ed25519.
+- Rationale: Resolves HW-repo owner decision #7 (EXECUTION_READINESS_AUDIT §11): S-08-001 and S-09-001 already embodied exactly this split — ratifying it prevents an accidental "unification" in either direction and unblocks HW ST-M2.4's eFuse-state hand-off spec. Ratified via the bootstrap governance provision (program lead as SC per D-0015).
+- Status: RECORDED
+- Reference: S-08-001, S-09-001, S-05-030, `ss-pcb-design-engeneering/closure_work/OPEN_DECISIONS_TO_OWNER.md` #7, D-0015
+
+## D-0023 — Elecrow module variant matrix; provisional ss-sp alpha v1; Omega rev-2 LoRa priority
+
+- Date: 2026-07-09 (owner-directed, this session)
+- Decision: (1) The Elecrow CrowPanel Advance 3.5″ (ESP32-S3) is the **common base platform** for a family of module-configured variants. Module slots per doc 01 §3.15 pin truth: wireless header (SPI2) = HaLow module OR SX1262 LoRa module; the **UART0-pins connector** (physical pins 44/43 — the port doc 01 maps the UART2 peripheral onto; owner calls it "UART0-in") = ESP32-C6 Wi-Fi/BLE coprocessor module OR an Elecrow LoRa module (exact part + transport verified at attachment per D-0013; any deviation updates doc 01 + pin map FIRST); UART1 = GPS module; I²C0 = 3-axis compass / IMU. (2) **Provisional lineup** (confirm at variant ratification): **ss-sp lite** = base + HaLow + GPS/compass + LoRa; **ss-sp alpha v1 (provisional)** = base + HaLow + GPS/compass + C6 coprocessor — i.e. Alpha v1 may ship as an Elecrow variant profile while the proprietary P4 Alpha matures; 2–3 customizable Lite variants are envisioned. (3) **Omega rev-2 priority = add LoRa** (S-05-040). (4) **Bearer-readiness principle (binding)**: every module/bearer driver (SX1262, HaLow, C6 ESP-Hosted, GNSS, compass) is developed and CI-maintained regardless of fitment; capability flags + variant profiles + boot-time module detection make each configuration plug-and-play — features are ready whenever a variant needs them, and their absence never breaks a build.
+- Rationale: Owner direction 2026-07-09. The HAL is already capability-flagged (CONFIG_SS_LITE_MOD_*, D-0013); the gaps were named variant profiles, a CI build matrix, and runtime presence detection — filed as S-03-047/S-03-048. Additive: no existing story or SKU meaning is narrowed; NAMING.md §3's Alpha row (HW repo) gains a provisional-variant reading to be reflected there at next HW-repo touch.
+- Status: RECORDED (lineup provisional — confirm before first variant ships)
+- Reference: `01_SS-SP_LITE_HARDWARE_REFERENCE.md` §3.15, D-0013, S-03-047, S-03-048, S-05-040, RFC-0004 Amendment A1, `ss-pcb-design-engeneering/NAMING.md`
+
+## D-0024 — Cellular (LTE-M/NB-IoT, SIM/eSIM) posture: unscheduled roadmap option
+
+- Date: 2026-07-09 (owner-directed, this session)
+- Decision: Cellular connectivity (SIM cards / cell towers) is **not part of current product intent** for any SKU or board revision. It is retained as an **unscheduled roadmap option**: the ten EPIC-05 cellular stories and S-24-005/006 stay BLOCKED and preserved (anti-rug-pull), but their gate is re-labeled from "Omega rev-2" to "unscheduled — revisit only if a future board rev adopts a modem AND it adds no meaningful complexity". Software keeps **architecture-level compatibility only**: the bearer abstraction (Reticulum interfaces, per-interface timeouts — S-11-007) remains bearer-universal so a cellular bearer could be added without redesign; no modem drivers, carrier work, or eSIM plumbing is planned or scheduled. PRD F-BR-06's "mandatory Omega" is annotated accordingly.
+- Rationale: Owner direction 2026-07-09 ("no intention of including that specific functionality at this time"; open to costless compatibility). Preserving the stories keeps the option open at zero build cost; the universal bearer abstraction is the cheap, safe form of "compatible even if we don't use it".
+- Status: RECORDED
+- Reference: EPIC-05 shards A–E, S-24-005, S-24-006, S-11-007, `docs/portfolio/02_PRD.md` F-BR-06, D-0020, D-0021

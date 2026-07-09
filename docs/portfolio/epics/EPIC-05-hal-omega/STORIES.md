@@ -10,49 +10,49 @@ As a firmware engineer I want the cellular modem AT+MUX driver skeleton so that 
 - AC: CMUX channels for AT and data established; AT command queue with timeouts and retries implemented; modem power-on/reset sequencing verified on hardware
 - Meta: Shard=A | Type=Feature | Size=L | Prio=P0 | Status=BLOCKED | SKU=O | PRD=F-BR-06 | Const=C-00,C-08
 - Tasks: spec · design · impl · test · docs — all pending Omega rev-2 hardware
-- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved for Omega rev-2 — see `docs/dev/OMEGA_HW_BASELINE.md`
+- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved as an UNSCHEDULED roadmap option (D-0024: cellular is not in current product intent; revisit only if a future board rev adopts a modem) — see `docs/dev/OMEGA_HW_BASELINE.md`
 
 ### S-05-002 — PDP context activation + IP passthrough
 As a firmware engineer I want PDP context activation with IP passthrough so that IP traffic flows over LTE-M.
 - AC: PDP context activates on a supported carrier; IP passthrough delivers packets to the network stack; teardown and reattach handled without reboot
 - Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=BLOCKED | SKU=O | PRD=F-BR-06 | Const=C-08
 - Tasks: spec · design · impl · test · docs — all pending Omega rev-2 hardware
-- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved for Omega rev-2 — see `docs/dev/OMEGA_HW_BASELINE.md`
+- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved as an UNSCHEDULED roadmap option (D-0024: cellular is not in current product intent; revisit only if a future board rev adopts a modem) — see `docs/dev/OMEGA_HW_BASELINE.md`
 
 ### S-05-003 — LTE-M band-lock + preferred RAT
 As a fleet admin I want LTE-M band-lock and preferred-RAT configuration so that devices attach quickly on known networks.
 - AC: band-lock persists across reboot; preferred RAT (LTE-M vs NB-IoT) selectable by policy; attach + IP data path within 30 s in coverage verified
 - Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=BLOCKED | SKU=O | PRD=F-BR-06 | Const=C-08
 - Tasks: spec · design · impl · test · docs — all pending Omega rev-2 hardware
-- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved for Omega rev-2 — see `docs/dev/OMEGA_HW_BASELINE.md`
+- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved as an UNSCHEDULED roadmap option (D-0024: cellular is not in current product intent; revisit only if a future board rev adopts a modem) — see `docs/dev/OMEGA_HW_BASELINE.md`
 
 ### S-05-004 — NB-IoT band table + regional profiles
 As a fleet admin I want the NB-IoT band table with regional roaming profiles so that devices work across global deployments.
 - AC: regional profiles cover target markets; profile selected by region code; roaming behaviour validated on at least two carriers
 - Meta: Shard=D | Type=Feature | Size=M | Prio=P0 | Status=BLOCKED | SKU=O | PRD=F-BR-06 | Const=C-08
 - Tasks: spec · design · impl · test · docs — all pending Omega rev-2 hardware
-- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved for Omega rev-2 — see `docs/dev/OMEGA_HW_BASELINE.md`
+- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved as an UNSCHEDULED roadmap option (D-0024: cellular is not in current product intent; revisit only if a future board rev adopts a modem) — see `docs/dev/OMEGA_HW_BASELINE.md`
 
 ### S-05-005 — PSM entry / eDRX config
 As a device owner I want PSM and eDRX configuration so that cellular standby meets the Omega battery target.
 - AC: PSM sleep current ≤ 15 µA measured; eDRX cycles configurable by policy; wake-on-page verified within the eDRX window
 - Meta: Shard=C | Type=Feature | Size=M | Prio=P0 | Status=BLOCKED | SKU=O | PRD=NF-PWR-03 | Const=C-00,C-08
 - Tasks: spec · design · impl · test · docs — all pending Omega rev-2 hardware
-- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved for Omega rev-2 — see `docs/dev/OMEGA_HW_BASELINE.md`
+- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved as an UNSCHEDULED roadmap option (D-0024: cellular is not in current product intent; revisit only if a future board rev adopts a modem) — see `docs/dev/OMEGA_HW_BASELINE.md`
 
 ### S-05-006 — eSIM (SGP.32) profile install
 As a fleet admin I want eSIM (SGP.32) profile install so that connectivity is provisioned without physical SIM handling.
 - AC: profile install and delete succeed over BIP; profile state survives reboot; failed installs roll back cleanly
 - Meta: Shard=B | Type=Feature | Size=L | Prio=P0 | Status=BLOCKED | SKU=O | PRD=F-BR-06 | Const=C-08
 - Tasks: spec · design · impl · test · docs — all pending Omega rev-2 hardware
-- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem (eSIM) absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved for Omega rev-2 — see `docs/dev/OMEGA_HW_BASELINE.md`
+- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem (eSIM) absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved as an UNSCHEDULED roadmap option (D-0024: cellular is not in current product intent; revisit only if a future board rev adopts a modem) — see `docs/dev/OMEGA_HW_BASELINE.md`
 
 ### S-05-007 — Fallback SIM slot (nano-SIM)
 As a device owner I want a fallback nano-SIM slot so that I can use a local carrier when eSIM is not viable.
 - AC: physical SIM detected and preferred per policy; SIM removal/insert handled safely at runtime; SIM PIN flow supported
 - Meta: Shard=B | Type=Feature | Size=S | Prio=P1 | Status=BLOCKED | SKU=O | PRD=F-BR-06 | Const=C-00,C-08
 - Tasks: spec · design · impl · test · docs — all pending Omega rev-2 hardware
-- Deps: external: BLOCKED 2026-07-09 (D-0020): SIM slot absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved for Omega rev-2 — see `docs/dev/OMEGA_HW_BASELINE.md`
+- Deps: external: BLOCKED 2026-07-09 (D-0020): SIM slot absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved as an UNSCHEDULED roadmap option (D-0024: cellular is not in current product intent; revisit only if a future board rev adopts a modem) — see `docs/dev/OMEGA_HW_BASELINE.md`
 
 ### S-05-008 — Satellite modem driver (Iridium SBD)
 As a device owner I want the Iridium SBD satellite modem driver so that SOS and short messages get out with no terrestrial coverage.
@@ -110,7 +110,7 @@ As a firmware engineer I want the enhanced power path validated so that cellular
 
 ### S-05-016 — Omega HIL rack test-plan
 As a test engineer I want an Omega HIL rack test-plan so that cellular, satellite, and security hardware are exercised per merge.
-- AC: rack includes a cell simulator or live-SIM fixture; tamper and secure-element tests automated; test matrix maps to EPIC-05 exit criteria; D-0021: covers the EVT matrix EVT-1..9 (FPC ESD, SDIO EMI, SK6805 low-vbat, I²C 400 kHz, HaLow range, skin temp, MM8108 mesh/AP SDK availability, USB CDC/ECM device-role) — see docs/dev/OMEGA_LEDGER_ALIGNMENT.md §6
+- AC: rack includes a cell simulator or live-SIM fixture; tamper and secure-element tests automated; test matrix maps to EPIC-05 exit criteria; D-0021: covers the EVT matrix EVT-1..9 (FPC ESD, SDIO EMI, SK6805 low-vbat, I²C 400 kHz, HaLow range, skin temp, MM8108 mesh/AP SDK availability, USB CDC/ECM device-role) — see docs/dev/OMEGA_LEDGER_ALIGNMENT.md §6; numeric EVT pass bars are owned by HW-repo ST-M5 — execute against those, never invent local ones
 - Meta: Shard=— | Type=Ops | Size=M | Prio=P0 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
 
 ### S-05-017 — Cellular network compatibility matrix (top 20 carriers)
@@ -118,21 +118,21 @@ As a fleet admin I want a cellular compatibility matrix for the top 20 carriers 
 - AC: attach/data/PSM behaviour recorded per carrier; matrix published and versioned; regressions tracked per firmware release
 - Meta: Shard=D | Type=Ops | Size=M | Prio=P0 | Status=BLOCKED | SKU=O | PRD=F-BR-06 | Const=C-08
 - Tasks: spec · design · impl · test · docs — all pending Omega rev-2 hardware
-- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved for Omega rev-2 — see `docs/dev/OMEGA_HW_BASELINE.md`
+- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved as an UNSCHEDULED roadmap option (D-0024: cellular is not in current product intent; revisit only if a future board rev adopts a modem) — see `docs/dev/OMEGA_HW_BASELINE.md`
 
 ### S-05-018 — Modem OTA (FOTA) plumbing
 As a release manager I want modem FOTA plumbing so that modem firmware can be updated securely in the field.
 - AC: modem firmware applied via delta or full image; update authenticated and resumable after interruption; failed update rolls back to the prior modem firmware
 - Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=BLOCKED | SKU=O | PRD=NF-REL-02 | Const=C-05,C-08
 - Tasks: spec · design · impl · test · docs — all pending Omega rev-2 hardware
-- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved for Omega rev-2 — see `docs/dev/OMEGA_HW_BASELINE.md`
+- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved as an UNSCHEDULED roadmap option (D-0024: cellular is not in current product intent; revisit only if a future board rev adopts a modem) — see `docs/dev/OMEGA_HW_BASELINE.md`
 
 ### S-05-019 — Cellular modem vendor selection spike (PRD Q-04)
 As a hardware/firmware lead I want a scoping spike comparing candidate cellular modems (Quectel BG95-class, Nordic nRF9160-class, u-blox SARA-class) on cost, LTE-M/NB-IoT coverage, power, AT/driver maturity, FOTA support, and radio-certification burden so that the Omega modem choice is an evidenced ADR instead of an open question.
 - AC: a decision matrix covering unit cost at target volume, regional band/coverage fit, sleep/active power against the Omega battery budget, driver and CMUX maturity against S-05-001, modem-FOTA capability against S-05-018/S-09-019, and per-region certification scope (FCC/CE/ISED/ACMA) is produced; supply-chain risk (second source, longevity commitment) is assessed per vendor; the selection is recorded as an ADR closing PRD Q-04 with wg-firmware + wg-legal (certification) sign-off; the Omega BOM (S-24-031) is updated with the selected part
 - Meta: Shard=A | Type=Spike | Size=S | Prio=P1 | Status=BLOCKED | SKU=O | PRD=F-BR-06, NF-COST-02 | Const=C-01, C-08
 - Tasks: spec · design · impl · test · docs — all pending Omega rev-2 hardware
-- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved for Omega rev-2 — see `docs/dev/OMEGA_HW_BASELINE.md`
+- Deps: external: BLOCKED 2026-07-09 (D-0020): cellular modem absent from the signed-off Omega v1.0 board (PCB release v69 — no expansion interface, respin required); capability preserved as an UNSCHEDULED roadmap option (D-0024: cellular is not in current product intent; revisit only if a future board rev adopts a modem) — see `docs/dev/OMEGA_HW_BASELINE.md`
 
 ### S-05-020 — Omega v1.x spec-lock (SoM/BOM, app-platform scope)
 As the product owner I want an Omega v1.x spec-lock — mirroring the Lite D-0013 pattern — so that the deferred Omega commitments in RFC-0004 (cellular/LEO, Linux SoM, full on-device browser and expanded smartphone-class apps) are pinned to real part selections before any Omega story starts.
@@ -152,7 +152,7 @@ As a firmware engineer I want the GT911 touch driver with the D-27 reset-strap s
 
 ### S-05-023 — Audio path bring-up: ES8311 + NS4150B gating + PDM mic
 As a firmware engineer I want the ES8311 codec, NS4150B gating, and PDM mic capture brought up so that Omega has clean playback and capture with no idle class-D noise.
-- AC: SPH0641LU4H PDM mic captured, clocked from i2s_bck · ES8311 codec playback path functional · NS4150B SD pin toggled on RX/TX transitions so "muted" playback emits no class-D switching noise (FW-9) · SD-gate GPIO assignment recorded in board_config
+- AC: SPH0641LU4H PDM mic captured, clocked from i2s_bck · ES8311 codec playback path functional · NS4150B CTRL/SD is hard-strapped to v3v3 (BIT-2) — there is NO mute GPIO, so muting is codec-side: ES8311 register mute + MCLK stop on RX/TX transitions · class-D idle noise floor measured at EVT (HW ST-M6.2, gate ≤ 30 dBA at 10 cm) (FW-9)
 - Meta: Shard=J | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
 
 ### S-05-024 — Battery policy: MAX17048 + two-tier low-battery shutdown
@@ -180,14 +180,14 @@ As a device owner I want a TX duty cap driven by a software case-temperature mod
 - AC: rolling-60 s TX duty ≤ 40 % enforced in the TX task (FW-1) · software case-temp model derived from die temperature (no pack NTC — FW-8) feeds the cap · IEC 62368-1 43 °C skin-temp gate met in soak testing · the EPIC-24 certification story cites this cap (SPEC-2)
 - Meta: Shard=K | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
 
-### S-05-029 — PA VSWR watchdog on pa_pdet
+### S-05-029 — PA VSWR watchdog (composite proxy — no pa_pdet net)
 As a device owner I want a PA VSWR watchdog on pa_pdet so that an antenna-disconnect fault inhibits TX before the PA degrades.
-- AC: pa_pdet sampled every ≤ 10 ms during TX · TX inhibited when pa_pdet is outside the 0.4–2.0 V envelope (FW-5, antenna-disconnect protection; SPEC-1) · user notified of the fault via LED/screen · normal TX resumes when the envelope recovers
+- AC: the `pa_pdet` net does NOT exist on the frozen v69 board (BIT-1) — a composite VSWR proxy per Path A (owner decision #4) correlates P4/MM8108 die-temp rise + v3v6_rf current spike + MM8108 PHY telemetry (RSSI/EVM/retry anomalies) to detect antenna-disconnect within 100 ms of TX start · proxy discrimination ≥ 3σ validated at EVT bench (HW ST-M6.1) before the watchdog arms · on fault: TX inhibited + user notified via LED/screen · escalation path documented (Path B rev-2 directional coupler) if no proxy signal discriminates (FW-5, antenna-disconnect protection; SPEC-1)
 - Meta: Shard=L | Type=Feature | Size=S | Prio=P0 | Status=DRAFT | SKU=O | PRD=NF-REG-01,NF-REG-02 | Const=C-00,C-08
 
 ### S-05-030 — HaLow MM8108 SDIO bring-up + EU regional profile loader
 As a device owner I want MM8108 HaLow bring-up over SDIO with a signed EU regional profile so that transmit is impossible outside the licensed 863–868 MHz allocation.
-- AC: MM8108 brought up over SDIO per the v69 pinmap · EU 863–868 MHz channel + duty-cycle table loaded at first boot from a SIGNED region blob (FW-10; blob signing is a T1 sub-task) · TX impossible outside the loaded region's allocation · region enforcement survives reboot
+- AC: MM8108 brought up over SDIO per the v69 pinmap · EU 863–868 MHz channel + duty-cycle table loaded at first boot from a SIGNED region blob (FW-10; blob signing is a T1 sub-task) · TX impossible outside the loaded region's allocation · region enforcement survives reboot; region blob signature = Ed25519 per D-0022 (application-layer manifest chain); SDIO bus arbitration with S-05-036 microSD (shared bus) resolved in design
 - Meta: Shard=L | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=O | PRD=F-BR-04,NF-REG-04 | Const=C-00,C-08
 
 ### S-05-031 — P4↔C6 ESP-Hosted-NG transport
@@ -217,12 +217,12 @@ As a device owner I want the four side keys mapped with long-press semantics so 
 
 ### S-05-036 — microSD SDIO storage bring-up
 As a firmware engineer I want robust microSD SDIO storage so that logs and data survive power loss.
-- AC: mount/unmount robust across power loss (pairs with the S-05-024 write-quiesce) · filesystem integrity verified after an abrupt cut · EMI note: SD_CLK is the dominant emission — EVT-2 hook recorded · card-absent handled gracefully
+- AC: mount/unmount robust across power loss (pairs with the S-05-024 write-quiesce) · filesystem integrity verified after an abrupt cut · EMI note: SD_CLK is the dominant emission — EVT-2 hook recorded · card-absent handled gracefully; SDIO contention with S-05-030 MM8108 resolved (see that story)
 - Meta: Shard=J | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=O | PRD=— | Const=C-00
 
 ### S-05-037 — GNSS driver: u-blox MIA-M10Q over I²C, L1-only
 As a device owner I want the u-blox MIA-M10Q GNSS driver over I²C so that the Seekie has a position fix.
-- AC: I²C (DDC) transport, not UART (AL-5) · L1-only expectations encoded in the ACs (no L5 claims) · fix acquisition and TTFF targets taken from the MIA-M10Q datasheet · parsed fixes delivered to ss_gnss
+- AC: I²C (DDC) transport, not UART (AL-5) · L1-only expectations encoded in the ACs (no L5 claims) · fix acquisition and TTFF targets taken from the MIA-M10Q datasheet · parsed fixes delivered to ss_gnss; backup-domain time policy per BIT-3 hybrid (GNSS time when locked → NTP via C6 → Y2 RTC freewheel), characterized at EVT (HW ST-M6.3)
 - Meta: Shard=G | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=O | PRD=F-MSG-07 | Const=C-00
 
 ### S-05-038 — Haptics driver: DRV2625
@@ -234,3 +234,10 @@ As a device owner I want the DRV2625 haptics driver so that notifications and co
 As a UI engineer I want a 480×480 square layout descriptor with touch-primary focus navigation so that the Omega UI is authored for its real panel (FW-13).
 - AC: SQUARE 480×480 descriptor (dpi ≈ 175 TBD from the panel datasheet, bezel_led_count = 12) registered in doc 03 (DOC-25/26) · focus-nav works touch-primary · the 4 side keys act only as a system-level nav fallback · descriptor round-trips in the UI layout loader
 - Meta: Shard=J | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=O | PRD=F-UI-01 | Const=C-00
+
+### S-05-040 — LoRa bearer integration (SX1262) — Omega rev-2
+As a firmware engineer I want the shared SX1262 driver + ss-link LoRa bearer integrated on Omega rev-2 so that Omega gains the LoRa mesh bearer the owner prioritized for the respin.
+- AC: reuses the EPIC-03 SX1262 driver (S-03-011) unmodified behind the HAL · SS_CAP_RADIO_LORA claimed ONLY on rev-2 board configs (never v1.0/v69) · LoRa+HaLow dual-radio coexistence policy defined · bearer registered with ss-link scheduler
+- Meta: Shard=L | Type=Feature | Size=M | Prio=P1 | Status=BLOCKED | SKU=O | PRD=F-BR-01 | Const=C-00,C-08
+- Tasks: spec · design · impl · test · docs — all pending Omega rev-2 hardware
+- Deps: S-03-011; external: BLOCKED 2026-07-09 (D-0023): no LoRa radio on the signed-off Omega v1.0 board (PCB release v69); owner-prioritized capability for the Omega rev-2 respin — see docs/dev/OMEGA_HW_BASELINE.md

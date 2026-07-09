@@ -132,3 +132,8 @@ As an ecosystem partner I want a publicly runnable conformance suite tied to ver
 As a QA engineer I want a cross-vendor HaLow interoperability bench in the HIL rack so that SS-SP devices verifiably associate and exchange traffic with the certified third-party HaLow ecosystem on every release.
 - AC: bench includes a Morse Micro HaLowLink 2 (MM8108) and one Newracom NRC7394-based reference AP; per-release automated runs cover STA association to third-party APs, third-party STA association to SS-SP AP/HGW mode, WPA3-SAE handshake, and 802.11s mesh peering where supported, each with documented throughput floors; regressions block release per the release-gate policy; TaiXin TXW8301 interop is explicitly out of scope (non-certified, per D-HALOW-06 in `docs/portfolio/08_HALOW_TECHNOLOGY_DOSSIER.md`); results feed the S-22-008 simulator model validation
 - Meta: Shard=— | Type=Ops | Size=M | Prio=P1 | Status=DRAFT | SKU=A,O | PRD=NF-REL-04 | Const=C-08
+
+### S-22-027 — On-target test harness on ss-sp omega (ESP32-P4, v69)
+As a test engineer I want the on-target Unity harness running on the Omega v69 board so that HAL stories S-05-021..039 verify on real hardware, not only the Lite dev board.
+- AC: harness boots + runs the existing suite on P4/v69 · per-story HAL test groups selectable · results land in the same CI artifact format as the Lite harness · flash/monitor flow documented for the v69 board
+- Meta: Shard=A | Type=Feature | Size=M | Prio=P1 | Status=DRAFT | SKU=O | PRD=— | Const=C-00

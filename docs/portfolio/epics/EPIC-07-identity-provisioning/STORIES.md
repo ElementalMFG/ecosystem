@@ -55,7 +55,7 @@ As a security engineer I want device private keys sealed to the secure element /
 
 ### S-07-011 — Provisioning-line firmware image
 As a factory operator I want a dedicated, signed provisioning firmware image driven over USB/JTAG so that the line can provision units deterministically and a tampered line image is detected.
-- AC: provisioning image is signed and its hash verified by the line tool before each session; image executes keygen, sealing, DevCert install, and eFuse configuration in one pass; provisioning session talks to the manufacturing HSM for DevCert issuance; any step failure leaves the unit in a defined re-runnable state
+- AC: provisioning image is signed and its hash verified by the line tool before each session; image executes keygen, sealing, DevCert install, and eFuse configuration in one pass; provisioning session talks to the manufacturing HSM for DevCert issuance; any step failure leaves the unit in a defined re-runnable state; D-0021 SPEC-7: the provisioning image MUST de-init the LCD driver and switch the GPIO26/27 mux before enumerating USB-CDC on Omega (USB↔LCD pin sharing, S-05-026)
 - Meta: Shard=F, G | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=★ | PRD=F-MFG-01 | Const=C-05
 
 ### S-07-012 — Provisioning-line audit log (signed entries)

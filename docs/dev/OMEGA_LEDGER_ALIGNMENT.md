@@ -45,10 +45,10 @@ is the **Omega**. Therefore:
 | FW-2 (GPIO34/35/36 boot-strap deferral) | **S-05-027** | |
 | FW-3 (USB↔LCD GPIO26/27 arbitration) | **S-05-026** | also SPEC-7 AC on S-07-011 |
 | FW-4 (JTAG/ROM-download lockdown, eFuse) | **S-05-033** | **T1 domain** (eFuse/secure-boot) |
-| FW-5 (PA VSWR watchdog on pa_pdet) | **S-05-029** | pa_pdet IS routed (G1 correction) |
+| FW-5 (PA VSWR watchdog) | **S-05-029** | RESCOPED (BIT-1, 2026-07-09): **no `pa_pdet` net exists** — composite proxy (die-temp + v3v6_rf current + MM8108 PHY telemetry), Path A per owner decision #4, EVT-validated (HW ST-M6.1) |
 | FW-6 + FW-12 (low-batt shutdown; MAX17048 modeled current) | **S-05-024** | FW-12 fixes the "current" AC as *modeled* ΔV/Δt |
 | FW-7 (I²C 100 kHz default, 400 kHz EVT gate) | **S-05-034** | pairs HW-4/5 + EVT-4 |
-| FW-9 (NS4150B SD-pin gating) | **S-05-023** | |
+| FW-9 (NS4150B mute) | **S-05-023** | RESCOPED (BIT-2, 2026-07-09): CTRL/SD is **hard-strapped to v3v3** — codec-side mute only (ES8311 + MCLK stop), noise floor EVT-gated (HW ST-M6.2) |
 | FW-10 (HaLow EU region loader + duty cycle) | **S-05-030** | region-blob **signing is T1** |
 | FW-11 + FW-19 (ESP-Hosted-NG transport + wake latency) | **S-05-031** | ADR required |
 | FW-13 (480×480 square UI layout + focus nav) | **S-05-039** | adds Omega descriptor to doc 03 |
@@ -130,13 +130,36 @@ range wording flows into marketing copy stories at their touch).
 | 5 | EVT on real boards (S-05-016) → discharge ⚪ items | open |
 | 6 | Compliance package (EPIC-24) with Omega scoped per D-0020/D-0021 | open |
 
-## §8 · Open governance flags (owner decisions required)
+## §7.5 · HW readiness-audit inputs (2026-07-09, second pass)
 
-- **RFC-0004 SL-5 tension:** the ratified scope lock says "v1.0 ships Lite +
-  Alpha", but Omega is the released board and Alpha is not fabricatable.
-  Reality is Lite + **Omega** first. Needs an owner-ratified RFC-0004
-  amendment; not silently edited here.
-- **Omega rev-2 respin:** owns the 16 BLOCKED EPIC-05 bearer/SE stories and
-  the HW-1…5 optimization batch. No date; decision open.
+The HW repo's `closure_work/EXECUTION_READINESS_AUDIT.md` + EPIC-M backlog
+(ST-M1…M7) are **inputs of record for story elaboration**:
+
+- **BIT corrections (applied)**: BIT-1 no `pa_pdet` → S-05-029 composite
+  proxy; BIT-2 NS4150B CTRL strapped → S-05-023 codec-side mute; BIT-3
+  RTC/backup-domain hybrid policy (GNSS→NTP-via-C6→Y2 freewheel) → S-05-037
+  AC + EVT characterization (ST-M6.3).
+- **§6 AC-amendment table**: when any S-05-021…039 / S-07-011 / S-24-007/
+  032/035 story is elaborated (story-run), pull its amendment row — it lists
+  the concrete numeric ACs (debounce, TTFF, SDIO arbitration with S-05-036,
+  strap timing, etc.). Do not elaborate those stories without it.
+- **EVT pass bars**: HW ST-M5 owns the numeric EVT-1..9 pass criteria that
+  S-05-016 executes; the FW hand-off boundary (ATE self-test = HW repo;
+  shipping image = this repo) is HW ST-M2.4 ↔ S-05-033/EPIC-07/EPIC-09.
+- **EPIC-25 (reliability) is WITHDRAWN** (owner decision #8): measured
+  reliability evidence lives in HW ST-M3; EPIC-24 keeps the cert paperwork
+  that cites it.
+
+## §8 · Governance flags (status as of 2026-07-09 PM)
+
+- **RFC-0004 SL-5:** RESOLVED — Amendment A1 (owner-directed 2026-07-09):
+  v1.0 = Elecrow-based Lite platform (incl. the provisional C6 variant that
+  may ship as ss-sp alpha v1 per D-0023) + Omega on its own v1.x track;
+  proprietary P4 Alpha deferred to its own lock.
+- **Omega rev-2 scope:** owner direction 2026-07-09 — **LoRa is the stated
+  rev-2 priority** (S-05-040); **cellular is UNSCHEDULED** (D-0024, not in
+  current product intent); satellite/SE/baro remain rev-2-preserved. Respin
+  timing still open (defer until v1.0 EVT per HW decision #2).
 - **Alpha lock:** EPIC-04's hardware-empirical rewrite (ledger AL-verdicts)
-  fires only when an Alpha release package (v69-style) exists.
+  fires only when an Alpha release package (v69-style) exists. Until then
+  "ss-sp alpha v1" may be delivered as an Elecrow variant profile (D-0023).

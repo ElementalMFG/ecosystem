@@ -5,7 +5,7 @@ Format per `../../00_METHODOLOGY.md` §2.7. Meta lines are machine-parsed.
 
 ### S-08-001 — Secure Boot v2 pubkey burn (RelKey_B)
 As a firmware engineer I want the RelKey_B RSA-3072-PSS public-key digest burned to eFuse and Secure Boot v2 enabled so that the device only executes bootloaders signed by the release key.
-- AC: RelKey_B-signed bootloader boots on a fused unit; an unsigned or differently-signed bootloader is refused; eFuse burn procedure includes a line-side dry-run check before permanent write (per R08-02)
+- AC: RelKey_B-signed bootloader boots on a fused unit; an unsigned or differently-signed bootloader is refused; eFuse burn procedure includes a line-side dry-run check before permanent write (per R08-02); D-0022: RSA-3072-PSS is the ratified silicon-locked SBv2 algorithm; application manifests are Ed25519 — never unify the two
 - Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=★ | PRD=F-SEC-06 | Const=C-05
 
 ### S-08-002 — Secondary pubkey slot for RelKey_C (opt-in)

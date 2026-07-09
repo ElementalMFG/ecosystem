@@ -217,7 +217,8 @@ The SS‑SP Lite blueprint assumes **all features present** (design supposition)
 |---|---|---|---|
 | **HaLow radio** (Elecrow HaLow module, sub‑GHz antenna) | Wireless header (replaces SX1262; same SPI 0/10/9/3, RST 2, IRQ 1; mux 45 = LOW) | `CONFIG_SS_LITE_MOD_HALOW` | `SS_CAP_RADIO_HALOW` (drops `SS_CAP_RADIO_LORA`) |
 | **BN‑880 GNSS + compass** (u‑blox M8N class + HMC5883L) | GNSS → UART1 (18/17) @ 9600; compass → I²C0 (15/16) addr **0x1E** | `CONFIG_SS_LITE_MOD_GNSS_BN880` | `SS_CAP_GNSS_L1` + `SS_CAP_MAGNETOMETER` |
-| **Mesh coprocessor** (ESP32‑C6 or ‑H2 module) | UART2 (44/43) @ 115200, framed link | `CONFIG_SS_LITE_MOD_COPROC_C6` / `_H2` | C6: `SS_CAP_RADIO_WIFI6`; H2: 802.15.4 only |
+| **Mesh coprocessor** (ESP32‑C6 or ‑H2 module) | UART0‑pins port (44/43 — UART2 peripheral, §3.10) @ 115200, framed link | `CONFIG_SS_LITE_MOD_COPROC_C6` / `_H2` | C6: `SS_CAP_RADIO_WIFI6`; H2: 802.15.4 only |
+| **LoRa module — alt. fit on the coprocessor port** (Elecrow LoRa module; D‑0023) | UART0‑pins port (44/43) — the port hosts exactly **one** of C6 / H2 / this module; transport (UART‑framed vs SPI adapter) + exact part verified at attachment per D‑0013, any deviation updates this table + pin map FIRST | `CONFIG_SS_LITE_MOD_LORA_AUX` | `SS_CAP_RADIO_LORA` (secondary bearer alongside HaLow) |
 | **6‑axis IMU** (MPU‑6050/ICM‑426xx class) | I²C Grove (I²C0, 15/16) addr 0x68 | `CONFIG_SS_LITE_MOD_IMU` | `SS_CAP_IMU` |
 
 **I²C0 bus roster (400 kHz, pins 15/16):** GT911 touch @ 0x5D · RTC (onboard) · HMC5883L @ 0x1E (module) · IMU @ 0x68 (module) · ATECC608 (optional). No address collisions.
@@ -225,6 +226,8 @@ The SS‑SP Lite blueprint assumes **all features present** (design supposition)
 **Compass note:** with `SS_CAP_MAGNETOMETER` + `SS_CAP_IMU` both present, `ss_compass` runs tilt‑compensated heading (mag + accel pitch/roll). Magnetometer alone = flat‑hold heading with a UI "hold level" hint. Neither = phone‑fed heading over BLE (base Lite behaviour).
 
 **Dev-fleet configuration (D-0013):** the project holds **2× CrowPanel Advance 3.5″ dev units, both fitted with the HaLow wireless‑header module**; ESP32‑C6 mesh‑coprocessor modules and GNSS + 3‑axis compass modules are staged for attachment per the table above (exact GNSS/compass part numbers confirmed at attachment — any deviation updates this table and the pin map first). Once the C6 link and GNSS/compass paths validate on these units, the fully‑loaded configuration is declared the **locked base Lite v1 hardware spec** (`governance/decisions.md` D-0013). These two units are the primary dev/test/prototype devices for the whole portfolio; Lite is the first shipping product, with Alpha/Omega in engineering.
+
+**Variant matrix (D-0023, owner-directed 2026-07-09 — provisional until variant ratification):** the CrowPanel base + module table above composes into **named variant profiles** (machinery: S-03-047 profiles/CI matrix + S-03-048 boot-time module detection): `lite-lora` (SX1262 on the wireless header — the Meshtastic-edition base); **ss-sp lite (provisional)** = HaLow on the header + GNSS/compass + LoRa module on the UART0‑pins port; **ss-sp alpha v1 (provisional)** = HaLow on the header + GNSS/compass + C6 coprocessor on the UART0‑pins port (`rfcs/0004-scope-lock.md` Amendment A1). Constraints: the wireless header hosts exactly one of SX1262/HaLow; the UART0‑pins port hosts exactly one of C6/H2/LoRa‑module. Every module driver is developed and CI-built regardless of fitment (D-0023 bearer-readiness principle) — a profile only selects what is claimed at runtime.
 
 ---
 

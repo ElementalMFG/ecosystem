@@ -5,7 +5,7 @@ Format per `../../00_METHODOLOGY.md` §2.7. Meta lines are machine-parsed.
 
 ### S-09-001 — OTA manifest v1 schema (JSON + Ed25519 signatures)
 As a firmware engineer I want a versioned JSON OTA manifest schema carrying version, image hash, delta info, and Ed25519 signature blocks so that every update is described by a single verifiable document.
-- AC: schema validates all fields required by shard S-09.A (version, hash, delta info, signature blocks for RelKey_B and/or RelKey_C); schema includes anti-rollback security-version and a nonce field (per R09-02 replay mitigation); malformed and unknown-version manifests are rejected by the reference parser with distinct error codes
+- AC: schema validates all fields required by shard S-09.A (version, hash, delta info, signature blocks for RelKey_B and/or RelKey_C); schema includes anti-rollback security-version and a nonce field (per R09-02 replay mitigation); malformed and unknown-version manifests are rejected by the reference parser with distinct error codes; D-0022: Ed25519 is the ratified application-manifest algorithm (inner signature over the SBv2/RSA-verified image); HaLow region blob (S-05-030) uses the same chain
 - Meta: Shard=A | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=★ | PRD=F-SEC-08 | Const=C-05
 
 ### S-09-002 — Dual-signature verification on device
