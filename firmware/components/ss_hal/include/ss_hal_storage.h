@@ -10,7 +10,7 @@ extern "C" {
 
 typedef enum {
     SS_STORAGE_INTERNAL_NVS,
-    SS_STORAGE_INTERNAL_FS,     // encrypted user FS
+    SS_STORAGE_INTERNAL_FS,     // user data FS (at-rest encryption deferred to EPIC-08)
     SS_STORAGE_SD,              // microSD (Lite: soft-SPI on GPIO 6/4/5/7)
     SS_STORAGE_MODELS,          // separate models partition
 } ss_storage_kind_t;

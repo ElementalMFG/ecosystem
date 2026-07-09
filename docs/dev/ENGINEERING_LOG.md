@@ -414,3 +414,10 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   for the next. Priming the core with (MOUNT, OK) instead makes it report
   DONE_OK without ever mounting; any future consumer of a *_heal_next FSM
   must drive it this way.
+- ss_hal_storage.h (2026-07-08): comment-only honesty fix — `SS_STORAGE_INTERNAL_FS`
+  line comment changed from "encrypted user FS" to "user data FS (at-rest
+  encryption deferred to EPIC-08)". No ABI/wire/signature/type change; this is a
+  pure documentation correction removing an aspirational security claim that
+  S-03-019 landed the plaintext implementation of. Does NOT constitute a T1
+  contract change under doc 10 §8.3 (no declaration modified) — flagged
+  explicitly so the record is unambiguous.
