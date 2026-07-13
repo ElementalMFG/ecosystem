@@ -18,10 +18,12 @@
 9. **`08_HALOW_TECHNOLOGY_DOSSIER.md`** — decision record: Wi-Fi HaLow deep research (standard, silicon tiers, stacks, regulatory) + binding decisions D-HALOW-01..07.
 10. **`09_VENTURE_EXECUTION_MAP.md`** — decision record: the two-class execution model (buildable stories vs real-world venture actions), the VA-01..VA-28 register, milestone interleave, immediate queue.
 11. **`10_MODEL_ALLOCATION_STRATEGY.md`** — decision record: MAX-vs-STD model/effort allocation across every epic, milestone, and task type, with tier definitions T1–T4, escalation triggers, and the near-term story-level queue.
-12. **`EPIC_INDEX.md`** — catalog of all 24 epics.
-13. **`epics/EPIC-NN-*/EPIC.md`** — one per epic, with sharded sub-outcomes and exit criteria.
-14. **`epics/EPIC-NN-*/STORIES.md`** — every story in the epic.
-15. **`STORIES_INDEX.md`** — master traceability ledger: story → shard → epic → PRD → constitution.
+12. **`11_TOKEN_ECONOMY.md`** — binding session-economy policy: session roles, model-switching rules, CI-wait policy, subagent output budgets.
+13. **`12_TELEPHONY_AND_UNIVERSAL_INTEROP_DOSSIER.md`** — decision record: real-world telephony (PSTN/SMS/voice) + universal interop research, the Sovereignty Ladder, the Telephony Provider Interface, AI/ML division of labor, and the interop verdict matrix (ratifies D-0025).
+14. **`EPIC_INDEX.md`** — catalog of all 24 epics.
+15. **`epics/EPIC-NN-*/EPIC.md`** — one per epic, with sharded sub-outcomes and exit criteria.
+16. **`epics/EPIC-NN-*/STORIES.md`** — every story in the epic.
+17. **`STORIES_INDEX.md`** — master traceability ledger: story → shard → epic → PRD → constitution.
 
 ---
 
@@ -40,6 +42,8 @@ docs/portfolio/
 ├── 08_HALOW_TECHNOLOGY_DOSSIER.md  # Wi-Fi HaLow research + decisions D-HALOW-01..07
 ├── 09_VENTURE_EXECUTION_MAP.md  # Two-class execution model + VA-01..28 venture-action register
 ├── 10_MODEL_ALLOCATION_STRATEGY.md # MAX/STD model + effort allocation (tiers T1–T4)
+├── 11_TOKEN_ECONOMY.md          # Session-economy policy (roles, model switching, budgets)
+├── 12_TELEPHONY_AND_UNIVERSAL_INTEROP_DOSSIER.md  # Telephony/PSTN + universal interop research + D-0025
 ├── EPIC_INDEX.md                # 24-epic catalog
 ├── STORIES_INDEX.md             # Traceability matrix
 ├── README.md                    # This file
