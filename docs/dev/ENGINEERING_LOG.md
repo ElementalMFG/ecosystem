@@ -541,3 +541,10 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   (existence+SPDX only) — content callouts are sanctioned. Pattern repeats
   EPIC-03: plans written before a hardware lock are drift candidates; the
   PCB release package is the only alignment source.
+- S-21-030 (2026-07-13): TPI (telephony provider interface) contract frozen at
+  `cloud/telephony-bridge/TPI_CONTRACT.md` — the single abstraction all
+  telephony tiers target (D-0025, doc 12). Sequencing fact for future stories:
+  `cloud/` service dirs and `sdk/` are unscaffolded (empty, no build/CI), so
+  every telephony *implementation* story (S-21-027/031/032, S-17-022,
+  S-14-020/021, S-18-019) is blocked until a cloud-services bootstrap + a cloud
+  CI lane + a CPaaS sandbox exist. Contract/spec work can proceed regardless.

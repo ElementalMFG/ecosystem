@@ -670,7 +670,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-21-027 | — | Feature | L | P2 | DRAFT | ★ | F-TEL-02, F-TEL-03, F-CL-07 | C-04, C-05, C-07, C-08 |
 | S-21-028 | — | Spike | XS | P1 | DRAFT | ★ | F-CL-01, F-CL-02 | C-07 |
 | S-21-029 | — | Feature | S | P1 | DRAFT | ★ | F-CL-01 | C-04 |
-| S-21-030 | — | Feature | L | P0 | DRAFT | ★ | F-TEL-01 | C-05, C-08 |
+| S-21-030 | — | Feature | L | P0 | BLOCKED | ★ | F-TEL-01 | C-05, C-08 |
 | S-21-031 | — | Feature | M | P1 | DRAFT | ★ | F-TEL-04 | C-04, C-07 |
 | S-21-032 | — | Feature | M | P2 | DRAFT | ★ | F-TEL-07 | C-07 |
 
@@ -786,11 +786,11 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 | Status | Count |
 |---|---|
-| DRAFT | 521 |
+| DRAFT | 520 |
 | IN_PROGRESS | 2 |
 | IN_REVIEW | 22 |
 | DONE | 30 |
-| BLOCKED | 21 |
+| BLOCKED | 22 |
 | DROPPED | 3 |
 
 ---

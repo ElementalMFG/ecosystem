@@ -356,6 +356,8 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-14-017 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-14-018 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-14-019 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
+| S-14-020 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-14-021 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-15-001 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-15-002 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-15-003 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
@@ -423,6 +425,7 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-17-019 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
 | S-17-020 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
 | S-17-021 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
+| S-17-022 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
 | S-18-001 | T1? (keyword-flag) | opus@medium | t2-designer+builder | DRAFT |
 | S-18-002 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
 | S-18-003 | T1? (keyword-flag) | opus@medium | t2-designer+builder | DRAFT |
@@ -441,6 +444,7 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-18-016 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
 | S-18-017 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
 | S-18-018 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
+| S-18-019 | T1? (keyword-flag) | opus@medium | t2-designer+builder | DRAFT |
 | S-19-001 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-19-002 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
 | S-19-003 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
@@ -518,6 +522,9 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-21-027 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
 | S-21-028 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
 | S-21-029 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
+| S-21-030 | T1? (keyword-flag) | opus@medium | t3-standard | BLOCKED |
+| S-21-031 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
+| S-21-032 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-22-001 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
 | S-22-002 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
 | S-22-003 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
@@ -602,4 +609,5 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-24-035 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-24-036 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
 | S-24-037 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-24-038 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 
