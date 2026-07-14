@@ -104,6 +104,7 @@ Status vocabulary: `TODO` → `IN-PROGRESS` → `DONE`. Cost bands: `$` <500, `$
 | VA-26 | Regional compliance operations: WEEE registrations per market (S-24-009), recertification on hardware/radio changes (triggers per S-24-037 AC), export-control review on crypto changes (S-24-034). | Ongoing legal sale per region | $$ /yr/region | TODO |
 | VA-27 | Community infrastructure operations: Matrix room, Discourse forum, mailing lists (`CONTRIBUTING.md` §12), docs/support hosting (S-24-017), moderation roster staffing (CODE_OF_CONDUCT.md §Enforcement-roster). | Community formation; Phase-1 governance criteria | $–$$ /yr | TODO |
 | VA-28 | Business operations cadence: accounting/tax filings, insurance renewals, BOM/margin review (S-24-031), quarterly governance review (`06_GOVERNANCE.md`). | Staying solvent and governed | $$ /yr | TODO |
+| VA-29 | Provision a CPaaS test/sandbox account (Telnyx or SignalWire) with a sandbox DID for TPI adapter conformance testing — distinct from the production SMS/PSTN gateway partner (VA-21); consumed by the S-21-030 reference adapter and S-21-033 bridge-scaffold conformance suites. | Telephony impl start (S-21-030 / S-21-033) | $ (free/low) | TODO |
 
 ---
 

@@ -637,7 +637,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-21 — Cloud Services (Fleet Console, Relay, Provisioning, Registry) (32 stories)
+## Epic-21 — Cloud Services (Fleet Console, Relay, Provisioning, Registry) (33 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -673,6 +673,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-21-030 | — | Feature | L | P0 | BLOCKED | ★ | F-TEL-01 | C-05, C-08 |
 | S-21-031 | — | Feature | M | P1 | DRAFT | ★ | F-TEL-04 | C-04, C-07 |
 | S-21-032 | — | Feature | M | P2 | DRAFT | ★ | F-TEL-07 | C-07 |
+| S-21-033 | — | Feature | L | P1 | DRAFT | ★ | F-TEL-01, F-TEL-02 | C-04, C-08 |
 
 ---
 
@@ -782,11 +783,11 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Totals — 599 stories across 24 epics
+## Totals — 600 stories across 24 epics
 
 | Status | Count |
 |---|---|
-| DRAFT | 520 |
+| DRAFT | 521 |
 | IN_PROGRESS | 2 |
 | IN_REVIEW | 22 |
 | DONE | 30 |
@@ -805,11 +806,11 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 | C-01 | 33 | yes |
 | C-02 | 82 | yes |
 | C-03 | 46 | yes |
-| C-04 | 56 | yes |
+| C-04 | 57 | yes |
 | C-05 | 162 | yes |
 | C-06 | 53 | yes |
 | C-07 | 64 | yes |
-| C-08 | 121 | yes |
+| C-08 | 122 | yes |
 | C-OA | 36 | yes |
 | C-TM | 6 | yes |
 | C-CoC | 1 | yes |

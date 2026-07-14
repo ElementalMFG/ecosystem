@@ -525,6 +525,7 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-21-030 | T1? (keyword-flag) | opus@medium | t3-standard | BLOCKED |
 | S-21-031 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
 | S-21-032 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-21-033 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-22-001 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
 | S-22-002 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
 | S-22-003 | T2 (epic-floor) | opus@medium | t2-designer+builder | DRAFT |
