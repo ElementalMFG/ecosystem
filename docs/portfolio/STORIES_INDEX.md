@@ -432,7 +432,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-14 — Voice Subsystem (19 stories)
+## Epic-14 — Voice Subsystem (21 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -455,6 +455,8 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-14-017 | — | Task | S | P0 | DRAFT | A,O | F-VOX-03, F-VOX-04 | C-04, C-00 |
 | S-14-018 | — | Feature | M | P1 | DRAFT | A,O | F-VOX-05 | C-00, C-08 |
 | S-14-019 | — | Feature | L | P2 | DRAFT | A,O | F-VOX-06 | C-00, C-08 |
+| S-14-020 | — | Feature | L | P2 | DRAFT | A,O | F-TEL-05 | C-08 |
+| S-14-021 | — | Feature | XL | P3 | DRAFT | A,O | F-TEL-06 | C-05, C-08 |
 
 ---
 
@@ -518,7 +520,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-17 — Home Gateway Mode (21 stories)
+## Epic-17 — Home Gateway Mode (22 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -543,10 +545,11 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-17-019 | — | Feature | L | P1 | DRAFT | A,O | F-EUD-02 | C-08, C-02 |
 | S-17-020 | — | Feature | M | P2 | DRAFT | A,O | F-EUD-03 | C-08, C-05 |
 | S-17-021 | — | Feature | M | P2 | DRAFT | L | F-HGW-04, F-BR-07 | C-00, C-08 |
+| S-17-022 | — | Feature | L | P2 | DRAFT | A,O | F-TEL-04 | C-04, C-08 |
 
 ---
 
-## Epic-18 — Plugin Sandbox (WASM) (18 stories)
+## Epic-18 — Plugin Sandbox (WASM) (19 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -568,6 +571,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-18-016 | E | Feature | S | P1 | DRAFT | A,O | F-SEC-11, NF-PRIV | C-00, C-05 |
 | S-18-017 | C | Feature | M | P1 | DRAFT | A,O | F-SEC-11 | C-00, C-05, C-03 |
 | S-18-018 | — | Feature | L | P3 | DRAFT | A,O | F-INT-03 | C-00, C-05 |
+| S-18-019 | — | Feature | XL | P3 | DRAFT | A,O | F-INT-05 | C-04, C-08 |
 
 ---
 
@@ -633,7 +637,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-21 — Cloud Services (Fleet Console, Relay, Provisioning, Registry) (29 stories)
+## Epic-21 — Cloud Services (Fleet Console, Relay, Provisioning, Registry) (32 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -663,9 +667,12 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-21-024 | — | Feature | L | P1 | DRAFT | ★ | F-CL-04, NF-SCALE-03 | C-04, C-07, C-OA |
 | S-21-025 | — | Feature | S | P1 | DRAFT | ★ | F-CL-05 | C-05, C-OA |
 | S-21-026 | — | Ops | L | P1 | DRAFT | ★ | NF-SCALE-04 | C-07, C-08 |
-| S-21-027 | — | Feature | L | P2 | DRAFT | ★ | F-CL-07 | C-04, C-07, C-05 |
+| S-21-027 | — | Feature | L | P2 | DRAFT | ★ | F-TEL-02, F-TEL-03, F-CL-07 | C-04, C-05, C-07, C-08 |
 | S-21-028 | — | Spike | XS | P1 | DRAFT | ★ | F-CL-01, F-CL-02 | C-07 |
 | S-21-029 | — | Feature | S | P1 | DRAFT | ★ | F-CL-01 | C-04 |
+| S-21-030 | — | Feature | L | P0 | DRAFT | ★ | F-TEL-01 | C-05, C-08 |
+| S-21-031 | — | Feature | M | P1 | DRAFT | ★ | F-TEL-04 | C-04, C-07 |
+| S-21-032 | — | Feature | M | P2 | DRAFT | ★ | F-TEL-07 | C-07 |
 
 ---
 
@@ -730,7 +737,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-24 — Compliance, Business & Support (37 stories)
+## Epic-24 — Compliance, Business & Support (38 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -771,14 +778,15 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-24-035 | — | Compliance | S | P0 | DRAFT | ★ | — | C-00 |
 | S-24-036 | — | Compliance | S | P2 | DRAFT | ★ | NF-PRIV-02, NF-PRIV-04 | C-05 |
 | S-24-037 | A | Compliance | M | P1 | DRAFT | A,O | NF-REG-04 | C-08,C-TM |
+| S-24-038 | — | Compliance | L | P1 | DRAFT | ★ | F-TEL-08 | C-07 |
 
 ---
 
-## Totals — 591 stories across 24 epics
+## Totals — 599 stories across 24 epics
 
 | Status | Count |
 |---|---|
-| DRAFT | 513 |
+| DRAFT | 521 |
 | IN_PROGRESS | 2 |
 | IN_REVIEW | 22 |
 | DONE | 30 |
@@ -797,11 +805,11 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 | C-01 | 33 | yes |
 | C-02 | 82 | yes |
 | C-03 | 46 | yes |
-| C-04 | 53 | yes |
-| C-05 | 160 | yes |
+| C-04 | 56 | yes |
+| C-05 | 162 | yes |
 | C-06 | 53 | yes |
-| C-07 | 61 | yes |
-| C-08 | 115 | yes |
+| C-07 | 64 | yes |
+| C-08 | 121 | yes |
 | C-OA | 36 | yes |
 | C-TM | 6 | yes |
 | C-CoC | 1 | yes |
