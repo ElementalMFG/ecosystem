@@ -188,13 +188,13 @@ OPEN = integrate/reuse freely · PARTNER-GATED = needs MVNE/carrier/aggregator d
 
 ## 10. Phasing and epic mapping
 
-None of these gate Alpha/Omega v1.0. Each phase is independently shippable and independently removable.
+None of these gate Alpha/Omega v1.0. Each phase is independently shippable and independently removable. Story IDs below are the filed DRAFT stories (per D-0025); the TPI contract (S-21-030) is frozen, and the P1 adapter implementation is blocked on the cloud scaffold (S-21-033) + cloud CI (S-23-004) + a CPaaS sandbox (VA-29).
 
-- **P0 — abstraction (design):** TPI contract + E.164↔LXMF addressing + `tel:` scheme + capability flags. Owners: EPIC-10 (bearer), EPIC-12 (LXMF), EPIC-20 (SDK). T2 designer contract.
-- **P1 — text bridge, hosted + self-host:** SMS/MMS adapters; hosted SS-SP Number (EPIC-21, expand S-21-027); self-host reference bridge on Home Gateway (EPIC-17) / WASM plugin (EPIC-18); port-in/out; 10DLC + per-country compliance module (EPIC-24).
-- **P2 — inbound voicemail-to-text:** gateway answer + on-device/edge STT (EPIC-14 + gateway AI plane).
-- **P3 — live voice ↔ PSTN (IP bearers, BYO/self-host):** SIP↔LXST bridge, WebRTC/WHIP transcode, STIR/SHAKEN verify (EPIC-14 + EPIC-17); E911-address flow for self-host voice (EPIC-24).
-- **Parallel — native messaging + bridges:** close the LXMF/companion-app UX gap first (EPIC-15/16/19); then Nostr → XMPP → (optional) Matrix bridges as opt-in gateway nodes (EPIC-17/18).
+- **P0 — abstraction (design):** TPI contract + E.164↔LXMF addressing + `tel:` scheme + capability flags. **S-21-030** (contract frozen at `cloud/telephony-bridge/TPI_CONTRACT.md`; PRD F-TEL-01). Filed under EPIC-21 (the bridge's home) rather than EPIC-10/12/20 since the contract governs the cloud/gateway bridge; the SDK bindings remain a later EPIC-20 concern.
+- **P1 — text bridge, hosted + self-host:** hosted SS-SP Number **S-21-027** (Rung 0); BYO-number managed bridge **S-21-031** (Rung 1); self-host bridge on Home Gateway **S-17-022** (Rung 2); federated messaging bridge gateway **S-18-019** (F-INT-05); number portability **S-21-032**; regulatory & compliance module **S-24-038** (10DLC/E911/per-country). Prerequisite scaffold: **S-21-033**.
+- **P2 — inbound voicemail-to-text:** **S-14-020** — gateway answer + on-device/edge STT (F-TEL-05).
+- **P3 — live voice ↔ PSTN (IP bearers, BYO/self-host):** **S-14-021** — SIP↔LXST bridge, Opus↔G.711 transcode (F-TEL-06); STIR/SHAKEN verify + E911-address flow carried by S-24-038.
+- **Parallel — native messaging + bridges:** close the LXMF/companion-app UX gap first (EPIC-15/16/19); the Nostr → XMPP → (optional) Matrix bridge gateway is **S-18-019**.
 - **Roadmap — real MSISDN / cellular:** MVNE + eUICC partner track, revisited only per D-0024's "unscheduled unless a board rev adopts a modem at no meaningful added complexity."
 
 ## 11. Open questions and uncertainties
