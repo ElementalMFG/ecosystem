@@ -5,7 +5,7 @@
 
 Legend:
 - **WG** = primary Working Group per `06_GOVERNANCE.md` §3.
-- **SKU** = which product tier the epic is required for at first ship (L = Lite, A = Alpha, O = Omega, ★ = all).
+- **SKU** = which product tier the epic is required for at first ship (L = Lite, A = Alpha, O = Omega, ★ = all). SKU = tier role, board-independent (D-0026): round-1 boards are off-the-shelf **Elecrow CrowPanel Advance** (3.5″ ESP32-S3 for Lite/Alpha, 5″ ESP32-P4 `elecrow5` for Omega); in-house PCBs (v69, v152) are round-2.
 - **Priority** = program-level P0..P3.
 - **Milestone** = earliest milestone in which the epic must be substantially complete (see `04_BLUEPRINT.md` §1).
 

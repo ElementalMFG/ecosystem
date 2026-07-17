@@ -4,6 +4,8 @@
 **Board revs supported:** V1.2, V1.3, V1.4 (current)
 **Purpose:** This document is the **single source of truth** for the SS‑SP Lite board bring-up. Everything above the HAL in the SS‑SP universal software stack targets this file's contract.
 
+**Round-1 device line (D-0026, 2026-07-14):** the initial market-ready device line rides off-the-shelf **Elecrow CrowPanel Advance** boards — the **3.5″ ESP32‑S3** for Lite/Alpha (this document, per the D-0023 module-variant matrix) and the **5″ ESP32‑P4 (`elecrow5`)** for the Omega tier. The in-house PCBs (Omega v69, Alpha v152) are **round-2 / in-house** (engineering board-of-record, fabbed later). Round-1 Elecrow boards are dev/functional-grade, non-IP-rated. See `docs/dev/OMEGA_HW_BASELINE.md`.
+
 **Sources (verified):**
 - [Elecrow product page (Meshtastic edition)](https://www.elecrow.com/crowpanel-advance-3-5-hmi-esp32-ai-display-for-meshtastic-320x240-ips-artificial-intelligent-screen.html)
 - [Elecrow wiki — CrowPanel Advance 3.5" HMI](https://www.elecrow.com/pub/wiki/CrowPanel_Advance_3.5-HMI_ESP32_AI_Display.html)

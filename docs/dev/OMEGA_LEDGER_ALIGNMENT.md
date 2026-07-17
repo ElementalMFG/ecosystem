@@ -152,10 +152,16 @@ The HW repo's `closure_work/EXECUTION_READINESS_AUDIT.md` + EPIC-M backlog
 
 ## §8 · Governance flags (status as of 2026-07-09 PM)
 
-- **RFC-0004 SL-5:** RESOLVED — Amendment A1 (owner-directed 2026-07-09):
-  v1.0 = Elecrow-based Lite platform (incl. the provisional C6 variant that
-  may ship as ss-sp alpha v1 per D-0023) + Omega on its own v1.x track;
-  proprietary P4 Alpha deferred to its own lock.
+- **RFC-0004 SL-5:** RESOLVED — Amendment A1 (2026-07-09) + **Amendment A2
+  (D-0026, 2026-07-14):** the round-1 market device line ships on off-the-shelf
+  **Elecrow CrowPanel Advance** boards — Lite/Alpha on the 3.5″ ESP32-S3
+  (`elecrow35-s3`), the Omega tier on the 5″ ESP32-P4 (`elecrow5`). The
+  in-house PCBs (Omega v69, Alpha v152) are **round-2** (engineering
+  board-of-record, fabbed later). Ship-order is a property of **round, not
+  PCB**; name/brand/tier/board are decoupled — this closes the D-0021 open flag
+  (Omega-released / Alpha-unfabricatable). v69 hardware-truth and rev-2
+  preservation (below) stand unchanged; only ship-order moves. Round-1 Elecrow
+  boards are dev/functional-grade, non-IP-rated (rugged is round-2).
 - **Omega rev-2 scope:** owner direction 2026-07-09 — **LoRa is the stated
   rev-2 priority** (S-05-040); **cellular is UNSCHEDULED** (D-0024, not in
   current product intent); satellite/SE/baro remain rev-2-preserved. Respin

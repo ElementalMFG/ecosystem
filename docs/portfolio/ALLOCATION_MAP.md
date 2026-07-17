@@ -172,6 +172,13 @@ or the EXPLICIT override table in `tools/allocation.py` and regenerate.*
 | S-05-038 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-05-039 | T3 (override) | opus@medium | t3-standard | DRAFT |
 | S-05-040 | T3 (epic-floor) | opus@medium | t3-standard | BLOCKED |
+| S-05-041 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-05-042 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-05-043 | T1? (keyword-flag) | opus@medium | t3-standard | DRAFT |
+| S-05-044 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-05-045 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-05-046 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
+| S-05-047 | T3 (epic-floor) | opus@medium | t3-standard | DRAFT |
 | S-06-001 | T1 (override) | fable@xhigh | t1-pipeline | DRAFT |
 | S-06-002 | T1 (override) | fable@xhigh | t1-pipeline | DRAFT |
 | S-06-003 | T1 (override) | fable@xhigh | t1-pipeline | DRAFT |

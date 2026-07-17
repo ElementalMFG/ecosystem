@@ -63,7 +63,9 @@ A pocket‑sized, waterproof, 1W long‑range mesh communicator that reads/speak
 |---|---|---|---|---|
 | **Lite (v1 — you build now)** | ESP32‑S3 (CrowPanel Advance 3.5") | Wi‑Fi 4 (2.4 GHz) + BLE 5 + wireless header: **HaLow module (dev fleet is HaLow‑fitted — D‑0013)** or LoRa SX1262 | 3.5" IPS 320×480 cap‑touch | Dev kit / entry unit / first product / bench validation |
 | **Alpha 1.0** | ESP32‑P4 + ESP32‑C6 bridge | MM8108 HaLow (900 MHz) + 1W SKY66423 FEM | 2.4" IPS 320×240 + 12‑LED bezel | Flagship production tactical pager |
-| **Omega (next)** | TBD (RISC‑V + Linux SoM possible) | HaLow + LoRa + Cellular fallback + LEO SatCom | Larger IPS / OLED, dual‑radio | Enterprise / heavy‑duty |
+| **Omega (next)** | **Round-1: Elecrow CrowPanel Advance 5″ ESP32‑P4 (`elecrow5`) — ESP32‑P4 + onboard ESP32‑C6.** Round-2: in‑house v69 (ESP32‑P4 SoM + C6) | Round-1: HaLow (MM6108, mandatory) + Wi‑Fi 6/BLE (C6) + optional LoRa variant. Round-2: HaLow + roadmap LoRa/cellular/SatCom | Round-1: 5″ 800×480 MIPI‑DSI. Round-2: 3.92″ IPS | Enterprise / heavy‑duty |
+
+**Round-1 vs round-2 (D-0026, 2026-07-14):** the Omega tier's **round-1** market board is the off-the-shelf **Elecrow CrowPanel Advance 5″ ESP32‑P4 (`elecrow5`)**; the in-house **v69** board is **round-2** (engineering board-of-record, fabbed later). Lite/Alpha round-1 ride the Elecrow 3.5″ ESP32‑S3 (D-0023). Ship-order is a property of *round*, not PCB; name/brand/tier/board are decoupled. Round-1 Elecrow boards are dev/functional-grade, non-IP-rated. See `docs/dev/OMEGA_HW_BASELINE.md`.
 
 **Omega hardware baseline (D-0020, 2026-07-09):** the Omega row above is the roadmap intent; the *signed-off* Omega v1.0 board (PCB release v69, 2026-07-08) resolves it as **ESP32-P4 SoM + ESP32-C6 bridge + MM8108 HaLow** with GNSS/magnetometer/haptics/3.92″ IPS — **no LoRa, no cellular, no satellite modem, no expansion interface** on v1.0 (those defer to a board revision). Authoritative part list: `docs/dev/OMEGA_HW_BASELINE.md`.
 

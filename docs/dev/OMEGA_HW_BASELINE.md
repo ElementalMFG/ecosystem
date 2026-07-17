@@ -6,7 +6,68 @@ designs in the `ss-pcb-design-engeneering` repo. Decision D-0020: software
 claims follow the released board; deferred bearers/parts are preserved as
 roadmap intent gated on a board revision — nothing is dropped.
 
+## Round framing — round-1 `elecrow5` vs round-2 in-house v69 (D-0026, 2026-07-14)
+
+D-0026 amends *ship order only*: the **round-1** market device line rides
+off-the-shelf Elecrow CrowPanel Advance boards so the ecosystem can be built
+and validated on purchasable hardware now; the **in-house PCBs are round-2**.
+All v69 hardware-truth, capability ledgers, HAL work, and anti-rug-pull
+preservation (D-0020/D-0021) below **stand unchanged** — only the round they
+ship in moves. Name/brand/tier/board are decoupled (D-0026 §3): docs and build
+targets key off **hardware target + tier role**, never a marketing name.
+
+| Round | Tier role | Hardware target | Board | Status |
+|---|---|---|---|---|
+| Round-1 | Lite / Alpha | `elecrow35-s3` | Elecrow CrowPanel Advance 3.5″ ESP32-S3 (D-0023 variant matrix) | Purchasable / round-1 realization |
+| Round-1 | **Omega (flagship)** | **`elecrow5`** | Elecrow CrowPanel Advance 5″ ESP32-P4 HMI | Purchasable / round-1 realization |
+| Round-2 | Omega | `omega-v69` | In-house v69 (this doc, below) | Engineering board-of-record, fabbed later |
+| Round-2 | Alpha | `alpha-v152` | In-house v152 (not release-verified) | Deferred to its own lock |
+
+Round-1 Elecrow boards are **dev/functional-grade, non-IP-rated** (bare board
+in a custom enclosure); IP65/66 ruggedization is a **round-2 / in-house**
+property — round-1 docs/marketing must not claim rugged/IP ratings (D-0026 §5).
+
+### `elecrow5` — Elecrow CrowPanel Advance 5″ ESP32-P4 HMI (round-1 Omega-tier)
+
+Known config (Elecrow public listing; verify pins at bring-up):
+
+| Subsystem | Part / config |
+|---|---|
+| Main SoC | ESP32-P4 |
+| Wi-Fi 6 / BLE 5.3 | onboard ESP32-C6 (always present) |
+| Display | 800×480 MIPI-DSI, GT911 capacitive touch |
+| Audio | NS4168 class-D speaker/mic path |
+| Wireless-module slot | SPI slot — **HaLow (Elecrow MM6108) mandatory/always** (present on every V1 unit); optional LoRa is an *additive* sub-variant on a secondary bus (Crowtail/GPIO — bring-up feasibility TBD), never a swap for HaLow |
+| Camera | optional MIPI-CSI (auto-detected) |
+| GNSS | optional, UART (auto-detected) |
+| Compass | optional 3-axis, I²C (auto-detected) |
+| Expansion | UART / I²C Crowtail |
+| Power | USB-C + battery / charging |
+| Rugged | none — dev/functional-grade, non-IP-rated |
+
+Capability default = **"everything optional except HaLow"**: Wi-Fi 6 + BLE
+(C6) are always present; HaLow is the one mandatory radio; GPS/compass/speaker/
+camera are boot-time auto-detected (D-0023 bearer-readiness + S-03-048 presence
+probes) — absent peripherals compile/flag to zero.
+
+**Bring-up UNKNOWNS to verify (D-0026 §7, non-blocking):**
+
+- C6↔P4 link method (assume SDIO / ESP-Hosted until confirmed).
+- HaLow-over-SPI throughput ceiling **and** the SPI/UART1 DIP-shared pins —
+  route GPS to a free UART.
+- MIPI-DSI bridge IC (DSI↔RGB/parallel bridge, model TBD).
+- Camera sensor model (MIPI-CSI, TBD).
+- Pinned ESP-IDF version for the P4 target.
+
+Firmware policy unchanged (D-0026 §6): ESP32-family (P4/S3 in-family) stays the
+first-party firmware target; non-ESP32 MCU firmware stays out of scope.
+
 ## Omega v1.0 — RELEASED (authoritative)
+
+*Round classification (D-0026): this v69 board is the **round-2 / in-house**
+Omega board-of-record; the round-1 Omega-tier device ships on `elecrow5` (see
+Round framing above). "RELEASED" here means design-released/signed-off — ship
+order is round-2. Everything below stands unchanged.*
 
 Release: `release_v69/` (2026-07-08) — TVF 69/69 PASS, DRC 0 errors,
 gerbers + assembly + mechanical cut, SHA 054eaa8b…; supersedes v67/v68.

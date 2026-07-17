@@ -129,3 +129,29 @@ SL-5 is amended to:
 Unchanged: SL-1..SL-4, SL-6, SL-7 and all compatibility guards. Nothing is
 dropped or narrowed — the amendment names which hardware carries the already
 ratified scope. Cellular remains outside v1.0 scope entirely (D-0024).
+
+## A2 — SL-5 round-1 device line = off-the-shelf Elecrow boards (2026-07-14)
+
+Ratified via the bootstrap governance provision (program lead as SC per
+D-0015), owner-directed 2026-07-14; recorded as D-0026.
+
+A1 rebased SL-5 onto the released v69 board and the unfabricatable P4 Alpha.
+D-0026 resolves the residual ship-order question: the **round-1** market device
+line rides **off-the-shelf Elecrow CrowPanel Advance boards**, not the in-house
+PCBs. SL-5 is further amended to:
+
+> **SL-5 (as amended by A2):** the round-1 device line ships on Elecrow
+> CrowPanel Advance hardware — Lite and Alpha on the **3.5″ ESP32-S3**
+> (`elecrow35-s3`, D-0023 variant matrix) and the Omega tier on the **5″
+> ESP32-P4** (`elecrow5`). The **in-house PCBs — Omega v69 (D-0020) and Alpha
+> v152 — are round-2** (engineering board-of-record, manufactured later).
+> Ship-order is a property of **round, not PCB**; name/brand/tier/board are
+> decoupled (D-0026 §3), so a round-2 rebrand is zero-rework. Round-1 Elecrow
+> boards are dev/functional-grade, **non-IP-rated**; ruggedization (IP65/66) is
+> a round-2 property.
+
+This resolves the D-0021 open flag (Omega-released / Alpha-unfabricatable vs.
+"v1.0 ships Lite + Alpha"). Unchanged: SL-1..SL-4, SL-6, SL-7, all
+compatibility guards; v69 hardware-truth, ledgers, and rev-2 preservation
+(D-0020/D-0021) stand. Cellular remains outside scope (D-0024). Nothing is
+dropped or narrowed.

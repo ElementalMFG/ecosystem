@@ -15,7 +15,9 @@
 |---|---|---|---|---|
 | **Lite (v1 — first build)** | ESP32-S3 (CrowPanel Advance 3.5" HMI) | HaLow or LoRa SX1262 on the wireless header (dev fleet HaLow-fitted — D-0013), Wi-Fi 4, BLE 5 | 3.5" IPS 480×320 | Dev kit / entry unit / first product |
 | **Alpha 1.0** | ESP32-P4 + ESP32-C6 | HaLow (MM8108 + SKY66423 1 W FEM), LoRa optional | 2.4" IPS 320×240 + 12-LED bezel | Flagship production pager |
-| **Omega (next)** | TBD (RISC-V + Linux SoM candidate) | HaLow + LoRa + Cellular + SatCom | Larger IPS / OLED | Enterprise / heavy-duty |
+| **Omega (next)** | **Round-1: Elecrow CrowPanel Advance 5″ ESP32-P4 (`elecrow5`) + onboard C6.** Round-2: in-house v69 | Round-1: HaLow (MM6108, mandatory) + Wi-Fi 6/BLE + optional LoRa variant. Round-2: HaLow + roadmap LoRa/cellular/SatCom | Round-1: 5″ 800×480 MIPI-DSI | Enterprise / heavy-duty |
+
+**Round-1 vs round-2 (D-0026):** the round-1 market device line rides off-the-shelf **Elecrow CrowPanel Advance** boards (3.5″ ESP32-S3 for Lite/Alpha, 5″ ESP32-P4 `elecrow5` for the Omega tier); the in-house PCBs (Omega v69, Alpha v152) are **round-2**. Ship-order is a property of round, not PCB; name/brand/tier/board are decoupled. Round-1 boards are dev/functional-grade, non-IP-rated.
 
 ## Founding documents
 

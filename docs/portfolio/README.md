@@ -81,7 +81,7 @@ Portfolio artifacts contain ordering, dependencies, priorities, and sizes — **
 The 24 epics together cover:
 
 - **Firmware layers:** RTOS baseline, HAL for three SKUs, crypto core, secure boot, OTA, SS-Link bearer, Reticulum, LXMF, Meshtastic compat, voice, UI framework, on-device applications, WASM plugin sandbox.
-- **Hardware layers:** all boards (Lite/Alpha/Omega), all radios (LoRa, HaLow, Wi-Fi 2.4/5, BLE, cellular, satellite), all sensors (GNSS, IMU, baro, mag), secure element, tamper.
+- **Hardware layers:** all boards (Lite/Alpha/Omega), all radios (LoRa, HaLow, Wi-Fi 2.4/5, BLE, cellular, satellite), all sensors (GNSS, IMU, baro, mag), secure element, tamper. Round-1 boards = off-the-shelf **Elecrow CrowPanel Advance** (3.5″ ESP32-S3 for Lite/Alpha, 5″ ESP32-P4 `elecrow5` for Omega); in-house PCBs (v69/v152) = round-2 (D-0026).
 - **Product layers:** onboarding, apps, backup/restore, home-gateway mode, companion apps (iOS/Android/desktop/web), SDKs (5 langs).
 - **Network layers:** Multi-bearer transport, RNS mesh, LXMF store-and-forward, cross-implementation interop, home-gateway propagation, cloud relay.
 - **Business layers:** licensing (Apache-2.0 firmware, BSL 1.1 cloud), tiered SKU pricing, warranty/RMA, support portal, marketing, sales enablement, foundation transfer, trademark policing, certification program.
