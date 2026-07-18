@@ -81,6 +81,28 @@ Residual bring-up UNKNOWNS (D-0027): exact touch controller/addr, TLV62569 rail
 voltages, module-slot LoRa module pinout, PSRAM size (P4NRW32 implies integrated).
 Provenance: `vendor/elecrow/` (README + `_MANIFEST.md`).
 
+**Confirmed from Elecrow example code + ESP32-P4 datasheet (2026-07-18):** the
+following upgrade the D-0027 residual "UNVERIFIED/likely/TBD" items to CONFIRMED
+(evidence in `vendor/elecrow/`; part-number nomenclature per the P4 datasheet):
+
+- **Touch controller = GT911 (Goodix)**, I²C address **0x5D (default) / 0x14
+  (alt, INT-strap-selected at reset)** on the GPIO46(SCL)/GPIO45(SDA) I²C bus
+  (port is a firmware assignment — Elecrow's example uses I2C0; the D-0027 pin
+  facts stand), RST=GPIO36, INT=GPIO42, 400 kHz. Evidence: Elecrow `Lesson05`
+  `esp_panel_board_custom_conf.h` `ESP_PANEL_BOARD_TOUCH_CONTROLLER GT911`;
+  `gt911_for_crowpanel/TAMC_GT911.h` `GT911_ADDR1 0x5D` / `ADDR2 0x14`; board
+  wiki. Residual: which strap (0x5D vs 0x14) on a physical unit — confirm by
+  I²C scan at bring-up.
+- **PSRAM = 32 MB, in-package 16-line (HEX / OPI), 1.8 V, ~200 MHz** — from
+  part **ESP32-P4NRW32** (R=has-PSRAM, W=16-line-1.8V, 32=32 MB) + repo
+  `sdkconfig` `CONFIG_SPIRAM_MODE_HEX=y`, `SPEED_200M`.
+- **Flash = 16 MB Winbond W25Q128JVSIQ** (confirms the D-0027 W25Q128JV note).
+- **Module-slot LoRa sub-variant = SX1262**; slot pinout NSS=GPIO30,
+  BUSY=GPIO29, IRQ/DIO=GPIO31, NRST=GPIO32, SCK=GPIO26, MISO=GPIO47,
+  MOSI=GPIO48, 3.3 V (product-page option + wiki BSP `RADIO_GPIO_*`).
+- **Camera** optional 2 MP module sensor **LIKELY SC2336** (full DS gated —
+  LIKELY, not confirmed).
+
 Firmware policy unchanged (D-0026 §6): ESP32-family (P4/S3 in-family) stays the
 first-party firmware target; non-ESP32 MCU firmware stays out of scope.
 

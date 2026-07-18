@@ -18,5 +18,5 @@ SKU: DHE04005D. GitHub: Elecrow-RD/-CrowPanel-Advanced-5inch-ESP32-P4-HMI-AI-Dis
 | RoHS_Report.pdf | RoHS certification report | https://www.elecrow.com/download/product/DHE04005D/RoHS_Report.pdf | 2026-07-18 | 375810 | 84ba2da4d7f438086fcb35128ecf8f827e0d6f56fbec323172d5cbba9115475f | © Elecrow / test lab |
 | FCC_ID.pdf | FCC ID / certification report | https://www.elecrow.com/download/product/DHE04005D/FCC_ID.pdf | 2026-07-18 | 139604 | 60853395f57e3de0dea02a42e811d9685460bc243a9c7419a92a2a5d475574f9 | © Elecrow / test lab |
 
-## Not available
-- Board schematic PDF / dimension drawing — UNAVAILABLE (Elecrow does not publish a schematic or mechanical drawing for the Advance-series P4 boards on the product or wiki page; not linked anywhere found). Product page: https://www.elecrow.com/crowpanel-advanced-5inch-esp32-p4-hmi-ai-display-800x480-ips-touch-screen-with-wifi-6.html
+## Schematic (bundled inside the board repo zip)
+- The official Eagle schematic **IS bundled** inside `repo-crowpanel-5in-esp32p4.zip` under `Eagle_SCH&PCB/1.0/` — `.sch` + `.brd` + `.pdf` (V1.0). This is the BOM/netlist source of record for the D-0027 schematic-validated facts. (Corrects the earlier "board schematic UNAVAILABLE" note: Elecrow does not link a standalone schematic on the product/wiki page, but ships it inside the example repo zip.) Product page: https://www.elecrow.com/crowpanel-advanced-5inch-esp32-p4-hmi-ai-display-800x480-ips-touch-screen-with-wifi-6.html

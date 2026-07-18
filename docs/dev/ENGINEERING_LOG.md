@@ -561,3 +561,14 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
 - S-05-045 (2026-07-18): **no on-board fuel gauge** (battery via STC8 ADC), **no
   on-board GNSS/mag**; camera is **external-only** (MIPI-CSI header, no sensor);
   on-board audio (NS4168 ×2 + PDM mic) always present. Provenance: `vendor/elecrow/`.
+- S-05-042 (2026-07-18): touch controller **CONFIRMED = GT911 (Goodix) @ 0x5D/0x14**
+  (strap-selected) from the Elecrow `Lesson05` example driver + `gt911_for_crowpanel`
+  — upgrades the D-0027 "likely GT911, UNVERIFIED"; residual = which strap on a
+  physical unit (I²C scan at bring-up). The Eagle schematic (`.sch/.brd/.pdf` V1.0)
+  is bundled inside `repo-crowpanel-5in-esp32p4.zip` under `Eagle_SCH&PCB/1.0/`.
+- S-05-041 (2026-07-18): **PSRAM CONFIRMED = 32 MB in-package 16-line HEX/OPI,
+  1.8 V ~200 MHz** (part ESP32-P4NRW32 + repo `sdkconfig` `SPIRAM_MODE_HEX`/`SPEED_200M`);
+  flash = 16 MB W25Q128JVSIQ confirmed.
+- S-05-047 (2026-07-18): module-slot **LoRa sub-variant CONFIRMED = SX1262** —
+  pinout NSS30/BUSY29/IRQ31/NRST32/SCK26/MISO47/MOSI48, 3.3 V (product page +
+  wiki BSP `RADIO_GPIO_*`); camera sensor **LIKELY SC2336** (2 MP, DS gated).
