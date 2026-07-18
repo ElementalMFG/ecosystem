@@ -41,7 +41,7 @@ vendor/elecrow/
 Extracted from the board repo (`Eagle_SCH&PCB/1.0/ESP32-P4 Display 5.0 inch V1.0.sch`); datasheets for each fetched under `components/`:
 
 - **SoC:** ESP32-P4 + **ESP32-C6-MINI-1** (2.4 GHz Wi-Fi 6 / BLE companion) · **flash** W25Q128JV (16 MB) · **aux MCU** STC8H1K08.
-- **Display:** native ESP32-P4 **MIPI-DSI** (no discrete bridge IC) + **GT911** touch.
+- **Display:** **16-bit parallel RGB565 800×480** (40-pin FPC JP1; `esp_lcd` **RGB** panel path — **NOT MIPI-DSI**; D-0027 netlist read corrected the earlier P4-web-spec assumption) + **GT911** touch.
 - **Audio:** **NS4168** Class-D I²S amp ×2 + **MMICT5838** MEMS mic (no public DS).
 - **Camera:** **none on-board** — only a 24-pin **MIPI-CSI FPC header** (external module; the OV5647/SC2336 question is therefore moot for the PCB).
 - **USB-serial:** WCH **CH340K**. **Charger:** Top Power **TP4059** (600 mA linear). **Fuel gauge:** none fitted.

@@ -47,14 +47,15 @@ Evidence = the Eagle `deviceset`/`value` for each part reference designator.
 | Audio power amp | **NS4168** (Class-D I²S, 2.5 W) ×2 | U13, U15 | `deviceset NS4168-ESOP-8 value NS4168` (datasheet already in repo) |
 | Microphone | MEMS mic MMICT5838-00-012 | U175 | `deviceset MMICT5838-00-012_…` (analog/PDM MEMS mic; obscure vendor part) |
 | Camera | **NO on-board sensor** — 24-pin MIPI-CSI FPC header only | FPC/connector AFC24-S24FIA-00 | schematic sheet `CSI_Interface`; nets `CSI_CLKP/N`, `CSI_DATAP/N0/1`. Camera is an *optional external module*; neither SC2336 nor OV5647 is populated on the PCB. |
-| Display panel | MIPI-DSI, driven by ESP32-P4 native DSI (no discrete bridge) | 40-pin FPC (CROWPANEL_ADVICE_HMI) | nets `DSI_*`, `MIPI`; no bridge/TCON IC in netlist. |
+| Display panel | **16-bit parallel RGB565** off the ESP32-P4 (`esp_lcd` RGB path) — **NOT MIPI-DSI** (corrected per D-0027) | 40-pin FPC JP1 (CROWPANEL_ADVICE_HMI) | RGB data on GPIO4–19, PCLK=GPIO3, DE=GPIO2, HSYNC=GPIO40, VSYNC=GPIO41; **no `DSI_*`/`MIPI` nets and no bridge/TCON IC** in the netlist. The earlier "MIPI-DSI/native DSI" entry was the superseded P4-web-spec reading. |
 | Touch | GT911 (Goodix) capacitive | — | I²C touch (datasheet already in repo) |
 | Crystals | 40 MHz (X322540MPB4SI), 24 MHz, 32.768 kHz | Y2/Y3/Y4 | `deviceset` values |
 | Charge-path / load switches | MOSFETs AO3401 (P), BSS138W (N), NCE20P45Q, diode array UMH3NTN | Q*, U8 | passives-class |
 
 **Resolution of prior UNCONFIRMED items:** the camera question is moot — no camera
 sensor is fitted (CSI header only), so neither SC2336 nor OV5647 is on the board;
-there is no discrete DSI bridge (native ESP32-P4 DSI); PMIC = discrete TLV62569 buck +
+the display is **16-bit parallel RGB565 (no MIPI/DSI — D-0027)**, so no DSI bridge or
+TCON is needed; PMIC = discrete TLV62569 buck +
 ME6211 LDOs (no single-chip PMIC); charger = TP4059; **no fuel gauge present.**
 
 ## UNAVAILABLE / not obtained

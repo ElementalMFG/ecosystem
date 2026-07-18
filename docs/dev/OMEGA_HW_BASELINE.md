@@ -35,7 +35,7 @@ Known config (Elecrow public listing; verify pins at bring-up):
 |---|---|
 | Main SoC | ESP32-P4 |
 | Wi-Fi 6 / BLE 5.3 | onboard ESP32-C6 (always present) |
-| Display | 800×480 MIPI-DSI, GT911 capacitive touch |
+| Display | 800×480, GT911 capacitive touch (public-listing read; the "MIPI-DSI" interface assumption is **SUPERSEDED by D-0027 → 16-bit parallel RGB565** — see schematic-validated table below) |
 | Audio | NS4168 class-D speaker/mic path |
 | Wireless-module slot | SPI slot — **HaLow (Elecrow MM6108) mandatory/always** (present on every V1 unit); optional LoRa is an *additive* sub-variant on a secondary bus (Crowtail/GPIO — bring-up feasibility TBD), never a swap for HaLow |
 | Camera | optional MIPI-CSI (auto-detected) |
@@ -55,7 +55,7 @@ probes) — absent peripherals compile/flag to zero.
 - C6↔P4 link method (assume SDIO / ESP-Hosted until confirmed).
 - HaLow-over-SPI throughput ceiling **and** the SPI/UART1 DIP-shared pins —
   route GPS to a free UART.
-- MIPI-DSI bridge IC (DSI↔RGB/parallel bridge, model TBD).
+- ~~MIPI-DSI bridge IC (DSI↔RGB/parallel bridge, model TBD).~~ **RESOLVED (D-0027):** no DSI/bridge — panel is 16-bit parallel RGB565 direct off the P4.
 - Camera sensor model (MIPI-CSI, TBD).
 - Pinned ESP-IDF version for the P4 target.
 
