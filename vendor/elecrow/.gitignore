@@ -1,9 +1,12 @@
-# Third-party datasheets / schematics / firmware examples are copyrighted vendor
-# IP. They are kept LOCALLY for engineering reference (D-0026 round-1 Elecrow
-# hardware) but NOT republished in this public repo. Only our own manifests /
-# READMEs (*.md) are tracked. To rehydrate the binaries, re-run the fetch per
-# each subfolder's _MANIFEST.md.
+# Third-party datasheets / schematics / firmware repos here are copyrighted
+# vendor IP. They are kept LOCALLY for engineering reference (D-0026 round-1
+# Elecrow hardware) but NOT republished in this public repo. Track ONLY our own
+# provenance files: this .gitignore, the top-level README.md, and every
+# _MANIFEST.md (a name unique to us — third-party trees never use it). Every
+# other file — incl. nested third-party README.md/CHANGELOG.md from extracted
+# repos — stays ignored. Rehydrate binaries via each _MANIFEST.md.
 *
 !*/
-!.gitignore
-!*.md
+!/.gitignore
+!/README.md
+!**/_MANIFEST.md
