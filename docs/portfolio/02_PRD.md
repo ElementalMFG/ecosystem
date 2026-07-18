@@ -34,6 +34,8 @@ Independent developer building a marine-navigation plugin. Cares about SDK stabi
 
 ## 2. Functional requirements
 
+**Hardware rounds & brand abstraction (D-0026, 2026-07-14):** the product ships in two rounds — **round-1** is market-ready NOW on off-the-shelf **Elecrow CrowPanel Advance** boards (3.5″ ESP32-S3 for Lite/Alpha, 5″ ESP32-P4 `elecrow5` for the Omega tier); **round-2** is the in-house, ruggedizable board line (IP-rated; the signed-off Omega v69 + successors), deferred until fabricated and re-brandable (it may adopt a new family name, e.g. "DecoMesh"). Naming is decoupled into four independent axes — ecosystem/protocol (SS-SP, the constant), product brand, SKU tier role (Lite/Alpha/Omega, board-independent), and hardware target (`elecrow5`, `omega-v69`, …); requirements key off tier role + hardware target, never a marketing name. **HaLow is mandatory on every V1 device; LoRa, multi-band Wi-Fi, BLE, GPS, compass, speaker, and camera are additive-optional and runtime-detected** (`ss_hal_has_cap`). See D-0026 + `docs/dev/OMEGA_HW_BASELINE.md`.
+
 ### 2.1 Messaging
 - **F-MSG-01** — 1:1 text messages between any two SS-SP devices with delivery receipt and read receipt (optional per user).
 - **F-MSG-02** — Group text messages (≤128 members) with per-group encryption and membership changes.
