@@ -164,7 +164,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Epic-05 — HAL for Omega (Alpha + Cellular + LEO Sat option) (47 stories)
+## Epic-05 — HAL for Omega (Alpha + Cellular + LEO Sat option) (48 stories)
 
 | Story | Shard | Type | Size | Prio | Status | SKU | PRD | Const |
 |---|---|---|---|---|---|---|---|---|
@@ -215,6 +215,7 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 | S-05-045 | J | Feature | L | P1 | DRAFT | O | F-MSG-07 | C-00 |
 | S-05-046 | — | Ops | M | P0 | DRAFT | O | — | C-00 |
 | S-05-047 | L | Feature | M | P2 | DRAFT | O | F-BR-04 | C-00,C-08 |
+| S-05-048 | J | Feature | M | P0 | DRAFT | O | F-BR-04 | C-00,C-08 |
 
 ---
 
@@ -790,11 +791,11 @@ Story text lives in the epic's `STORIES.md`; it is not duplicated here.
 
 ---
 
-## Totals — 607 stories across 24 epics
+## Totals — 608 stories across 24 epics
 
 | Status | Count |
 |---|---|
-| DRAFT | 528 |
+| DRAFT | 529 |
 | IN_PROGRESS | 2 |
 | IN_REVIEW | 22 |
 | DONE | 30 |
@@ -809,7 +810,7 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 
 | Clause key | Stories | P0 coverage |
 |---|---|---|
-| C-00 | 282 | yes |
+| C-00 | 283 | yes |
 | C-01 | 33 | yes |
 | C-02 | 82 | yes |
 | C-03 | 46 | yes |
@@ -817,7 +818,7 @@ Every clause key must be covered by at least one P0 story; a `no` in the P0 colu
 | C-05 | 162 | yes |
 | C-06 | 53 | yes |
 | C-07 | 64 | yes |
-| C-08 | 126 | yes |
+| C-08 | 127 | yes |
 | C-OA | 36 | yes |
 | C-TM | 6 | yes |
 | C-CoC | 1 | yes |

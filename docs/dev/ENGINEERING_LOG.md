@@ -548,3 +548,16 @@ Format: `- S-NN-MMM (YYYY-MM-DD): fact.` Never rewrite old entries.
   every telephony *implementation* story (S-21-027/031/032, S-17-022,
   S-14-020/021, S-18-019) is blocked until a cloud-services bootstrap + a cloud
   CI lane + a CPaaS sandbox exist. Contract/spec work can proceed regardless.
+- S-05-042 (2026-07-18): `elecrow5` schematic validated (D-0027) — display is
+  **16-bit parallel RGB565 (esp_lcd RGB path), NOT MIPI-DSI**; on-panel touch on
+  I²C1, controller UNVERIFIED (likely GT911). Corrects the D-0026 §(2) web-spec
+  assumption before it reached driver work.
+- S-05-044 (2026-07-18): C6↔P4 bus **CONFIRMED = SDIO 4-bit** (GPIO53/54/52/51/
+  50/49; esp_hosted/esp_wifi_remote) — resolves the D-0026 §7 SDIO-vs-SPI open item.
+- S-05-048 (2026-07-18): **STC8H1K08 co-MCU (U14) on I²C1** gates backlight-EN,
+  SPI/UART mux select, touch/camera reset, audio-shutdown, charge LEDs, and VBAT/
+  charge sense — new bring-up story. HaLow/LoRa module slot = SPI2 behind an
+  SGM3005 mux (S1/STC8).
+- S-05-045 (2026-07-18): **no on-board fuel gauge** (battery via STC8 ADC), **no
+  on-board GNSS/mag**; camera is **external-only** (MIPI-CSI header, no sensor);
+  on-board audio (NS4168 ×2 + PDM mic) always present. Provenance: `vendor/elecrow/`.

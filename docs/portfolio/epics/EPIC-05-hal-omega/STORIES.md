@@ -250,38 +250,38 @@ Per D-0026 (2026-07-14) the round-1 Omega-tier board is the off-the-shelf `elecr
 
 ### S-05-041 — `elecrow5` board_config + capability profile ("everything optional except HaLow")
 As a firmware engineer I want the `elecrow5` board_config and capability profile so that the round-1 Omega-tier board builds with HaLow mandatory and every other peripheral optional and auto-detected.
-- AC: firmware board id `elecrow5` (ESP32-P4 + onboard C6) added, keyed off hardware target + tier role, never a marketing name (D-0026 §3) · SS_CAP_RADIO_HALOW claimed mandatory (HaLow present on every V1 unit); Wi-Fi 6 + BLE (C6) always claimed · LoRa, GNSS, compass, speaker, camera are additive-optional capabilities gated on boot-time presence (S-03-048) — HaLow is never removed; the profile system supports any HaLow + {LoRa, GNSS, compass, camera} combination, and absent peripherals compile/flag to zero · app code queries `ss_hal_has_cap()` (never CONFIG_*/board macros) · no IP/rugged capability claimed (dev/functional-grade board, D-0026 §5)
+- AC: firmware board id `elecrow5` (ESP32-P4 + onboard C6) added, keyed off hardware target + tier role, never a marketing name (D-0026 §3) · SS_CAP_RADIO_HALOW claimed mandatory (HaLow present on every V1 unit); Wi-Fi 6 + BLE (C6) always claimed · display capability = **16-bit parallel RGB565** (`esp_lcd` RGB path, not MIPI-DSI — D-0027) · **on-board audio (NS4168 ×2) + PDM MEMS mic are always-present capabilities** (not auto-detected — D-0027) · **NO fuel-gauge capability flag** (no on-board fuel gauge; battery is sensed via the STC8 co-MCU ADC over I²C1 — D-0027); **no on-board GNSS or magnetometer** (external-only) · 16 MB (W25Q128JV) flash + dual USB-C reflected in the profile · LoRa, GNSS, compass, camera are additive-optional capabilities gated on boot-time presence (S-03-048) — HaLow is never removed; the profile system supports any HaLow + {LoRa, GNSS, compass, camera} combination, and absent peripherals compile/flag to zero · app code queries `ss_hal_has_cap()` (never CONFIG_*/board macros) · no IP/rugged capability claimed (dev/functional-grade board, D-0026 §5)
 - Meta: Shard=J | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=O | PRD=F-BR-04 | Const=C-00,C-08
 - Tasks: spec board_config + capability table · design additive variant profiles (HaLow-always + optional LoRa/GNSS/compass/camera) · impl board port · test capability-flag matrix (host) · docs board_config rationale
-- Deps: D-0026, D-0023, S-03-047, S-03-048
+- Deps: D-0026, D-0027, D-0023, S-03-047, S-03-048, S-05-048 (STC8 co-MCU gates backlight-EN / SPI-UART mux select / touch+camera reset / VBAT+charge sense — D-0027)
 
-### S-05-042 — MIPI-DSI 800×480 display + GT911 touch driver
-As a firmware engineer I want the `elecrow5` 800×480 MIPI-DSI display and GT911 touch driver so that the Omega-tier round-1 UI renders and takes input.
-- AC: MIPI-DSI panel brought up at 800×480 through the on-board DSI bridge IC (model TBD at bring-up — D-0026 §7) · framebuffer with tearing-safe refresh · GT911 capacitive multi-touch events delivered to ss_input · boot splash within the boot-time budget · panel + touch presence surfaced through the HAL, not board macros
+### S-05-042 — 16-bit parallel RGB565 800×480 display + on-panel touch driver
+As a firmware engineer I want the `elecrow5` 800×480 16-bit parallel RGB565 display and on-panel capacitive touch driver so that the Omega-tier round-1 UI renders and takes input.
+- AC: **16-bit parallel RGB565 800×480** panel brought up via the `esp_lcd` **RGB** panel path (NOT MIPI-DSI — D-0027), FPC JP1: PCLK=GPIO3, DE=GPIO2, HSYNC=GPIO40, VSYNC=GPIO41, R/G/B on GPIO4–19 · framebuffer with tearing-safe refresh · on-panel capacitive touch over **I²C1** (SCL=GPIO46, SDA=GPIO45, INT=GPIO42, RST via GPIO36 + the STC8 co-MCU — D-0027); controller is on the display flex and **not in the board BOM, so likely GT911 @ 0x5D/0x14 is UNVERIFIED — confirm at bring-up** · multi-touch events delivered to ss_input · boot splash within the boot-time budget · panel + touch presence surfaced through the HAL, not board macros
 - Meta: Shard=J | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=O | PRD=F-UI-01 | Const=C-00
-- Tasks: spec DSI + GT911 bus · design bridge-IC abstraction · impl driver · test refresh + multi-touch · docs pinmap + UNKNOWNS
-- Deps: D-0026, S-05-041
+- Tasks: spec RGB565 parallel bus + on-panel I²C1 touch · design esp_lcd RGB panel abstraction · impl driver · test refresh + multi-touch · docs pinmap + UNKNOWNS (touch controller/addr)
+- Deps: D-0026, D-0027, S-05-041, S-05-048
 
 ### S-05-043 — HaLow (MM6108) over SPI module-slot bring-up
 As a device owner I want MM6108 HaLow brought up over the `elecrow5` SPI wireless-module slot so that the mandatory round-1 bearer transmits within its licensed allocation.
-- AC: MM6108 brought up over SPI per the module-slot pinmap · HaLow-over-SPI throughput ceiling characterized and the SPI/UART1 DIP-shared-pin conflict resolved (GNSS routed to a free UART — D-0026 §7) · signed regional profile loaded at first boot; TX impossible outside the loaded allocation (region blob signature = Ed25519 per D-0022; signing is a T1 sub-task) · bearer registered with ss-link · reuses the HaLow bearer abstraction shared with S-05-030 behind the HAL
+- AC: MM6108 brought up over the module-slot **SPI2** (SCK=GPIO26, MOSI=GPIO48, MISO=GPIO47 — D-0027) · the **SGM3005 analog mux (slide-switch S1 + STC8 co-MCU) must be set to the module slot before slot use** — MOSI/MISO are shared with UART1→Crowtail (D-0027); firmware sets the mux via the STC8 driver (S-05-048) · HaLow driver basis = MorseMicro `esp-halow` (Apache-2.0) · HaLow-over-SPI throughput ceiling characterized · signed regional profile loaded at first boot; TX impossible outside the loaded allocation (region blob signature = Ed25519 per D-0022; signing is a T1 sub-task) · bearer registered with ss-link · reuses the HaLow bearer abstraction shared with S-05-030 behind the HAL
 - Meta: Shard=L | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=O | PRD=F-BR-04 | Const=C-00,C-08
-- Tasks: spec SPI transport + region loader · design shared HaLow bearer path · impl driver · test throughput + region enforcement · docs pinmap + UNKNOWNS
-- Deps: D-0026, D-0023, S-05-030, S-05-041
+- Tasks: spec SPI2 transport + mux-select + region loader · design shared HaLow bearer path · impl driver (esp-halow basis) · test throughput + region enforcement · docs pinmap + UNKNOWNS
+- Deps: D-0026, D-0027, D-0023, S-05-030, S-05-041, S-05-048
 
 ### S-05-044 — ESP32-C6 Wi-Fi 6 / BLE via ESP-Hosted link
 As a firmware engineer I want the P4↔C6 ESP-Hosted link on `elecrow5` so that Wi-Fi 6 STA and BLE work through the onboard C6 with bounded wake latency.
-- AC: C6↔P4 link method confirmed at bring-up (assume SDIO / ESP-Hosted — D-0026 §7) and framing/flow-control pinned in an ADR · Wi-Fi 6 STA + BLE functional through the bridge · transport recovers from C6 reset without a P4 reboot · Wi-Fi/BLE capabilities surfaced through `ss_hal_has_cap()`
+- AC: C6↔P4 bus **CONFIRMED = SDIO 4-bit** (CLK/CMD/D0–D3 = GPIO53/54/52/51/50/49; C6 as SDIO radio slave — D-0027; the D-0026 §7 "assume SDIO vs SPI" uncertainty is resolved) on **ESP-IDF ≥ v5.3 + `esp_hosted`/`esp_wifi_remote`**, with framing/flow-control pinned in an ADR · Wi-Fi 6 STA + BLE functional through the bridge · transport recovers from C6 reset without a P4 reboot · Wi-Fi/BLE capabilities surfaced through `ss_hal_has_cap()`
 - Meta: Shard=L | Type=Feature | Size=L | Prio=P0 | Status=DRAFT | SKU=O | PRD=F-BR-05 | Const=C-00,C-08
-- Tasks: spec ESP-Hosted transport · design link + recovery · impl bridge · test STA + BLE + reset recovery · docs ADR + UNKNOWNS
-- Deps: D-0026, S-05-031, S-05-041
+- Tasks: spec SDIO 4-bit / esp_hosted transport · design link + recovery · impl bridge · test STA + BLE + reset recovery · docs ADR + pinmap
+- Deps: D-0026, D-0027, S-05-031, S-05-041
 
-### S-05-045 — Optional GNSS / compass / speaker / camera auto-detection
-As a device owner I want `elecrow5` GNSS (UART), 3-axis compass (I²C), speaker (NS4168), and camera (MIPI-CSI) auto-detected at boot so that fitted peripherals light up plug-and-play and absent ones never break the build.
-- AC: boot-time presence probes (S-03-048) detect each optional peripheral and set the matching capability flag; absent peripherals flag to zero · GNSS on a free UART (not the HaLow SPI/UART1 DIP-shared pins — D-0026 §7) delivers parsed fixes to ss_gnss · compass delivers calibrated heading · NS4168 audio path plays/captures · camera sensor model confirmed at bring-up (MIPI-CSI, TBD — D-0026 §7) · every capability queried via `ss_hal_has_cap()`
+### S-05-045 — On-board audio (always-present) + external GNSS / compass / camera auto-detection
+As a device owner I want the `elecrow5` on-board audio path always available and the external GNSS (UART), 3-axis compass (I²C), and camera (MIPI-CSI) auto-detected at boot so that fitted peripherals light up plug-and-play and absent ones never break the build.
+- AC: **on-board audio is always present, not auto-detected** — 2× NS4168 I²S amps (shared BCLK=GPIO22) + PDM MEMS mic (D-0027) play/capture unconditionally · **GNSS, compass, and camera are external-only — there is NO on-board GNSS, magnetometer/IMU, or camera sensor (D-0027)**; boot-time presence probes (S-03-048) apply to these external modules and set the matching capability flag, absent peripherals flag to zero · external GNSS on a free UART (not the module-slot SPI2/UART1 mux-shared pins — D-0027) delivers parsed fixes to ss_gnss · external compass delivers calibrated heading · external camera over the 2-lane MIPI-CSI header (FPC3, SCCB on I²C2 = GPIO34/33 — D-0027); sensor model (OV5647/SC2336-class) confirmed at bring-up · every capability queried via `ss_hal_has_cap()`
 - Meta: Shard=J | Type=Feature | Size=L | Prio=P1 | Status=DRAFT | SKU=O | PRD=F-MSG-07 | Const=C-00
-- Tasks: spec presence-probe map · design per-peripheral detection · impl drivers behind HAL · test detection matrix (present/absent) · docs peripheral table + UNKNOWNS
-- Deps: D-0026, D-0023, S-03-048, S-05-041
+- Tasks: spec on-board audio + external presence-probe map · design per-peripheral detection · impl drivers behind HAL · test detection matrix (present/absent) · docs peripheral table + UNKNOWNS
+- Deps: D-0026, D-0027, D-0023, S-03-048, S-05-041
 
 ### S-05-046 — `elecrow5` CI build target + BUILDING.md entry
 As a release engineer I want an `elecrow5` CI build target and BUILDING.md entry so that the round-1 Omega-tier firmware is built and gated per merge.
@@ -292,7 +292,14 @@ As a release engineer I want an `elecrow5` CI build target and BUILDING.md entry
 
 ### S-05-047 — `elecrow5` LoRa additive sub-variant (SX1262 on secondary bus)
 As a device owner I want an optional LoRa (SX1262) bearer added alongside HaLow on `elecrow5` so that a V1 unit can carry HaLow and LoRa together without ever giving up HaLow.
-- AC: LoRa (SX1262) brought up on a secondary bus (Crowtail SPI/UART or GPIO — attachment feasibility confirmed at bring-up per D-0026 §4/§7) **in addition to** the mandatory HaLow, never replacing it · presence auto-detected (S-03-048); when the LoRa module is absent, HaLow-only builds are unaffected · LoRa registered with ss-link as an *additive* bearer alongside HaLow, the scheduler choosing either per QoS/energy · reuses the SX1262 driver + LoRa bearer abstraction shared with Lite (EPIC-03) behind the HAL · signed regional profile enforced (TX impossible outside the loaded allocation)
+- AC: LoRa (SX1262) brought up **in addition to** the mandatory HaLow, never replacing it · **the module slot exposes reset/BUSY on GPIO29/30 (SX126x-style) on the same SPI2 as the HaLow module (D-0027)** — LoRa is an in-slot alternative to HaLow on that slot (consistent with D-0026 §4); an additive secondary-bus attachment (Crowtail SPI/UART or GPIO) remains an option, confirmed at bring-up per D-0026 §4/§7 · presence auto-detected (S-03-048); when the LoRa module is absent, HaLow-only builds are unaffected · LoRa registered with ss-link as an *additive* bearer alongside HaLow, the scheduler choosing either per QoS/energy · reuses the SX1262 driver + LoRa bearer abstraction shared with Lite (EPIC-03) behind the HAL · signed regional profile enforced (TX impossible outside the loaded allocation)
 - Meta: Shard=L | Type=Feature | Size=M | Prio=P2 | Status=DRAFT | SKU=O | PRD=F-BR-04 | Const=C-00,C-08
-- Tasks: spec secondary-bus LoRa attachment · design additive dual-bearer (HaLow+LoRa) path · impl SX1262 driver reuse · test dual-bearer + module-absent · docs pinmap + attachment feasibility
-- Deps: D-0026, D-0023, S-05-041, S-05-043
+- Tasks: spec module-slot/secondary-bus LoRa attachment · design additive dual-bearer (HaLow+LoRa) path · impl SX1262 driver reuse · test dual-bearer + module-absent · docs pinmap + attachment feasibility
+- Deps: D-0026, D-0027, D-0023, S-05-041, S-05-043
+
+### S-05-048 — `elecrow5` STC8H1K08 companion-MCU driver (I²C1)
+As a firmware engineer I want a P4↔STC8H1K08 companion-MCU driver over I²C1 so that the `elecrow5` power/peripheral co-MCU (U14) can be commanded to gate board resources and report battery state that the P4 cannot reach directly.
+- AC: P4↔STC8 protocol over **I²C1** implemented and documented (STC8H1K08 U14 — D-0027) · driver gates **backlight-EN**, the **SPI/UART SGM3005 mux select** (required before HaLow/LoRa module-slot use — S-05-043), **touch-RST** (GPIO36 path — S-05-042), **camera-RST**, and **audio-shutdown** · **charge-status LEDs** driven per policy · **VBAT + charge status read over I²C1** from the STC8 ADC (no on-board fuel gauge — battery sense is via the STC8, D-0027) and surfaced to the power service · STC8 presence probed at boot; absence handled gracefully · exposed behind the HAL, app code queries via `ss_hal_has_cap()` (never board macros)
+- Meta: Shard=J | Type=Feature | Size=M | Prio=P0 | Status=DRAFT | SKU=O | PRD=F-BR-04 | Const=C-00,C-08
+- Tasks: spec P4↔STC8 I²C1 protocol (gates + VBAT/charge sense) · design co-MCU driver + boot-order (mux/reset gating) · impl driver behind HAL · test gate commands + VBAT read (host/mock) · docs protocol + pinmap + UNKNOWNS
+- Deps: D-0026, D-0027, S-05-041

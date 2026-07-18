@@ -59,6 +59,28 @@ probes) — absent peripherals compile/flag to zero.
 - Camera sensor model (MIPI-CSI, TBD).
 - Pinned ESP-IDF version for the P4 target.
 
+**Schematic-validated `elecrow5` truth (D-0027, 2026-07-18):** netlist-level
+reading of the board's own Eagle schematic (`ESP32-P4 Display 5.0 inch V1.0.sch`,
+mirrored under `vendor/elecrow/`) corrects the D-0026 §(2) display/touch
+assumptions (which came from generic P4 web specs) and confirms the rest.
+Facts only — pin/net data, no reproduction of the copyrighted schematic:
+
+| Subsystem | Schematic-validated fact (D-0027) |
+|---|---|
+| Display | **16-bit parallel RGB565, NOT MIPI-DSI** — 40-pin FPC JP1; PCLK=GPIO3, DE=GPIO2, HSYNC=GPIO40, VSYNC=GPIO41, R/G/B on GPIO4–19 → `esp_lcd` **RGB** panel path |
+| Touch | on-panel, **I²C1** (SCL=GPIO46, SDA=GPIO45, INT=GPIO42, RST via GPIO36 + STC8); controller on the display flex, **not in board BOM — "GT911" UNVERIFIED** (likely @ 0x5D/0x14; confirm at bring-up) |
+| C6↔P4 bus | **SDIO 4-bit CONFIRMED** — CLK/CMD/D0–D3 = GPIO53/54/52/51/50/49 (C6 as SDIO radio slave; UART0 only on flashing test-pads); ESP-IDF ≥ v5.3 + `esp_hosted`/`esp_wifi_remote` |
+| Module (HaLow/LoRa) slot | **SPI2** — SCK=GPIO26, MOSI=GPIO48, MISO=GPIO47 (headers J9/J11); + GPIO29/30 (reset/BUSY, SX126x-style LoRa path) + UART2 + I²C1 + 3V3/5V. **MOSI/MISO shared with UART1→Crowtail J2 via an SGM3005 analog mux (slide-switch S1 + STC8) — firmware must set the mux before slot use.** HaLow driver basis = MorseMicro `esp-halow` (Apache-2.0) |
+| GNSS / mag / fuel gauge | **none on-board — all external** (Crowtail UART/I²C). No fuel gauge: battery (JST-PH2.0, J3) is sensed by the **STC8 co-MCU ADC**, read by the P4 over I²C1 |
+| STC8H1K08 co-MCU (U14) | power/peripheral co-MCU on **I²C1** — gates backlight-EN, SPI/UART mux select, touch-RST, camera-RST, audio-shutdown, charge LEDs, and VBAT/charge-status sense. First-class bring-up dependency → **new story S-05-048** |
+| Camera | **external only** — 2-lane MIPI-CSI header (FPC3), SCCB on I²C2 (GPIO34/33), no on-board sensor (OV5647/SC2336 is a module question) |
+| Audio | **2× NS4168** I²S amps (shared BCLK=GPIO22) + **PDM MEMS mic** — always present |
+| Flash / USB | **W25Q128JV 16 MB** flash; dual USB-C (**CH340K** UART-boot + P4-native USB 2.0) |
+
+Residual bring-up UNKNOWNS (D-0027): exact touch controller/addr, TLV62569 rail
+voltages, module-slot LoRa module pinout, PSRAM size (P4NRW32 implies integrated).
+Provenance: `vendor/elecrow/` (README + `_MANIFEST.md`).
+
 Firmware policy unchanged (D-0026 §6): ESP32-family (P4/S3 in-family) stays the
 first-party firmware target; non-ESP32 MCU firmware stays out of scope.
 
