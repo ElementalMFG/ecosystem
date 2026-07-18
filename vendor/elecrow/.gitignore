@@ -1,0 +1,9 @@
+# Third-party datasheets / schematics / firmware examples are copyrighted vendor
+# IP. They are kept LOCALLY for engineering reference (D-0026 round-1 Elecrow
+# hardware) but NOT republished in this public repo. Only our own manifests /
+# READMEs (*.md) are tracked. To rehydrate the binaries, re-run the fetch per
+# each subfolder's _MANIFEST.md.
+*
+!*/
+!.gitignore
+!*.md
